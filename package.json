@@ -1,0 +1,39 @@
+{
+  "name": "toolslay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ToolSlay — free browser-based online tools (PDF, image, text, calculators, developer tools).",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "pages:build": "npx @cloudflare/next-on-pages@latest",
+    "pages:deploy": "npm run pages:build && npx wrangler@latest pages deploy .vercel/output/static"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "browser-image-compression": "^2.0.2",
+    "clsx": "^2.1.1",
+    "jspdf": "^2.5.2",
+    "lucide-react": "^0.460.0",
+    "next": "^15.5.24",
+    "papaparse": "^5.4.1",
+    "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "tesseract.js": "^5.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "15.1.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.14"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}
