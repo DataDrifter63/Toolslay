@@ -28,7 +28,16 @@ import BusinessNameGenerator from "./business-name-generator/BusinessNameGenerat
 import ColorPicker from "./color-picker/ColorPicker";
 import HexRgbConverter from "./hex-rgb-converter/HexRgbConverter";
 import PaletteGenerator from "./palette-generator/PaletteGenerator";
-
+import PdfToImage from "./pdf-to-image/PdfToImage";
+import ImageToPDFConverter from "./image-to-pdf/ImageToPDFConverter";
+import TextToPDF from "./text-to-pdf-generator/TextToPDF";
+import ImageConverter from "./image-converter/ImageConverter";
+import ImageResizer from "./image-resizer/ImageResizer";
+import BulkImageResizer from "./bulk-image-resizer/BulkImageResizer";
+import ImageCompressor from "./image-compressor/ImageCompressor";
+import ImageCropTool from "./image-crop-tool/ImageCropTool";
+import ImageToTextOCR from "./image-to-text-ocr/ImageToTextOCR";
+import ScreenshotToText from "./screenshot-to-text/ScreenshotToText";
 
 // Add a new line here every time a tool's real component is built.
 // The slug on the left must match the `slug` field in /src/data/tools.js.
@@ -63,4 +72,14 @@ export const TOOL_COMPONENTS = {
    "color-picker": ColorPicker,
    "hex-rgb-converter": HexRgbConverter,
    "palette-generator": PaletteGenerator,
+   "pdf-to-image": PdfToImage,
+   "image-to-pdf": ImageToPDFConverter,
+   "text-to-pdf": TextToPDF,
+   "image-converter": ImageConverter,
+   "image-resizer": ImageResizer,
+   "bulk-image-resizer": BulkImageResizer,
+   "image-compressor": ImageCompressor,
+   "image-crop-tool": ImageCropTool,
+   "image-to-text-ocr": ImageToTextOCR,
+   "screenshot-to-text": ScreenshotToText,
 };
