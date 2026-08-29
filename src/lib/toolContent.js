@@ -46,9 +46,9 @@ const CATEGORY_COPY = {
   },
   "generators-security": {
     verb: "generate",
-    audience: "anyone setting up a new account, project or system that needs random, unpredictable values",
+    audience: "anyone setting up a new account or project, or who just needs a fair, unbiased random pick for a game, raffle or team draw",
     privacyNote:
-      "values are generated locally using your browser's cryptographically secure random number source, and nothing is ever sent to a server or logged anywhere",
+      "values are generated locally using your browser's random number source, and nothing is ever sent to a server or logged anywhere",
     extraBenefit:
       "because generation happens on-device, there's no record of what you generated — not in a database, not in a log file, not anywhere",
   },
@@ -59,6 +59,22 @@ const CATEGORY_COPY = {
       "images and color values are read directly in your browser and never uploaded to a server",
     extraBenefit:
       "results update live as you adjust values, so you can fine-tune a color or palette without repeated page reloads",
+  },
+  "video-audio-tools": {
+    verb: "edit",
+    audience: "creators, podcasters, streamers and anyone trimming or compressing a clip before sharing it",
+    privacyNote:
+      "your video or audio file is processed entirely in your own browser and never uploaded to a server",
+    extraBenefit:
+      "there's no file-size cap tied to a subscription plan, no watermark, and no waiting on a server-side render queue",
+  },
+  "seo-marketing-tools": {
+    verb: "check",
+    audience: "marketers, SEOs and website owners preparing content or links before they go live",
+    privacyNote:
+      "your URLs and text are checked locally in your browser, not logged on a server",
+    extraBenefit:
+      "there's no daily query limit like many SEO platforms enforce, so you can check as many pages or links as you need",
   },
 };
 
