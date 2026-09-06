@@ -12,9 +12,13 @@
     "pages:deploy": "npm run pages:build && npx wrangler@latest pages deploy .vercel/output/static"
   },
   "dependencies": {
+    "@imgly/background-removal": "^1.7.0",
     "@supabase/supabase-js": "^2.45.0",
     "browser-image-compression": "^2.0.2",
     "clsx": "^2.1.1",
+    "cron-parser": "^5.10.0",
+    "cronstrue": "^3.24.0",
+    "js-beautify": "^2.0.3",
     "jspdf": "^2.5.2",
     "lucide-react": "^0.460.0",
     "next": "^15.5.24",
@@ -35,5 +39,11 @@
   },
   "engines": {
     "node": ">=18.18.0"
-  }
+  },
+
+"postinstall": "node scripts/copy-imgly-assets.js"
+  
+
 }
+
+
