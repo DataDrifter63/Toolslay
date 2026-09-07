@@ -74,6 +74,15 @@ export const CATEGORIES = [
     accent: "#2563EB",
     accentLight: "#EFF6FF",
   },
+  {
+    slug: "life-everyday-tools",
+    name: "Life & Everyday Tools",
+    shortName: "Life & Everyday",
+    description: "Calculators and planners for pets, health, cooking, travel, home, events and family life.",
+    icon: "Leaf",
+    accent: "#D97706",
+    accentLight: "#FFFBEB",
+  },
 ];
 
 export function getCategory(slug) {

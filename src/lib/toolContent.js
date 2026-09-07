@@ -76,6 +76,14 @@ const CATEGORY_COPY = {
     extraBenefit:
       "there's no daily query limit like many SEO platforms enforce, so you can check as many pages or links as you need",
   },
+  "life-everyday-tools": {
+    verb: "work out",
+    audience: "anyone planning a trip, a move, a party, a pregnancy, or just everyday life around a pet, a kitchen or a home",
+    privacyNote:
+      "everything you enter is calculated locally in your browser and never sent anywhere",
+    extraBenefit:
+      "there's no sign-up and no limit on how many times you can recalculate as your plans change",
+  },
 };
 
 function getCopy(category) {

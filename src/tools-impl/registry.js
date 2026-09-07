@@ -86,6 +86,11 @@ import KeywordDensityChecker from "./keyword-density-checker/KeywordDensityCheck
 import MetaDescriptionLengthChecker from "./meta-description-length-checker/MetaDescriptionLengthChecker";
 import MemeGenerator from "./meme-generator/MemeGenerator";
 import BackgroundRemover from "./background-remover/BackgroundRemover";
+import ImageWatermarkAdder from "./image-watermark-adder/ImageWatermarkAdder";
+import PhotoCollageMaker from "./photo-collage-maker/PhotoCollageMaker";
+import FaviconGenerator from "./favicon-generator/FaviconGenerator";
+import SvgToPngConverter from "./svg-to-png-converter/SvgToPngConverter";
+import DogFoodSafetyChecker from "./dog-food-safety-checker/DogFoodSafetyChecker";
 
 
 
@@ -180,4 +185,9 @@ export const TOOL_COMPONENTS = {
    "meta-description-length-checker": MetaDescriptionLengthChecker,
    "meme-generator": MemeGenerator,
    "background-remover": BackgroundRemover,
+   "image-watermark-adder": ImageWatermarkAdder,
+   "photo-collage-maker": PhotoCollageMaker,
+   "favicon-generator": FaviconGenerator,
+   "svg-to-png-converter": SvgToPngConverter,
+   "dog-food-safety-checker": DogFoodSafetyChecker,
 };
