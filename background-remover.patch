@@ -1,0 +1,24 @@
+diff --git a/src/tools-impl/background-remover/BackgroundRemover.js b/src/tools-impl/background-remover/BackgroundRemover.js
+index c540224..807791a 100644
+--- a/src/tools-impl/background-remover/BackgroundRemover.js
++++ b/src/tools-impl/background-remover/BackgroundRemover.js
+@@ -118,10 +118,16 @@ export default function BackgroundRemover() {
+       // Safely extract the function regardless of CJS/ESM module resolution
+       const removeBg = imglyModule.default || imglyModule.removeBackground || imglyModule;
+ 
+-      // FIX: Using Official Enterprise CDN. It is highly optimized, avoids localhost 404s, 
+-      // and is rarely blocked by ad-blockers unlike unpkg/jsdelivr.
++      // FIX: Don't override publicPath. The AI model/WASM files (tens of MB) are not
++      // shipped inside the npm package — they're always fetched from imgly's CDN at
++      // runtime — and the library's own default publicPath already points at the
++      // correct URL for whichever version is installed (reads it straight from
++      // package.json). The previous hardcoded value pointed at a domain that doesn't
++      // exist ("static.imgly.com" instead of the real "staticimgly.com") and at v1.4.3
++      // while package.json installs ^1.7.0, so every model-file request failed and the
++      // tool always errored out. Letting the library set its own default fixes both
++      // problems, and keeps working automatically if the package version is bumped later.
+       const blob = await removeBg(originalFile, {
+-        publicPath: "https://static.imgly.com/@imgly/background-removal/1.4.3/dist/",
+         progress: (key, current, total) => {
+           const percent = total > 0 ? Math.round((current / total) * 100) : 0;
+           setProgressPercent(percent);
