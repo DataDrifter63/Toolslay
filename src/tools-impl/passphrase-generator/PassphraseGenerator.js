@@ -236,7 +236,7 @@ export default function PassphraseGenerator() {
     setHistory([]);
   }
 
-  function useHistory(value) {
+  function applyHistoryItem(value) {
     setPassphrase(value);
     setCopied(false);
   }
@@ -1064,7 +1064,7 @@ export default function PassphraseGenerator() {
                           type="button"
                           className="pg-use"
                           onClick={() =>
-                            useHistory(item)
+                            applyHistoryItem(item)
                           }
                         >
                           Use

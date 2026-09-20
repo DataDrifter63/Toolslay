@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "node scripts/copy-imgly-assets.js",
     "pages:build": "npx @cloudflare/next-on-pages@latest",
     "pages:deploy": "npm run pages:build && npx wrangler@latest pages deploy .vercel/output/static"
   },
@@ -39,11 +40,7 @@
   },
   "engines": {
     "node": ">=18.18.0"
-  },
-
-"postinstall": "node scripts/copy-imgly-assets.js"
-  
-
+  }
 }
 
 
