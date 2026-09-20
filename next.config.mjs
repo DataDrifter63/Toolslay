@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Extra safety net: even with Icon.js now using named imports, this tells Next.js
+  // to tree-shake any lucide-react import path down to only the icons actually used,
+  // so a future accidental `import * as Icons from "lucide-react"` doesn't reintroduce
+  // the whole-library-in-dev-server slowdown.
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.supabase.co" },

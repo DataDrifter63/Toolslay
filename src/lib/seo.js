@@ -9,6 +9,7 @@ export function buildMetadata({ title, description, path = "/", noIndex = false 
   const url = `${SITE.url}${path}`;
 
   return {
+    metadataBase: new URL(SITE.url),
     title: fullTitle,
     description: description || SITE.description,
     alternates: { canonical: url },
@@ -20,12 +21,14 @@ export function buildMetadata({ title, description, path = "/", noIndex = false 
       siteName: SITE.name,
       locale: SITE.locale,
       type: "website",
+      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: SITE.name }],
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
       description: description || SITE.description,
       site: SITE.twitter,
+      images: ["/opengraph-image"],
     },
   };
 }
@@ -59,6 +62,26 @@ export function breadcrumbJsonLd(items) {
       name: item.name,
       item: `${SITE.url}${item.path}`,
     })),
+  };
+}
+
+/** JSON-LD WebSite schema with a SearchAction — lets Google show a sitelinks
+ *  search box directly in search results for brand-name searches. */
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE.url}/tools?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
