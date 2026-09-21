@@ -3,6 +3,7 @@ import Container from "@/components/layout/Container";
 import { getPostBySlug, getAllPosts } from "@/lib/posts";
 import { buildMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/constants";
+import { markdownToHtml } from "@/lib/markdown";
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -48,10 +49,10 @@ export default async function BlogPostPage({ params }) {
             })}
           </p>
         )}
-        {/* Content is authored as sanitized HTML from the /admin dashboard editor. */}
+        {/* Content is authored as Markdown in the /admin editor — converted to HTML here. */}
         <div
           className="prose prose-sm mt-8 max-w-none text-ink"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: markdownToHtml(post.content) }}
         />
       </article>
     </Container>
