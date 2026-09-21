@@ -1,4 +1,9 @@
 import {
+  Check,
+  Copy,
+  Download,
+  Loader2,
+  Settings2,
   Activity,
   AlarmClock,
   AlignLeft,
@@ -164,6 +169,11 @@ import {
 // icons this site actually uses, so this list needs one new line whenever a tool or
 // category in tools.js/categories.js is given an icon name that isn't already here.
 const ICONS = {
+  Check,
+  Copy,
+  Download,
+  Loader2,
+  Settings2,
   Activity,
   AlarmClock,
   AlignLeft,
