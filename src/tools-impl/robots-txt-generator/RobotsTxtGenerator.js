@@ -160,60 +160,42 @@ export default function RobotsTxtGenerator() {
     }
   };
 
-  const inputStyle = {
-    width: "100%",
-    minHeight: "44px",
-    padding: "11px 13px",
-    borderRadius: "10px",
-    border: "1px solid var(--rtg-border)",
-    background: "var(--rtg-input)",
-    color: "var(--rtg-text)",
-    outline: "none",
-    fontSize: "14px",
-    transition: "border-color .2s ease, box-shadow .2s ease",
-  };
-
-  const labelStyle = {
-    display: "block",
-    marginBottom: "7px",
-    fontSize: "13px",
-    fontWeight: 600,
-    color: "var(--rtg-muted)",
-  };
-
   return (
-    <div className="robots-tool">
-      <div className="robots-card">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
+      <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
+        
         {/* Header */}
-        <div className="robots-header">
-          <div>
-            <div className="robots-eyebrow">
-              SEO & CRAWLER CONTROL
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-base font-black shrink-0 font-mono">
+              {"</>"}
             </div>
 
-            <h2>Robots.txt Generator</h2>
-
-            <p>
-              Build a clean, search-engine friendly robots.txt file
-              with live rules and sitemap support.
-            </p>
-          </div>
-
-          <div className="robots-header-icon">
-            {"</>"}
+            <div className="min-w-0">
+              <div className="text-[10px] font-black tracking-widest text-brand uppercase mb-1">
+                SEO & CRAWLER CONTROL
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
+                Robots.txt Generator
+              </h2>
+              <p className="text-[11px] font-bold text-muted mt-0.5 truncate">
+                Build a clean, search-engine friendly robots.txt file with live rules and sitemap support.
+              </p>
+            </div>
           </div>
         </div>
 
         {/* Presets */}
-        <div className="preset-section">
-          <div className="section-title">
+        <div className="p-4 sm:p-5 rounded-2xl bg-paper border border-line space-y-3 min-w-0">
+          <div className="text-xs font-black uppercase tracking-wider text-muted">
             Quick presets
           </div>
 
-          <div className="preset-grid">
+          <div className="flex flex-wrap gap-2">
             <button
               type="button"
               onClick={() => applyPreset("standard")}
+              className="px-4 py-2 rounded-xl border border-line bg-surface text-ink hover:border-brand text-xs font-black uppercase tracking-wider transition-all"
             >
               Standard SEO
             </button>
@@ -221,6 +203,7 @@ export default function RobotsTxtGenerator() {
             <button
               type="button"
               onClick={() => applyPreset("wordpress")}
+              className="px-4 py-2 rounded-xl border border-line bg-surface text-ink hover:border-brand text-xs font-black uppercase tracking-wider transition-all"
             >
               WordPress
             </button>
@@ -228,6 +211,7 @@ export default function RobotsTxtGenerator() {
             <button
               type="button"
               onClick={() => applyPreset("seo")}
+              className="px-4 py-2 rounded-xl border border-line bg-surface text-ink hover:border-brand text-xs font-black uppercase tracking-wider transition-all"
             >
               SEO Friendly
             </button>
@@ -235,275 +219,237 @@ export default function RobotsTxtGenerator() {
             <button
               type="button"
               onClick={() => applyPreset("private")}
+              className="px-4 py-2 rounded-xl border border-line bg-surface text-[#fb7185] hover:border-[#fb7185] text-xs font-black uppercase tracking-wider transition-all"
             >
               Block Everything
             </button>
           </div>
         </div>
 
-        <div className="robots-layout">
-          {/* LEFT */}
-          <div className="settings-panel">
-            <div className="panel-heading">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start min-w-0">
+          
+          {/* LEFT: Configuration */}
+          <div className="bg-paper border border-line p-5 rounded-2xl space-y-5 min-w-0">
+            <div className="border-b border-line pb-4 min-w-0">
+              <h3 className="text-sm font-black text-ink uppercase tracking-wider">Configuration</h3>
+              <span className="text-[11px] font-medium text-muted mt-0.5 block">Define crawler access rules</span>
+            </div>
+
+            <div className="space-y-4">
               <div>
-                <h3>Configuration</h3>
-                <span>Define crawler access rules</span>
-              </div>
-            </div>
-
-            <div className="field">
-              <label style={labelStyle}>
-                User-agent
-              </label>
-
-              <select
-                value={userAgent}
-                onChange={(e) => setUserAgent(e.target.value)}
-                style={inputStyle}
-              >
-                <option value="*">All crawlers (*)</option>
-                <option value="Googlebot">Googlebot</option>
-                <option value="Bingbot">Bingbot</option>
-                <option value="Googlebot-Image">
-                  Googlebot-Image
-                </option>
-                <option value="GPTBot">GPTBot</option>
-                <option value="ChatGPT-User">
-                  ChatGPT-User
-                </option>
-                <option value="Custom">Custom</option>
-              </select>
-            </div>
-
-            {userAgent === "Custom" && (
-              <div className="field">
-                <label style={labelStyle}>
-                  Custom user-agent
+                <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">
+                  User-agent
                 </label>
-
-                <input
-                  value=""
+                <select
+                  value={userAgent}
                   onChange={(e) => setUserAgent(e.target.value)}
-                  placeholder="ExampleBot"
-                  style={inputStyle}
-                />
-              </div>
-            )}
-
-            <div className="two-columns">
-              <div className="field">
-                <label style={labelStyle}>
-                  Allow path
-                </label>
-
-                <input
-                  value={allow}
-                  onChange={(e) => setAllow(e.target.value)}
-                  placeholder="/"
-                  style={inputStyle}
-                />
-              </div>
-
-              <div className="field">
-                <label style={labelStyle}>
-                  Disallow path
-                </label>
-
-                <input
-                  value={disallow}
-                  onChange={(e) => setDisallow(e.target.value)}
-                  placeholder="/admin/"
-                  style={inputStyle}
-                />
-              </div>
-            </div>
-
-            <div className="two-columns">
-              <div className="field">
-                <label style={labelStyle}>
-                  Sitemap URL
-                </label>
-
-                <input
-                  value={sitemap}
-                  onChange={(e) => setSitemap(e.target.value)}
-                  placeholder="https://example.com/sitemap.xml"
-                  style={inputStyle}
-                />
-              </div>
-
-              <div className="field">
-                <label style={labelStyle}>
-                  Crawl delay
-                </label>
-
-                <input
-                  value={crawlDelay}
-                  onChange={(e) => setCrawlDelay(e.target.value)}
-                  placeholder="5"
-                  inputMode="numeric"
-                  style={inputStyle}
-                />
-              </div>
-            </div>
-
-            <div className="field">
-              <label style={labelStyle}>
-                Host
-              </label>
-
-              <input
-                value={host}
-                onChange={(e) => setHost(e.target.value)}
-                placeholder="example.com"
-                style={inputStyle}
-              />
-
-              <small>
-                Optional. Useful for crawlers that support the
-                Host directive.
-              </small>
-            </div>
-
-            {/* Extra Rules */}
-            <div className="extra-rules">
-              <div className="extra-heading">
-                <div>
-                  <h3>Advanced rules</h3>
-                  <span>
-                    Add custom Allow, Disallow or Sitemap rules
-                  </span>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={addRule}
-                  className="add-rule"
+                  className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-bold text-ink outline-none cursor-pointer"
                 >
-                  + Add rule
-                </button>
+                  <option value="*">All crawlers (*)</option>
+                  <option value="Googlebot">Googlebot</option>
+                  <option value="Bingbot">Bingbot</option>
+                  <option value="Googlebot-Image">Googlebot-Image</option>
+                  <option value="GPTBot">GPTBot</option>
+                  <option value="ChatGPT-User">ChatGPT-User</option>
+                  <option value="Custom">Custom</option>
+                </select>
               </div>
 
-              {extraRules.length === 0 && (
-                <div className="empty-rules">
-                  No additional rules added.
+              {userAgent === "Custom" && (
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">
+                    Custom user-agent
+                  </label>
+                  <input
+                    value=""
+                    onChange={(e) => setUserAgent(e.target.value)}
+                    placeholder="ExampleBot"
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
+                  />
                 </div>
               )}
 
-              {extraRules.map((rule) => (
-                <div
-                  className="rule-row"
-                  key={rule.id}
-                >
-                  <select
-                    value={rule.type}
-                    onChange={(e) =>
-                      updateRule(
-                        rule.id,
-                        "type",
-                        e.target.value
-                      )
-                    }
-                    style={inputStyle}
-                  >
-                    <option value="Allow">Allow</option>
-                    <option value="Disallow">
-                      Disallow
-                    </option>
-                    <option value="Sitemap">
-                      Sitemap
-                    </option>
-                    <option value="Crawl-delay">
-                      Crawl-delay
-                    </option>
-                    <option value="Host">Host</option>
-                  </select>
-
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">
+                    Allow path
+                  </label>
                   <input
-                    value={rule.value}
-                    onChange={(e) =>
-                      updateRule(
-                        rule.id,
-                        "value",
-                        e.target.value
-                      )
-                    }
-                    placeholder="/private/"
-                    style={inputStyle}
+                    value={allow}
+                    onChange={(e) => setAllow(e.target.value)}
+                    placeholder="/"
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">
+                    Disallow path
+                  </label>
+                  <input
+                    value={disallow}
+                    onChange={(e) => setDisallow(e.target.value)}
+                    placeholder="/admin/"
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">
+                    Sitemap URL
+                  </label>
+                  <input
+                    value={sitemap}
+                    onChange={(e) => setSitemap(e.target.value)}
+                    placeholder="https://example.com/sitemap.xml"
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">
+                    Crawl delay
+                  </label>
+                  <input
+                    value={crawlDelay}
+                    onChange={(e) => setCrawlDelay(e.target.value)}
+                    placeholder="5"
+                    inputMode="numeric"
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">
+                  Host
+                </label>
+                <input
+                  value={host}
+                  onChange={(e) => setHost(e.target.value)}
+                  placeholder="example.com"
+                  className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
+                />
+                <small className="block mt-1 text-[10px] font-medium text-muted">
+                  Optional. Useful for crawlers that support the Host directive.
+                </small>
+              </div>
+
+              {/* Extra Rules */}
+              <div className="pt-5 border-t border-line space-y-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div>
+                    <h3 className="text-xs font-black text-ink uppercase tracking-wider">Advanced rules</h3>
+                    <span className="text-[10px] font-medium text-muted">Add custom Allow, Disallow or Sitemap rules</span>
+                  </div>
 
                   <button
                     type="button"
-                    className="remove-rule"
-                    onClick={() => removeRule(rule.id)}
-                    aria-label="Remove rule"
+                    onClick={addRule}
+                    className="px-3 py-2 rounded-xl border border-brand bg-brand/10 text-brand text-xs font-black uppercase tracking-wider transition-all hover:bg-brand/20 shrink-0"
                   >
-                    ×
+                    + Add rule
                   </button>
                 </div>
-              ))}
+
+                {extraRules.length === 0 && (
+                  <div className="p-4 border border-dashed border-line rounded-xl text-center text-xs font-medium text-muted bg-surface">
+                    No additional rules added.
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  {extraRules.map((rule) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-[135px_1fr_40px] gap-2 items-center" key={rule.id}>
+                      <select
+                        value={rule.type}
+                        onChange={(e) => updateRule(rule.id, "type", e.target.value)}
+                        className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-bold text-ink outline-none cursor-pointer"
+                      >
+                        <option value="Allow">Allow</option>
+                        <option value="Disallow">Disallow</option>
+                        <option value="Sitemap">Sitemap</option>
+                        <option value="Crawl-delay">Crawl-delay</option>
+                        <option value="Host">Host</option>
+                      </select>
+
+                      <input
+                        value={rule.value}
+                        onChange={(e) => updateRule(rule.id, "value", e.target.value)}
+                        placeholder="/private/"
+                        className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
+                      />
+
+                      <button
+                        type="button"
+                        className="w-full h-11 border border-line rounded-xl bg-surface text-[#fb7185] font-bold text-base flex items-center justify-center hover:bg-[#fb7185]/10 transition-all"
+                        onClick={() => removeRule(rule.id)}
+                        aria-label="Remove rule"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
           </div>
 
-          {/* RIGHT */}
-          <div className="preview-panel">
-            <div className="preview-heading">
+          {/* RIGHT: Live Preview */}
+          <div className="bg-paper border border-line p-5 rounded-2xl space-y-5 min-w-0">
+            <div className="flex items-center justify-between border-b border-line pb-4 min-w-0">
               <div>
-                <h3>Live Preview</h3>
-                <span>Your robots.txt file</span>
+                <h3 className="text-sm font-black text-ink uppercase tracking-wider">Live Preview</h3>
+                <span className="text-[11px] font-medium text-muted mt-0.5 block">Your robots.txt file</span>
               </div>
 
-              <div className="status">
-                <span />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 text-[10px] font-black uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Ready
               </div>
             </div>
 
-            <div className="code-window">
-              <div className="code-topbar">
+            <div className="border border-line rounded-xl overflow-hidden bg-[#0b1020]">
+              <div className="flex items-center justify-between h-10 px-4 border-b border-white/10 text-[#98a2b3] font-mono text-[11px]">
                 <span>robots.txt</span>
-
                 <button
                   type="button"
                   onClick={copyRobots}
-                  className="copy-button"
+                  className="font-bold text-[#d0d5dd] hover:text-white transition-colors"
                 >
                   {copied ? "Copied!" : "Copy"}
                 </button>
               </div>
 
-              <pre>
+              <pre className="p-4 text-[#e5e7eb] font-mono text-xs leading-relaxed overflow-auto max-h-[320px] whitespace-pre-wrap break-words">
                 <code>{generatedRobots}</code>
               </pre>
             </div>
 
-            <div className="preview-stats">
-              <div>
-                <strong>
-                  {generatedRobots.split("\n").length}
-                </strong>
-                <span>Lines</span>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="p-3 rounded-xl border border-line bg-surface">
+                <strong className="block text-base font-black text-ink">{generatedRobots.split("\n").length}</strong>
+                <span className="text-[10px] font-black text-muted uppercase tracking-wider">Lines</span>
               </div>
 
-              <div>
-                <strong>
-                  {generatedRobots.length}
-                </strong>
-                <span>Characters</span>
+              <div className="p-3 rounded-xl border border-line bg-surface">
+                <strong className="block text-base font-black text-ink">{generatedRobots.length}</strong>
+                <span className="text-[10px] font-black text-muted uppercase tracking-wider">Characters</span>
               </div>
 
-              <div>
-                <strong>
-                  {extraRules.length + 1}
-                </strong>
-                <span>Rule groups</span>
+              <div className="p-3 rounded-xl border border-line bg-surface">
+                <strong className="block text-base font-black text-ink">{extraRules.length + 1}</strong>
+                <span className="text-[10px] font-black text-muted uppercase tracking-wider">Rule groups</span>
               </div>
             </div>
 
-            <div className="action-row">
+            <div className="flex flex-col sm:flex-row gap-2 pt-2">
               <button
                 type="button"
-                className="primary-action"
+                className="flex-1 px-4 py-3 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity text-center"
                 onClick={downloadRobots}
               >
                 ↓ Download robots.txt
@@ -511,501 +457,30 @@ export default function RobotsTxtGenerator() {
 
               <button
                 type="button"
-                className="secondary-action"
+                className="px-4 py-3 rounded-xl border border-line bg-surface text-ink hover:bg-paper text-xs font-black uppercase tracking-wider transition-all"
                 onClick={resetTool}
               >
                 Reset
               </button>
             </div>
 
-            <div className="tip-box">
-              <div className="tip-icon">i</div>
-
-              <div>
-                <strong>SEO tip</strong>
-                <p>
-                  Keep important public pages allowed and only
-                  block private, duplicate or admin areas.
+            <div className="p-4 rounded-xl border border-line bg-surface flex items-start gap-3">
+              <div className="w-6 h-6 rounded-full bg-brand/10 text-brand flex items-center justify-center font-black text-xs shrink-0 mt-0.5">
+                i
+              </div>
+              <div className="min-w-0">
+                <strong className="text-xs font-black text-ink block">SEO tip</strong>
+                <p className="text-[11px] text-muted mt-0.5 leading-relaxed">
+                  Keep important public pages allowed and only block private, duplicate or admin areas.
                 </p>
               </div>
             </div>
+
           </div>
+
         </div>
+
       </div>
-
-      <style jsx>{`
-        .robots-tool {
-          --rtg-text: #111827;
-          --rtg-muted: #667085;
-          --rtg-border: #d9dee8;
-          --rtg-input: #ffffff;
-          --rtg-card: #ffffff;
-          --rtg-soft: #f6f8fb;
-          --rtg-code: #111827;
-
-          width: 100%;
-          padding: 24px 0;
-          color: var(--rtg-text);
-        }
-
-        .robots-card {
-          width: 100%;
-          max-width: 1180px;
-          margin: 0 auto;
-          background: var(--rtg-card);
-          border: 1px solid var(--rtg-border);
-          border-radius: 20px;
-          overflow: hidden;
-          box-shadow: 0 12px 40px rgba(16, 24, 40, 0.07);
-        }
-
-        .robots-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 20px;
-          padding: 30px 32px;
-          border-bottom: 1px solid var(--rtg-border);
-        }
-
-        .robots-eyebrow {
-          margin-bottom: 7px;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.12em;
-          color: #635bff;
-        }
-
-        .robots-header h2 {
-          margin: 0;
-          font-size: 27px;
-          line-height: 1.2;
-          font-weight: 750;
-          letter-spacing: -0.025em;
-        }
-
-        .robots-header p {
-          margin: 8px 0 0;
-          color: var(--rtg-muted);
-          font-size: 14px;
-          line-height: 1.6;
-        }
-
-        .robots-header-icon {
-          width: 58px;
-          height: 58px;
-          flex: 0 0 58px;
-          display: grid;
-          place-items: center;
-          border-radius: 15px;
-          background: #f0edff;
-          color: #635bff;
-          font-size: 17px;
-          font-weight: 800;
-          font-family: monospace;
-        }
-
-        .preset-section {
-          padding: 20px 32px;
-          background: var(--rtg-soft);
-          border-bottom: 1px solid var(--rtg-border);
-        }
-
-        .section-title {
-          margin-bottom: 10px;
-          font-size: 12px;
-          font-weight: 700;
-          color: var(--rtg-muted);
-        }
-
-        .preset-grid {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        .preset-grid button,
-        .add-rule,
-        .copy-button,
-        .action-row button,
-        .remove-rule {
-          font-family: inherit;
-          cursor: pointer;
-        }
-
-        .preset-grid button {
-          min-height: 38px;
-          padding: 0 13px;
-          border: 1px solid var(--rtg-border);
-          border-radius: 9px;
-          background: var(--rtg-input);
-          color: var(--rtg-text);
-          font-size: 13px;
-          font-weight: 600;
-        }
-
-        .preset-grid button:hover {
-          border-color: #635bff;
-        }
-
-        .robots-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        }
-
-        .settings-panel,
-        .preview-panel {
-          min-width: 0;
-          padding: 28px 32px;
-        }
-
-        .settings-panel {
-          border-right: 1px solid var(--rtg-border);
-        }
-
-        .panel-heading,
-        .preview-heading,
-        .extra-heading {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 15px;
-          margin-bottom: 22px;
-        }
-
-        .panel-heading h3,
-        .preview-heading h3,
-        .extra-heading h3 {
-          margin: 0;
-          font-size: 16px;
-          font-weight: 750;
-        }
-
-        .panel-heading span,
-        .preview-heading span,
-        .extra-heading span {
-          display: block;
-          margin-top: 4px;
-          color: var(--rtg-muted);
-          font-size: 12px;
-        }
-
-        .field {
-          margin-bottom: 17px;
-        }
-
-        .field small {
-          display: block;
-          margin-top: 6px;
-          color: var(--rtg-muted);
-          font-size: 11px;
-        }
-
-        .two-columns {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-
-        .extra-rules {
-          margin-top: 26px;
-          padding-top: 23px;
-          border-top: 1px solid var(--rtg-border);
-        }
-
-        .add-rule {
-          min-height: 36px;
-          padding: 0 12px;
-          border: 1px solid #635bff;
-          border-radius: 9px;
-          background: transparent;
-          color: #635bff;
-          font-size: 12px;
-          font-weight: 700;
-          white-space: nowrap;
-        }
-
-        .empty-rules {
-          padding: 15px;
-          border: 1px dashed var(--rtg-border);
-          border-radius: 10px;
-          color: var(--rtg-muted);
-          text-align: center;
-          font-size: 12px;
-        }
-
-        .rule-row {
-          display: grid;
-          grid-template-columns: 135px minmax(0, 1fr) 40px;
-          gap: 8px;
-          margin-bottom: 9px;
-        }
-
-        .remove-rule {
-          min-height: 44px;
-          border: 1px solid var(--rtg-border);
-          border-radius: 10px;
-          background: var(--rtg-input);
-          color: #ef4444;
-          font-size: 22px;
-        }
-
-        .status {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 6px 9px;
-          border-radius: 20px;
-          background: #ecfdf3;
-          color: #027a48;
-          font-size: 11px;
-          font-weight: 700;
-        }
-
-        .status span {
-          width: 6px;
-          height: 6px;
-          margin: 0;
-          border-radius: 50%;
-          background: #12b76a;
-        }
-
-        .code-window {
-          overflow: hidden;
-          border: 1px solid var(--rtg-border);
-          border-radius: 12px;
-          background: var(--rtg-code);
-        }
-
-        .code-topbar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          min-height: 42px;
-          padding: 0 12px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          color: #98a2b3;
-          font-family: monospace;
-          font-size: 11px;
-        }
-
-        .copy-button {
-          border: 0;
-          background: transparent;
-          color: #d0d5dd;
-          font-size: 11px;
-          font-weight: 700;
-        }
-
-        .copy-button:hover {
-          color: white;
-        }
-
-        .code-window pre {
-          min-height: 260px;
-          max-height: 360px;
-          overflow: auto;
-          margin: 0;
-          padding: 20px;
-          color: #e5e7eb;
-          font-family: "SFMono-Regular", Consolas, monospace;
-          font-size: 13px;
-          line-height: 1.8;
-          white-space: pre-wrap;
-          word-break: break-word;
-        }
-
-        .preview-stats {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
-          margin-top: 12px;
-        }
-
-        .preview-stats div {
-          padding: 12px;
-          border: 1px solid var(--rtg-border);
-          border-radius: 10px;
-          background: var(--rtg-soft);
-        }
-
-        .preview-stats strong {
-          display: block;
-          font-size: 16px;
-        }
-
-        .preview-stats span {
-          margin-top: 3px;
-          font-size: 10px;
-          color: var(--rtg-muted);
-        }
-
-        .action-row {
-          display: flex;
-          gap: 8px;
-          margin-top: 15px;
-        }
-
-        .action-row button {
-          min-height: 42px;
-          padding: 0 15px;
-          border-radius: 9px;
-          font-size: 12px;
-          font-weight: 700;
-        }
-
-        .primary-action {
-          flex: 1;
-          border: 1px solid #635bff;
-          background: #635bff;
-          color: white;
-        }
-
-        .secondary-action {
-          border: 1px solid var(--rtg-border);
-          background: var(--rtg-input);
-          color: var(--rtg-text);
-        }
-
-        .tip-box {
-          display: flex;
-          gap: 10px;
-          margin-top: 15px;
-          padding: 13px;
-          border: 1px solid var(--rtg-border);
-          border-radius: 10px;
-          background: var(--rtg-soft);
-        }
-
-        .tip-icon {
-          width: 22px;
-          height: 22px;
-          flex: 0 0 22px;
-          display: grid;
-          place-items: center;
-          border-radius: 50%;
-          background: #e0e7ff;
-          color: #4338ca;
-          font-size: 11px;
-          font-weight: 800;
-        }
-
-        .tip-box strong {
-          font-size: 12px;
-        }
-
-        .tip-box p {
-          margin: 3px 0 0;
-          color: var(--rtg-muted);
-          font-size: 11px;
-          line-height: 1.5;
-        }
-
-        @media (max-width: 850px) {
-          .robots-layout {
-            grid-template-columns: 1fr;
-          }
-
-          .settings-panel {
-            border-right: 0;
-            border-bottom: 1px solid var(--rtg-border);
-          }
-        }
-
-        @media (max-width: 600px) {
-          .robots-tool {
-            padding: 10px 0;
-          }
-
-          .robots-card {
-            border-radius: 14px;
-          }
-
-          .robots-header,
-          .preset-section,
-          .settings-panel,
-          .preview-panel {
-            padding: 20px 16px;
-          }
-
-          .robots-header {
-            align-items: flex-start;
-          }
-
-          .robots-header h2 {
-            font-size: 22px;
-          }
-
-          .robots-header-icon {
-            width: 45px;
-            height: 45px;
-            flex-basis: 45px;
-          }
-
-          .two-columns {
-            grid-template-columns: 1fr;
-            gap: 0;
-          }
-
-          .rule-row {
-            grid-template-columns: 1fr 40px;
-          }
-
-          .rule-row select {
-            grid-column: 1 / -1;
-          }
-
-          .rule-row input {
-            grid-column: 1;
-          }
-
-          .rule-row .remove-rule {
-            grid-column: 2;
-            grid-row: 2;
-          }
-
-          .extra-heading {
-            align-items: flex-start;
-          }
-
-          .preview-stats {
-            grid-template-columns: 1fr;
-          }
-
-          .action-row {
-            flex-direction: column;
-          }
-
-          .primary-action,
-          .secondary-action {
-            width: 100%;
-          }
-        }
-
-        @media (prefers-color-scheme: dark) {
-          .robots-tool {
-            --rtg-text: #f5f7fa;
-            --rtg-muted: #98a2b3;
-            --rtg-border: #303644;
-            --rtg-input: #171b24;
-            --rtg-card: #11151d;
-            --rtg-soft: #171b24;
-            --rtg-code: #090c11;
-          }
-
-          .robots-header-icon {
-            background: rgba(99, 91, 255, 0.15);
-          }
-
-          .status {
-            background: rgba(18, 183, 106, 0.12);
-          }
-
-          .tip-icon {
-            background: rgba(99, 91, 255, 0.15);
-          }
-        }
-      `}</style>
     </div>
   );
 }

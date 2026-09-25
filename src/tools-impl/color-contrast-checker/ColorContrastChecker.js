@@ -6,7 +6,6 @@ import { Settings, Droplet, Type, PaintBucket, AlertTriangle, Check, X, LayoutTe
 // --- Safe Math Helpers ---
 const hexToRgb = (hex) => {
   if (!hex) return null;
-  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
   const fullHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(fullHex);
@@ -45,20 +44,17 @@ const adjustColorLightness = (hex, percent) => {
   return rgbToHex(Math.round(r), Math.round(g), Math.round(b));
 };
 
-// ✅ Safely Exported Component
 export default function ColorContrastChecker() {
   const [isMounted, setIsMounted] = useState(false);
   const [fgColor, setFgColor] = useState("#FFFFFF");
   const [bgColor, setBgColor] = useState("#4F46E5");
   const [ratio, setRatio] = useState(0);
-  const [showSettings, setShowSettings] = useState(true);
+  const [showSettings, setShowSettings] = useState(true); // Default true so preview is visible initially
 
-  // Prevent SSR Hydration crashes
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Safe Calculation
   useEffect(() => {
     const isValidHex = (hex) => /^#([0-9A-F]{3}){1,2}$/i.test(hex);
     if (isValidHex(fgColor) && isValidHex(bgColor)) {
@@ -79,7 +75,6 @@ export default function ColorContrastChecker() {
     let testFg = fgColor;
     const step = isBgDark ? 2 : -2;
     
-    // Fail-safe loop (max 100 iterations)
     for (let i = 0; i < 100; i++) {
         testFg = adjustColorLightness(testFg, step);
         if (getContrastRatio(testFg, bgColor) >= 4.5) {
@@ -101,100 +96,132 @@ export default function ColorContrastChecker() {
   const ratioDisplay = isMounted ? ratio.toFixed(2) : "0.00";
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border">
       
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Droplet className="w-6 h-6 text-pink-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Color Contrast Studio</h2>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-2 text-sm font-semibold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-pink-500 hover:text-pink-600 transition-all">
-            <Settings className="w-4 h-4" /> {showSettings ? "Hide Preview" : "Show Preview"}
-          </button>
-        </div>
-      </div>
+      {/* HEADER BAR */}
+      <div className="bg-surface border border-line p-4 sm:p-8 rounded-2xl shadow-card space-y-4 sm:space-y-6 w-full box-border">
+        
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-line pb-4 sm:pb-5 w-full">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-lg sm:text-xl font-black shrink-0">
+              <Droplet className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,auto] gap-6 items-start">
-        <div className="flex flex-col gap-6 flex-grow">
+            <div className="min-w-0">
+              <div className="text-[9px] sm:text-[10px] font-black tracking-widest text-brand uppercase mb-0.5 sm:mb-1">
+                WEB DESIGN UTILITY
+              </div>
+              <h2 className="text-lg sm:text-2xl font-bold text-ink tracking-tight truncate">
+                Color Contrast Studio
+              </h2>
+              <p className="text-[10px] sm:text-[11px] font-bold text-muted mt-0.5 truncate">
+                Check WCAG contrast ratios and preview text visibility instantly.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button 
+              type="button"
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-line bg-paper text-ink hover:border-brand text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shrink-0"
+            >
+              <Settings className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand" /> {showSettings ? "Hide Preview" : "Preview"}
+            </button>
+          </div>
+        </div>
+
+        {/* WORK AREA GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 sm:gap-6 items-start w-full">
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-6">
+          <div className="flex flex-col gap-4 sm:gap-6 flex-grow min-w-0">
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              
+              {/* Controls Panel */}
+              <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm space-y-4 sm:space-y-6 w-full box-border">
                 <div>
-                    <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
-                        <Type className="w-4 h-4 text-pink-500"/> Foreground (Text)
+                    <label className="flex items-center gap-2 text-xs font-black text-ink uppercase tracking-wider mb-2">
+                        <Type className="w-4 h-4 text-brand"/> Foreground (Text)
                     </label>
-                    <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <input type="color" value={fgColor} onChange={(e) => setFgColor(e.target.value.toUpperCase())} className="w-12 h-12 rounded cursor-pointer border-0 bg-transparent" />
-                        <input type="text" value={fgColor} onChange={(e) => handleHexChange(e, setFgColor)} className="flex-grow bg-transparent font-mono text-lg font-bold text-slate-800 dark:text-slate-100 focus:outline-none" maxLength={7} />
+                    <div className="flex items-center gap-3 bg-surface p-2 rounded-xl border border-line">
+                        <input type="color" value={fgColor} onChange={(e) => setFgColor(e.target.value.toUpperCase())} className="w-10 h-10 rounded-lg cursor-pointer border-0 bg-transparent shrink-0" />
+                        <input type="text" value={fgColor} onChange={(e) => handleHexChange(e, setFgColor)} className="w-full bg-transparent font-mono text-sm sm:text-base font-bold text-ink outline-none uppercase tabular-nums" maxLength={7} />
                     </div>
                 </div>
 
                 <div>
-                    <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
-                        <PaintBucket className="w-4 h-4 text-pink-500"/> Background
+                    <label className="flex items-center gap-2 text-xs font-black text-ink uppercase tracking-wider mb-2">
+                        <PaintBucket className="w-4 h-4 text-brand"/> Background
                     </label>
-                    <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700">
-                        <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value.toUpperCase())} className="w-12 h-12 rounded cursor-pointer border-0 bg-transparent" />
-                        <input type="text" value={bgColor} onChange={(e) => handleHexChange(e, setBgColor)} className="flex-grow bg-transparent font-mono text-lg font-bold text-slate-800 dark:text-slate-100 focus:outline-none" maxLength={7} />
+                    <div className="flex items-center gap-3 bg-surface p-2 rounded-xl border border-line">
+                        <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value.toUpperCase())} className="w-10 h-10 rounded-lg cursor-pointer border-0 bg-transparent shrink-0" />
+                        <input type="text" value={bgColor} onChange={(e) => handleHexChange(e, setBgColor)} className="w-full bg-transparent font-mono text-sm sm:text-base font-bold text-ink outline-none uppercase tabular-nums" maxLength={7} />
                     </div>
                 </div>
 
                 {!isPass && (
-                    <button onClick={handleAutoFix} className="w-full flex items-center justify-center gap-2 bg-pink-100 hover:bg-pink-200 dark:bg-pink-900/40 dark:hover:bg-pink-900/60 text-pink-700 dark:text-pink-300 py-3 rounded-lg font-bold transition-all border border-pink-200 dark:border-pink-800">
-                        <Wand2 className="w-5 h-5"/> Auto-Fix Contrast
+                    <button type="button" onClick={handleAutoFix} className="w-full flex items-center justify-center gap-2 bg-brand/10 hover:bg-brand/20 text-brand py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all border border-brand/30 shadow-sm">
+                        <Wand2 className="w-4 h-4"/> Auto-Fix Contrast
                     </button>
                 )}
-            </div>
+              </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm flex flex-col items-center justify-center relative overflow-hidden">
-                <div className={`absolute inset-0 opacity-10 ${isPass ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
-                <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest z-10 mb-2">Contrast Ratio</h3>
+              {/* Ratio Score Card */}
+              <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm flex flex-col items-center justify-center relative overflow-hidden w-full box-border min-h-[220px]">
+                <div className={`absolute inset-0 opacity-10 ${isPass ? 'bg-emerald-500' : 'bg-[#fb7185]'}`}></div>
+                <h3 className="text-[10px] font-black text-muted uppercase tracking-widest z-10 mb-2">Contrast Ratio</h3>
                 <div className="flex items-baseline gap-1 z-10">
-                    <span className={`text-6xl md:text-7xl font-black tracking-tighter ${isPass ? 'text-emerald-500' : 'text-red-500'}`}>
+                    <span className={`text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter tabular-nums ${isPass ? 'text-emerald-500' : 'text-[#fb7185]'}`}>
                         {ratioDisplay}
                     </span>
-                    <span className="text-2xl font-bold text-slate-400">: 1</span>
+                    <span className="text-xl sm:text-2xl font-bold text-muted">: 1</span>
                 </div>
-                <div className={`mt-4 px-6 py-2 rounded-full font-bold text-sm z-10 flex items-center gap-2 ${isPass ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : 'bg-red-100 text-red-700 border-red-200'}`}>
-                    {isPass ? <Check className="w-4 h-4"/> : <X className="w-4 h-4"/>}
+                <div className={`mt-4 px-5 py-2 rounded-xl font-black text-[10px] uppercase tracking-wider z-10 flex items-center gap-1.5 ${isPass ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30' : 'bg-[#fb7185]/10 text-[#fb7185] border border-[#fb7185]/30'}`}>
+                    {isPass ? <Check className="w-3.5 h-3.5"/> : <X className="w-3.5 h-3.5"/>}
                     {isPass ? "WCAG Pass" : "WCAG Fail"}
                 </div>
+              </div>
+
             </div>
+
           </div>
+
+          {/* SIDEBAR PREVIEW (Controlled strictly by showSettings state) */}
+          {showSettings && (
+            <div className="space-y-4 sm:space-y-6 w-full">
+              <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl space-y-4 w-full box-border">
+                <div className="flex items-center gap-2 border-b border-line pb-3">
+                  <LayoutTemplate className="w-4 h-4 sm:w-5 sm:h-5 text-brand" />
+                  <h3 className="text-xs font-black text-ink uppercase tracking-wider">Live Preview</h3>
+                </div>
+                
+                <div className="p-5 rounded-xl transition-colors border shadow-inner text-center space-y-3" style={{ backgroundColor: bgColor, borderColor: fgColor + '33' }}>
+                    <h4 style={{ color: fgColor }} className="text-base sm:text-lg font-bold">Header Text</h4>
+                    <p style={{ color: fgColor }} className="text-xs sm:text-sm opacity-90 leading-relaxed font-medium">
+                        This represents how your paragraphs will look on this background.
+                    </p>
+                    <div className="pt-2">
+                        <button type="button" style={{ backgroundColor: fgColor, color: bgColor }} className="px-4 py-2 rounded-lg font-bold shadow-sm text-xs uppercase tracking-wider">
+                            Call to Action
+                        </button>
+                    </div>
+                </div>
+                
+                {!isPass && (
+                    <div className="flex items-start gap-2 bg-[#fb7185]/10 border border-[#fb7185]/30 p-3 rounded-xl mt-4">
+                        <AlertTriangle className="w-4 h-4 text-[#fb7185] shrink-0 mt-0.5"/>
+                        <p className="text-[11px] text-[#fb7185] font-medium leading-relaxed">
+                            Low contrast is hard to read. Use the Auto-Fix button to correct it instantly.
+                        </p>
+                    </div>
+                )}
+              </div>
+            </div>
+          )}
+
         </div>
 
-        {showSettings && (
-          <div className="space-y-6 lg:w-80 lg:max-w-80 flex flex-col h-full">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <LayoutTemplate className="w-5 h-5 text-indigo-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Live Preview</h3>
-              </div>
-              
-              <div className="p-6 rounded-lg transition-colors border shadow-inner text-center space-y-4" style={{ backgroundColor: bgColor, borderColor: fgColor + '33' }}>
-                  <h4 style={{ color: fgColor }} className="text-lg font-bold">Header Text</h4>
-                  <p style={{ color: fgColor }} className="text-sm opacity-90 leading-relaxed">
-                      This represents how your paragraphs will look on this background.
-                  </p>
-                  <div className="pt-2">
-                      <button style={{ backgroundColor: fgColor, color: bgColor }} className="px-5 py-2 rounded font-bold shadow-md text-sm">
-                          Call to Action
-                      </button>
-                  </div>
-              </div>
-              
-              {!isPass && (
-                  <div className="flex items-start gap-2 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 p-3 rounded-lg mt-4">
-                      <AlertTriangle className="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5"/>
-                      <p className="text-xs text-orange-700 dark:text-orange-400 leading-relaxed">
-                          Low contrast is hard to read. Use the Auto-Fix button to correct it instantly.
-                      </p>
-                  </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

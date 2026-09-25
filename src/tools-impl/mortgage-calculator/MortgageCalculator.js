@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Home, DollarSign, Percent, Calendar, Shield, Landmark, PieChart } from "lucide-react";
+import { 
+  Home, DollarSign, Percent, Calendar, 
+  Shield, Landmark, PieChart, Check, Copy, SlidersHorizontal
+} from "lucide-react";
 
 const CURRENCIES = [
   { code: 'USD', symbol: '$', locale: 'en-US' },
@@ -25,7 +28,8 @@ const formatCurrency = (val, currencyCode, locale) => {
 export default function MortgageCalculator() {
   const [isMounted, setIsMounted] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [currency, setCurrency] = useState(CURRENCIES[0]); // Default USD
+  const [currency, setCurrency] = useState(CURRENCIES[0]);
+  const [copied, setCopied] = useState(false);
 
   const [homePrice, setHomePrice] = useState("400000");
   const [downPayment, setDownPayment] = useState("80000");
@@ -79,9 +83,11 @@ export default function MortgageCalculator() {
     const dp = parseFloat(downPayment) || 0;
     const r = parseFloat(rate) || 0;
     const y = parseFloat(years) || 0;
-    const taxRate = parseFloat(propTaxRate) || 0;
-    const ins = parseFloat(homeInsurance) || 0;
-    const hoaFee = parseFloat(hoa) || 0;
+    
+    // Only apply escrow values if advanced mode is shown, otherwise treat as 0
+    const taxRate = showAdvanced ? parseFloat(propTaxRate) || 0 : 0;
+    const ins = showAdvanced ? parseFloat(homeInsurance) || 0 : 0;
+    const hoaFee = showAdvanced ? parseFloat(hoa) || 0 : 0;
 
     const loanAmount = Math.max(0, hp - dp);
     
@@ -117,11 +123,37 @@ export default function MortgageCalculator() {
       totalMonthly: total,
       totalLoan: loanAmount
     });
-  }, [homePrice, downPayment, rate, years, propTaxRate, homeInsurance, hoa]);
+  }, [homePrice, downPayment, rate, years, propTaxRate, homeInsurance, hoa, showAdvanced]);
 
   useEffect(() => {
     calculateMortgage();
   }, [calculateMortgage]);
+
+  const copyResult = async () => {
+    if (results.totalMonthly <= 0) return;
+    
+    const text = 
+      `Mortgage Summary\n` +
+      `Home Price: ${formatCurrency(homePrice, currency.code, currency.locale)}\n` +
+      `Down Payment: ${formatCurrency(downPayment, currency.code, currency.locale)} (${downPaymentPercent}%)\n` +
+      `Loan Amount: ${formatCurrency(results.totalLoan, currency.code, currency.locale)}\n\n` +
+      `Total Monthly Payment: ${formatCurrency(results.totalMonthly, currency.code, currency.locale)}\n` +
+      `- Principal & Interest: ${formatCurrency(results.monthlyPI, currency.code, currency.locale)}\n` +
+      (results.monthlyTax > 0 ? `- Property Tax: ${formatCurrency(results.monthlyTax, currency.code, currency.locale)}\n` : '') +
+      (results.monthlyIns > 0 ? `- Home Insurance: ${formatCurrency(results.monthlyIns, currency.code, currency.locale)}\n` : '') +
+      (results.monthlyPMI > 0 ? `- PMI: ${formatCurrency(results.monthlyPMI, currency.code, currency.locale)}\n` : '') +
+      (results.monthlyHOA > 0 ? `- HOA Fees: ${formatCurrency(results.monthlyHOA, currency.code, currency.locale)}\n` : '');
+
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      }
+    } catch (error) {
+      setCopied(false);
+    }
+  };
 
   const getPercent = (value) => results.totalMonthly > 0 ? (value / results.totalMonthly) * 100 : 0;
   const piPct = getPercent(results.monthlyPI);
@@ -130,161 +162,267 @@ export default function MortgageCalculator() {
   const pmiPct = getPercent(results.monthlyPMI);
   const hoaPct = getPercent(results.monthlyHOA);
 
+  const baseInputStyle = "w-full min-w-0 h-10 px-3 bg-surface border border-line rounded-lg text-ink text-xs focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-mono";
+  const baseSelectStyle = "w-full min-w-0 h-10 pl-3 pr-8 bg-surface border border-line rounded-lg text-ink text-xs focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
       
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Home className="w-6 h-6 text-indigo-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Ultimate Mortgage Analyzer</h2>
-        </div>
-        <div className="flex gap-2">
-          <select 
-            value={currency.code}
-            onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
-            className="text-sm font-semibold bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
-          >
-            {CURRENCIES.map(c => (
-              <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
-            ))}
-          </select>
-          <button onClick={() => setShowAdvanced(!showAdvanced)} className="flex items-center gap-2 text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 transition-colors">
-            <Shield className="w-4 h-4" /> {showAdvanced ? "Hide Escrow Info" : "Include Taxes & Insurance"}
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,380px] gap-6 items-start">
+      {/* MAIN WRAPPER SHELL */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 space-y-6 min-w-0">
         
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm space-y-8">
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2 md:col-span-2">
-              <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                <DollarSign className="w-4 h-4 text-indigo-500"/> Home Price
-              </label>
-              <div className="relative group">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-indigo-500 transition-colors">{currency.symbol}</span>
-                <input type="number" min="0" value={homePrice} onChange={(e) => handleHomePriceChange(e.target.value)} className="w-full text-2xl font-bold pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100 transition-shadow" />
-              </div>
-            </div>
-
-            <div className="space-y-2 md:col-span-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
-              <label className="flex items-center justify-between text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">
-                <div className="flex items-center gap-2"><Landmark className="w-4 h-4 text-indigo-500"/> Down Payment</div>
-                {results.monthlyPMI > 0 && <span className="text-[10px] bg-rose-100 text-rose-600 px-2 py-1 rounded font-black uppercase tracking-wider">PMI Required (&lt; 20%)</span>}
-              </label>
-              <div className="flex gap-4">
-                <div className="relative flex-grow">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-indigo-500 transition-colors">{currency.symbol}</span>
-                  <input type="number" min="0" value={downPayment} onChange={(e) => handleDownPaymentChange(e.target.value)} className="w-full text-xl font-bold pl-10 pr-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100 transition-shadow" />
-                </div>
-                <div className="relative w-32">
-                  <input type="number" min="0" max="100" step="0.1" value={downPaymentPercent} onChange={(e) => handleDownPaymentPercentChange(e.target.value)} className="w-full text-xl font-bold pl-4 pr-8 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100 transition-shadow" />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-indigo-500 transition-colors">%</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                <Percent className="w-4 h-4 text-indigo-500"/> Interest Rate
-              </label>
-              <div className="relative group">
-                <input type="number" step="0.1" min="0" value={rate} onChange={(e) => setRate(e.target.value)} className="w-full text-xl font-bold pl-4 pr-8 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100 transition-shadow" />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-indigo-500 transition-colors">%</span>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                <Calendar className="w-4 h-4 text-indigo-500"/> Loan Term
-              </label>
-              <select value={years} onChange={(e) => setYears(e.target.value)} className="w-full text-xl font-bold px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100 cursor-pointer">
-                <option value="30">30 Years Fixed</option>
-                <option value="20">20 Years Fixed</option>
-                <option value="15">15 Years Fixed</option>
-                <option value="10">10 Years Fixed</option>
-              </select>
-            </div>
+        {/* HEADER BAR WITH ACTION BUTTONS ALIGNED RIGHT */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <Home className="w-5 h-5 text-brand shrink-0" />
+            <h2 className="text-base sm:text-lg font-display font-bold text-ink truncate">
+              Mortgage Calculator
+            </h2>
           </div>
 
-          {showAdvanced && (
-            <div className="pt-6 border-t border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-2">
-              <h3 className="text-sm font-black text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2"><Shield className="w-4 h-4"/> Escrow Details</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-600 dark:text-slate-400">Property Tax (Annual %)</label>
-                  <input type="number" step="0.1" value={propTaxRate} onChange={(e) => setPropTaxRate(e.target.value)} className="w-full font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-600 dark:text-slate-400">Home Insurance ({currency.symbol}/Yr)</label>
-                  <input type="number" value={homeInsurance} onChange={(e) => setHomeInsurance(e.target.value)} className="w-full font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-600 dark:text-slate-400">HOA Fees ({currency.symbol}/Mo)</label>
-                  <input type="number" value={hoa} onChange={(e) => setHoa(e.target.value)} className="w-full font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
-                </div>
-              </div>
-            </div>
-          )}
+          <div className="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
+            <select 
+              value={currency.code}
+              onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
+              className="h-9 pl-3 pr-8 bg-surface border border-line rounded-lg text-ink text-xs focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold cursor-pointer min-w-[90px]"
+            >
+              {CURRENCIES.map(c => (
+                <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
+              ))}
+            </select>
 
+            <button
+              type="button"
+              onClick={() => setShowAdvanced((prev) => !prev)}
+              className="inline-flex flex-1 sm:flex-none items-center justify-center gap-1.5 h-9 px-3.5 rounded-lg border border-line bg-surface hover:bg-paper text-ink text-xs font-semibold transition-colors whitespace-nowrap"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5 text-brand" />
+              {showAdvanced ? "Hide Escrow Info" : "Taxes & Insurance"}
+            </button>
+          </div>
         </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl shadow-sm flex flex-col h-full sticky top-6">
-          <div className="flex items-center gap-2 border-b border-slate-800 pb-3 mb-6">
-            <PieChart className="w-5 h-5 text-indigo-400" />
-            <h3 className="font-semibold text-white">Monthly Payment</h3>
-          </div>
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 items-start gap-4 sm:gap-6 lg:grid-cols-[1.3fr,1fr] min-w-0">
           
-          <div className="text-center mb-8">
-             <span className="block text-4xl md:text-5xl font-black text-white tracking-tighter">
-               {isMounted ? formatCurrency(results.totalMonthly, currency.code, currency.locale) : `${currency.symbol}0`}
-             </span>
-             <span className="text-xs font-bold text-slate-400 mt-2 block">Total Loan: {isMounted ? formatCurrency(results.totalLoan, currency.code, currency.locale) : `${currency.symbol}0`}</span>
-          </div>
-
-          <div className="h-6 w-full bg-slate-800 rounded-full flex overflow-hidden mb-6">
-            <div className="h-full bg-indigo-500 transition-all duration-700 ease-out" style={{ width: `${piPct}%` }}></div>
-            <div className="h-full bg-sky-400 transition-all duration-700 ease-out" style={{ width: `${taxPct}%` }}></div>
-            <div className="h-full bg-emerald-400 transition-all duration-700 ease-out" style={{ width: `${insPct}%` }}></div>
-            <div className="h-full bg-rose-500 transition-all duration-700 ease-out" style={{ width: `${pmiPct}%` }}></div>
-            <div className="h-full bg-amber-400 transition-all duration-700 ease-out" style={{ width: `${hoaPct}%` }}></div>
-          </div>
-
-          <div className="space-y-3 flex-grow">
-            <div className="flex justify-between items-center p-2 rounded hover:bg-slate-800/50">
-              <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-indigo-500"></span><span className="text-sm text-slate-300 font-medium">Principal & Interest</span></div>
-              <span className="font-bold text-white font-mono">{isMounted ? formatCurrency(results.monthlyPI, currency.code, currency.locale) : `${currency.symbol}0`}</span>
+          {/* INPUT FORM PANEL */}
+          <div className="space-y-5 min-w-0">
+            
+            <div className="space-y-2 min-w-0">
+              <label className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-muted" htmlFor="mortgage-home-price">
+                <DollarSign className="w-3.5 h-3.5 text-brand" /> Home Price
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-muted">{currency.symbol}</span>
+                <input 
+                  id="mortgage-home-price"
+                  type="number" 
+                  min="0" 
+                  value={homePrice} 
+                  onChange={(e) => handleHomePriceChange(e.target.value)} 
+                  className={`${baseInputStyle} pl-8 text-sm`} 
+                />
+              </div>
             </div>
-            
-            {results.monthlyTax > 0 && (
-              <div className="flex justify-between items-center p-2 rounded hover:bg-slate-800/50 animate-in fade-in">
-                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-sky-400"></span><span className="text-sm text-slate-300 font-medium">Property Taxes</span></div>
-                <span className="font-bold text-white font-mono">{isMounted ? formatCurrency(results.monthlyTax, currency.code, currency.locale) : `${currency.symbol}0`}</span>
-              </div>
-            )}
-            
-            {results.monthlyIns > 0 && (
-              <div className="flex justify-between items-center p-2 rounded hover:bg-slate-800/50 animate-in fade-in">
-                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-emerald-400"></span><span className="text-sm text-slate-300 font-medium">Home Insurance</span></div>
-                <span className="font-bold text-white font-mono">{isMounted ? formatCurrency(results.monthlyIns, currency.code, currency.locale) : `${currency.symbol}0`}</span>
-              </div>
-            )}
 
-            {results.monthlyPMI > 0 && (
-              <div className="flex justify-between items-center p-2 rounded bg-rose-500/10 border border-rose-500/20 animate-in fade-in">
-                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-rose-500"></span><span className="text-sm text-rose-300 font-bold">PMI (Under 20% Down)</span></div>
-                <span className="font-bold text-rose-400 font-mono">{isMounted ? formatCurrency(results.monthlyPMI, currency.code, currency.locale) : `${currency.symbol}0`}</span>
+            <div className="p-4 bg-paper border border-line rounded-xl space-y-3 min-w-0">
+              <div className="flex items-center justify-between min-w-0">
+                <label className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-muted">
+                  <Landmark className="w-3.5 h-3.5 text-brand" /> Down Payment
+                </label>
+                {results.monthlyPMI > 0 && (
+                  <span className="text-[9px] bg-rose-500/10 text-rose-500 border border-rose-500/20 px-2 py-0.5 rounded font-black uppercase tracking-widest">
+                    PMI Required (&lt;20%)
+                  </span>
+                )}
               </div>
-            )}
+              <div className="flex gap-3 min-w-0">
+                <div className="relative flex-1 min-w-0">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-muted">{currency.symbol}</span>
+                  <input 
+                    type="number" 
+                    min="0" 
+                    value={downPayment} 
+                    onChange={(e) => handleDownPaymentChange(e.target.value)} 
+                    className={`${baseInputStyle} pl-8 text-sm`} 
+                  />
+                </div>
+                <div className="relative w-[110px] shrink-0">
+                  <input 
+                    type="number" 
+                    min="0" 
+                    max="100" 
+                    step="0.1" 
+                    value={downPaymentPercent} 
+                    onChange={(e) => handleDownPaymentPercentChange(e.target.value)} 
+                    className={`${baseInputStyle} pr-7 text-sm`} 
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-muted">%</span>
+                </div>
+              </div>
+            </div>
 
-            {results.monthlyHOA > 0 && (
-              <div className="flex justify-between items-center p-2 rounded hover:bg-slate-800/50 animate-in fade-in">
-                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-amber-400"></span><span className="text-sm text-slate-300 font-medium">HOA Fees</span></div>
-                <span className="font-bold text-white font-mono">{isMounted ? formatCurrency(results.monthlyHOA, currency.code, currency.locale) : `${currency.symbol}0`}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+              <div className="space-y-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-muted" htmlFor="mortgage-rate">
+                  <Percent className="w-3.5 h-3.5 text-brand" /> Interest Rate
+                </label>
+                <div className="relative">
+                  <input 
+                    id="mortgage-rate"
+                    type="number" 
+                    step="0.1" 
+                    min="0" 
+                    value={rate} 
+                    onChange={(e) => setRate(e.target.value)} 
+                    className={`${baseInputStyle} pr-7 text-sm`} 
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-muted">%</span>
+                </div>
+              </div>
+
+              <div className="space-y-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-muted" htmlFor="mortgage-years">
+                  <Calendar className="w-3.5 h-3.5 text-brand" /> Loan Term
+                </label>
+                <select 
+                  id="mortgage-years"
+                  value={years} 
+                  onChange={(e) => setYears(e.target.value)} 
+                  className={baseSelectStyle}
+                >
+                  <option value="30">30 Years Fixed</option>
+                  <option value="20">20 Years Fixed</option>
+                  <option value="15">15 Years Fixed</option>
+                  <option value="10">10 Years Fixed</option>
+                </select>
+              </div>
+            </div>
+
+            {/* ADVANCED ESCROW SETTINGS */}
+            {showAdvanced && (
+              <div className="pt-4 border-t border-line min-w-0 animate-in fade-in slide-in-from-top-2">
+                <div className="flex items-center gap-1.5 mb-3">
+                  <Shield className="w-3.5 h-3.5 text-brand" />
+                  <span className="text-[11px] font-extrabold uppercase tracking-widest text-ink">Escrow Details</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 min-w-0">
+                  <div className="space-y-2 min-w-0">
+                    <label className="block text-[10px] font-bold text-muted tracking-wide truncate">Property Tax (%)</label>
+                    <input type="number" step="0.1" value={propTaxRate} onChange={(e) => setPropTaxRate(e.target.value)} className={baseInputStyle} />
+                  </div>
+                  <div className="space-y-2 min-w-0">
+                    <label className="block text-[10px] font-bold text-muted tracking-wide truncate">Insurance ({currency.symbol}/Yr)</label>
+                    <input type="number" value={homeInsurance} onChange={(e) => setHomeInsurance(e.target.value)} className={baseInputStyle} />
+                  </div>
+                  <div className="space-y-2 min-w-0">
+                    <label className="block text-[10px] font-bold text-muted tracking-wide truncate">HOA ({currency.symbol}/Mo)</label>
+                    <input type="number" value={hoa} onChange={(e) => setHoa(e.target.value)} className={baseInputStyle} />
+                  </div>
+                </div>
               </div>
             )}
+          </div>
+
+          {/* RESULT CARD (Grey Background Style) */}
+          <div className="rounded-xl border border-line bg-paper p-1.5 min-w-0 h-full">
+            <div className="bg-surface rounded-lg w-full h-full p-4 sm:p-6 flex flex-col relative overflow-hidden min-h-[400px]">
+              
+              <div className="flex items-center justify-between border-b border-line pb-3 mb-5 min-w-0">
+                <div className="flex items-center gap-2 min-w-0">
+                  <PieChart className="w-4 h-4 text-brand shrink-0" />
+                  <h3 className="text-sm font-bold text-ink truncate">Monthly Payment</h3>
+                </div>
+                
+                <button
+                  type="button"
+                  onClick={copyResult}
+                  className="inline-flex items-center justify-center gap-1.5 h-8 px-2.5 rounded-md border border-line bg-paper hover:bg-line text-ink text-[11px] font-bold transition-colors shrink-0"
+                >
+                  {copied ? <><Check className="w-3 h-3 text-teal" /> Copied</> : <><Copy className="w-3 h-3 text-muted" /> Copy</>}
+                </button>
+              </div>
+              
+              <div className="text-center mb-6 min-w-0">
+                <span className="block text-4xl sm:text-5xl font-black font-mono text-ink tracking-tighter truncate pb-1">
+                  {isMounted ? formatCurrency(results.totalMonthly, currency.code, currency.locale) : `${currency.symbol}0`}
+                </span>
+                <span className="text-[11px] font-bold text-muted mt-1 block uppercase tracking-widest">
+                  Total Loan: {isMounted ? formatCurrency(results.totalLoan, currency.code, currency.locale) : `${currency.symbol}0`}
+                </span>
+              </div>
+
+              {/* PROGRESS BAR */}
+              <div className="h-4 w-full bg-line rounded-full flex overflow-hidden mb-5 shrink-0">
+                <div className="h-full bg-brand transition-all duration-700 ease-out" style={{ width: `${piPct}%` }}></div>
+                <div className="h-full bg-[#38bdf8] transition-all duration-700 ease-out" style={{ width: `${taxPct}%` }}></div>
+                <div className="h-full bg-[#34d399] transition-all duration-700 ease-out" style={{ width: `${insPct}%` }}></div>
+                <div className="h-full bg-[#fb7185] transition-all duration-700 ease-out" style={{ width: `${pmiPct}%` }}></div>
+                <div className="h-full bg-[#fbbf24] transition-all duration-700 ease-out" style={{ width: `${hoaPct}%` }}></div>
+              </div>
+
+              {/* BREAKDOWN LIST */}
+              <div className="space-y-1.5 flex-grow min-w-0">
+                <div className="flex justify-between items-center p-2 rounded-lg hover:bg-paper transition-colors min-w-0">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="w-2.5 h-2.5 rounded-full bg-brand shrink-0"></span>
+                    <span className="text-xs text-muted font-medium truncate">Principal & Interest</span>
+                  </div>
+                  <span className="font-bold text-ink font-mono shrink-0 pl-2">
+                    {isMounted ? formatCurrency(results.monthlyPI, currency.code, currency.locale) : `${currency.symbol}0`}
+                  </span>
+                </div>
+                
+                {results.monthlyTax > 0 && (
+                  <div className="flex justify-between items-center p-2 rounded-lg hover:bg-paper transition-colors min-w-0 animate-in fade-in">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#38bdf8] shrink-0"></span>
+                      <span className="text-xs text-muted font-medium truncate">Property Taxes</span>
+                    </div>
+                    <span className="font-bold text-ink font-mono shrink-0 pl-2">
+                      {isMounted ? formatCurrency(results.monthlyTax, currency.code, currency.locale) : `${currency.symbol}0`}
+                    </span>
+                  </div>
+                )}
+                
+                {results.monthlyIns > 0 && (
+                  <div className="flex justify-between items-center p-2 rounded-lg hover:bg-paper transition-colors min-w-0 animate-in fade-in">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#34d399] shrink-0"></span>
+                      <span className="text-xs text-muted font-medium truncate">Home Insurance</span>
+                    </div>
+                    <span className="font-bold text-ink font-mono shrink-0 pl-2">
+                      {isMounted ? formatCurrency(results.monthlyIns, currency.code, currency.locale) : `${currency.symbol}0`}
+                    </span>
+                  </div>
+                )}
+
+                {results.monthlyPMI > 0 && (
+                  <div className="flex justify-between items-center p-2 rounded-lg bg-rose-500/5 border border-rose-500/10 min-w-0 animate-in fade-in">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#fb7185] shrink-0"></span>
+                      <span className="text-xs text-rose-600 dark:text-rose-400 font-bold truncate">PMI (Under 20% Down)</span>
+                    </div>
+                    <span className="font-bold text-rose-600 dark:text-rose-400 font-mono shrink-0 pl-2">
+                      {isMounted ? formatCurrency(results.monthlyPMI, currency.code, currency.locale) : `${currency.symbol}0`}
+                    </span>
+                  </div>
+                )}
+
+                {results.monthlyHOA > 0 && (
+                  <div className="flex justify-between items-center p-2 rounded-lg hover:bg-paper transition-colors min-w-0 animate-in fade-in">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#fbbf24] shrink-0"></span>
+                      <span className="text-xs text-muted font-medium truncate">HOA Fees</span>
+                    </div>
+                    <span className="font-bold text-ink font-mono shrink-0 pl-2">
+                      {isMounted ? formatCurrency(results.monthlyHOA, currency.code, currency.locale) : `${currency.symbol}0`}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+            </div>
           </div>
         </div>
 

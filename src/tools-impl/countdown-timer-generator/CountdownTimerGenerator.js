@@ -164,102 +164,112 @@ export default function CountdownTimerGenerator() {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="bg-rose-100 dark:bg-rose-900/50 p-2 rounded-lg">
-            <Timer className="w-6 h-6 text-rose-600 dark:text-rose-400" />
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
+      
+      {/* COMPACT SLEEK HEADER BAR */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex items-center justify-between gap-3 w-full box-border font-sans">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand shrink-0">
+            <Timer className="w-5 h-5" />
           </div>
-          <div>
-            <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200 leading-tight">Pro Scarcity Engine</h2>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Web/Shopify Embed Generator</p>
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
+              Pro Scarcity Engine
+            </h2>
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted truncate">
+              Web / Shopify embed countdown timer generator.
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[400px,1fr] gap-6 items-start">
-        <div className="space-y-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-1.5 rounded-xl flex gap-1 shadow-sm">
+      <div className="grid grid-cols-1 lg:grid-cols-[400px,1fr] gap-4 sm:gap-6 items-start w-full">
+        
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-1.5 rounded-2xl flex gap-1 shadow-sm font-sans">
              <button 
+               type="button"
                onClick={() => setMode("fixed")}
-               className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all ${
-                 mode === "fixed" ? "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                 mode === "fixed" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"
                }`}
              >
-               <Calendar className="w-4 h-4" /> Fixed Date
+               <Calendar className="w-3.5 h-3.5" /> Fixed Date
              </button>
              <button 
+               type="button"
                onClick={() => setMode("evergreen")}
-               className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-bold transition-all ${
-                 mode === "evergreen" ? "bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 shadow-sm border border-rose-100 dark:border-rose-900/50" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                 mode === "evergreen" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"
                }`}
              >
-               <Zap className="w-4 h-4" /> Evergreen Mode
+               <Zap className="w-3.5 h-3.5" /> Evergreen
              </button>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-5">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-5 font-sans">
              <div className="space-y-4">
-               <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                 <Settings className="w-4 h-4 text-slate-400" />
-                 <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500">Timer Configuration</h3>
+               <div className="flex items-center gap-1.5 border-b border-line pb-2">
+                 <Settings className="w-3.5 h-3.5 text-brand" />
+                 <h3 className="text-[10px] font-black uppercase tracking-widest text-muted">Timer Configuration</h3>
                </div>
                
-               <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-600 dark:text-slate-400">Widget Title (Optional)</label>
+               <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-muted">Widget Title (Optional)</label>
                   <input 
                     type="text" 
                     value={title} 
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Offer Ends In..."
-                    className="w-full text-sm font-semibold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-rose-500 text-slate-800 dark:text-slate-100"
+                    className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none focus:border-brand"
                   />
                </div>
 
                {mode === "fixed" ? (
-                 <div className="space-y-2 animate-in fade-in slide-in-from-right-4">
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400">End Date & Time</label>
+                  <div className="space-y-1.5 animate-in fade-in">
+                    <label className="text-[10px] font-black uppercase tracking-wider text-muted">End Date & Time</label>
                     <input 
                       type="datetime-local" 
                       value={targetDate} 
                       onChange={(e) => setTargetDate(e.target.value)}
-                      className="w-full text-sm font-semibold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-rose-500 text-slate-800 dark:text-slate-100"
+                      className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none focus:border-brand"
                     />
-                 </div>
+                  </div>
                ) : (
-                 <div className="space-y-2 animate-in fade-in slide-in-from-left-4">
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 flex justify-between">
-                      <span>Duration (Minutes)</span>
-                      <span className="text-[10px] text-rose-500 bg-rose-50 dark:bg-rose-900/30 px-2 rounded">Resets per visitor</span>
-                    </label>
+                  <div className="space-y-1.5 animate-in fade-in">
+                    <div className="flex justify-between items-center">
+                      <label className="text-[10px] font-black uppercase tracking-wider text-muted">Duration (Minutes)</label>
+                      <span className="text-[9px] font-bold text-brand bg-brand/10 border border-brand/20 px-2 py-0.5 rounded-lg">Resets per visitor</span>
+                    </div>
                     <input 
                       type="number" 
                       min="1"
                       value={evergreenMinutes} 
                       onChange={(e) => setEvergreenMinutes(e.target.value)}
-                      className="w-full text-sm font-semibold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-rose-500 text-slate-800 dark:text-slate-100"
+                      className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none focus:border-brand"
                     />
-                 </div>
+                  </div>
                )}
              </div>
 
-             <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-               <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
-                 <Palette className="w-4 h-4 text-slate-400" />
-                 <h3 className="text-xs font-bold uppercase tracking-widest text-slate-500">Visual Theme</h3>
+             <div className="space-y-3 pt-4 border-t border-line">
+               <div className="flex items-center gap-1.5 border-b border-line pb-2">
+                 <Palette className="w-3.5 h-3.5 text-brand" />
+                 <h3 className="text-[10px] font-black uppercase tracking-widest text-muted">Visual Theme</h3>
                </div>
                
                <div className="grid grid-cols-2 gap-2">
                   {THEMES.map(theme => (
                     <button
                       key={theme.id}
+                      type="button"
                       onClick={() => setActiveTheme(theme)}
                       style={{ 
                         backgroundColor: theme.bg, 
                         color: theme.text,
                         borderColor: activeTheme.id === theme.id ? theme.accent : 'transparent'
                       }}
-                      className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-transform ${activeTheme.id === theme.id ? 'scale-[1.02] shadow-md' : 'opacity-80 hover:opacity-100'}`}
+                      className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-transform ${activeTheme.id === theme.id ? 'scale-[1.02] shadow-sm' : 'opacity-80 hover:opacity-100'}`}
                     >
                       <span className="text-[10px] font-black uppercase tracking-widest">{theme.name}</span>
                       <div className="w-4 h-1 rounded-full mt-2" style={{ backgroundColor: theme.accent }}></div>
@@ -270,28 +280,24 @@ export default function CountdownTimerGenerator() {
           </div>
         </div>
 
-        {/* ✅ FIX: Added min-w-0 to prevent CSS Grid flex-blowout from the <pre> tag */}
-        <div className="space-y-6 min-w-0 w-full">
-           <div className="bg-slate-100/50 dark:bg-slate-800/20 border border-slate-200 dark:border-slate-700 p-8 rounded-xl shadow-inner min-h-[250px] flex items-center justify-center relative overflow-hidden"
-                style={{ 
-                  backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0)', 
-                  backgroundSize: '20px 20px' 
-                }}>
-             <div className="absolute top-4 left-4 flex items-center gap-2">
-               <LayoutTemplate className="w-4 h-4 text-slate-400" />
-               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Live Preview</span>
-             </div>
+        {/* RIGHT: PREVIEW & CODE */}
+        <div className="space-y-4 sm:space-y-6 min-w-0 w-full">
+           <div className="bg-surface border border-line p-6 sm:p-8 rounded-2xl shadow-sm min-h-[250px] flex items-center justify-center relative overflow-hidden">
+              <div className="absolute top-4 left-4 flex items-center gap-1.5">
+                <LayoutTemplate className="w-3.5 h-3.5 text-muted" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-muted">Live Preview</span>
+              </div>
 
-             <div 
-               style={{ 
-                 background: activeTheme.bg, 
-                 color: activeTheme.text, 
-                 borderColor: `${activeTheme.accent}33` 
-               }}
-               className="p-6 rounded-xl text-center w-full max-w-[500px] shadow-lg border relative z-10 transition-colors duration-300"
-             >
+              <div 
+                style={{ 
+                  background: activeTheme.bg, 
+                  color: activeTheme.text, 
+                  borderColor: `${activeTheme.accent}33` 
+                }}
+                className="p-6 rounded-2xl text-center w-full max-w-[500px] shadow-card border relative z-10 transition-colors duration-300 font-sans"
+              >
                 {title && (
-                  <h3 className="mt-0 mb-4 text-lg font-bold" style={{ color: activeTheme.text }}>
+                  <h3 className="mt-0 mb-4 text-base sm:text-lg font-bold" style={{ color: activeTheme.text }}>
                     {title}
                   </h3>
                 )}
@@ -304,47 +310,49 @@ export default function CountdownTimerGenerator() {
                   ].map((unit, i, arr) => (
                     <React.Fragment key={unit.label}>
                       <div className="flex flex-col items-center w-[70px]">
-                        <div className="text-4xl font-extrabold leading-none tracking-tight" style={{ color: activeTheme.accent }}>
+                        <div className="text-3xl sm:text-4xl font-extrabold leading-none tracking-tight font-mono" style={{ color: activeTheme.accent }}>
                           {pad(unit.val)}
                         </div>
-                        <div className="text-[11px] uppercase tracking-widest mt-1.5 opacity-70 font-semibold">
+                        <div className="text-[10px] sm:text-[11px] uppercase tracking-widest mt-1.5 opacity-70 font-semibold">
                           {unit.label}
                         </div>
                       </div>
                       {i < arr.length - 1 && (
-                         <div className="text-4xl font-extrabold opacity-50" style={{ color: activeTheme.accent }}>:</div>
+                         <div className="text-3xl sm:text-4xl font-extrabold opacity-50 font-mono" style={{ color: activeTheme.accent }}>:</div>
                       )}
                     </React.Fragment>
                   ))}
                 </div>
-             </div>
+              </div>
            </div>
 
-           <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm">
-             <div className="flex justify-between items-center p-4 border-b border-slate-800 bg-slate-950/50">
-                <div className="flex items-center gap-2">
-                  <Code className="w-4 h-4 text-emerald-400" />
-                  <h3 className="font-bold text-slate-200 text-sm">HTML/JS Embed Code</h3>
-                  <span className="bg-emerald-900/30 text-emerald-400 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-widest ml-2 border border-emerald-800/50 hidden sm:inline-block">Works Anywhere</span>
+           <div className="bg-paper border border-line rounded-2xl overflow-hidden shadow-sm">
+              <div className="flex justify-between items-center p-4 border-b border-line bg-surface font-sans">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Code className="w-4 h-4 text-brand shrink-0" />
+                  <h3 className="font-bold text-ink text-xs uppercase tracking-wider truncate">HTML/JS Embed Code</h3>
+                  <span className="bg-brand/10 text-brand text-[9px] px-2 py-0.5 rounded-lg font-black uppercase tracking-widest ml-1 border border-brand/20 hidden sm:inline-block">Works Anywhere</span>
                 </div>
                 <button 
+                  type="button"
                   onClick={handleCopyCode}
-                  className={`flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-lg transition-all ${
+                  className={`flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-3.5 py-2 rounded-xl transition-all shrink-0 ${
                     isCopied 
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
-                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
+                      ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30' 
+                      : 'bg-surface border border-line text-ink hover:border-brand'
                   }`}
                 >
                   {isCopied ? <><CheckCircle2 className="w-3.5 h-3.5" /> Copied!</> : <><Copy className="w-3.5 h-3.5" /> Copy Code</>}
                 </button>
-             </div>
-             <div className="p-4 bg-[#0d1117] overflow-x-auto custom-scrollbar">
-               <pre className="text-xs text-slate-300 font-mono leading-relaxed whitespace-pre">
-                 <code>{generateEmbedCode()}</code>
-               </pre>
-             </div>
+              </div>
+              <div className="p-4 bg-surface overflow-x-auto">
+                <pre className="text-xs text-ink font-mono leading-relaxed whitespace-pre">
+                  <code>{generateEmbedCode()}</code>
+                </pre>
+              </div>
            </div>
         </div>
+
       </div>
     </div>
   );

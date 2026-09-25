@@ -54,20 +54,6 @@ function formatBytes(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-function downloadText(filename, content, type = "text/plain;charset=utf-8") {
-  const blob = new Blob([content], { type });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
 export default function Base64EncoderDecoder() {
   const [mode, setMode] = useState("encode");
   const [input, setInput] = useState("");
@@ -280,822 +266,250 @@ export default function Base64EncoderDecoder() {
   const characterCount = output.length;
 
   return (
-    <div className="b64-tool">
-      <style jsx>{`
-        .b64-tool {
-          width: 100%;
-          color: inherit;
-        }
-
-        .b64-shell {
-          width: 100%;
-          max-width: 1180px;
-          margin: 0 auto;
-          border: 1px solid rgba(148, 163, 184, 0.22);
-          border-radius: 20px;
-          overflow: hidden;
-          background: rgba(255, 255, 255, 0.96);
-          box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08);
-        }
-
-        .b64-toolbar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-          padding: 18px 20px;
-          border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-          background: rgba(248, 250, 252, 0.9);
-          flex-wrap: wrap;
-        }
-
-        .b64-brand {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .b64-icon {
-          width: 42px;
-          height: 42px;
-          border-radius: 12px;
-          display: grid;
-          place-items: center;
-          background: #eef2ff;
-          color: #4f46e5;
-          font-size: 20px;
-          font-weight: 800;
-        }
-
-        .b64-title {
-          font-size: 17px;
-          font-weight: 800;
-          letter-spacing: -0.02em;
-        }
-
-        .b64-subtitle {
-          margin-top: 3px;
-          font-size: 12px;
-          color: #64748b;
-        }
-
-        .b64-actions {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .b64-btn {
-          border: 1px solid #dbe2ea;
-          background: #fff;
-          color: #0f172a;
-          min-height: 38px;
-          padding: 0 13px;
-          border-radius: 9px;
-          cursor: pointer;
-          font-size: 13px;
-          font-weight: 700;
-          transition: 0.18s ease;
-        }
-
-        .b64-btn:hover {
-          border-color: #a5b4fc;
-          transform: translateY(-1px);
-        }
-
-        .b64-btn.primary {
-          background: #4f46e5;
-          border-color: #4f46e5;
-          color: #fff;
-        }
-
-        .b64-btn.danger {
-          color: #dc2626;
-        }
-
-        .b64-body {
-          padding: 20px;
-        }
-
-        .b64-modebar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 15px;
-          margin-bottom: 18px;
-          flex-wrap: wrap;
-        }
-
-        .b64-tabs {
-          display: flex;
-          padding: 4px;
-          border-radius: 11px;
-          background: #f1f5f9;
-          border: 1px solid #e2e8f0;
-        }
-
-        .b64-tab {
-          border: 0;
-          background: transparent;
-          padding: 9px 17px;
-          border-radius: 8px;
-          font-weight: 800;
-          color: #64748b;
-          cursor: pointer;
-        }
-
-        .b64-tab.active {
-          background: #fff;
-          color: #4f46e5;
-          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
-        }
-
-        .b64-options {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-          flex-wrap: wrap;
-        }
-
-        .b64-check {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          font-size: 13px;
-          color: #475569;
-          cursor: pointer;
-          user-select: none;
-        }
-
-        .b64-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 50px minmax(0, 1fr);
-          gap: 12px;
-          align-items: stretch;
-        }
-
-        .b64-panel {
-          min-width: 0;
-          border: 1px solid #dbe2ea;
-          border-radius: 14px;
-          overflow: hidden;
-          background: #fff;
-        }
-
-        .b64-panel-head {
-          min-height: 48px;
-          padding: 0 13px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-          background: #f8fafc;
-          border-bottom: 1px solid #e2e8f0;
-        }
-
-        .b64-panel-label {
-          font-size: 13px;
-          font-weight: 800;
-          color: #334155;
-        }
-
-        .b64-counter {
-          font-size: 11px;
-          color: #94a3b8;
-        }
-
-        .b64-textarea {
-          width: 100%;
-          min-height: 360px;
-          display: block;
-          resize: vertical;
-          border: 0;
-          outline: none;
-          padding: 17px;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-          font-size: 13px;
-          line-height: 1.65;
-          color: #0f172a;
-          background: #fff;
-        }
-
-        .b64-textarea:focus {
-          box-shadow: inset 0 0 0 2px rgba(79, 70, 229, 0.12);
-        }
-
-        .b64-output {
-          white-space: pre-wrap;
-          word-break: break-word;
-        }
-
-        .b64-middle {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 9px;
-        }
-
-        .b64-round {
-          width: 42px;
-          height: 42px;
-          border-radius: 50%;
-          border: 1px solid #dbe2ea;
-          background: #fff;
-          cursor: pointer;
-          color: #475569;
-          font-size: 17px;
-          transition: 0.18s;
-        }
-
-        .b64-round:hover {
-          color: #4f46e5;
-          border-color: #a5b4fc;
-          transform: rotate(180deg);
-        }
-
-        .b64-error {
-          margin-top: 13px;
-          padding: 11px 13px;
-          border-radius: 10px;
-          background: #fef2f2;
-          color: #b91c1c;
-          border: 1px solid #fecaca;
-          font-size: 13px;
-          font-weight: 600;
-        }
-
-        .b64-file {
-          margin-top: 18px;
-          border: 1.5px dashed #cbd5e1;
-          border-radius: 14px;
-          padding: 22px;
-          text-align: center;
-          background: #f8fafc;
-          transition: 0.2s;
-          cursor: pointer;
-        }
-
-        .b64-file.active {
-          border-color: #6366f1;
-          background: #eef2ff;
-        }
-
-        .b64-file-icon {
-          font-size: 25px;
-          margin-bottom: 7px;
-        }
-
-        .b64-file-title {
-          font-size: 14px;
-          font-weight: 800;
-          color: #334155;
-        }
-
-        .b64-file-desc {
-          margin-top: 5px;
-          font-size: 12px;
-          color: #64748b;
-        }
-
-        .b64-file-name {
-          margin-top: 9px;
-          color: #4f46e5;
-          font-size: 12px;
-          font-weight: 800;
-        }
-
-        .b64-bottom {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 14px;
-          margin-top: 18px;
-        }
-
-        .b64-card {
-          border: 1px solid #e2e8f0;
-          border-radius: 14px;
-          padding: 14px;
-          background: #fff;
-        }
-
-        .b64-card-title {
-          font-size: 12px;
-          font-weight: 800;
-          color: #64748b;
-          margin-bottom: 9px;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-        }
-
-        .b64-stats {
-          display: flex;
-          gap: 20px;
-          flex-wrap: wrap;
-        }
-
-        .b64-stat strong {
-          display: block;
-          color: #0f172a;
-          font-size: 17px;
-        }
-
-        .b64-stat span {
-          color: #94a3b8;
-          font-size: 11px;
-        }
-
-        .b64-history {
-          margin-top: 18px;
-        }
-
-        .b64-history-head {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 9px;
-        }
-
-        .b64-history-title {
-          font-size: 13px;
-          font-weight: 800;
-        }
-
-        .b64-history-list {
-          display: grid;
-          gap: 7px;
-        }
-
-        .b64-history-item {
-          width: 100%;
-          border: 1px solid #e2e8f0;
-          background: #fff;
-          border-radius: 9px;
-          padding: 9px 11px;
-          display: flex;
-          justify-content: space-between;
-          gap: 10px;
-          text-align: left;
-          cursor: pointer;
-        }
-
-        .b64-history-item:hover {
-          border-color: #a5b4fc;
-        }
-
-        .b64-history-main {
-          min-width: 0;
-        }
-
-        .b64-history-mode {
-          font-size: 11px;
-          font-weight: 800;
-          color: #4f46e5;
-          text-transform: uppercase;
-        }
-
-        .b64-history-preview {
-          margin-top: 3px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          font-family: monospace;
-          font-size: 11px;
-          color: #64748b;
-        }
-
-        .b64-history-time {
-          font-size: 10px;
-          color: #94a3b8;
-          white-space: nowrap;
-        }
-
-        @media (max-width: 850px) {
-          .b64-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .b64-middle {
-            flex-direction: row;
-          }
-
-          .b64-bottom {
-            grid-template-columns: 1fr;
-          }
-
-          .b64-textarea {
-            min-height: 280px;
-          }
-        }
-
-        @media (max-width: 560px) {
-          .b64-body {
-            padding: 13px;
-          }
-
-          .b64-toolbar {
-            padding: 14px;
-          }
-
-          .b64-actions {
-            width: 100%;
-          }
-
-          .b64-actions .b64-btn {
-            flex: 1;
-          }
-
-          .b64-modebar {
-            align-items: stretch;
-          }
-
-          .b64-tabs {
-            width: 100%;
-          }
-
-          .b64-tab {
-            flex: 1;
-          }
-
-          .b64-options {
-            width: 100%;
-          }
-
-          .b64-textarea {
-            min-height: 240px;
-            font-size: 12px;
-          }
-        }
-
-        :global(.dark) .b64-shell,
-        :global([data-theme="dark"]) .b64-shell {
-          background: #111827;
-          border-color: #273449;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
-        }
-
-        :global(.dark) .b64-toolbar,
-        :global([data-theme="dark"]) .b64-toolbar {
-          background: #0f172a;
-          border-color: #273449;
-        }
-
-        :global(.dark) .b64-icon,
-        :global([data-theme="dark"]) .b64-icon {
-          background: #312e81;
-          color: #c7d2fe;
-        }
-
-        :global(.dark) .b64-subtitle,
-        :global([data-theme="dark"]) .b64-subtitle {
-          color: #94a3b8;
-        }
-
-        :global(.dark) .b64-btn,
-        :global([data-theme="dark"]) .b64-btn {
-          background: #111827;
-          color: #e2e8f0;
-          border-color: #334155;
-        }
-
-        :global(.dark) .b64-btn.primary,
-        :global([data-theme="dark"]) .b64-btn.primary {
-          background: #6366f1;
-          border-color: #6366f1;
-          color: #fff;
-        }
-
-        :global(.dark) .b64-tabs,
-        :global([data-theme="dark"]) .b64-tabs {
-          background: #0f172a;
-          border-color: #334155;
-        }
-
-        :global(.dark) .b64-tab,
-        :global([data-theme="dark"]) .b64-tab {
-          color: #94a3b8;
-        }
-
-        :global(.dark) .b64-tab.active,
-        :global([data-theme="dark"]) .b64-tab.active {
-          background: #1e293b;
-          color: #a5b4fc;
-        }
-
-        :global(.dark) .b64-check,
-        :global([data-theme="dark"]) .b64-check {
-          color: #cbd5e1;
-        }
-
-        :global(.dark) .b64-panel,
-        :global([data-theme="dark"]) .b64-panel,
-        :global(.dark) .b64-card,
-        :global([data-theme="dark"]) .b64-card,
-        :global(.dark) .b64-history-item,
-        :global([data-theme="dark"]) .b64-history-item {
-          background: #111827;
-          border-color: #334155;
-        }
-
-        :global(.dark) .b64-panel-head,
-        :global([data-theme="dark"]) .b64-panel-head {
-          background: #0f172a;
-          border-color: #334155;
-        }
-
-        :global(.dark) .b64-panel-label,
-        :global([data-theme="dark"]) .b64-panel-label,
-        :global([data-theme="dark"]) .b64-panel-label {
-          color: #e2e8f0;
-        }
-
-        :global(.dark) .b64-textarea,
-        :global([data-theme="dark"]) .b64-textarea {
-          background: #111827;
-          color: #e2e8f0;
-        }
-
-        :global(.dark) .b64-round,
-        :global([data-theme="dark"]) .b64-round {
-          background: #111827;
-          border-color: #334155;
-          color: #cbd5e1;
-        }
-
-        :global(.dark) .b64-file,
-        :global([data-theme="dark"]) .b64-file {
-          background: #0f172a;
-          border-color: #475569;
-        }
-
-        :global(.dark) .b64-file.active,
-        :global([data-theme="dark"]) .b64-file.active {
-          background: #1e1b4b;
-          border-color: #6366f1;
-        }
-
-        :global(.dark) .b64-file-title,
-        :global([data-theme="dark"]) .b64-file-title {
-          color: #e2e8f0;
-        }
-
-        :global(.dark) .b64-stat strong,
-        :global([data-theme="dark"]) .b64-stat strong {
-          color: #f8fafc;
-        }
-
-        :global(.dark) .b64-history-title,
-        :global([data-theme="dark"]) .b64-history-title {
-          color: #e2e8f0;
-        }
-      `}</style>
-
-      <div className="b64-shell">
-        <div className="b64-toolbar">
-          <div className="b64-brand">
-            <div className="b64-icon">64</div>
-
-            <div>
-              <div className="b64-title">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
+      
+      {/* CARD CONTAINER */}
+      <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
+        
+        {/* HEADER / TOOLBAR */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-xl font-black shrink-0">
+              64
+            </div>
+
+            <div className="min-w-0">
+              <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
                 Base64 Encoder & Decoder
-              </div>
-
-              <div className="b64-subtitle">
+              </h2>
+              <p className="text-[11px] font-bold text-muted mt-0.5 truncate">
                 Fast, private, browser-based Base64 conversion
-              </div>
+              </p>
             </div>
           </div>
 
-          <div className="b64-actions">
-            <button className="b64-btn" onClick={loadSample}>
+          <div className="flex items-center gap-2 flex-wrap shrink-0">
+            <button
+              type="button"
+              className="px-4 py-2.5 rounded-xl border border-line bg-paper text-ink hover:bg-surface text-xs font-black uppercase tracking-wider transition-all"
+              onClick={loadSample}
+            >
               ✨ Sample
             </button>
 
-            <button className="b64-btn" onClick={swapValues}>
+            <button
+              type="button"
+              className="px-4 py-2.5 rounded-xl border border-line bg-paper text-ink hover:bg-surface text-xs font-black uppercase tracking-wider transition-all"
+              onClick={swapValues}
+            >
               ⇄ Swap
             </button>
 
-            <button className="b64-btn danger" onClick={clearAll}>
+            <button
+              type="button"
+              className="px-4 py-2.5 rounded-xl border border-line bg-paper text-[#fb7185] hover:bg-surface text-xs font-black uppercase tracking-wider transition-all"
+              onClick={clearAll}
+            >
               Clear
             </button>
           </div>
         </div>
 
-        <div className="b64-body">
-          <div className="b64-modebar">
-            <div className="b64-tabs">
-              <button
-                className={`b64-tab ${
-                  mode === "encode" ? "active" : ""
-                }`}
-                onClick={() => {
-                  setMode("encode");
-                  setError("");
-                }}
-              >
-                Encode
-              </button>
+        {/* MODE BAR & OPTIONS */}
+        <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-paper border border-line min-w-0">
+          <div className="flex items-center bg-surface border border-line p-1 rounded-xl gap-1 shrink-0">
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${mode === "encode" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"}`}
+              onClick={() => {
+                setMode("encode");
+                setError("");
+              }}
+            >
+              Encode
+            </button>
 
-              <button
-                className={`b64-tab ${
-                  mode === "decode" ? "active" : ""
-                }`}
-                onClick={() => {
-                  setMode("decode");
-                  setError("");
-                }}
-              >
-                Decode
-              </button>
-            </div>
-
-            <div className="b64-options">
-              <label className="b64-check">
-                <input
-                  type="checkbox"
-                  checked={urlSafe}
-                  onChange={(e) => setUrlSafe(e.target.checked)}
-                />
-                URL-safe Base64
-              </label>
-
-              <label className="b64-check">
-                <input
-                  type="checkbox"
-                  checked={autoProcess}
-                  onChange={(e) => setAutoProcess(e.target.checked)}
-                />
-                Live conversion
-              </label>
-            </div>
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${mode === "decode" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"}`}
+              onClick={() => {
+                setMode("decode");
+                setError("");
+              }}
+            >
+              Decode
+            </button>
           </div>
 
-          <div className="b64-grid">
-            <div className="b64-panel">
-              <div className="b64-panel-head">
-                <span className="b64-panel-label">
-                  {mode === "encode"
-                    ? "Plain Text / Data"
-                    : "Base64 Input"}
-                </span>
-
-                <span className="b64-counter">
-                  {inputStats.characters.toLocaleString()} chars
-                </span>
-              </div>
-
-              <textarea
-                className="b64-textarea"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={
-                  mode === "encode"
-                    ? "Type or paste text here..."
-                    : "Paste Base64 data here..."
-                }
-                spellCheck={false}
+          <div className="flex items-center gap-6 flex-wrap min-w-0">
+            <label className="flex items-center gap-3 cursor-pointer select-none min-w-0">
+              <input
+                type="checkbox"
+                checked={urlSafe}
+                onChange={(e) => setUrlSafe(e.target.checked)}
+                className="w-4 h-4 accent-brand rounded border-line shrink-0"
               />
-            </div>
+              <span className="text-xs font-black text-ink truncate">URL-safe Base64</span>
+            </label>
 
-            <div className="b64-middle">
-              <button
-                className="b64-round"
-                title="Convert"
-                onClick={addToHistoryAndProcess}
-              >
-                →
-              </button>
-
-              <button
-                className="b64-round"
-                title="Swap input and output"
-                onClick={swapValues}
-              >
-                ⇄
-              </button>
-            </div>
-
-            <div className="b64-panel">
-              <div className="b64-panel-head">
-                <span className="b64-panel-label">
-                  {mode === "encode"
-                    ? "Base64 Output"
-                    : "Decoded Text"}
-                </span>
-
-                <span className="b64-counter">
-                  {characterCount.toLocaleString()} chars
-                </span>
-              </div>
-
-              <textarea
-                className="b64-textarea b64-output"
-                value={output}
-                readOnly
-                placeholder={
-                  mode === "encode"
-                    ? "Base64 result will appear here..."
-                    : "Decoded result will appear here..."
-                }
-                spellCheck={false}
+            <label className="flex items-center gap-3 cursor-pointer select-none min-w-0">
+              <input
+                type="checkbox"
+                checked={autoProcess}
+                onChange={(e) => setAutoProcess(e.target.checked)}
+                className="w-4 h-4 accent-brand rounded border-line shrink-0"
               />
-            </div>
+              <span className="text-xs font-black text-ink truncate">Live conversion</span>
+            </label>
           </div>
+        </div>
 
-          {error && (
-            <div className="b64-error">
-              ⚠ {error}
-            </div>
-          )}
-
-          <div
-            className={`b64-file ${
-              dragActive ? "active" : ""
-            }`}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDragActive(true);
-            }}
-            onDragLeave={() => setDragActive(false)}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <div className="b64-file-icon">📁</div>
-
-            <div className="b64-file-title">
-              Encode a file directly
+        {/* EDITOR GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 items-stretch min-w-0">
+          
+          {/* INPUT PANEL */}
+          <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col min-w-0">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-line bg-surface min-w-0">
+              <span className="text-[11px] font-black text-ink uppercase tracking-wider truncate">
+                {mode === "encode" ? "Plain Text / Data" : "Base64 Input"}
+              </span>
+              <span className="text-[10px] font-bold text-muted shrink-0">
+                {inputStats.characters.toLocaleString()} chars
+              </span>
             </div>
 
-            <div className="b64-file-desc">
-              Drag & drop a file here or click to browse · Up to 25 MB
-            </div>
-
-            {fileName && (
-              <div className="b64-file-name">
-                {fileName} · {formatBytes(fileSize)}
-              </div>
-            )}
-
-            <input
-              ref={fileInputRef}
-              type="file"
-              hidden
-              onChange={(e) =>
-                handleFile(e.target.files?.[0])
-              }
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={mode === "encode" ? "Type or paste text here..." : "Paste Base64 data here..."}
+              spellCheck={false}
+              className="w-full h-72 sm:h-80 bg-surface border-0 p-4 font-mono text-xs text-ink outline-none resize-y leading-relaxed tabular-nums"
             />
           </div>
 
-          <div className="b64-bottom">
-            <div className="b64-card">
-              <div className="b64-card-title">
-                Input information
-              </div>
+          {/* MIDDLE CONTROLS */}
+          <div className="flex lg:flex-col items-center justify-center gap-3 my-auto py-2">
+            <button
+              type="button"
+              className="w-10 h-10 rounded-full border border-line bg-surface text-brand text-lg font-black flex items-center justify-center shadow-sm hover:border-brand transition-all shrink-0"
+              title="Convert"
+              onClick={addToHistoryAndProcess}
+            >
+              →
+            </button>
 
-              <div className="b64-stats">
-                <div className="b64-stat">
-                  <strong>
-                    {inputStats.characters.toLocaleString()}
-                  </strong>
-                  <span>Characters</span>
-                </div>
+            <button
+              type="button"
+              className="w-10 h-10 rounded-full border border-line bg-surface text-brand text-lg font-black flex items-center justify-center shadow-sm hover:border-brand hover:rotate-180 transition-all shrink-0"
+              title="Swap input and output"
+              onClick={swapValues}
+            >
+              ⇄
+            </button>
+          </div>
 
-                <div className="b64-stat">
-                  <strong>
-                    {formatBytes(inputStats.bytes)}
-                  </strong>
-                  <span>UTF-8 size</span>
-                </div>
-
-                <div className="b64-stat">
-                  <strong>{inputStats.lines}</strong>
-                  <span>Lines</span>
-                </div>
-              </div>
+          {/* OUTPUT PANEL */}
+          <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col min-w-0">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-line bg-surface min-w-0">
+              <span className="text-[11px] font-black text-ink uppercase tracking-wider truncate">
+                {mode === "encode" ? "Base64 Output" : "Decoded Text"}
+              </span>
+              <span className="text-[10px] font-bold text-muted shrink-0">
+                {characterCount.toLocaleString()} chars
+              </span>
             </div>
 
-            <div className="b64-card">
-              <div className="b64-card-title">
-                Output information
+            <textarea
+              value={output}
+              readOnly
+              placeholder={mode === "encode" ? "Base64 result will appear here..." : "Decoded result will appear here..."}
+              spellCheck={false}
+              className="w-full h-72 sm:h-80 bg-surface border-0 p-4 font-mono text-xs text-ink outline-none resize-y leading-relaxed tabular-nums whitespace-pre-wrap break-words"
+            />
+          </div>
+
+        </div>
+
+        {/* ERROR MESSAGE */}
+        {error && (
+          <div className="p-4 rounded-xl bg-[#fef2f2] text-[#b91c1c] border border-[#fecaca] text-xs font-bold flex items-center gap-2">
+            <span>⚠</span> {error}
+          </div>
+        )}
+
+        {/* FILE DROP ZONE */}
+        <div
+          className={`border-2 border-dashed rounded-2xl p-6 text-center transition-all cursor-pointer select-none min-w-0 ${dragActive ? "border-brand bg-brand/5" : "border-line bg-paper hover:border-brand/50"}`}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragActive(true);
+          }}
+          onDragLeave={() => setDragActive(false)}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <div className="text-2xl mb-2">📁</div>
+          <div className="text-xs font-black text-ink">Encode a file directly</div>
+          <div className="text-[11px] font-medium text-muted mt-1">
+            Drag & drop a file here or click to browse · Up to 25 MB
+          </div>
+
+          {fileName && (
+            <div className="mt-2 text-xs font-black text-brand truncate">
+              {fileName} · {formatBytes(fileSize)}
+            </div>
+          )}
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            hidden
+            onChange={(e) => handleFile(e.target.files?.[0])}
+          />
+        </div>
+
+        {/* STATS BOTTOM GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 min-w-0">
+          <div className="border border-line rounded-2xl p-4 bg-paper min-w-0">
+            <div className="text-[11px] font-black text-muted uppercase tracking-wider mb-3">
+              Input information
+            </div>
+            <div className="flex items-center gap-6 flex-wrap">
+              <div>
+                <strong className="block text-base font-black text-ink">{inputStats.characters.toLocaleString()}</strong>
+                <span className="text-[10px] font-bold text-muted">Characters</span>
+              </div>
+              <div>
+                <strong className="block text-base font-black text-ink">{formatBytes(inputStats.bytes)}</strong>
+                <span className="text-[10px] font-bold text-muted">UTF-8 size</span>
+              </div>
+              <div>
+                <strong className="block text-base font-black text-ink">{inputStats.lines}</strong>
+                <span className="text-[10px] font-bold text-muted">Lines</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="border border-line rounded-2xl p-4 bg-paper min-w-0">
+            <div className="text-[11px] font-black text-muted uppercase tracking-wider mb-3">
+              Output information
+            </div>
+            <div className="flex items-center gap-4 flex-wrap justify-between">
+              <div className="flex items-center gap-6">
+                <div>
+                  <strong className="block text-base font-black text-ink">{outputStats.characters.toLocaleString()}</strong>
+                  <span className="text-[10px] font-bold text-muted">Characters</span>
+                </div>
+                <div>
+                  <strong className="block text-base font-black text-ink">{formatBytes(outputStats.bytes)}</strong>
+                  <span className="text-[10px] font-bold text-muted">Output size</span>
+                </div>
               </div>
 
-              <div className="b64-stats">
-                <div className="b64-stat">
-                  <strong>
-                    {outputStats.characters.toLocaleString()}
-                  </strong>
-                  <span>Characters</span>
-                </div>
-
-                <div className="b64-stat">
-                  <strong>
-                    {formatBytes(outputStats.bytes)}
-                  </strong>
-                  <span>Output size</span>
-                </div>
-
+              <div className="flex items-center gap-2">
                 <button
-                  className="b64-btn primary"
+                  type="button"
+                  className="px-4 py-2.5 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
                   onClick={copyOutput}
                   disabled={!output}
                 >
@@ -1104,7 +518,8 @@ export default function Base64EncoderDecoder() {
 
                 {mode === "decode" && output && (
                   <button
-                    className="b64-btn"
+                    type="button"
+                    className="px-4 py-2.5 rounded-xl border border-line bg-surface text-ink hover:bg-paper text-xs font-black uppercase tracking-wider transition-all"
                     onClick={decodeFileOutput}
                   >
                     ↓ Save File
@@ -1113,52 +528,49 @@ export default function Base64EncoderDecoder() {
               </div>
             </div>
           </div>
-
-          {history.length > 0 && (
-            <div className="b64-history">
-              <div className="b64-history-head">
-                <div className="b64-history-title">
-                  Recent conversions
-                </div>
-
-                <button
-                  className="b64-btn"
-                  onClick={() => setHistory([])}
-                >
-                  Clear History
-                </button>
-              </div>
-
-              <div className="b64-history-list">
-                {history.map((item) => (
-                  <button
-                    key={item.id}
-                    className="b64-history-item"
-                    onClick={() => {
-                      setMode(item.mode);
-                      setInput(item.input);
-                      setOutput(item.output);
-                    }}
-                  >
-                    <div className="b64-history-main">
-                      <div className="b64-history-mode">
-                        {item.mode}
-                      </div>
-
-                      <div className="b64-history-preview">
-                        {item.input || "Empty input"}
-                      </div>
-                    </div>
-
-                    <div className="b64-history-time">
-                      {item.time}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
+
+        {/* HISTORY */}
+        {history.length > 0 && (
+          <div className="rounded-2xl border border-line overflow-hidden bg-paper min-w-0">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-line bg-surface min-w-0">
+              <strong className="text-xs font-black text-ink uppercase tracking-wider">Recent conversions</strong>
+              <button
+                type="button"
+                onClick={() => setHistory([])}
+                className="text-xs font-black text-[#fb7185] uppercase tracking-wider hover:underline shrink-0"
+              >
+                Clear History
+              </button>
+            </div>
+
+            <div className="divide-y divide-line">
+              {history.map((item) => (
+                <button
+                  type="button"
+                  key={item.id}
+                  className="w-full px-5 py-3.5 bg-transparent border-0 text-left cursor-pointer flex items-center justify-between gap-4 hover:bg-surface transition-colors min-w-0"
+                  onClick={() => {
+                    setMode(item.mode);
+                    setInput(item.input);
+                    setOutput(item.output);
+                  }}
+                >
+                  <div className="flex items-center gap-3 min-w-0 truncate">
+                    <span className="px-2 py-1 rounded bg-brand/10 text-brand text-[9px] font-black uppercase tracking-wider shrink-0">
+                      {item.mode}
+                    </span>
+                    <span className="text-xs font-medium text-muted font-mono truncate">
+                      {item.input || "Empty input"}
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-bold text-muted shrink-0">{item.time}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

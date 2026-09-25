@@ -42,12 +42,12 @@ function Field({
   hint,
 }) {
   return (
-    <div className="mtg-field">
-      <div className="mtg-field-head">
-        <label>{label}</label>
+    <div className="space-y-2 min-w-0">
+      <div className="flex items-center justify-between gap-2">
+        <label className="text-xs font-black text-ink uppercase tracking-wider truncate">{label}</label>
 
         {maxLength ? (
-          <span className="mtg-counter">
+          <span className="text-[10px] font-bold text-muted shrink-0">
             {value.length}/{maxLength}
           </span>
         ) : null}
@@ -60,6 +60,7 @@ function Field({
           placeholder={placeholder}
           maxLength={maxLength}
           spellCheck={false}
+          className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-mono text-ink outline-none resize-y min-h-[86px]"
         />
       ) : (
         <input
@@ -69,22 +70,27 @@ function Field({
           placeholder={placeholder}
           maxLength={maxLength}
           spellCheck={false}
+          className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-mono text-ink outline-none"
         />
       )}
 
-      {hint ? <div className="mtg-hint">{hint}</div> : null}
+      {hint ? <div className="text-[10px] font-medium text-muted">{hint}</div> : null}
     </div>
   );
 }
 
 function SelectField({ label, value, onChange, children }) {
   return (
-    <div className="mtg-field">
-      <div className="mtg-field-head">
-        <label>{label}</label>
+    <div className="space-y-2 min-w-0">
+      <div className="flex items-center justify-between gap-2">
+        <label className="text-xs font-black text-ink uppercase tracking-wider truncate">{label}</label>
       </div>
 
-      <select value={value} onChange={(e) => onChange(e.target.value)}>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none cursor-pointer"
+      >
         {children}
       </select>
     </div>
@@ -93,12 +99,14 @@ function SelectField({ label, value, onChange, children }) {
 
 function SectionTitle({ number, title, description }) {
   return (
-    <div className="mtg-section-title">
-      <span className="mtg-number">{number}</span>
+    <div className="flex items-start gap-3.5 mb-5 min-w-0">
+      <span className="w-7 h-7 rounded-lg bg-brand/10 text-brand text-xs font-black flex items-center justify-center shrink-0">
+        {number}
+      </span>
 
-      <div>
-        <h3>{title}</h3>
-        <p>{description}</p>
+      <div className="min-w-0">
+        <h3 className="text-sm font-black text-ink tracking-tight truncate">{title}</h3>
+        <p className="text-[11px] font-medium text-muted mt-0.5 truncate">{description}</p>
       </div>
     </div>
   );
@@ -178,12 +186,6 @@ export default function MetaTagsGenerator() {
   const [copied, setCopied] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
 
-  /*
-   * IMPORTANT:
-   * This updater keeps the same component mounted.
-   * It does NOT create a new component and does NOT change input keys.
-   * Therefore typing into any input will not cause focus loss.
-   */
   const updateField = (field, value) => {
     setData((previous) => ({
       ...previous,
@@ -270,7 +272,6 @@ export default function MetaTagsGenerator() {
       );
     }
 
-    // Open Graph
     if (ogTitle) {
       lines.push(
         `<meta property="og:title" content="${escapeHtml(
@@ -311,7 +312,6 @@ export default function MetaTagsGenerator() {
       );
     }
 
-    // Twitter
     if (data.twitterCard) {
       lines.push(
         `<meta name="twitter:card" content="${escapeHtml(
@@ -446,1020 +446,410 @@ export default function MetaTagsGenerator() {
   };
 
   return (
-    <>
-      <style jsx>{`
-        .mtg-root {
-          width: 100%;
-          max-width: 1180px;
-          margin: 0 auto;
-          padding: 24px;
-          color: var(--foreground, #111827);
-        }
-
-        .mtg-shell {
-          width: 100%;
-          border: 1px solid
-            color-mix(
-              in srgb,
-              var(--foreground, #111827) 12%,
-              transparent
-            );
-          border-radius: 22px;
-          background: var(--background, #ffffff);
-          overflow: hidden;
-          box-shadow: 0 16px 45px rgba(15, 23, 42, 0.07);
-        }
-
-        .mtg-top {
-          padding: 24px;
-          border-bottom: 1px solid
-            color-mix(
-              in srgb,
-              var(--foreground, #111827) 10%,
-              transparent
-            );
-        }
-
-        .mtg-top-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 18px;
-          flex-wrap: wrap;
-        }
-
-        .mtg-brand {
-          display: flex;
-          align-items: center;
-          gap: 13px;
-        }
-
-        .mtg-logo {
-          width: 46px;
-          height: 46px;
-          border-radius: 13px;
-          display: grid;
-          place-items: center;
-          background: #f1eaff;
-          color: #7c3aed;
-          flex: 0 0 auto;
-        }
-
-        .mtg-title {
-          margin: 0;
-          font-size: 20px;
-          line-height: 1.2;
-          font-weight: 750;
-          letter-spacing: -0.02em;
-        }
-
-        .mtg-subtitle {
-          margin: 5px 0 0;
-          font-size: 13px;
-          opacity: 0.62;
-        }
-
-        .mtg-actions {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .mtg-btn {
-          height: 38px;
-          border-radius: 10px;
-          border: 1px solid
-            color-mix(
-              in srgb,
-              var(--foreground, #111827) 12%,
-              transparent
-            );
-          background: var(--background, #ffffff);
-          color: var(--foreground, #111827);
-          padding: 0 13px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 7px;
-          font-size: 13px;
-          font-weight: 650;
-          cursor: pointer;
-          transition:
-            transform 0.15s ease,
-            border-color 0.15s ease,
-            background 0.15s ease;
-        }
-
-        .mtg-btn:hover {
-          transform: translateY(-1px);
-          border-color: #7c3aed;
-        }
-
-        .mtg-btn.primary {
-          background: #7c3aed;
-          color: white;
-          border-color: #7c3aed;
-        }
-
-        .mtg-btn.danger:hover {
-          border-color: #ef4444;
-          color: #ef4444;
-        }
-
-        .mtg-body {
-          padding: 22px;
-        }
-
-        .mtg-tabs {
-          display: inline-flex;
-          padding: 4px;
-          border-radius: 11px;
-          background: color-mix(
-            in srgb,
-            var(--foreground, #111827) 6%,
-            transparent
-          );
-          margin-bottom: 22px;
-        }
-
-        .mtg-tab {
-          border: 0;
-          background: transparent;
-          color: var(--foreground, #111827);
-          padding: 8px 15px;
-          border-radius: 8px;
-          font-size: 13px;
-          font-weight: 650;
-          cursor: pointer;
-          opacity: 0.65;
-        }
-
-        .mtg-tab.active {
-          opacity: 1;
-          background: var(--background, #ffffff);
-          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
-        }
-
-        .mtg-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-          gap: 18px;
-          align-items: start;
-        }
-
-        .mtg-card {
-          border: 1px solid
-            color-mix(
-              in srgb,
-              var(--foreground, #111827) 10%,
-              transparent
-            );
-          border-radius: 17px;
-          padding: 19px;
-          background: color-mix(
-            in srgb,
-            var(--background, #ffffff) 96%,
-            var(--foreground, #111827) 4%
-          );
-        }
-
-        .mtg-card + .mtg-card {
-          margin-top: 18px;
-        }
-
-        .mtg-section-title {
-          display: flex;
-          align-items: flex-start;
-          gap: 11px;
-          margin-bottom: 17px;
-        }
-
-        .mtg-number {
-          width: 28px;
-          height: 28px;
-          display: grid;
-          place-items: center;
-          border-radius: 8px;
-          background: #f1eaff;
-          color: #7c3aed;
-          font-size: 12px;
-          font-weight: 800;
-          flex: 0 0 auto;
-        }
-
-        .mtg-section-title h3 {
-          margin: 2px 0 3px;
-          font-size: 15px;
-          font-weight: 750;
-        }
-
-        .mtg-section-title p {
-          margin: 0;
-          font-size: 12px;
-          opacity: 0.58;
-          line-height: 1.45;
-        }
-
-        .mtg-fields {
-          display: grid;
-          gap: 14px;
-        }
-
-        .mtg-two {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-
-        .mtg-field {
-          min-width: 0;
-        }
-
-        .mtg-field-head {
-          display: flex;
-          justify-content: space-between;
-          gap: 10px;
-          margin-bottom: 7px;
-        }
-
-        .mtg-field label {
-          font-size: 12px;
-          font-weight: 700;
-        }
-
-        .mtg-counter {
-          font-size: 10px;
-          opacity: 0.48;
-          white-space: nowrap;
-        }
-
-        .mtg-field input,
-        .mtg-field textarea,
-        .mtg-field select {
-          width: 100%;
-          box-sizing: border-box;
-          border: 1px solid
-            color-mix(
-              in srgb,
-              var(--foreground, #111827) 14%,
-              transparent
-            );
-          background: var(--background, #ffffff);
-          color: var(--foreground, #111827);
-          border-radius: 10px;
-          outline: none;
-          font: inherit;
-          font-size: 13px;
-          transition:
-            border-color 0.15s ease,
-            box-shadow 0.15s ease;
-        }
-
-        .mtg-field input,
-        .mtg-field select {
-          height: 42px;
-          padding: 0 12px;
-        }
-
-        .mtg-field textarea {
-          min-height: 86px;
-          resize: vertical;
-          padding: 11px 12px;
-          line-height: 1.5;
-        }
-
-        .mtg-field input:focus,
-        .mtg-field textarea:focus,
-        .mtg-field select:focus {
-          border-color: #7c3aed;
-          box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-        }
-
-        .mtg-hint {
-          margin-top: 5px;
-          font-size: 10px;
-          opacity: 0.48;
-        }
-
-        .mtg-preview {
-          position: sticky;
-          top: 18px;
-        }
-
-        .mtg-preview-head {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-          margin-bottom: 13px;
-        }
-
-        .mtg-preview-head strong {
-          font-size: 14px;
-        }
-
-        .mtg-status {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 11px;
-          font-weight: 700;
-          padding: 5px 8px;
-          border-radius: 999px;
-          background: #ecfdf5;
-          color: #047857;
-        }
-
-        .mtg-status-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: currentColor;
-        }
-
-        .mtg-code {
-          min-height: 470px;
-          max-height: 620px;
-          overflow: auto;
-          border-radius: 13px;
-          background: #0b1020;
-          color: #dbeafe;
-          padding: 17px;
-          font-family:
-            ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            monospace;
-          font-size: 12px;
-          line-height: 1.7;
-          white-space: pre-wrap;
-          overflow-wrap: anywhere;
-        }
-
-        .mtg-code-actions {
-          display: flex;
-          gap: 8px;
-          margin-top: 11px;
-        }
-
-        .mtg-code-actions .mtg-btn {
-          flex: 1;
-        }
-
-        .mtg-seo-score {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 10px;
-          margin-top: 14px;
-        }
-
-        .mtg-score {
-          padding: 12px;
-          border: 1px solid
-            color-mix(
-              in srgb,
-              var(--foreground, #111827) 9%,
-              transparent
-            );
-          border-radius: 11px;
-        }
-
-        .mtg-score-label {
-          font-size: 10px;
-          opacity: 0.55;
-          margin-bottom: 5px;
-        }
-
-        .mtg-score-value {
-          font-size: 13px;
-          font-weight: 750;
-        }
-
-        .mtg-good {
-          color: #059669;
-        }
-
-        .mtg-long {
-          color: #d97706;
-        }
-
-        .mtg-empty {
-          opacity: 0.45;
-        }
-
-        .mtg-preview-box {
-          border: 1px solid
-            color-mix(
-              in srgb,
-              var(--foreground, #111827) 10%,
-              transparent
-            );
-          border-radius: 13px;
-          padding: 16px;
-          margin-top: 15px;
-        }
-
-        .mtg-preview-label {
-          font-size: 10px;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          opacity: 0.45;
-          margin-bottom: 9px;
-        }
-
-        .mtg-google-title {
-          font-size: 18px;
-          line-height: 1.3;
-          color: #2563eb;
-          margin-bottom: 5px;
-        }
-
-        .mtg-google-url {
-          font-size: 11px;
-          color: #059669;
-          margin-bottom: 5px;
-          word-break: break-all;
-        }
-
-        .mtg-google-description {
-          font-size: 12px;
-          line-height: 1.5;
-          opacity: 0.68;
-        }
-
-        .mtg-empty-preview {
-          min-height: 160px;
-          display: grid;
-          place-items: center;
-          text-align: center;
-          opacity: 0.48;
-          font-size: 12px;
-          line-height: 1.6;
-        }
-
-        .mtg-mobile-actions {
-          display: none;
-        }
-
-        @media (max-width: 900px) {
-          .mtg-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .mtg-preview {
-            position: static;
-          }
-
-          .mtg-mobile-actions {
-            display: flex;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .mtg-root {
-            padding: 10px;
-          }
-
-          .mtg-shell {
-            border-radius: 15px;
-          }
-
-          .mtg-top,
-          .mtg-body {
-            padding: 15px;
-          }
-
-          .mtg-top-row {
-            align-items: flex-start;
-          }
-
-          .mtg-actions {
-            width: 100%;
-          }
-
-          .mtg-actions .mtg-btn {
-            flex: 1;
-          }
-
-          .mtg-two {
-            grid-template-columns: 1fr;
-          }
-
-          .mtg-card {
-            padding: 14px;
-          }
-
-          .mtg-code {
-            min-height: 360px;
-            font-size: 11px;
-          }
-
-          .mtg-seo-score {
-            grid-template-columns: 1fr 1fr;
-          }
-        }
-      `}</style>
-
-      <div className="mtg-root">
-        <div className="mtg-shell">
-          <div className="mtg-top">
-            <div className="mtg-top-row">
-              <div className="mtg-brand">
-                <div className="mtg-logo">
-                  <Icon name="code" />
-                </div>
-
-                <div>
-                  <h2 className="mtg-title">Meta Tags Generator</h2>
-                  <p className="mtg-subtitle">
-                    Generate SEO, Open Graph and Twitter meta tags without
-                    writing code.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mtg-actions">
-                <button
-                  type="button"
-                  className="mtg-btn"
-                  onClick={loadExample}
-                >
-                  Load Example
-                </button>
-
-                <button
-                  type="button"
-                  className="mtg-btn danger"
-                  onClick={resetTool}
-                >
-                  <Icon name="refresh" />
-                  Reset
-                </button>
-              </div>
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
+      
+      {/* CARD CONTAINER */}
+      <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
+        
+        {/* HEADER */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-xl font-black shrink-0">
+              <Icon name="code" />
+            </div>
+
+            <div className="min-w-0">
+              <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
+                Meta Tags Generator
+              </h2>
+              <p className="text-[11px] font-bold text-muted mt-0.5 truncate">
+                Generate SEO, Open Graph and Twitter meta tags without writing code.
+              </p>
             </div>
           </div>
 
-          <div className="mtg-body">
-            <div className="mtg-tabs">
-              <button
-                type="button"
-                className={`mtg-tab ${
-                  activeTab === "editor" ? "active" : ""
-                }`}
-                onClick={() => setActiveTab("editor")}
-              >
-                Editor
-              </button>
+          <div className="flex items-center gap-2 flex-wrap shrink-0">
+            <button
+              type="button"
+              className="px-4 py-2.5 rounded-xl border border-line bg-paper text-ink hover:bg-surface text-xs font-black uppercase tracking-wider transition-all"
+              onClick={loadExample}
+            >
+              Load Example
+            </button>
 
-              <button
-                type="button"
-                className={`mtg-tab ${
-                  activeTab === "preview" ? "active" : ""
-                }`}
-                onClick={() => setActiveTab("preview")}
-              >
-                Preview
-              </button>
-            </div>
-
-            {activeTab === "editor" ? (
-              <div className="mtg-grid">
-                <div>
-                  <div className="mtg-card">
-                    <SectionTitle
-                      number="01"
-                      title="Core SEO"
-                      description="The essential metadata search engines use to understand your page."
-                    />
-
-                    <div className="mtg-fields">
-                      <Field
-                        label="Page Title"
-                        value={data.title}
-                        onChange={(value) => updateField("title", value)}
-                        placeholder="e.g. Best Digital Marketing Agency"
-                        maxLength={60}
-                        hint="Keep the title concise for better search visibility."
-                      />
-
-                      <Field
-                        label="Meta Description"
-                        value={data.description}
-                        onChange={(value) =>
-                          updateField("description", value)
-                        }
-                        placeholder="Describe what this page is about..."
-                        maxLength={160}
-                        type="textarea"
-                        hint="A clear description can improve search-result CTR."
-                      />
-
-                      <Field
-                        label="Keywords"
-                        value={data.keywords}
-                        onChange={(value) =>
-                          updateField("keywords", value)
-                        }
-                        placeholder="seo, digital marketing, web design"
-                      />
-
-                      <Field
-                        label="Canonical URL"
-                        value={data.canonical}
-                        onChange={(value) =>
-                          updateField("canonical", value)
-                        }
-                        placeholder="https://example.com/page"
-                      />
-
-                      <div className="mtg-two">
-                        <SelectField
-                          label="Robots"
-                          value={data.robots}
-                          onChange={(value) =>
-                            updateField("robots", value)
-                          }
-                        >
-                          <option value="index, follow">
-                            Index, Follow
-                          </option>
-                          <option value="noindex, follow">
-                            Noindex, Follow
-                          </option>
-                          <option value="index, nofollow">
-                            Index, Nofollow
-                          </option>
-                          <option value="noindex, nofollow">
-                            Noindex, Nofollow
-                          </option>
-                        </SelectField>
-
-                        <SelectField
-                          label="Language"
-                          value={data.language}
-                          onChange={(value) =>
-                            updateField("language", value)
-                          }
-                        >
-                          <option value="en">English</option>
-                          <option value="ur">Urdu</option>
-                          <option value="ar">Arabic</option>
-                          <option value="fr">French</option>
-                          <option value="de">German</option>
-                          <option value="es">Spanish</option>
-                        </SelectField>
-                      </div>
-
-                      <div className="mtg-two">
-                        <Field
-                          label="Author"
-                          value={data.author}
-                          onChange={(value) =>
-                            updateField("author", value)
-                          }
-                          placeholder="Your name or brand"
-                        />
-
-                        <Field
-                          label="Theme Color"
-                          value={data.themeColor}
-                          onChange={(value) =>
-                            updateField("themeColor", value)
-                          }
-                          placeholder="#ffffff"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mtg-card">
-                    <SectionTitle
-                      number="02"
-                      title="Social Sharing"
-                      description="Control how your page appears when shared on social platforms."
-                    />
-
-                    <div className="mtg-fields">
-                      <Field
-                        label="Open Graph Title"
-                        value={data.ogTitle}
-                        onChange={(value) =>
-                          updateField("ogTitle", value)
-                        }
-                        placeholder="Leave empty to use Page Title"
-                      />
-
-                      <Field
-                        label="Open Graph Description"
-                        value={data.ogDescription}
-                        onChange={(value) =>
-                          updateField("ogDescription", value)
-                        }
-                        placeholder="Leave empty to use Meta Description"
-                        type="textarea"
-                      />
-
-                      <Field
-                        label="Open Graph URL"
-                        value={data.ogUrl}
-                        onChange={(value) =>
-                          updateField("ogUrl", value)
-                        }
-                        placeholder="https://example.com/page"
-                      />
-
-                      <Field
-                        label="Social Image URL"
-                        value={data.ogImage}
-                        onChange={(value) =>
-                          updateField("ogImage", value)
-                        }
-                        placeholder="https://example.com/og-image.jpg"
-                      />
-
-                      <SelectField
-                        label="Open Graph Type"
-                        value={data.ogType}
-                        onChange={(value) =>
-                          updateField("ogType", value)
-                        }
-                      >
-                        <option value="website">Website</option>
-                        <option value="article">Article</option>
-                        <option value="product">Product</option>
-                        <option value="profile">Profile</option>
-                      </SelectField>
-                    </div>
-                  </div>
-
-                  <div className="mtg-card">
-                    <SectionTitle
-                      number="03"
-                      title="X / Twitter"
-                      description="Create optimized metadata for X/Twitter cards."
-                    />
-
-                    <div className="mtg-fields">
-                      <SelectField
-                        label="Card Type"
-                        value={data.twitterCard}
-                        onChange={(value) =>
-                          updateField("twitterCard", value)
-                        }
-                      >
-                        <option value="summary_large_image">
-                          Summary Large Image
-                        </option>
-                        <option value="summary">Summary</option>
-                      </SelectField>
-
-                      <Field
-                        label="Twitter Title"
-                        value={data.twitterTitle}
-                        onChange={(value) =>
-                          updateField("twitterTitle", value)
-                        }
-                        placeholder="Leave empty to use Page Title"
-                      />
-
-                      <Field
-                        label="Twitter Description"
-                        value={data.twitterDescription}
-                        onChange={(value) =>
-                          updateField("twitterDescription", value)
-                        }
-                        placeholder="Leave empty to use Meta Description"
-                        type="textarea"
-                      />
-
-                      <Field
-                        label="Twitter Image"
-                        value={data.twitterImage}
-                        onChange={(value) =>
-                          updateField("twitterImage", value)
-                        }
-                        placeholder="https://example.com/twitter.jpg"
-                      />
-
-                      <Field
-                        label="Twitter / X Handle"
-                        value={data.twitterSite}
-                        onChange={(value) =>
-                          updateField("twitterSite", value)
-                        }
-                        placeholder="@yourbrand"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mtg-preview">
-                  <div className="mtg-card">
-                    <div className="mtg-preview-head">
-                      <strong>Generated Code</strong>
-
-                      <span className="mtg-status">
-                        <span className="mtg-status-dot" />
-                        Live
-                      </span>
-                    </div>
-
-                    <div className="mtg-code">{generated}</div>
-
-                    <div className="mtg-code-actions">
-                      <button
-                        type="button"
-                        className="mtg-btn primary"
-                        onClick={copyCode}
-                      >
-                        {copied ? (
-                          <Icon name="check" />
-                        ) : (
-                          <Icon name="copy" />
-                        )}
-
-                        {copied ? "Copied" : "Copy Code"}
-                      </button>
-
-                      <button
-                        type="button"
-                        className="mtg-btn"
-                        onClick={downloadCode}
-                      >
-                        {downloaded ? (
-                          <Icon name="check" />
-                        ) : (
-                          <Icon name="download" />
-                        )}
-
-                        {downloaded ? "Downloaded" : "Download"}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mtg-card">
-                    <div className="mtg-preview-head">
-                      <strong>SEO Quick Check</strong>
-                    </div>
-
-                    <div className="mtg-seo-score">
-                      <div className="mtg-score">
-                        <div className="mtg-score-label">
-                          TITLE LENGTH
-                        </div>
-
-                        <div
-                          className={`mtg-score-value mtg-${titleStatus}`}
-                        >
-                          {titleLength}/60
-                        </div>
-                      </div>
-
-                      <div className="mtg-score">
-                        <div className="mtg-score-label">
-                          DESCRIPTION
-                        </div>
-
-                        <div
-                          className={`mtg-score-value mtg-${descriptionStatus}`}
-                        >
-                          {descriptionLength}/160
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mtg-preview-box">
-                      <div className="mtg-preview-label">
-                        Google-style preview
-                      </div>
-
-                      {data.title || data.description ? (
-                        <>
-                          <div className="mtg-google-title">
-                            {data.title || "Your page title"}
-                          </div>
-
-                          <div className="mtg-google-url">
-                            {data.canonical ||
-                              data.ogUrl ||
-                              "https://example.com/page"}
-                          </div>
-
-                          <div className="mtg-google-description">
-                            {data.description ||
-                              "Your meta description will appear here."}
-                          </div>
-                        </>
-                      ) : (
-                        <div className="mtg-empty-preview">
-                          Start typing your page title and description
-                          to see a live search preview.
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="mtg-grid">
-                <div className="mtg-card">
-                  <SectionTitle
-                    number="01"
-                    title="Search Preview"
-                    description="See how your metadata may appear in a search result."
-                  />
-
-                  <div className="mtg-preview-box">
-                    <div className="mtg-preview-label">
-                      Google-style preview
-                    </div>
-
-                    <div className="mtg-google-title">
-                      {data.title || "Your page title"}
-                    </div>
-
-                    <div className="mtg-google-url">
-                      {data.canonical ||
-                        data.ogUrl ||
-                        "https://example.com/page"}
-                    </div>
-
-                    <div className="mtg-google-description">
-                      {data.description ||
-                        "Your meta description will appear here."}
-                    </div>
-                  </div>
-
-                  <div className="mtg-seo-score">
-                    <div className="mtg-score">
-                      <div className="mtg-score-label">
-                        TITLE
-                      </div>
-
-                      <div
-                        className={`mtg-score-value mtg-${titleStatus}`}
-                      >
-                        {titleLength === 0
-                          ? "Missing"
-                          : titleLength <= 60
-                          ? "Good"
-                          : "Too Long"}
-                      </div>
-                    </div>
-
-                    <div className="mtg-score">
-                      <div className="mtg-score-label">
-                        DESCRIPTION
-                      </div>
-
-                      <div
-                        className={`mtg-score-value mtg-${descriptionStatus}`}
-                      >
-                        {descriptionLength === 0
-                          ? "Missing"
-                          : descriptionLength <= 160
-                          ? "Good"
-                          : "Too Long"}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mtg-card">
-                  <div className="mtg-preview-head">
-                    <strong>HTML Output</strong>
-                  </div>
-
-                  <div className="mtg-code">{generated}</div>
-
-                  <div className="mtg-code-actions">
-                    <button
-                      type="button"
-                      className="mtg-btn primary"
-                      onClick={copyCode}
-                    >
-                      {copied ? (
-                        <Icon name="check" />
-                      ) : (
-                        <Icon name="copy" />
-                      )}
-                      {copied ? "Copied" : "Copy Code"}
-                    </button>
-
-                    <button
-                      type="button"
-                      className="mtg-btn"
-                      onClick={downloadCode}
-                    >
-                      <Icon name="download" />
-                      {downloaded ? "Downloaded" : "Download"}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+            <button
+              type="button"
+              className="px-4 py-2.5 rounded-xl border border-line bg-paper text-[#fb7185] hover:bg-surface text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5"
+              onClick={resetTool}
+            >
+              <Icon name="refresh" />
+              Reset
+            </button>
           </div>
         </div>
+
+        {/* TABS */}
+        <div className="flex items-center bg-paper border border-line p-1 rounded-xl gap-1 w-fit">
+          <button
+            type="button"
+            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${activeTab === "editor" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"}`}
+            onClick={() => setActiveTab("editor")}
+          >
+            Editor
+          </button>
+
+          <button
+            type="button"
+            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${activeTab === "preview" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"}`}
+            onClick={() => setActiveTab("preview")}
+          >
+            Preview
+          </button>
+        </div>
+
+        {activeTab === "editor" ? (
+          <div className="grid grid-cols-1 lg:grid-cols-[1.08fr_0.92fr] gap-6 items-start min-w-0">
+            <div className="space-y-6 min-w-0">
+              
+              {/* SECTION 1: Core SEO */}
+              <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+                <SectionTitle
+                  number="01"
+                  title="Core SEO"
+                  description="The essential metadata search engines use to understand your page."
+                />
+
+                <div className="space-y-4">
+                  <Field
+                    label="Page Title"
+                    value={data.title}
+                    onChange={(value) => updateField("title", value)}
+                    placeholder="e.g. Best Digital Marketing Agency"
+                    maxLength={60}
+                    hint="Keep the title concise for better search visibility."
+                  />
+
+                  <Field
+                    label="Meta Description"
+                    value={data.description}
+                    onChange={(value) => updateField("description", value)}
+                    placeholder="Describe what this page is about..."
+                    maxLength={160}
+                    type="textarea"
+                    hint="A clear description can improve search-result CTR."
+                  />
+
+                  <Field
+                    label="Keywords"
+                    value={data.keywords}
+                    onChange={(value) => updateField("keywords", value)}
+                    placeholder="seo, digital marketing, web design"
+                  />
+
+                  <Field
+                    label="Canonical URL"
+                    value={data.canonical}
+                    onChange={(value) => updateField("canonical", value)}
+                    placeholder="https://example.com/page"
+                  />
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <SelectField
+                      label="Robots"
+                      value={data.robots}
+                      onChange={(value) => updateField("robots", value)}
+                    >
+                      <option value="index, follow">Index, Follow</option>
+                      <option value="noindex, follow">Noindex, Follow</option>
+                      <option value="index, nofollow">Index, Nofollow</option>
+                      <option value="noindex, nofollow">Noindex, Nofollow</option>
+                    </SelectField>
+
+                    <SelectField
+                      label="Language"
+                      value={data.language}
+                      onChange={(value) => updateField("language", value)}
+                    >
+                      <option value="en">English</option>
+                      <option value="ur">Urdu</option>
+                      <option value="ar">Arabic</option>
+                      <option value="fr">French</option>
+                      <option value="de">German</option>
+                      <option value="es">Spanish</option>
+                    </SelectField>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Field
+                      label="Author"
+                      value={data.author}
+                      onChange={(value) => updateField("author", value)}
+                      placeholder="Your name or brand"
+                    />
+
+                    <Field
+                      label="Theme Color"
+                      value={data.themeColor}
+                      onChange={(value) => updateField("themeColor", value)}
+                      placeholder="#ffffff"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* SECTION 2: Social Sharing */}
+              <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+                <SectionTitle
+                  number="02"
+                  title="Social Sharing"
+                  description="Control how your page appears when shared on social platforms."
+                />
+
+                <div className="space-y-4">
+                  <Field
+                    label="Open Graph Title"
+                    value={data.ogTitle}
+                    onChange={(value) => updateField("ogTitle", value)}
+                    placeholder="Leave empty to use Page Title"
+                  />
+
+                  <Field
+                    label="Open Graph Description"
+                    value={data.ogDescription}
+                    onChange={(value) => updateField("ogDescription", value)}
+                    placeholder="Leave empty to use Meta Description"
+                    type="textarea"
+                  />
+
+                  <Field
+                    label="Open Graph URL"
+                    value={data.ogUrl}
+                    onChange={(value) => updateField("ogUrl", value)}
+                    placeholder="https://example.com/page"
+                  />
+
+                  <Field
+                    label="Social Image URL"
+                    value={data.ogImage}
+                    onChange={(value) => updateField("ogImage", value)}
+                    placeholder="https://example.com/og-image.jpg"
+                  />
+
+                  <SelectField
+                    label="Open Graph Type"
+                    value={data.ogType}
+                    onChange={(value) => updateField("ogType", value)}
+                  >
+                    <option value="website">Website</option>
+                    <option value="article">Article</option>
+                    <option value="product">Product</option>
+                    <option value="profile">Profile</option>
+                  </SelectField>
+                </div>
+              </div>
+
+              {/* SECTION 3: X / Twitter */}
+              <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+                <SectionTitle
+                  number="03"
+                  title="X / Twitter"
+                  description="Create optimized metadata for X/Twitter cards."
+                />
+
+                <div className="space-y-4">
+                  <SelectField
+                    label="Card Type"
+                    value={data.twitterCard}
+                    onChange={(value) => updateField("twitterCard", value)}
+                  >
+                    <option value="summary_large_image">Summary Large Image</option>
+                    <option value="summary">Summary</option>
+                  </SelectField>
+
+                  <Field
+                    label="Twitter Title"
+                    value={data.twitterTitle}
+                    onChange={(value) => updateField("twitterTitle", value)}
+                    placeholder="Leave empty to use Page Title"
+                  />
+
+                  <Field
+                    label="Twitter Description"
+                    value={data.twitterDescription}
+                    onChange={(value) => updateField("twitterDescription", value)}
+                    placeholder="Leave empty to use Meta Description"
+                    type="textarea"
+                  />
+
+                  <Field
+                    label="Twitter Image"
+                    value={data.twitterImage}
+                    onChange={(value) => updateField("twitterImage", value)}
+                    placeholder="https://example.com/twitter.jpg"
+                  />
+
+                  <Field
+                    label="Twitter / X Handle"
+                    value={data.twitterSite}
+                    onChange={(value) => updateField("twitterSite", value)}
+                    placeholder="@yourbrand"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* PREVIEW & CODE OUTPUT STICKY COLUMN */}
+            <div className="lg:sticky lg:top-6 space-y-6 min-w-0">
+              
+              <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <strong className="text-xs font-black text-ink uppercase tracking-wider">Generated Code</strong>
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 text-[10px] font-black uppercase tracking-wider">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Live
+                  </span>
+                </div>
+
+                <div className="w-full h-80 overflow-auto bg-[#0b1020] text-[#dbeafe] p-4 rounded-xl font-mono text-xs leading-relaxed whitespace-pre-wrap break-all">
+                  {generated}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity flex items-center justify-center gap-2"
+                    onClick={copyCode}
+                  >
+                    {copied ? <Icon name="check" /> : <Icon name="copy" />}
+                    {copied ? "Copied" : "Copy Code"}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="flex-1 px-4 py-2.5 rounded-xl border border-line bg-surface text-ink hover:bg-paper text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                    onClick={downloadCode}
+                  >
+                    {downloaded ? <Icon name="check" /> : <Icon name="download" />}
+                    {downloaded ? "Downloaded" : "Download"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+                <strong className="text-xs font-black text-ink uppercase tracking-wider block">SEO Quick Check</strong>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-3 rounded-xl border border-line bg-surface">
+                    <div className="text-[10px] font-black text-muted uppercase tracking-wider mb-1">Title Length</div>
+                    <div className={`text-xs font-black ${titleStatus === "good" ? "text-emerald-600" : titleStatus === "long" ? "text-amber-600" : "text-muted"}`}>
+                      {titleLength}/60
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-xl border border-line bg-surface">
+                    <div className="text-[10px] font-black text-muted uppercase tracking-wider mb-1">Description</div>
+                    <div className={`text-xs font-black ${descriptionStatus === "good" ? "text-emerald-600" : descriptionStatus === "long" ? "text-amber-600" : "text-muted"}`}>
+                      {descriptionLength}/160
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl border border-line bg-surface space-y-2">
+                  <div className="text-[10px] font-black text-muted uppercase tracking-wider">Google-style preview</div>
+
+                  {data.title || data.description ? (
+                    <div className="space-y-1">
+                      <div className="text-sm font-bold text-blue-600 truncate">{data.title || "Your page title"}</div>
+                      <div className="text-[10px] font-medium text-emerald-600 truncate">
+                        {data.canonical || data.ogUrl || "https://example.com/page"}
+                      </div>
+                      <div className="text-[11px] text-muted line-clamp-2">
+                        {data.description || "Your meta description will appear here."}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-6 text-center text-xs font-medium text-muted">
+                      Start typing your page title and description to see a live search preview.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start min-w-0">
+            <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+              <SectionTitle
+                number="01"
+                title="Search Preview"
+                description="See how your metadata may appear in a search result."
+              />
+
+              <div className="p-4 rounded-xl border border-line bg-surface space-y-2">
+                <div className="text-[10px] font-black text-muted uppercase tracking-wider">Google-style preview</div>
+
+                <div className="space-y-1">
+                  <div className="text-sm font-bold text-blue-600 truncate">{data.title || "Your page title"}</div>
+                  <div className="text-[10px] font-medium text-emerald-600 truncate">
+                    {data.canonical || data.ogUrl || "https://example.com/page"}
+                  </div>
+                  <div className="text-[11px] text-muted line-clamp-2">
+                    {data.description || "Your meta description will appear here."}
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                <div className="p-3 rounded-xl border border-line bg-surface">
+                  <div className="text-[10px] font-black text-muted uppercase tracking-wider mb-1">Title</div>
+                  <div className={`text-xs font-black ${titleStatus === "good" ? "text-emerald-600" : titleStatus === "long" ? "text-amber-600" : "text-muted"}`}>
+                    {titleLength === 0 ? "Missing" : titleLength <= 60 ? "Good" : "Too Long"}
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl border border-line bg-surface">
+                  <div className="text-[10px] font-black text-muted uppercase tracking-wider mb-1">Description</div>
+                  <div className={`text-xs font-black ${descriptionStatus === "good" ? "text-emerald-600" : descriptionStatus === "long" ? "text-amber-600" : "text-muted"}`}>
+                    {descriptionLength === 0 ? "Missing" : descriptionLength <= 160 ? "Good" : "Too Long"}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+              <strong className="text-xs font-black text-ink uppercase tracking-wider block">HTML Output</strong>
+
+              <div className="w-full h-80 overflow-auto bg-[#0b1020] text-[#dbeafe] p-4 rounded-xl font-mono text-xs leading-relaxed whitespace-pre-wrap break-all">
+                {generated}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity flex items-center justify-center gap-2"
+                  onClick={copyCode}
+                >
+                  {copied ? <Icon name="check" /> : <Icon name="copy" />}
+                  {copied ? "Copied" : "Copy Code"}
+                </button>
+
+                <button
+                  type="button"
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-line bg-surface text-ink hover:bg-paper text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                  onClick={downloadCode}
+                >
+                  {downloaded ? <Icon name="check" /> : <Icon name="download" />}
+                  {downloaded ? "Downloaded" : "Download"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
-    </>
+    </div>
   );
 }

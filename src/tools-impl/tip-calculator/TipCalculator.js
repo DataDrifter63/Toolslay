@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Coffee, DollarSign, Percent, Users, Calculator, Sparkles, Receipt, CheckCircle2, SplitSquareHorizontal } from "lucide-react";
+import { 
+  Coffee, DollarSign, Percent, Users, Receipt, 
+  CheckCircle2, SplitSquareHorizontal, Copy, Check 
+} from "lucide-react";
 
 const CURRENCIES = [
   { code: 'USD', symbol: '$', locale: 'en-US' },
@@ -25,6 +28,7 @@ const formatCurrency = (val, currencyCode, locale) => {
 export default function TipCalculator() {
   const [isMounted, setIsMounted] = useState(false);
   const [currency, setCurrency] = useState(CURRENCIES[0]);
+  const [copied, setCopied] = useState(false);
   
   const [billAmount, setBillAmount] = useState("");
   const [taxAmount, setTaxAmount] = useState("");
@@ -32,7 +36,7 @@ export default function TipCalculator() {
   const [splitCount, setSplitCount] = useState("1");
   
   // Advanced Features
-  const [tipOnTax, setTipOnTax] = useState(false); // Default: Tip on subtotal only
+  const [tipOnTax, setTipOnTax] = useState(false); 
   const [roundMode, setRoundMode] = useState("none"); // none, roundTotal, roundPerPerson
 
   const [results, setResults] = useState({
@@ -67,7 +71,7 @@ export default function TipCalculator() {
     // Smart Rounding Logic
     if (roundMode === "roundTotal") {
       total = Math.ceil(total);
-      calculatedTip = total - sub - tax; // Adjust tip to make total a whole number
+      calculatedTip = total - sub - tax; 
     } else if (roundMode === "roundPerPerson") {
       let perPersonRaw = total / split;
       let perPersonRounded = Math.ceil(perPersonRaw);
@@ -75,7 +79,6 @@ export default function TipCalculator() {
       calculatedTip = total - sub - tax;
     }
 
-    // Ensure tip doesn't go negative due to weird rounding on 0 tip
     if (calculatedTip < 0) calculatedTip = 0;
     total = sub + tax + calculatedTip;
 
@@ -98,9 +101,37 @@ export default function TipCalculator() {
     calculateTip();
   }, [calculateTip]);
 
+  const copyResult = async () => {
+    if (results.grandTotal <= 0) return;
+    
+    let text = `Bill Summary\n`;
+    text += `Grand Total: ${formatCurrency(results.grandTotal, currency.code, currency.locale)}\n`;
+    
+    if (parseInt(splitCount) > 1) {
+      text += `Per Person (Split by ${splitCount}): ${formatCurrency(results.perPersonTotal, currency.code, currency.locale)}\n`;
+    }
+    
+    text += `\nBreakdown:\n`;
+    text += `- Subtotal: ${formatCurrency(results.subtotal, currency.code, currency.locale)}\n`;
+    if (results.tax > 0) {
+      text += `- Tax: ${formatCurrency(results.tax, currency.code, currency.locale)}\n`;
+    }
+    text += `- Total Tip: ${formatCurrency(results.tipTotal, currency.code, currency.locale)}\n`;
+
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      }
+    } catch (error) {
+      setCopied(false);
+    }
+  };
+
   const setPresetTip = (val) => {
     setTipPercent(val.toString());
-    setRoundMode("none"); // Reset rounding when forcing a percentage
+    setRoundMode("none"); 
   };
 
   const handleSplitChange = (action) => {
@@ -109,110 +140,177 @@ export default function TipCalculator() {
     if (action === 'plus' && current < 100) setSplitCount((current + 1).toString());
   };
 
+  // Base input styles with larger fonts for desktop
+  const baseInputStyle = "w-full min-w-0 h-12 md:h-14 px-4 bg-surface border border-line rounded-lg text-ink text-base md:text-lg focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
+  const baseSelectStyle = "w-full min-w-0 h-12 md:h-14 pl-4 pr-8 bg-surface border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold cursor-pointer";
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
       
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Coffee className="w-6 h-6 text-amber-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Pro Tip & Split</h2>
-        </div>
-        <select 
-            value={currency.code}
-            onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
-            className="text-sm font-semibold bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer"
-        >
-            {CURRENCIES.map(c => (
-              <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
-            ))}
-        </select>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-6 items-start">
+      {/* MAIN WRAPPER SHELL */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 min-w-0">
         
-        {/* Left Input Section */}
-        <div className="flex flex-col gap-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm space-y-6">
+        {/* HEADER BAR */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Coffee className="w-6 h-6 md:w-7 md:h-7 text-brand shrink-0" />
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-ink truncate">
+              Tip Calculator & Splitter
+            </h2>
+          </div>
+
+          <div className="shrink-0">
+            <select 
+              value={currency.code}
+              onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
+              className="h-10 md:h-11 pl-4 pr-10 bg-surface border border-line rounded-lg text-ink text-sm md:text-base font-semibold focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all cursor-pointer min-w-[100px]"
+            >
+              {CURRENCIES.map(c => (
+                <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,1fr] items-start gap-6 md:gap-8 min-w-0">
+          
+          {/* INPUT FORM PANEL */}
+          <div className="flex flex-col gap-6 md:gap-8 min-w-0">
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2 md:col-span-2">
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                  <DollarSign className="w-4 h-4 text-amber-500"/> Bill Subtotal
+            {/* Bill & Tax */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 min-w-0">
+              <div className="space-y-2 sm:col-span-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted" htmlFor="tip-bill">
+                  <DollarSign className="w-4 h-4 md:w-5 md:h-5 text-brand" /> Bill Subtotal
                 </label>
-                <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-amber-500 transition-colors">{currency.symbol}</span>
-                  <input type="number" min="0" value={billAmount} onChange={(e) => setBillAmount(e.target.value)} className="w-full text-3xl font-black pl-10 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 dark:text-slate-100 transition-shadow" placeholder="0.00" />
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-muted">{currency.symbol}</span>
+                  <input 
+                    id="tip-bill"
+                    type="number" 
+                    min="0" 
+                    value={billAmount} 
+                    onChange={(e) => setBillAmount(e.target.value)} 
+                    className={`${baseInputStyle} pl-10 md:pl-11 text-xl md:text-2xl font-bold`} 
+                    placeholder="0.00" 
+                  />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                  <Receipt className="w-4 h-4 text-amber-500"/> Tax (Optional)
+              <div className="space-y-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted" htmlFor="tip-tax">
+                  <Receipt className="w-4 h-4 md:w-5 md:h-5 text-brand" /> Tax (Optional)
                 </label>
-                <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-amber-500 transition-colors">{currency.symbol}</span>
-                  <input type="number" min="0" value={taxAmount} onChange={(e) => setTaxAmount(e.target.value)} className="w-full text-xl font-bold pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 dark:text-slate-100 transition-shadow" placeholder="0.00" />
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base font-bold text-muted">{currency.symbol}</span>
+                  <input 
+                    id="tip-tax"
+                    type="number" 
+                    min="0" 
+                    value={taxAmount} 
+                    onChange={(e) => setTaxAmount(e.target.value)} 
+                    className={`${baseInputStyle} pl-10 md:pl-11 font-semibold`} 
+                    placeholder="0.00" 
+                  />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                  <Users className="w-4 h-4 text-amber-500"/> Split Between
+              <div className="space-y-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted" htmlFor="tip-split">
+                  <Users className="w-4 h-4 md:w-5 md:h-5 text-brand" /> Split Between
                 </label>
-                <div className="flex items-center bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-amber-500">
-                  <button onClick={() => handleSplitChange('minus')} className="px-5 py-3 font-black text-slate-500 hover:text-amber-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">-</button>
-                  <input type="number" min="1" value={splitCount} onChange={(e) => setSplitCount(e.target.value)} className="w-full text-center text-xl font-bold bg-transparent focus:outline-none text-slate-800 dark:text-slate-100 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
-                  <button onClick={() => handleSplitChange('plus')} className="px-5 py-3 font-black text-slate-500 hover:text-amber-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">+</button>
+                <div className="flex items-center bg-surface border border-line rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-brand/20 focus-within:border-brand h-12 md:h-14">
+                  <button 
+                    onClick={() => handleSplitChange('minus')} 
+                    className="w-12 md:w-14 h-full flex items-center justify-center font-bold text-muted hover:text-brand hover:bg-paper transition-colors text-xl"
+                  >
+                    -
+                  </button>
+                  <input 
+                    id="tip-split"
+                    type="number" 
+                    min="1" 
+                    value={splitCount} 
+                    onChange={(e) => setSplitCount(e.target.value)} 
+                    className="w-full h-full text-center text-base md:text-lg font-bold bg-transparent focus:outline-none text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+                  />
+                  <button 
+                    onClick={() => handleSplitChange('plus')} 
+                    className="w-12 md:w-14 h-full flex items-center justify-center font-bold text-muted hover:text-brand hover:bg-paper transition-colors text-xl"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
-              <label className="flex items-center justify-between text-sm font-bold text-slate-700 dark:text-slate-200 mb-4">
-                <span className="flex items-center gap-2"><Percent className="w-4 h-4 text-amber-500"/> Tip Percentage</span>
+            {/* Tip Selection */}
+            <div className="space-y-4 pt-6 border-t border-line min-w-0">
+              <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+                <Percent className="w-4 h-4 md:w-5 md:h-5 text-brand" /> Tip Percentage
               </label>
               
-              {/* Quick Presets */}
-              <div className="grid grid-cols-4 gap-2 mb-4">
+              <div className="grid grid-cols-4 gap-2 md:gap-3 min-w-0">
                 {[
                   { val: 10, label: "Okay" },
                   { val: 15, label: "Good" },
                   { val: 18, label: "Great" },
                   { val: 20, label: "Wow!" }
-                ].map(preset => (
-                  <button 
-                    key={preset.val}
-                    onClick={() => setPresetTip(preset.val)}
-                    className={`py-2 px-1 rounded-lg border flex flex-col items-center justify-center transition-all ${parseFloat(tipPercent) === preset.val ? 'bg-amber-100 border-amber-300 text-amber-700 dark:bg-amber-900/40 dark:border-amber-700 dark:text-amber-400 scale-[1.02] shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-amber-200 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400'}`}
-                  >
-                    <span className="font-black text-lg">{preset.val}%</span>
-                    <span className="text-[10px] uppercase font-bold opacity-70">{preset.label}</span>
-                  </button>
-                ))}
+                ].map(preset => {
+                  const isActive = parseFloat(tipPercent) === preset.val;
+                  return (
+                    <button 
+                      key={preset.val}
+                      onClick={() => setPresetTip(preset.val)}
+                      className={`flex flex-col items-center justify-center py-2.5 md:py-3 px-1 rounded-lg border transition-all ${
+                        isActive 
+                          ? 'bg-brand/10 border-brand/30 text-brand shadow-sm' 
+                          : 'bg-surface border-line text-muted hover:text-ink hover:border-brand/30'
+                      }`}
+                    >
+                      <span className="font-bold text-lg md:text-xl">{preset.val}%</span>
+                      <span className="text-[10px] md:text-xs uppercase font-semibold opacity-80 mt-0.5">{preset.label}</span>
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* Custom Tip Input */}
-              <div className="relative group">
-                <input type="number" step="0.5" min="0" value={tipPercent} onChange={(e) => {setTipPercent(e.target.value); setRoundMode("none");}} className="w-full text-lg font-bold pl-4 pr-8 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 dark:text-slate-100 transition-shadow" placeholder="Custom %" />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-amber-500 transition-colors">%</span>
+              <div className="relative group mt-2">
+                <input 
+                  type="number" 
+                  step="0.5" 
+                  min="0" 
+                  value={tipPercent} 
+                  onChange={(e) => {setTipPercent(e.target.value); setRoundMode("none");}} 
+                  className={`${baseInputStyle} pr-10 font-bold`} 
+                  placeholder="Custom %" 
+                />
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm md:text-base font-bold text-muted">%</span>
               </div>
             </div>
 
-            {/* Smart Features */}
-            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                  <input type="checkbox" checked={tipOnTax} onChange={(e) => setTipOnTax(e.target.checked)} className="w-4 h-4 rounded text-amber-500 focus:ring-amber-500" />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">Tip on Tax</span>
-                    <span className="text-[10px] text-slate-500">Include tax in tip calculation</span>
+            {/* Advanced Features */}
+            <div className="pt-6 border-t border-line grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 min-w-0">
+              <label className="flex items-center gap-3 cursor-pointer p-3 md:p-4 rounded-lg border border-line bg-surface hover:bg-paper transition-colors h-12 md:h-14">
+                <div className="relative flex items-center">
+                  <input 
+                    type="checkbox" 
+                    checked={tipOnTax} 
+                    onChange={(e) => setTipOnTax(e.target.checked)} 
+                    className="peer sr-only" 
+                  />
+                  <div className="w-5 h-5 md:w-6 md:h-6 rounded border border-line bg-surface peer-checked:bg-brand peer-checked:border-brand flex items-center justify-center transition-colors">
+                    {tipOnTax && <Check className="w-3.5 h-3.5 text-white" />}
                   </div>
+                </div>
+                <span className="text-sm md:text-base font-semibold text-ink">Tip on Tax</span>
               </label>
 
               <select 
                 value={roundMode} 
                 onChange={(e) => setRoundMode(e.target.value)}
-                className="w-full text-sm font-bold px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 dark:text-slate-100 cursor-pointer"
+                className={baseSelectStyle}
               >
                 <option value="none">No Rounding</option>
                 <option value="roundTotal">Round Up Total Bill</option>
@@ -221,67 +319,77 @@ export default function TipCalculator() {
             </div>
 
           </div>
-        </div>
 
-        {/* Right Sticky Summary */}
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl shadow-sm flex flex-col sticky top-6">
-          <div className="flex items-center gap-2 border-b border-slate-800 pb-3 mb-6">
-            <Sparkles className="w-5 h-5 text-amber-400" />
-            <h3 className="font-semibold text-white">Bill Summary</h3>
-          </div>
-          
-          <div className="text-center mb-6">
-             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Grand Total</span>
-             <span className="block text-5xl md:text-6xl font-black text-white tracking-tighter">
-               {isMounted ? formatCurrency(results.grandTotal, currency.code, currency.locale) : `${currency.symbol}0`}
-             </span>
-          </div>
-
-          {parseInt(splitCount) > 1 && (
-            <div className="bg-amber-500/10 border border-amber-500/20 p-4 rounded-xl text-center mb-6 animate-in zoom-in-95">
-               <div className="flex justify-center items-center gap-2 mb-1">
-                 <SplitSquareHorizontal className="w-4 h-4 text-amber-400"/>
-                 <span className="text-xs font-bold text-amber-400 uppercase tracking-widest">Per Person</span>
-               </div>
-               <span className="block text-3xl font-black text-amber-500">
-                 {isMounted ? formatCurrency(results.perPersonTotal, currency.code, currency.locale) : `${currency.symbol}0`}
-               </span>
-               <span className="block text-[10px] font-bold text-amber-400/70 mt-1">
-                 Includes {isMounted ? formatCurrency(results.perPersonTip, currency.code, currency.locale) : "$0"} tip
-               </span>
-            </div>
-          )}
-
-          {/* Itemized Receipt */}
-          <div className="space-y-3 flex-grow mt-2">
-            <div className="flex justify-between items-center p-2 rounded hover:bg-slate-800/50">
-              <span className="text-sm text-slate-400 font-medium">Subtotal</span>
-              <span className="font-bold text-white font-mono">{isMounted ? formatCurrency(results.subtotal, currency.code, currency.locale) : `${currency.symbol}0`}</span>
-            </div>
-            
-            {results.tax > 0 && (
-              <div className="flex justify-between items-center p-2 rounded hover:bg-slate-800/50">
-                <span className="text-sm text-slate-400 font-medium">Tax</span>
-                <span className="font-bold text-white font-mono">{isMounted ? formatCurrency(results.tax, currency.code, currency.locale) : `${currency.symbol}0`}</span>
+          {/* RESULT CARD */}
+          <div className="rounded-xl border border-line bg-paper p-1.5 md:p-2 min-w-0 h-full">
+            <div className="bg-surface rounded-lg w-full h-full p-5 md:p-8 flex flex-col relative overflow-hidden min-h-[400px]">
+              
+              <div className="flex items-center justify-between border-b border-line pb-4 mb-6 min-w-0">
+                <h3 className="text-base md:text-lg font-bold text-ink truncate">Bill Summary</h3>
+                <button
+                  type="button"
+                  onClick={copyResult}
+                  className="inline-flex items-center justify-center gap-1.5 h-9 px-3 rounded-md border border-line bg-paper hover:bg-line text-ink text-xs md:text-sm font-semibold transition-colors shrink-0"
+                >
+                  {copied ? <><Check className="w-4 h-4 text-teal" /> Copied</> : <><Copy className="w-4 h-4 text-muted" /> Copy</>}
+                </button>
               </div>
-            )}
-            
-            <div className="flex justify-between items-center p-2 rounded bg-slate-800/80 border border-slate-700">
-              <span className="text-sm text-slate-200 font-bold">Total Tip</span>
-              <span className="font-bold text-amber-400 font-mono">{isMounted ? formatCurrency(results.tipTotal, currency.code, currency.locale) : `${currency.symbol}0`}</span>
+              
+              {/* Grand Total */}
+              <div className="text-center mb-8 min-w-0">
+                 <span className="text-xs md:text-sm font-bold text-muted uppercase tracking-widest block mb-2">Grand Total</span>
+                 <span className="block text-4xl sm:text-5xl md:text-6xl font-black text-ink tracking-tighter truncate">
+                   {isMounted ? formatCurrency(results.grandTotal, currency.code, currency.locale) : `${currency.symbol}0.00`}
+                 </span>
+              </div>
+
+              {/* Per Person Highlight */}
+              {parseInt(splitCount) > 1 && (
+                <div className="bg-brand/5 border border-brand/20 p-5 rounded-xl text-center mb-8">
+                   <div className="flex justify-center items-center gap-2 mb-2">
+                     <SplitSquareHorizontal className="w-4 h-4 md:w-5 md:h-5 text-brand"/>
+                     <span className="text-xs md:text-sm font-bold text-brand uppercase tracking-widest">Per Person</span>
+                   </div>
+                   <span className="block text-3xl md:text-4xl font-black text-brand truncate">
+                     {isMounted ? formatCurrency(results.perPersonTotal, currency.code, currency.locale) : `${currency.symbol}0.00`}
+                   </span>
+                   <span className="block text-xs md:text-sm font-semibold text-brand/70 mt-2">
+                     Includes {isMounted ? formatCurrency(results.perPersonTip, currency.code, currency.locale) : "$0.00"} tip
+                   </span>
+                </div>
+              )}
+
+              {/* Breakdown List */}
+              <div className="space-y-2 md:space-y-3 flex-grow min-w-0">
+                <div className="flex justify-between items-center p-3 rounded-lg hover:bg-paper transition-colors">
+                  <span className="text-sm md:text-base text-muted font-semibold">Subtotal</span>
+                  <span className="font-bold text-ink text-sm md:text-base">{isMounted ? formatCurrency(results.subtotal, currency.code, currency.locale) : `${currency.symbol}0.00`}</span>
+                </div>
+                
+                {results.tax > 0 && (
+                  <div className="flex justify-between items-center p-3 rounded-lg hover:bg-paper transition-colors animate-in fade-in">
+                    <span className="text-sm md:text-base text-muted font-semibold">Tax</span>
+                    <span className="font-bold text-ink text-sm md:text-base">{isMounted ? formatCurrency(results.tax, currency.code, currency.locale) : `${currency.symbol}0.00`}</span>
+                  </div>
+                )}
+                
+                <div className="flex justify-between items-center p-3 rounded-lg bg-paper border border-line mt-2">
+                  <span className="text-sm md:text-base text-ink font-bold">Total Tip</span>
+                  <span className="font-black text-brand text-sm md:text-base">{isMounted ? formatCurrency(results.tipTotal, currency.code, currency.locale) : `${currency.symbol}0.00`}</span>
+                </div>
+              </div>
+
+              {/* Footer Info */}
+              {results.effectiveTipPercent > 0 && (
+                <div className="mt-6 pt-5 border-t border-line flex items-center justify-center gap-2 text-xs md:text-sm font-bold text-muted">
+                   <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-teal"/> 
+                   <span>Effective Tip: {results.effectiveTipPercent.toFixed(1)}% {tipOnTax && "(Incl. Tax)"}</span>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Footer Info */}
-          {results.effectiveTipPercent > 0 && (
-            <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-center gap-2 text-xs font-bold text-slate-500">
-               <CheckCircle2 className="w-4 h-4 text-emerald-500"/> 
-               Effective Tip: {results.effectiveTipPercent.toFixed(1)}% 
-               {tipOnTax && "(Incl. Tax)"}
-            </div>
-          )}
         </div>
-
       </div>
     </div>
   );

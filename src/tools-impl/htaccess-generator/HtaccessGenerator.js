@@ -10,32 +10,26 @@ import {
 export default function HtaccessGenerator() {
   const [isMounted, setIsMounted] = useState(false);
 
-  // --- CONFIGURATION STATES ---
-  const [preset, setPreset] = useState("custom"); // custom, wp, spa
+  const [preset, setPreset] = useState("custom");
   
-  // Routing & Redirects
   const [forceHttps, setForceHttps] = useState(true);
-  const [wwwPref, setWwwPref] = useState("none"); // none, www, non-www
+  const [wwwPref, setWwwPref] = useState("none");
   const [customRedirects, setCustomRedirects] = useState([]);
   
-  // Security
   const [preventDirListing, setPreventDirListing] = useState(true);
   const [securityHeaders, setSecurityHeaders] = useState(true);
   const [preventHotlinking, setPreventHotlinking] = useState(false);
   const [blockSpamBots, setBlockSpamBots] = useState(false);
 
-  // Performance
   const [enableGzip, setEnableGzip] = useState(true);
   const [enableBrowserCache, setEnableBrowserCache] = useState(true);
 
-  // UI States
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Handlers for Custom Redirects
   const addRedirect = () => {
     setCustomRedirects([...customRedirects, { old: "", new: "", type: "301" }]);
   };
@@ -51,7 +45,6 @@ export default function HtaccessGenerator() {
     setCustomRedirects(updated);
   };
 
-  // Preset Handler
   const handlePresetChange = (val) => {
     setPreset(val);
     if (val === "wp") {
@@ -67,7 +60,6 @@ export default function HtaccessGenerator() {
     }
   };
 
-  // --- CORE ENGINE: GENERATE .HTACCESS ---
   const generatedCode = useMemo(() => {
     let rules = [];
     
@@ -76,7 +68,6 @@ export default function HtaccessGenerator() {
     rules.push(`# Generated on: ${new Date().toLocaleDateString()}`);
     rules.push(`# =====================================================================\n`);
 
-    // 1. Presets (WP or SPA)
     if (preset === "wp") {
       rules.push(`# --- WordPress Standard Routing ---`);
       rules.push(`<IfModule mod_rewrite.c>`);
@@ -100,7 +91,6 @@ export default function HtaccessGenerator() {
       rules.push(`</IfModule>\n`);
     }
 
-    // 2. Global Rewrite Engine Setup (If not already enabled by presets)
     const needsRewriteEngine = forceHttps || wwwPref !== "none" || customRedirects.length > 0 || preventHotlinking;
     if (needsRewriteEngine) {
       rules.push(`# --- Global Routing & Redirects ---`);
@@ -127,7 +117,6 @@ export default function HtaccessGenerator() {
         rules.push(`\n  # Custom User Redirects`);
         customRedirects.forEach(redir => {
           if (redir.old && redir.new) {
-            // Strip leading slashes to prevent syntax errors
             const oldPath = redir.old.replace(/^\//, '');
             rules.push(`  RewriteRule ^${oldPath}$ ${redir.new} [L,R=${redir.type}]`);
           }
@@ -144,7 +133,6 @@ export default function HtaccessGenerator() {
       rules.push(`</IfModule>\n`);
     }
 
-    // 3. Security Hardening
     const needsSecurity = preventDirListing || securityHeaders || blockSpamBots;
     if (needsSecurity) {
       rules.push(`# --- Security Hardening ---`);
@@ -169,10 +157,9 @@ export default function HtaccessGenerator() {
         rules.push(`  RewriteRule .* - [F,L]`);
         rules.push(`</IfModule>`);
       }
-      rules.push(``); // Empty line
+      rules.push(``);
     }
 
-    // 4. Performance (GZIP & Cache)
     const needsPerf = enableGzip || enableBrowserCache;
     if (needsPerf) {
       rules.push(`# --- Performance Optimization ---`);
@@ -226,117 +213,106 @@ export default function HtaccessGenerator() {
 
   if (!isMounted) return null;
 
-  // Premium Slate & Cyan Theme
-  const theme = {
-    gradient: "from-cyan-200 via-sky-100 to-transparent dark:from-cyan-900/30 dark:via-sky-900/20",
-    bgIcon: "bg-gradient-to-br from-cyan-500 to-sky-600",
-    textPri: "text-cyan-600 dark:text-cyan-400",
-    textSec: "text-sky-600 dark:text-sky-400",
-    borderLight: "border-cyan-200 dark:border-cyan-800/50",
-    bgLight: "bg-cyan-50 dark:bg-cyan-900/20"
-  };
-
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-mono">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
       
-      {/* Premium Header */}
-      <div className={`flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden transition-colors duration-500 font-sans`}>
-        <div className={`absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl ${theme.gradient} rounded-bl-full -z-10 opacity-70`}></div>
-        <div className="flex items-center gap-4">
-          <div className={`${theme.bgIcon} p-3.5 rounded-2xl shadow-md`}>
-            <Server className="w-6 h-6 text-white" />
+      {/* COMPACT SLEEK HEADER BAR */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex items-center justify-between gap-3 w-full box-border font-sans">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand shrink-0">
+            <Server className="w-5 h-5" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
               .htaccess Architect
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-              Apache Server Configuration Engine
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted truncate">
+              Apache server configuration engine.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-4 sm:gap-6 items-start w-full">
         
-        {/* ================= LEFT: CONFIGURATION ENGINE ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8 font-sans">
+        {/* LEFT: CONFIGURATION ENGINE */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6 w-full box-border font-sans">
             
             {/* 1. App Presets */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <FileCode2 className={`w-3.5 h-3.5 ${theme.textPri}`} /> 1. Application Presets
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <FileCode2 className="w-3.5 h-3.5 text-brand" /> 1. Application Presets
               </h3>
               
               <div className="grid grid-cols-3 gap-2">
-                <button onClick={() => handlePresetChange('custom')} className={`p-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all border-2 ${preset === 'custom' ? theme.borderLight + " " + theme.bgLight + " " + theme.textPri : "border-slate-200 dark:border-slate-700 text-slate-500 hover:border-slate-300 dark:hover:border-slate-600"}`}>
+                <button type="button" onClick={() => handlePresetChange('custom')} className={`p-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all border ${preset === 'custom' ? 'bg-brand text-surface border-brand shadow-sm' : 'border-line text-muted hover:text-ink bg-surface'}`}>
                   Custom
                 </button>
-                <button onClick={() => handlePresetChange('spa')} className={`p-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all border-2 ${preset === 'spa' ? theme.borderLight + " " + theme.bgLight + " " + theme.textPri : "border-slate-200 dark:border-slate-700 text-slate-500 hover:border-slate-300 dark:hover:border-slate-600"}`}>
+                <button type="button" onClick={() => handlePresetChange('spa')} className={`p-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all border ${preset === 'spa' ? 'bg-brand text-surface border-brand shadow-sm' : 'border-line text-muted hover:text-ink bg-surface'}`}>
                   React / SPA
                 </button>
-                <button onClick={() => handlePresetChange('wp')} className={`p-3 text-xs font-black uppercase tracking-widest rounded-xl transition-all border-2 ${preset === 'wp' ? theme.borderLight + " " + theme.bgLight + " " + theme.textPri : "border-slate-200 dark:border-slate-700 text-slate-500 hover:border-slate-300 dark:hover:border-slate-600"}`}>
+                <button type="button" onClick={() => handlePresetChange('wp')} className={`p-2.5 text-xs font-black uppercase tracking-wider rounded-xl transition-all border ${preset === 'wp' ? 'bg-brand text-surface border-brand shadow-sm' : 'border-line text-muted hover:text-ink bg-surface'}`}>
                   WordPress
                 </button>
               </div>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
             {/* 2. Routing & Redirects */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <Route className={`w-3.5 h-3.5 ${theme.textPri}`} /> 2. Traffic Routing
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <Route className="w-3.5 h-3.5 text-brand" /> 2. Traffic Routing
               </h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Force HTTPS Toggle */}
-                <div className={`flex flex-col p-4 rounded-xl border ${forceHttps ? theme.borderLight + " " + theme.bgLight : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50"} transition-colors duration-500`}>
+                <div className={`flex flex-col p-3.5 rounded-xl border ${forceHttps ? 'border-brand/30 bg-brand/10' : 'border-line bg-surface'} transition-colors`}>
                   <div className="flex items-start justify-between mb-2">
-                    <span className="text-xs font-black text-slate-800 dark:text-slate-100">Force HTTPS (SSL)</span>
-                    <button onClick={() => setForceHttps(!forceHttps)} className={`w-9 h-5 rounded-full transition-colors relative p-1 shadow-inner ${forceHttps ? `bg-gradient-to-r ${theme.gradient.split(' ').slice(0, 2).join(' ')}` : "bg-slate-300 dark:bg-slate-700"}`}>
-                      <div className={`w-3 h-3 rounded-full bg-white shadow-sm transition-transform ${forceHttps ? "translate-x-4" : "translate-x-0"}`}></div>
+                    <span className="text-xs font-black text-ink uppercase tracking-wider">Force HTTPS (SSL)</span>
+                    <button type="button" onClick={() => setForceHttps(!forceHttps)} className={`w-9 h-5 rounded-full transition-colors relative p-1 shadow-inner ${forceHttps ? 'bg-brand' : 'bg-line'}`}>
+                      <div className={`w-3 h-3 rounded-full bg-surface shadow-sm transition-transform ${forceHttps ? "translate-x-4" : "translate-x-0"}`}></div>
                     </button>
                   </div>
-                  <span className="text-[9px] font-bold text-slate-500 block">Redirects http:// to https://</span>
+                  <span className="text-[9px] font-bold text-muted">Redirects http:// to https://</span>
                 </div>
 
                 {/* WWW Preference */}
-                <div className="flex flex-col p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-                  <span className="text-xs font-black text-slate-800 dark:text-slate-100 mb-2">WWW Preference</span>
+                <div className="flex flex-col p-3.5 rounded-xl border border-line bg-surface">
+                  <span className="text-xs font-black text-ink uppercase tracking-wider mb-2">WWW Preference</span>
                   <select 
                     value={wwwPref} onChange={(e) => setWwwPref(e.target.value)}
-                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 outline-none"
+                    className="w-full bg-surface border border-line rounded-lg px-2.5 py-2 text-xs font-bold text-ink outline-none cursor-pointer"
                   >
-                    <option value="none">No Preference (Leave as is)</option>
-                    <option value="www">Force www. (e.g. www.site.com)</option>
-                    <option value="non-www">Force Non-www (e.g. site.com)</option>
+                    <option value="none">No Preference</option>
+                    <option value="www">Force www.</option>
+                    <option value="non-www">Force Non-www</option>
                   </select>
                 </div>
               </div>
 
               {/* Custom Redirects Builder */}
-              <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+              <div className="mt-3 p-3.5 bg-surface rounded-xl border border-line">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="text-xs font-black text-slate-800 dark:text-slate-100">Visual Redirect Builder</span>
-                  <button onClick={addRedirect} className="text-[9px] font-black uppercase tracking-widest text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-900/20 px-2 py-1 rounded border border-cyan-200 dark:border-cyan-800 hover:bg-cyan-100 transition-colors flex items-center gap-1"><PlusCircle className="w-3 h-3"/> Add</button>
+                  <span className="text-xs font-black text-ink uppercase tracking-wider">Visual Redirect Builder</span>
+                  <button type="button" onClick={addRedirect} className="text-[9px] font-black uppercase tracking-wider text-brand bg-brand/10 px-2 py-1 rounded-lg border border-brand/30 hover:opacity-80 transition-opacity flex items-center gap-1"><PlusCircle className="w-3 h-3"/> Add</button>
                 </div>
                 
                 {customRedirects.length === 0 ? (
-                  <p className="text-[10px] text-slate-500 font-bold italic">No custom redirects added.</p>
+                  <p className="text-[10px] text-muted font-bold italic">No custom redirects added.</p>
                 ) : (
                   <div className="space-y-2">
                     {customRedirects.map((redir, idx) => (
                       <div key={idx} className="flex flex-wrap sm:flex-nowrap items-center gap-2">
-                        <input type="text" placeholder="/old-path" value={redir.old} onChange={(e) => updateRedirect(idx, 'old', e.target.value)} className="flex-1 min-w-[100px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded px-2 py-1.5 text-xs font-mono outline-none focus:border-cyan-500" />
-                        <Route className="w-3 h-3 text-slate-400 shrink-0 hidden sm:block" />
-                        <input type="text" placeholder="https://site.com/new" value={redir.new} onChange={(e) => updateRedirect(idx, 'new', e.target.value)} className="flex-1 min-w-[120px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded px-2 py-1.5 text-xs font-mono outline-none focus:border-cyan-500" />
-                        <select value={redir.type} onChange={(e) => updateRedirect(idx, 'type', e.target.value)} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded px-1 py-1.5 text-xs outline-none">
+                        <input type="text" placeholder="/old-path" value={redir.old} onChange={(e) => updateRedirect(idx, 'old', e.target.value)} className="flex-1 min-w-[90px] bg-surface border border-line rounded-lg px-2 py-1.5 text-xs font-mono text-ink outline-none focus:border-brand" />
+                        <Route className="w-3.5 h-3.5 text-muted shrink-0 hidden sm:block" />
+                        <input type="text" placeholder="https://site.com/new" value={redir.new} onChange={(e) => updateRedirect(idx, 'new', e.target.value)} className="flex-1 min-w-[110px] bg-surface border border-line rounded-lg px-2 py-1.5 text-xs font-mono text-ink outline-none focus:border-brand" />
+                        <select value={redir.type} onChange={(e) => updateRedirect(idx, 'type', e.target.value)} className="bg-surface border border-line rounded-lg px-2 py-1.5 text-xs font-bold text-ink outline-none cursor-pointer">
                           <option value="301">301</option>
                           <option value="302">302</option>
                         </select>
-                        <button onClick={() => removeRedirect(idx)} className="p-1.5 text-slate-400 hover:text-rose-500 transition-colors"><MinusCircle className="w-4 h-4"/></button>
+                        <button type="button" onClick={() => removeRedirect(idx)} className="p-1.5 text-muted hover:text-[#fb7185] transition-colors"><MinusCircle className="w-4 h-4"/></button>
                       </div>
                     ))}
                   </div>
@@ -344,46 +320,44 @@ export default function HtaccessGenerator() {
               </div>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
             {/* 3. Security & Performance */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <Shield className={`w-3.5 h-3.5 ${theme.textPri}`} /> 3. Security & Perfomance
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <Shield className="w-3.5 h-3.5 text-brand" /> 3. Security & Performance
               </h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {/* Security Toggles */}
-                <label className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-cyan-300 transition-colors">
-                  <input type="checkbox" checked={preventDirListing} onChange={(e) => setPreventDirListing(e.target.checked)} className="w-4 h-4 accent-cyan-500" />
+                <label className="flex items-center gap-2.5 p-3 bg-surface rounded-xl border border-line cursor-pointer hover:border-brand/50 transition-colors">
+                  <input type="checkbox" checked={preventDirListing} onChange={(e) => setPreventDirListing(e.target.checked)} className="w-4 h-4 accent-brand rounded cursor-pointer" />
                   <div>
-                    <span className="block text-xs font-black text-slate-800 dark:text-slate-100">Disable Directory List</span>
-                    <span className="block text-[9px] text-slate-500">Prevents viewing folder contents.</span>
+                    <span className="block text-xs font-black text-ink uppercase tracking-wider">Disable Directory List</span>
+                    <span className="block text-[9px] text-muted">Prevents viewing folder contents.</span>
                   </div>
                 </label>
                 
-                <label className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-cyan-300 transition-colors">
-                  <input type="checkbox" checked={securityHeaders} onChange={(e) => setSecurityHeaders(e.target.checked)} className="w-4 h-4 accent-cyan-500" />
+                <label className="flex items-center gap-2.5 p-3 bg-surface rounded-xl border border-line cursor-pointer hover:border-brand/50 transition-colors">
+                  <input type="checkbox" checked={securityHeaders} onChange={(e) => setSecurityHeaders(e.target.checked)} className="w-4 h-4 accent-brand rounded cursor-pointer" />
                   <div>
-                    <span className="block text-xs font-black text-slate-800 dark:text-slate-100">Add Security Headers</span>
-                    <span className="block text-[9px] text-slate-500">HSTS, X-Frame-Options, XSS block.</span>
+                    <span className="block text-xs font-black text-ink uppercase tracking-wider">Add Security Headers</span>
+                    <span className="block text-[9px] text-muted">HSTS, X-Frame-Options, XSS block.</span>
                   </div>
                 </label>
 
-                {/* Perf Toggles */}
-                <label className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-cyan-300 transition-colors">
-                  <input type="checkbox" checked={enableGzip} onChange={(e) => setEnableGzip(e.target.checked)} className="w-4 h-4 accent-cyan-500" />
+                <label className="flex items-center gap-2.5 p-3 bg-surface rounded-xl border border-line cursor-pointer hover:border-brand/50 transition-colors">
+                  <input type="checkbox" checked={enableGzip} onChange={(e) => setEnableGzip(e.target.checked)} className="w-4 h-4 accent-brand rounded cursor-pointer" />
                   <div>
-                    <span className="block text-xs font-black text-slate-800 dark:text-slate-100">Enable Gzip / Deflate</span>
-                    <span className="block text-[9px] text-slate-500">Compresses assets for faster load.</span>
+                    <span className="block text-xs font-black text-ink uppercase tracking-wider">Enable Gzip / Deflate</span>
+                    <span className="block text-[9px] text-muted">Compresses assets for faster load.</span>
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-cyan-300 transition-colors">
-                  <input type="checkbox" checked={enableBrowserCache} onChange={(e) => setEnableBrowserCache(e.target.checked)} className="w-4 h-4 accent-cyan-500" />
+                <label className="flex items-center gap-2.5 p-3 bg-surface rounded-xl border border-line cursor-pointer hover:border-brand/50 transition-colors">
+                  <input type="checkbox" checked={enableBrowserCache} onChange={(e) => setEnableBrowserCache(e.target.checked)} className="w-4 h-4 accent-brand rounded cursor-pointer" />
                   <div>
-                    <span className="block text-xs font-black text-slate-800 dark:text-slate-100">Browser Caching</span>
-                    <span className="block text-[9px] text-slate-500">Adds Expires headers for caching.</span>
+                    <span className="block text-xs font-black text-ink uppercase tracking-wider">Browser Caching</span>
+                    <span className="block text-[9px] text-muted">Adds Expires headers for caching.</span>
                   </div>
                 </label>
               </div>
@@ -392,55 +366,55 @@ export default function HtaccessGenerator() {
           </div>
         </div>
 
-        {/* ================= RIGHT: THE CODE CONSOLE ================= */}
-        <div className="space-y-6 sticky top-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col h-[700px]">
-            <div className="bg-slate-50 dark:bg-[#161b22] rounded-[22px] p-5 h-full flex flex-col relative overflow-hidden font-sans">
+        {/* RIGHT: THE CODE CONSOLE */}
+        <div className="space-y-4 sm:space-y-6 w-full">
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm space-y-4 w-full box-border font-sans">
+            
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-ink">
+                <Globe className="w-4 h-4 text-brand" /> .htaccess Configuration
+              </span>
               
-              <div className="flex items-center justify-between mb-4 border-b border-slate-200 dark:border-slate-700/50 pb-4 shrink-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Globe className={`w-4 h-4 ${theme.textPri}`} /> .htaccess Configuration
-                </span>
-                
-                <div className="flex gap-2">
-                  <button 
-                    onClick={handleCopy} 
-                    className={`text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-colors ${
-                      copied ? "bg-cyan-50 text-cyan-600 border-cyan-200 dark:bg-cyan-900/20 dark:border-cyan-800" : "bg-white dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                    }`}
-                  >
-                    {copied ? <><CheckCircle2 className="w-3.5 h-3.5"/> Copied</> : <><Copy className="w-3.5 h-3.5"/> Copy</>}
-                  </button>
-                  <button 
-                    onClick={handleDownload} 
-                    className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5 px-3 py-1.5 rounded-lg border bg-slate-800 text-white border-slate-700 hover:bg-slate-700 transition-colors"
-                  >
-                    <Download className="w-3.5 h-3.5"/> Save
-                  </button>
-                </div>
+              <div className="flex gap-2">
+                <button 
+                  type="button"
+                  onClick={handleCopy} 
+                  className={`text-[10px] font-black uppercase tracking-wider flex items-center gap-1 px-2.5 py-1 rounded-lg border transition-colors ${
+                    copied ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/30" : "bg-surface text-muted border-line hover:text-ink"
+                  }`}
+                >
+                  {copied ? <><CheckCircle2 className="w-3.5 h-3.5"/> Copied</> : <><Copy className="w-3.5 h-3.5"/> Copy</>}
+                </button>
+                <button 
+                  type="button"
+                  onClick={handleDownload} 
+                  className="text-[10px] font-black uppercase tracking-wider flex items-center gap-1 px-2.5 py-1 rounded-lg border bg-brand text-surface border-brand hover:opacity-90 transition-opacity shadow-sm"
+                >
+                  <Download className="w-3.5 h-3.5"/> Save
+                </button>
               </div>
-
-              {/* Status Notice */}
-              <div className="flex items-start gap-2 p-3 bg-cyan-50 dark:bg-cyan-900/10 border border-cyan-200/50 dark:border-cyan-800/50 rounded-xl mb-4 shadow-sm shrink-0 font-sans">
-                <Activity className="w-4 h-4 text-cyan-500 shrink-0 mt-0.5" />
-                <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Rules are smartly wrapped in <code className="text-cyan-600 dark:text-cyan-400">{'<IfModule>'}</code> tags to prevent 500 Internal Server Errors if a module isn't supported by your Apache server.
-                </p>
-              </div>
-
-              {/* Output Area */}
-              <div className="flex-1 bg-[#1e293b] dark:bg-[#0d1117] rounded-xl border border-slate-700 dark:border-slate-800 shadow-inner overflow-hidden flex flex-col">
-                <div className="flex items-center px-4 py-2 bg-slate-800 dark:bg-[#161b22] border-b border-slate-700 dark:border-slate-800 shrink-0">
-                  <span className="text-[10px] font-mono text-slate-400">.htaccess</span>
-                </div>
-                <div className="flex-1 p-4 overflow-y-auto custom-scrollbar">
-                  <pre className="text-[11.5px] text-slate-300 leading-relaxed font-mono m-0 whitespace-pre-wrap">
-                    <code>{generatedCode}</code>
-                  </pre>
-                </div>
-              </div>
-
             </div>
+
+            {/* Status Notice */}
+            <div className="flex items-start gap-2 p-3 bg-surface border border-line rounded-xl shadow-sm">
+              <Activity className="w-4 h-4 text-brand shrink-0 mt-0.5" />
+              <p className="text-[10px] font-medium text-muted leading-relaxed">
+                Rules are smartly wrapped in <code className="text-brand">{'<IfModule>'}</code> tags to prevent 500 Internal Server Errors if a module isn't supported by your Apache server.
+              </p>
+            </div>
+
+            {/* Output Area */}
+            <div className="flex flex-col bg-surface border border-line rounded-xl shadow-sm overflow-hidden w-full">
+              <div className="flex items-center px-3.5 py-2.5 bg-surface border-b border-line">
+                <span className="text-[10px] font-mono text-muted uppercase tracking-wider font-black">.htaccess</span>
+              </div>
+              <div className="p-4 max-h-[480px] overflow-y-auto custom-scrollbar">
+                <pre className="text-xs break-all text-ink leading-relaxed font-mono m-0 whitespace-pre-wrap tabular-nums">
+                  <code>{generatedCode}</code>
+                </pre>
+              </div>
+            </div>
+
           </div>
         </div>
 

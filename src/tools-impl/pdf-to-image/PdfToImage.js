@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { 
+  FileImage, Download, Trash2, Sliders, ShieldCheck, 
+  CheckCircle2, AlertCircle, Plus, Eye, FileText
+} from "lucide-react";
 
 const PDFJS_VERSION = "3.11.174";
 const PDFJS_URL =
@@ -791,1324 +795,397 @@ export default function PdfToImage() {
           ? " page"
           : " pages");
 
-  var styleText = `
-    .pdf-image-tool {
-      --pit-text: #151a24;
-      --pit-muted: #697386;
-      --pit-border: #e4e7ec;
-      --pit-card: #ffffff;
-      --pit-soft: #f7f8fa;
-      --pit-primary: #5b5cf0;
-      --pit-primary-soft: #f0f0ff;
-      --pit-success: #079455;
-      width: 100%;
-      color: var(--pit-text);
-      font-family: inherit;
-      box-sizing: border-box;
-    }
-
-    .pdf-image-tool *,
-    .pdf-image-tool *::before,
-    .pdf-image-tool *::after {
-      box-sizing: border-box;
-    }
-
-    .pit-wrap {
-      width: 100%;
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-
-    .pit-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 22px;
-    }
-
-    .pit-eyebrow {
-      color: var(--pit-primary);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    .pit-title {
-      margin: 6px 0 0;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.02;
-      letter-spacing: -.055em;
-    }
-
-    .pit-description {
-      max-width: 700px;
-      margin: 10px 0 0;
-      color: var(--pit-muted);
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .pit-main {
-      display: grid;
-      grid-template-columns: minmax(0,.82fr) minmax(0,1.18fr);
-      gap: 18px;
-    }
-
-    .pit-panel {
-      min-width: 0;
-      border: 1px solid var(--pit-border);
-      border-radius: 18px;
-      background: var(--pit-card);
-      box-shadow: 0 10px 35px rgba(16,24,40,.045);
-    }
-
-    .pit-controls {
-      padding: 21px;
-    }
-
-    .pit-panel-title {
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: -.025em;
-    }
-
-    .pit-panel-subtitle {
-      margin-top: 5px;
-      color: var(--pit-muted);
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .pit-upload {
-      position: relative;
-      display: grid;
-      place-items: center;
-      min-height: 205px;
-      margin-top: 18px;
-      padding: 25px;
-      border: 1.5px dashed #cfd3dc;
-      border-radius: 14px;
-      background: var(--pit-soft);
-      text-align: center;
-      cursor: pointer;
-      transition: .18s ease;
-    }
-
-    .pit-upload:hover,
-    .pit-upload.dragging {
-      border-color: var(--pit-primary);
-      background: var(--pit-primary-soft);
-    }
-
-    .pit-upload-icon {
-      display: grid;
-      place-items: center;
-      width: 54px;
-      height: 54px;
-      margin-bottom: 12px;
-      border-radius: 15px;
-      background: var(--pit-card);
-      box-shadow: 0 5px 20px rgba(16,24,40,.07);
-      font-size: 23px;
-    }
-
-    .pit-upload strong {
-      display: block;
-      font-size: 13px;
-    }
-
-    .pit-upload span {
-      display: block;
-      margin-top: 6px;
-      color: var(--pit-muted);
-      font-size: 10px;
-    }
-
-    .pit-upload input {
-      display: none;
-    }
-
-    .pit-file {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 12px;
-      padding: 11px;
-      border: 1px solid var(--pit-border);
-      border-radius: 10px;
-      background: var(--pit-soft);
-    }
-
-    .pit-file-icon {
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      background: #fff0f0;
-      color: #d92d20;
-      font-size: 10px;
-      font-weight: 900;
-    }
-
-    .pit-file-info {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .pit-file-info strong {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: 10px;
-    }
-
-    .pit-file-info span {
-      display: block;
-      margin-top: 3px;
-      color: var(--pit-muted);
-      font-size: 9px;
-    }
-
-    .pit-section {
-      margin-top: 20px;
-      padding-top: 18px;
-      border-top: 1px solid var(--pit-border);
-    }
-
-    .pit-section-heading {
-      margin-bottom: 11px;
-      font-size: 11px;
-      font-weight: 800;
-    }
-
-    .pit-field {
-      margin-top: 12px;
-    }
-
-    .pit-field:first-child {
-      margin-top: 0;
-    }
-
-    .pit-label {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 7px;
-      color: var(--pit-muted);
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .pit-label b {
-      color: var(--pit-text);
-    }
-
-    .pit-select,
-    .pit-input {
-      width: 100%;
-      height: 41px;
-      padding: 0 10px;
-      border: 1px solid var(--pit-border);
-      border-radius: 9px;
-      outline: none;
-      background: var(--pit-card);
-      color: var(--pit-text);
-      font: inherit;
-      font-size: 11px;
-    }
-
-    .pit-select:focus,
-    .pit-input:focus {
-      border-color: var(--pit-primary);
-      box-shadow: 0 0 0 3px rgba(91,92,240,.10);
-    }
-
-    .pit-radio-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 7px;
-    }
-
-    .pit-radio {
-      position: relative;
-    }
-
-    .pit-radio input {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .pit-radio label {
-      display: block;
-      padding: 10px 6px;
-      border: 1px solid var(--pit-border);
-      border-radius: 9px;
-      background: var(--pit-card);
-      text-align: center;
-      cursor: pointer;
-      font-size: 10px;
-      font-weight: 750;
-    }
-
-    .pit-radio input:checked + label {
-      border-color: var(--pit-primary);
-      background: var(--pit-primary-soft);
-      color: var(--pit-primary);
-    }
-
-    .pit-range {
-      width: 100%;
-      accent-color: var(--pit-primary);
-    }
-
-    .pit-color-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .pit-color {
-      width: 44px;
-      height: 41px;
-      padding: 3px;
-      border: 1px solid var(--pit-border);
-      border-radius: 9px;
-      background: var(--pit-card);
-      cursor: pointer;
-    }
-
-    .pit-color-code {
-      flex: 1;
-      height: 41px;
-      padding: 0 10px;
-      border: 1px solid var(--pit-border);
-      border-radius: 9px;
-      background: var(--pit-soft);
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .pit-page-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7px;
-    }
-
-    .pit-page-button {
-      min-height: 41px;
-      padding: 0 10px;
-      border: 1px solid var(--pit-border);
-      border-radius: 9px;
-      background: var(--pit-card);
-      color: var(--pit-text);
-      cursor: pointer;
-      font: inherit;
-      font-size: 10px;
-      font-weight: 750;
-    }
-
-    .pit-page-button.active {
-      border-color: var(--pit-primary);
-      background: var(--pit-primary-soft);
-      color: var(--pit-primary);
-    }
-
-    .pit-action-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      margin-top: 19px;
-    }
-
-    .pit-primary-button,
-    .pit-secondary-button {
-      min-height: 43px;
-      padding: 0 14px;
-      border-radius: 9px;
-      cursor: pointer;
-      font: inherit;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .pit-primary-button {
-      border: 1px solid var(--pit-primary);
-      background: var(--pit-primary);
-      color: #fff;
-    }
-
-    .pit-primary-button:disabled,
-    .pit-secondary-button:disabled {
-      cursor: not-allowed;
-      opacity: .5;
-    }
-
-    .pit-secondary-button {
-      border: 1px solid var(--pit-border);
-      background: var(--pit-card);
-      color: var(--pit-text);
-    }
-
-    .pit-status {
-      margin-top: 12px;
-      padding: 9px 10px;
-      border-radius: 8px;
-      background: #ecfdf3;
-      color: var(--pit-success);
-      font-size: 10px;
-      line-height: 1.5;
-    }
-
-    .pit-error {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 8px;
-      background: #fff1f3;
-      color: #c01048;
-      font-size: 10px;
-      line-height: 1.5;
-    }
-
-    .pit-preview-panel {
-      min-height: 600px;
-      padding: 21px;
-      background:
-        radial-gradient(
-          circle at 100% 0%,
-          rgba(91,92,240,.10),
-          transparent 35%
-        ),
-        var(--pit-card);
-    }
-
-    .pit-preview-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-
-    .pit-preview-title {
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .pit-preview-count {
-      padding: 5px 8px;
-      border-radius: 6px;
-      background: var(--pit-soft);
-      color: var(--pit-muted);
-      font-size: 9px;
-      font-weight: 800;
-    }
-
-    .pit-empty {
-      display: grid;
-      place-items: center;
-      min-height: 510px;
-      padding: 30px;
-      border: 1px dashed var(--pit-border);
-      border-radius: 14px;
-      text-align: center;
-      background: rgba(247,248,250,.65);
-    }
-
-    .pit-empty-icon {
-      display: grid;
-      place-items: center;
-      width: 58px;
-      height: 58px;
-      margin-bottom: 14px;
-      border-radius: 16px;
-      background: var(--pit-primary-soft);
-      color: var(--pit-primary);
-      font-size: 23px;
-    }
-
-    .pit-empty h3 {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .pit-empty p {
-      max-width: 350px;
-      margin: 7px auto 0;
-      color: var(--pit-muted);
-      font-size: 10px;
-      line-height: 1.7;
-    }
-
-    .pit-preview-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 12px;
-    }
-
-    .pit-preview-card {
-      overflow: hidden;
-      border: 1px solid var(--pit-border);
-      border-radius: 11px;
-      background: var(--pit-soft);
-    }
-
-    .pit-preview-image {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1 / 1.25;
-      object-fit: contain;
-      background:
-        repeating-conic-gradient(
-          #f0f1f3 0% 25%,
-          #fff 0% 50%
-        ) 50% / 14px 14px;
-    }
-
-    .pit-preview-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 9px;
-      background: var(--pit-card);
-    }
-
-    .pit-preview-meta strong {
-      font-size: 9px;
-    }
-
-    .pit-preview-meta span {
-      display: block;
-      margin-top: 2px;
-      color: var(--pit-muted);
-      font-size: 8px;
-    }
-
-    .pit-mini-download {
-      flex: 0 0 auto;
-      width: 29px;
-      height: 29px;
-      border: 1px solid var(--pit-border);
-      border-radius: 7px;
-      background: var(--pit-card);
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    .pit-progress {
-      margin-top: 15px;
-    }
-
-    .pit-progress-top {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      color: var(--pit-muted);
-      font-size: 9px;
-      font-weight: 700;
-    }
-
-    .pit-progress-track {
-      height: 6px;
-      overflow: hidden;
-      border-radius: 20px;
-      background: #eceef2;
-    }
-
-    .pit-progress-bar {
-      height: 100%;
-      border-radius: inherit;
-      background: var(--pit-primary);
-      transition: width .2s ease;
-    }
-
-    .pit-info-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .pit-info-card {
-      padding: 10px;
-      border: 1px solid var(--pit-border);
-      border-radius: 9px;
-      background: var(--pit-soft);
-    }
-
-    .pit-info-card span {
-      display: block;
-      color: var(--pit-muted);
-      font-size: 8px;
-    }
-
-    .pit-info-card strong {
-      display: block;
-      margin-top: 4px;
-      font-size: 11px;
-    }
-
-    .pit-privacy {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      margin-top: 14px;
-      color: var(--pit-muted);
-      font-size: 9px;
-    }
-
-    .pit-privacy b {
-      color: var(--pit-success);
-      font-size: 12px;
-    }
-
-    .pit-features {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .pit-feature {
-      padding: 13px;
-      border: 1px solid var(--pit-border);
-      border-radius: 11px;
-      background: var(--pit-card);
-    }
-
-    .pit-feature strong {
-      display: block;
-      font-size: 10px;
-    }
-
-    .pit-feature span {
-      display: block;
-      margin-top: 4px;
-      color: var(--pit-muted);
-      font-size: 8px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 900px) {
-      .pit-main {
-        grid-template-columns: 1fr;
-      }
-
-      .pit-preview-panel {
-        min-height: auto;
-      }
-
-      .pit-empty {
-        min-height: 360px;
-      }
-
-      .pit-features {
-        grid-template-columns: repeat(2,1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .pit-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .pit-controls,
-      .pit-preview-panel {
-        padding: 15px;
-      }
-
-      .pit-preview-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pit-radio-grid {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-
-      .pit-action-row {
-        grid-template-columns: 1fr;
-      }
-
-      .pit-info-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .pit-features {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 390px) {
-      .pit-features,
-      .pit-info-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pit-page-buttons {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .dark .pdf-image-tool,
-    body.dark .pdf-image-tool,
-    html.dark .pdf-image-tool {
-      --pit-text: #f2f4f7;
-      --pit-muted: #98a2b3;
-      --pit-border: #2d3442;
-      --pit-card: #151922;
-      --pit-soft: #10141c;
-      --pit-primary: #817cff;
-      --pit-primary-soft: #1b1b38;
-    }
-  `;
-
   return (
-    <>
-      <div className="pdf-image-tool">
-        <div className="pit-wrap">
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
+      
+      {/* Header */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border relative overflow-hidden">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="bg-paper p-2.5 sm:p-3.5 rounded-xl border border-line shrink-0">
+            <FileImage className="w-5 h-5 sm:w-6 sm:h-6 text-brand" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-2xl font-black text-ink tracking-tight truncate">
+              PDF to Image Converter
+            </h2>
+            <p className="text-[9px] sm:text-[10px] font-black text-brand uppercase tracking-widest mt-0.5 whitespace-normal leading-relaxed">
+              Convert PDF pages into high-quality JPG, PNG or WebP images locally.
+            </p>
+          </div>
+        </div>
+        <div className="px-3 py-1.5 rounded-xl bg-surface border border-line text-brand text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1.5 shadow-sm">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Local Browser Processing
+        </div>
+      </div>
 
-          <div className="pit-header">
+      <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6">
+          
+          {/* CONTROLS PANEL */}
+          <div className="bg-surface border border-line p-4 sm:p-6 rounded-2xl shadow-inner space-y-5">
             <div>
-              <div className="pit-eyebrow">
-                PDF UTILITY
-              </div>
-
-              <h1 className="pit-title">
-                PDF to Image Converter
-              </h1>
-
-              <p className="pit-description">
-                Convert PDF pages into high-quality JPG, PNG or WebP images.
-                Choose specific pages, control resolution and quality, preview
-                results, and download everything as one ZIP.
+              <h3 className="text-sm font-black uppercase tracking-wider text-ink">
+                Upload your PDF
+              </h3>
+              <p className="text-[10px] text-muted mt-0.5">
+                Your PDF is processed locally in your browser.
               </p>
             </div>
-          </div>
 
-          <div className="pit-main">
-
-            <div className="pit-panel pit-controls">
-
-              <div className="pit-panel-title">
-                Upload your PDF
-              </div>
-
-              <div className="pit-panel-subtitle">
-                Your PDF is processed locally in your browser.
-              </div>
-
-              <div
-                ref={dropRef}
-                className={
-                  "pit-upload" +
-                  (dragging ? " dragging" : "")
+            <div
+              ref={dropRef}
+              onClick={function () {
+                if (fileInputRef.current) {
+                  fileInputRef.current.click();
                 }
-                onClick={function () {
-                  if (fileInputRef.current) {
-                    fileInputRef.current.click();
-                  }
-                }}
-                onDragEnter={function (event) {
-                  event.preventDefault();
-                  setDragging(true);
-                }}
-                onDragOver={function (event) {
-                  event.preventDefault();
-                  setDragging(true);
-                }}
-                onDragLeave={function () {
-                  setDragging(false);
-                }}
-                onDrop={handleDrop}
-              >
-                <div>
-                  <div className="pit-upload-icon">
-                    ⇧
-                  </div>
+              }}
+              onDragEnter={function (event) {
+                event.preventDefault();
+                setDragging(true);
+              }}
+              onDragOver={function (event) {
+                event.preventDefault();
+                setDragging(true);
+              }}
+              onDragLeave={function () {
+                setDragging(false);
+              }}
+              onDrop={handleDrop}
+              className={`border-2 border-dashed rounded-2xl p-6 sm:p-8 text-center cursor-pointer transition-all ${
+                dragging ? "border-brand bg-paper" : "border-line bg-paper hover:border-brand"
+              }`}
+            >
+              <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-surface border border-line flex items-center justify-center text-brand shadow-sm">
+                <Plus className="w-6 h-6 shrink-0" />
+              </div>
+              <strong className="text-xs sm:text-sm font-black text-ink tracking-tight">
+                Drop PDF here or click to browse
+              </strong>
+              <span className="text-[10px] text-muted mt-1 block">
+                PDF files up to 100 MB
+              </span>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/pdf,.pdf"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </div>
 
-                  <strong>
-                    Drop PDF here or click to browse
+            {file && (
+              <div className="flex items-center gap-3 p-3 border border-line rounded-xl bg-paper shadow-sm">
+                <div className="w-9 h-9 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-600 text-[10px] font-black flex items-center justify-center shrink-0 uppercase">
+                  PDF
+                </div>
+                <div className="min-w-0 flex-1">
+                  <strong className="text-xs font-black text-ink truncate block" title={file.name}>
+                    {file.name}
                   </strong>
-
-                  <span>
-                    PDF files up to 100 MB
+                  <span className="text-[10px] text-muted mt-0.5 block font-mono">
+                    {formatBytes(file.size)}
+                    {pdfInfo ? " · " + pdfInfo.pages + (pdfInfo.pages === 1 ? " page" : " pages") : ""}
                   </span>
                 </div>
+              </div>
+            )}
 
+            {/* Output Format */}
+            <div className="space-y-4 pt-2 border-t border-line">
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block mb-2">
+                  Output Format
+                </label>
+                <div className="grid grid-cols-3 gap-2">
+                  {["jpg", "png", "webp"].map((fmt) => (
+                    <button
+                      key={fmt}
+                      type="button"
+                      onClick={() => setFormat(fmt)}
+                      className={`h-10 rounded-xl border text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm ${
+                        format === fmt
+                          ? "border-brand bg-brand text-surface"
+                          : "border-line bg-surface text-ink hover:border-brand"
+                      }`}
+                    >
+                      {fmt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Resolution Scale */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[10px] font-black uppercase tracking-wider text-muted">
+                  <span>Resolution</span>
+                  <span className="font-mono text-brand">{scale}×</span>
+                </div>
                 <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="application/pdf,.pdf"
-                  onChange={handleFileChange}
+                  type="range"
+                  min="0.75"
+                  max="3"
+                  step="0.25"
+                  value={scale}
+                  onChange={(e) => setScale(e.target.value)}
+                  className="w-full h-1.5 bg-paper rounded-lg appearance-none cursor-pointer accent-brand border border-line"
                 />
               </div>
 
-              {file && (
-                <div className="pit-file">
-                  <div className="pit-file-icon">
-                    PDF
+              {/* Image Quality */}
+              {format !== "png" && (
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-[10px] font-black uppercase tracking-wider text-muted">
+                    <span>Image Quality</span>
+                    <span className="font-mono text-brand">{Math.round(Number(quality) * 100)}%</span>
                   </div>
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="1"
+                    step="0.01"
+                    value={quality}
+                    onChange={(e) => setQuality(e.target.value)}
+                    className="w-full h-1.5 bg-paper rounded-lg appearance-none cursor-pointer accent-brand border border-line"
+                  />
+                </div>
+              )}
 
-                  <div className="pit-file-info">
-                    <strong>
-                      {file.name}
-                    </strong>
-
-                    <span>
-                      {formatBytes(file.size)}
-                      {pdfInfo
-                        ? " · " +
-                          pdfInfo.pages +
-                          (pdfInfo.pages === 1
-                            ? " page"
-                            : " pages")
-                        : ""}
-                    </span>
+              {/* Background Color */}
+              {format !== "png" && (
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-muted block">
+                    Background
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={background}
+                      onChange={(e) => setBackground(e.target.value)}
+                      className="w-11 h-10 p-1 border border-line rounded-xl bg-paper cursor-pointer"
+                    />
+                    <div className="flex-1 h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-mono font-bold flex items-center shadow-inner">
+                      {background.toUpperCase()}
+                    </div>
                   </div>
                 </div>
               )}
 
-              <div className="pit-section">
-
-                <div className="pit-section-heading">
-                  Output format
-                </div>
-
-                <div className="pit-radio-grid">
-
-                  <div className="pit-radio">
-                    <input
-                      id="pit-format-jpg"
-                      type="radio"
-                      name="pit-format"
-                      checked={format === "jpg"}
-                      onChange={function () {
-                        setFormat("jpg");
-                      }}
-                    />
-                    <label htmlFor="pit-format-jpg">
-                      JPG
-                    </label>
-                  </div>
-
-                  <div className="pit-radio">
-                    <input
-                      id="pit-format-png"
-                      type="radio"
-                      name="pit-format"
-                      checked={format === "png"}
-                      onChange={function () {
-                        setFormat("png");
-                      }}
-                    />
-                    <label htmlFor="pit-format-png">
-                      PNG
-                    </label>
-                  </div>
-
-                  <div className="pit-radio">
-                    <input
-                      id="pit-format-webp"
-                      type="radio"
-                      name="pit-format"
-                      checked={format === "webp"}
-                      onChange={function () {
-                        setFormat("webp");
-                      }}
-                    />
-                    <label htmlFor="pit-format-webp">
-                      WebP
-                    </label>
-                  </div>
-
-                </div>
-
-                <div className="pit-field">
-
-                  <div className="pit-label">
-                    <span>
-                      Resolution
-                    </span>
-
-                    <b>
-                      {scale}×
-                    </b>
-                  </div>
-
-                  <input
-                    className="pit-range"
-                    type="range"
-                    min="0.75"
-                    max="3"
-                    step="0.25"
-                    value={scale}
-                    onChange={function (event) {
-                      setScale(event.target.value);
-                    }}
-                  />
-
-                </div>
-
-                {format !== "png" && (
-                  <div className="pit-field">
-
-                    <div className="pit-label">
-                      <span>
-                        Image quality
-                      </span>
-
-                      <b>
-                        {Math.round(
-                          Number(quality) * 100
-                        )}%
-                      </b>
-                    </div>
-
-                    <input
-                      className="pit-range"
-                      type="range"
-                      min="0.5"
-                      max="1"
-                      step="0.01"
-                      value={quality}
-                      onChange={function (event) {
-                        setQuality(
-                          event.target.value
-                        );
-                      }}
-                    />
-
-                  </div>
-                )}
-
-                {format !== "png" && (
-                  <div className="pit-field">
-
-                    <div className="pit-label">
-                      <span>
-                        Background
-                      </span>
-                    </div>
-
-                    <div className="pit-color-row">
-
-                      <input
-                        className="pit-color"
-                        type="color"
-                        value={background}
-                        onChange={function (event) {
-                          setBackground(
-                            event.target.value
-                          );
-                        }}
-                      />
-
-                      <div className="pit-color-code">
-                        {background.toUpperCase()}
-                      </div>
-
-                    </div>
-
-                  </div>
-                )}
-
-                <div className="pit-field">
-
-                  <div className="pit-label">
-                    <span>
-                      Image effect
-                    </span>
-                  </div>
-
-                  <select
-                    className="pit-select"
-                    value={effect}
-                    onChange={function (event) {
-                      setEffect(
-                        event.target.value
-                      );
-                    }}
-                  >
-                    <option value="normal">
-                      Original
-                    </option>
-
-                    <option value="grayscale">
-                      Grayscale
-                    </option>
-
-                    <option value="invert">
-                      Inverted
-                    </option>
-                  </select>
-
-                </div>
-
+              {/* Image Effect */}
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block">
+                  Image Effect
+                </label>
+                <select
+                  value={effect}
+                  onChange={(e) => setEffect(e.target.value)}
+                  className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
+                >
+                  <option value="normal">Original</option>
+                  <option value="grayscale">Grayscale</option>
+                  <option value="invert">Inverted</option>
+                </select>
               </div>
 
-              <div className="pit-section">
-
-                <div className="pit-section-heading">
+              {/* Pages Selection */}
+              <div className="space-y-2 pt-2 border-t border-line">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block">
                   Pages to convert
-                </div>
-
-                <div className="pit-page-buttons">
-
+                </label>
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    className={
-                      "pit-page-button" +
-                      (pageMode === "all"
-                        ? " active"
-                        : "")
-                    }
-                    onClick={function () {
-                      setPageMode("all");
-                    }}
+                    onClick={() => setPageMode("all")}
+                    className={`h-10 rounded-xl border text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm ${
+                      pageMode === "all"
+                        ? "border-brand bg-brand text-surface"
+                        : "border-line bg-surface text-ink hover:border-brand"
+                    }`}
                   >
                     All pages
                   </button>
-
                   <button
                     type="button"
-                    className={
-                      "pit-page-button" +
-                      (pageMode === "range"
-                        ? " active"
-                        : "")
-                    }
-                    onClick={function () {
-                      setPageMode("range");
-                    }}
+                    onClick={() => setPageMode("range")}
+                    className={`h-10 rounded-xl border text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm ${
+                      pageMode === "range"
+                        ? "border-brand bg-brand text-surface"
+                        : "border-line bg-surface text-ink hover:border-brand"
+                    }`}
                   >
                     Custom range
                   </button>
-
                 </div>
 
                 {pageMode === "range" && (
-                  <div className="pit-field">
-
-                    <div className="pit-label">
-                      <span>
-                        Page numbers
-                      </span>
-
-                      <b>
-                        Example: 1,3,5-8
-                      </b>
+                  <div className="pt-1">
+                    <div className="flex justify-between text-[10px] font-black uppercase tracking-wider text-muted mb-1">
+                      <span>Page numbers</span>
+                      <span>Example: 1,3,5-8</span>
                     </div>
-
                     <input
-                      className="pit-input"
                       type="text"
                       value={pageRange}
                       placeholder="1, 3, 5-8"
-                      onChange={function (event) {
-                        setPageRange(
-                          event.target.value
-                        );
-                      }}
+                      onChange={(e) => setPageRange(e.target.value)}
+                      className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none"
                     />
-
                   </div>
                 )}
-
               </div>
+            </div>
 
-              <div className="pit-action-row">
-
+            {/* Actions */}
+            <div className="space-y-2 pt-2 border-t border-line">
+              <div className="flex gap-2">
                 <button
                   type="button"
-                  className="pit-primary-button"
-                  disabled={
-                    !pdfInfo ||
-                    isLoading ||
-                    isConverting
-                  }
+                  disabled={!pdfInfo || isLoading || isConverting}
                   onClick={convertAll}
+                  className={`flex-1 h-11 px-4 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm ${
+                    !pdfInfo || isLoading || isConverting
+                      ? "bg-paper text-muted border border-line cursor-not-allowed opacity-50"
+                      : "bg-brand text-surface hover:opacity-90 cursor-pointer"
+                  }`}
                 >
-                  {isConverting
-                    ? "Converting..."
-                    : "Convert & Download ZIP"}
+                  <Download className="w-4 h-4 shrink-0" />
+                  {isConverting ? "Converting..." : "Convert & ZIP"}
                 </button>
 
                 <button
                   type="button"
-                  className="pit-secondary-button"
                   disabled={!pdfInfo || isLoading}
                   onClick={generatePreviews}
+                  className={`h-11 px-4 rounded-xl border border-line bg-paper text-ink font-black text-xs uppercase tracking-wider hover:border-brand flex items-center gap-1.5 cursor-pointer shadow-sm ${
+                    !pdfInfo || isLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 >
-                  Preview
+                  <Eye className="w-4 h-4 shrink-0" /> Preview
                 </button>
-
               </div>
 
               <button
                 type="button"
-                className="pit-secondary-button"
-                style={{
-                  width: "100%",
-                  marginTop: "8px",
-                }}
                 disabled={!file || isConverting}
                 onClick={resetTool}
+                className="w-full h-10 rounded-xl border border-line bg-paper text-rose-600 dark:text-rose-400 font-black text-xs uppercase tracking-wider hover:bg-rose-500/10 cursor-pointer shadow-sm flex items-center justify-center gap-1.5"
               >
-                Clear PDF
+                <Trash2 className="w-4 h-4 shrink-0" /> Clear PDF
               </button>
-
-              {error && (
-                <div className="pit-error">
-                  {error}
-                </div>
-              )}
-
-              {message && !error && (
-                <div className="pit-status">
-                  {message}
-                </div>
-              )}
-
-              {(isLoading || isConverting) && (
-                <div className="pit-progress">
-
-                  <div className="pit-progress-top">
-                    <span>
-                      {isConverting
-                        ? "Converting page " +
-                          currentPage
-                        : "Processing"}
-                    </span>
-
-                    <span>
-                      {progress}%
-                    </span>
-                  </div>
-
-                  <div className="pit-progress-track">
-                    <div
-                      className="pit-progress-bar"
-                      style={{
-                        width:
-                          progress + "%",
-                      }}
-                    />
-                  </div>
-
-                </div>
-              )}
-
-              {pdfInfo && (
-                <div className="pit-info-grid">
-
-                  <div className="pit-info-card">
-                    <span>
-                      PDF pages
-                    </span>
-
-                    <strong>
-                      {pdfInfo.pages}
-                    </strong>
-                  </div>
-
-                  <div className="pit-info-card">
-                    <span>
-                      Selected
-                    </span>
-
-                    <strong>
-                      {pageSelectionLabel}
-                    </strong>
-                  </div>
-
-                  <div className="pit-info-card">
-                    <span>
-                      Output
-                    </span>
-
-                    <strong>
-                      {format.toUpperCase()}
-                    </strong>
-                  </div>
-
-                </div>
-              )}
-
             </div>
 
-            <div className="pit-panel pit-preview-panel">
+            {error && (
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-bold flex items-center gap-2 shadow-sm">
+                <AlertCircle className="w-4 h-4 shrink-0" /> {error}
+              </div>
+            )}
 
-              <div className="pit-preview-header">
+            {message && !error && (
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-2 shadow-sm">
+                <CheckCircle2 className="w-4 h-4 shrink-0" /> {message}
+              </div>
+            )}
 
-                <div className="pit-preview-title">
-                  Page preview
+            {(isLoading || isConverting) && (
+              <div className="space-y-1.5 pt-2">
+                <div className="flex justify-between text-[10px] font-black uppercase tracking-wider text-muted">
+                  <span>{isConverting ? "Converting page " + currentPage : "Processing"}</span>
+                  <span className="font-mono">{progress}%</span>
                 </div>
-
-                <div className="pit-preview-count">
-                  {previews.length
-                    ? previews.length +
-                      " preview" +
-                      (previews.length === 1
-                        ? ""
-                        : "s")
-                    : "Ready"}
+                <div className="h-1.5 w-full bg-paper rounded-full overflow-hidden border border-line">
+                  <div
+                    className="h-full bg-brand transition-all duration-200"
+                    style={{ width: progress + "%" }}
+                  />
                 </div>
+              </div>
+            )}
 
+            {pdfInfo && (
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t border-line">
+                <div className="p-2.5 bg-paper border border-line rounded-xl text-center shadow-inner">
+                  <span className="text-[9px] font-black uppercase tracking-wider text-muted block">Pages</span>
+                  <strong className="text-xs font-black text-ink font-mono mt-0.5 block">{pdfInfo.pages}</strong>
+                </div>
+                <div className="p-2.5 bg-paper border border-line rounded-xl text-center shadow-inner">
+                  <span className="text-[9px] font-black uppercase tracking-wider text-muted block">Selected</span>
+                  <strong className="text-xs font-black text-brand font-mono mt-0.5 block truncate">{pageSelectionLabel}</strong>
+                </div>
+                <div className="p-2.5 bg-paper border border-line rounded-xl text-center shadow-inner">
+                  <span className="text-[9px] font-black uppercase tracking-wider text-muted block">Output</span>
+                  <strong className="text-xs font-black text-ink font-mono mt-0.5 block uppercase">{format}</strong>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* PREVIEW PANEL */}
+          <div className="bg-surface border border-line p-4 sm:p-6 rounded-2xl shadow-inner flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-black uppercase tracking-wider text-ink">
+                  Page Preview
+                </h3>
+                <span className="px-2.5 py-1 rounded-lg bg-paper border border-line text-[10px] font-black uppercase tracking-wider text-muted shadow-sm">
+                  {previews.length ? previews.length + " preview" + (previews.length === 1 ? "" : "s") : "Ready"}
+                </span>
               </div>
 
               {previews.length === 0 ? (
-
-                <div className="pit-empty">
-
-                  <div>
-                    <div className="pit-empty-icon">
-                      ▧
-                    </div>
-
-                    <h3>
-                      Your pages will appear here
-                    </h3>
-
-                    <p>
-                      Upload a PDF, choose your output
-                      settings and click Preview to inspect
-                      the pages before downloading.
-                    </p>
+                <div className="min-h-[420px] sm:min-h-[500px] border border-dashed border-line rounded-2xl bg-paper flex flex-col items-center justify-center text-center p-8 shadow-inner">
+                  <div className="w-14 h-14 rounded-2xl bg-surface border border-line flex items-center justify-center text-brand mb-3 shadow-sm">
+                    <FileText className="w-6 h-6 shrink-0" />
                   </div>
-
+                  <h4 className="text-sm font-black text-ink tracking-tight">Your pages will appear here</h4>
+                  <p className="text-xs text-muted mt-1 max-w-[280px] leading-relaxed">
+                    Upload a PDF, choose your output settings and click Preview to inspect the pages before downloading.
+                  </p>
                 </div>
-
               ) : (
-
-                <div className="pit-preview-grid">
-
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[550px] overflow-y-auto pr-1">
                   {previews.map(function (item) {
                     return (
                       <div
-                        className="pit-preview-card"
                         key={item.page}
+                        className="border border-line rounded-xl overflow-hidden bg-paper shadow-sm flex flex-col"
                       >
-
                         <img
-                          className="pit-preview-image"
                           src={item.url}
-                          alt={
-                            "PDF page " +
-                            item.page
-                          }
+                          alt={"PDF page " + item.page}
+                          className="w-full aspect-[1/1.25] object-contain bg-surface border-b border-line"
                         />
-
-                        <div className="pit-preview-meta">
-
+                        <div className="p-3 flex items-center justify-between bg-paper">
                           <div>
-                            <strong>
-                              Page {item.page}
-                            </strong>
-
-                            <span>
-                              {item.width} ×{" "}
-                              {item.height}px
-                            </span>
+                            <strong className="text-xs font-black text-ink block">Page {item.page}</strong>
+                            <span className="text-[10px] text-muted font-mono block mt-0.5">{item.width} × {item.height}px</span>
                           </div>
-
                           <button
                             type="button"
-                            className="pit-mini-download"
-                            title={
-                              "Download page " +
-                              item.page
-                            }
-                            onClick={function () {
-                              downloadSingle(
-                                item.page
-                              );
-                            }}
+                            title={"Download page " + item.page}
+                            onClick={() => downloadSingle(item.page)}
+                            className="h-8 px-3 rounded-lg border border-line bg-surface text-ink text-xs font-black uppercase tracking-wider hover:border-brand flex items-center gap-1 cursor-pointer shadow-sm"
                           >
-                            ↓
+                            <Download className="w-3.5 h-3.5 shrink-0" /> Save
                           </button>
-
                         </div>
-
                       </div>
                     );
                   })}
-
-                </div>
-
-              )}
-
-              {pdfInfo && (
-                <div className="pit-privacy">
-                  <b>✓</b>
-
-                  <span>
-                    PDF processing happens in your browser.
-                    Your document is not uploaded to a server.
-                  </span>
                 </div>
               )}
-
             </div>
 
-          </div>
-
-          <div className="pit-features">
-
-            <div className="pit-feature">
-              <strong>
-                Custom page ranges
-              </strong>
-
-              <span>
-                Convert only the pages you need.
-              </span>
-            </div>
-
-            <div className="pit-feature">
-              <strong>
-                JPG / PNG / WebP
-              </strong>
-
-              <span>
-                Pick the format that fits your workflow.
-              </span>
-            </div>
-
-            <div className="pit-feature">
-              <strong>
-                High-resolution output
-              </strong>
-
-              <span>
-                Scale up to 3× for sharper images.
-              </span>
-            </div>
-
-            <div className="pit-feature">
-              <strong>
-                ZIP download
-              </strong>
-
-              <span>
-                Multiple converted pages in one download.
-              </span>
-            </div>
-
+            {pdfInfo && (
+              <div className="mt-4 p-3.5 rounded-xl bg-paper border border-line text-xs text-muted leading-relaxed flex items-center gap-2.5 shadow-inner">
+                <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+                <span>
+                  PDF processing happens in your browser. Your document is not uploaded to any server.
+                </span>
+              </div>
+            )}
           </div>
 
         </div>
       </div>
-
-      <style>
-        {styleText}
-      </style>
-    </>
+    </div>
   );
 }

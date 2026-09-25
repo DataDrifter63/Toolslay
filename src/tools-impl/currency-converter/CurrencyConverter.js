@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Globe, ArrowRightLeft, RefreshCw, Settings, CreditCard, TrendingUp, AlertCircle, Wallet } from "lucide-react";
+import { 
+  Globe, ArrowRightLeft, RefreshCw, Settings, 
+  CreditCard, TrendingUp, AlertCircle, Wallet, 
+  Copy, Check 
+} from "lucide-react";
 
 const POPULAR_CURRENCIES = [
   { code: 'USD', name: 'US Dollar', flag: '🇺🇸' },
@@ -22,6 +26,7 @@ const CurrencyConverter = () => {
   const [lastUpdated, setLastUpdated] = useState("");
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   const [amount, setAmount] = useState("1000");
   const [fromCurrency, setFromCurrency] = useState("USD");
@@ -92,60 +97,118 @@ const CurrencyConverter = () => {
   const actualRate = convert(1, fromCurrency, toCurrency, false).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
   const feeLost = (convert(amount, fromCurrency, toCurrency, false) - convert(amount, fromCurrency, toCurrency, true)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+  const copyResult = async () => {
+    if (!rates) return;
+    const text = `Currency Conversion:\n${amount} ${fromCurrency} = ${formattedResult} ${toCurrency}\nRate: 1 ${fromCurrency} = ${actualRate} ${toCurrency}\n(Rates as of ${lastUpdated})`;
+    
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      }
+    } catch (error) {
+      setCopied(false);
+    }
+  };
+
+  const baseInputStyle = "w-full min-w-0 h-11 md:h-12 px-3 sm:px-4 bg-surface border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all";
+  const baseSelectStyle = "w-full min-w-0 h-11 md:h-12 pl-3 sm:pl-4 pr-10 bg-surface border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold cursor-pointer appearance-none";
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Globe className="w-6 h-6 text-blue-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Global Exchange Dashboard</h2>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="text-right hidden sm:block">
-            <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400">Live Market Rates</span>
-            <span className="block text-xs font-medium text-slate-500 dark:text-slate-400">{isMounted ? lastUpdated : "Loading..."}</span>
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
+      
+      {/* MAIN WRAPPER SHELL */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 space-y-5 md:space-y-6 min-w-0">
+        
+        {/* HEADER BAR */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Globe className="w-5 h-5 md:w-6 md:h-6 text-brand shrink-0" />
+            <h2 className="text-lg md:text-xl font-bold text-ink truncate">
+              Global Exchange Dashboard
+            </h2>
           </div>
-          <button onClick={fetchRates} disabled={isFetching} className="p-2.5 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-all disabled:opacity-50" title="Refresh Rates">
-            <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
-          </button>
-          <button onClick={() => setShowAdvanced(!showAdvanced)} className="flex items-center gap-2 text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-            <Settings className="w-4 h-4" /> {showAdvanced ? "Hide Fees" : "Bank Fees"}
-          </button>
-        </div>
-      </div>
 
-      {error && (
-        <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 p-4 rounded-xl flex items-center gap-3 animate-in fade-in">
-          <AlertCircle className="w-5 h-5 text-rose-500 flex-shrink-0" />
-          <p className="text-sm font-medium text-rose-700 dark:text-rose-400">{error}</p>
-        </div>
-      )}
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-3 shrink-0">
+            <div className="text-right hidden sm:block mr-2">
+              <span className="block text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted">Live Market Rates</span>
+              <span className="block text-xs md:text-sm font-semibold text-ink">{isMounted ? lastUpdated : "Loading..."}</span>
+            </div>
+            
+            <button 
+              onClick={fetchRates} 
+              disabled={isFetching} 
+              className="flex items-center justify-center h-9 md:h-10 w-9 md:w-10 rounded-lg border border-line bg-surface hover:bg-paper text-brand transition-all disabled:opacity-50 shrink-0" 
+              title="Refresh Rates"
+            >
+              <RefreshCw className={`w-4 h-4 md:w-4 ${isFetching ? 'animate-spin' : ''}`} />
+            </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,320px] gap-6 items-start">
-        <div className="flex flex-col gap-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 md:p-8 rounded-xl shadow-sm space-y-8 relative overflow-hidden">
-            <div className="space-y-2">
-              <label className="text-sm font-black uppercase tracking-widest text-slate-500">Amount to Convert</label>
-              <input type="number" min="0" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full text-4xl md:text-5xl font-black bg-transparent border-b-2 border-slate-200 dark:border-slate-700 focus:border-blue-500 pb-2 outline-none text-slate-800 dark:text-slate-100 transition-colors placeholder-slate-300 dark:placeholder-slate-700" placeholder="0.00" />
+            <button 
+              onClick={() => setShowAdvanced(!showAdvanced)} 
+              className="flex flex-1 sm:flex-none items-center justify-center gap-2 h-9 md:h-10 px-3 md:px-4 rounded-lg border border-line bg-surface hover:bg-paper text-ink text-xs md:text-sm font-semibold transition-colors"
+            >
+              <Settings className="w-4 h-4 text-brand" /> {showAdvanced ? "Hide Fees" : "Bank Fees"}
+            </button>
+          </div>
+        </div>
+
+        {error && (
+          <div className="bg-[#fb7185]/10 border border-[#fb7185]/20 p-3 md:p-4 rounded-xl flex items-center gap-3 animate-in fade-in">
+            <AlertCircle className="w-5 h-5 text-[#e11d48] shrink-0" />
+            <p className="text-sm font-semibold text-[#e11d48]">{error}</p>
+          </div>
+        )}
+
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr,1fr] items-start gap-6 min-w-0">
+          
+          {/* CONVERTER PANEL */}
+          <div className="flex flex-col gap-5 md:gap-6 min-w-0">
+            
+            <div className="space-y-2 md:space-y-3">
+              <label className="text-xs font-bold uppercase tracking-widest text-muted block">Amount to Convert</label>
+              <input 
+                type="number" 
+                min="0" 
+                value={amount} 
+                onChange={(e) => setAmount(e.target.value)} 
+                className="w-full text-3xl sm:text-4xl font-black bg-transparent border-b-2 border-line focus:border-brand pb-2 md:pb-3 outline-none text-ink transition-colors placeholder-muted/50" 
+                placeholder="0.00" 
+              />
             </div>
 
-            <div className="flex flex-col md:flex-row items-center gap-4 relative">
-              <div className="w-full space-y-2">
-                <label className="text-xs font-bold uppercase text-slate-400">From</label>
+            <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 relative min-w-0">
+              <div className="w-full space-y-1.5 md:space-y-2 min-w-0">
+                <label className="text-[11px] md:text-xs font-bold uppercase tracking-widest text-muted">From</label>
                 <div className="relative">
-                  <select value={fromCurrency} onChange={(e) => setFromCurrency(e.target.value)} className="w-full text-xl font-bold p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-slate-100 cursor-pointer appearance-none">
+                  <select 
+                    value={fromCurrency} 
+                    onChange={(e) => setFromCurrency(e.target.value)} 
+                    className={baseSelectStyle}
+                  >
                     {POPULAR_CURRENCIES.map(c => <option key={`from-${c.code}`} value={c.code}>{c.flag} {c.code} - {c.name}</option>)}
                   </select>
                 </div>
               </div>
 
-              <button onClick={handleSwap} className="md:mt-6 p-4 bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400 rounded-full hover:scale-110 hover:bg-blue-200 transition-all shadow-sm active:scale-95 z-10">
-                <ArrowRightLeft className="w-5 h-5" />
+              <button 
+                onClick={handleSwap} 
+                className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-line bg-paper hover:bg-brand/10 hover:border-brand/30 text-brand flex items-center justify-center transition-all shrink-0 sm:mt-6 shadow-sm hover:rotate-180"
+                title="Swap Currencies"
+              >
+                <ArrowRightLeft className="w-4 h-4 md:w-5 md:h-5" />
               </button>
 
-              <div className="w-full space-y-2">
-                <label className="text-xs font-bold uppercase text-slate-400">To</label>
+              <div className="w-full space-y-1.5 md:space-y-2 min-w-0">
+                <label className="text-[11px] md:text-xs font-bold uppercase tracking-widest text-muted">To</label>
                 <div className="relative">
-                  <select value={toCurrency} onChange={(e) => setToCurrency(e.target.value)} className="w-full text-xl font-bold p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 dark:text-slate-100 cursor-pointer appearance-none">
+                  <select 
+                    value={toCurrency} 
+                    onChange={(e) => setToCurrency(e.target.value)} 
+                    className={baseSelectStyle}
+                  >
                     {POPULAR_CURRENCIES.map(c => <option key={`to-${c.code}`} value={c.code}>{c.flag} {c.code} - {c.name}</option>)}
                   </select>
                 </div>
@@ -153,15 +216,23 @@ const CurrencyConverter = () => {
             </div>
 
             {showAdvanced && (
-              <div className="p-5 bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/50 rounded-xl animate-in fade-in slide-in-from-top-2">
-                <div className="flex justify-between items-center mb-4">
-                  <label className="flex items-center gap-2 text-sm font-bold text-amber-700 dark:text-amber-500">
-                    <CreditCard className="w-4 h-4"/> Hidden Bank/Platform Fee
+              <div className="p-4 bg-paper border border-line rounded-xl animate-in fade-in slide-in-from-top-2 min-w-0">
+                <div className="flex justify-between items-center mb-3 min-w-0">
+                  <label className="flex items-center gap-2 text-sm font-bold text-ink">
+                    <CreditCard className="w-4 h-4 text-brand"/> Hidden Bank/Platform Fee
                   </label>
-                  <span className="text-xl font-black text-amber-600 dark:text-amber-400">{bankFee}%</span>
+                  <span className="text-base md:text-lg font-black text-brand">{bankFee}%</span>
                 </div>
-                <input type="range" min="0" max="10" step="0.5" value={bankFee} onChange={(e) => setBankFee(e.target.value)} className="w-full accent-amber-500" />
-                <div className="flex justify-between text-[10px] font-bold text-amber-600/70 dark:text-amber-500/50 mt-2">
+                <input 
+                  type="range" 
+                  min="0" 
+                  max="10" 
+                  step="0.5" 
+                  value={bankFee} 
+                  onChange={(e) => setBankFee(e.target.value)} 
+                  className="w-full accent-brand cursor-pointer" 
+                />
+                <div className="flex justify-between text-[10px] font-bold text-muted mt-2">
                   <span>0% (Mid-Market)</span>
                   <span>PayPal (~4%)</span>
                   <span>10% Max</span>
@@ -169,61 +240,73 @@ const CurrencyConverter = () => {
               </div>
             )}
 
-            <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center justify-center text-center">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Converted Amount</span>
-              <div className="text-5xl md:text-7xl font-black tracking-tighter text-blue-600 dark:text-blue-400 mb-2">
+            {/* HERO RESULT SECTION */}
+            <div className="pt-6 border-t border-line flex flex-col items-center justify-center text-center min-w-0">
+              <div className="flex items-center justify-between w-full mb-3 min-w-0">
+                <span className="text-xs font-bold text-muted uppercase tracking-widest">Converted Amount</span>
+                <button
+                  type="button"
+                  onClick={copyResult}
+                  className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-line bg-paper hover:bg-line text-ink text-xs font-semibold transition-colors shrink-0"
+                >
+                  {copied ? <><Check className="w-3.5 h-3.5 text-teal" /> Copied</> : <><Copy className="w-3.5 h-3.5 text-muted" /> Copy</>}
+                </button>
+              </div>
+              
+              <div className="text-4xl sm:text-5xl font-black tracking-tight text-ink mb-3 w-full truncate">
                 {isMounted && rates ? formattedResult : "0.00"}
               </div>
-              <div className="text-sm font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-2">
+              
+              <div className="text-sm font-semibold text-muted flex items-center justify-center gap-2 w-full truncate">
                  1 {fromCurrency} = {isMounted && rates ? actualRate : "0.0000"} {toCurrency}
-                 <TrendingUp className="w-4 h-4 text-emerald-500"/>
+                 <TrendingUp className="w-4 h-4 text-[#34d399] shrink-0"/>
               </div>
               
               {parseFloat(bankFee) > 0 && (
-                <div className="mt-4 px-4 py-2 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 text-xs font-bold rounded-lg border border-rose-100 dark:border-rose-900">
+                <div className="mt-4 px-3.5 py-2.5 bg-[#fb7185]/10 text-[#e11d48] text-xs font-bold rounded-lg border border-[#fb7185]/20 w-full md:w-auto text-left md:text-center">
                   Fee Deducted: You lose {feeLost} {toCurrency} in conversion.
                 </div>
               )}
             </div>
-          </div>
-        </div>
 
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl shadow-sm flex flex-col h-full sticky top-6">
-          <div className="flex items-center gap-2 border-b border-slate-800 pb-3 mb-6">
-            <Wallet className="w-5 h-5 text-emerald-400" />
-            <h3 className="font-semibold text-white">Live Watchlist</h3>
-          </div>
-          
-          <div className="text-xs font-medium text-slate-400 mb-4 leading-relaxed">
-            Instantly converting <span className="font-black text-white">{amount || 0} {fromCurrency}</span> into popular global currencies.
           </div>
 
-          <div className="space-y-3 flex-grow custom-scrollbar">
-            {POPULAR_CURRENCIES.map((currObj) => {
-              if (currObj.code === fromCurrency) return null; 
-              
-              const val = convert(amount, fromCurrency, currObj.code, false);
-              
-              return (
-                <div key={currObj.code} className="flex justify-between items-center p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg">{currObj.flag}</span>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold text-slate-200">{currObj.code}</span>
+          {/* WATCHLIST SIDEBAR */}
+          <div className="bg-paper border border-line p-4 md:p-5 rounded-xl shadow-sm flex flex-col h-full min-w-0">
+            <div className="flex items-center gap-2 border-b border-line pb-3.5 mb-4 min-w-0">
+              <Wallet className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0" />
+              <h3 className="text-sm md:text-base font-bold text-ink">Live Watchlist</h3>
+            </div>
+            
+            <div className="text-xs font-medium text-muted mb-4 leading-relaxed min-w-0">
+              Instantly converting <span className="font-black text-ink">{amount || 0} {fromCurrency}</span> into popular global currencies.
+            </div>
+
+            <div className="space-y-2 flex-grow min-w-0">
+              {POPULAR_CURRENCIES.map((currObj) => {
+                if (currObj.code === fromCurrency) return null; 
+                
+                const val = convert(amount, fromCurrency, currObj.code, false);
+                
+                return (
+                  <div key={currObj.code} className="flex justify-between items-center p-3 rounded-lg bg-surface border border-line hover:border-brand/30 transition-colors min-w-0">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="text-lg md:text-xl shrink-0">{currObj.flag}</span>
+                      <span className="text-xs md:text-sm font-bold text-ink truncate">{currObj.code}</span>
                     </div>
+                    <span className="font-black text-ink text-sm shrink-0 pl-2">
+                      {isMounted && rates ? val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "..."}
+                    </span>
                   </div>
-                  <span className="font-black text-white font-mono">
-                    {isMounted && rates ? val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "..."}
-                  </span>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
+
         </div>
       </div>
     </div>
   );
 };
 
-// ✅ STRICT EXPORT TO PREVENT "GOT: OBJECT" ERROR
 export default CurrencyConverter;

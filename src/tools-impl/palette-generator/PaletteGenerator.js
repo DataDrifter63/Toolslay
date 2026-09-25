@@ -318,13 +318,12 @@ function ColorCard({
   onCopy,
   onToggleLock,
 }) {
-  var textColor =
-    readableTextColor(color);
+  var textColor = readableTextColor(color);
 
   return (
-    <div className="pg-color-card">
+    <div className="flex flex-col min-w-0 border-r border-line last:border-r-0">
       <div
-        className="pg-color-preview"
+        className="relative flex items-end justify-between h-[245px] sm:h-[280px] p-3.5 transition-colors"
         style={{
           backgroundColor: color,
           color: textColor,
@@ -332,7 +331,7 @@ function ColorCard({
       >
         <button
           type="button"
-          className="pg-lock"
+          className="w-8 h-8 rounded-lg bg-white/20 border-0 text-inherit cursor-pointer backdrop-blur-md flex items-center justify-center text-xs font-bold transition-transform hover:scale-110 shadow-sm"
           onClick={function () {
             onToggleLock(index);
           }}
@@ -347,7 +346,7 @@ function ColorCard({
 
         <button
           type="button"
-          className="pg-copy-light"
+          className="h-8 px-2.5 rounded-lg bg-white/20 border-0 text-inherit cursor-pointer backdrop-blur-md font-sans text-[9px] font-extrabold uppercase transition-transform hover:scale-105 shadow-sm"
           onClick={function () {
             onCopy(color);
           }}
@@ -356,9 +355,10 @@ function ColorCard({
         </button>
       </div>
 
-      <div className="pg-color-bottom">
+      <div className="flex items-center gap-2 p-2.5 bg-paper border-t border-line">
         <input
           type="color"
+          className="w-7 h-7 p-0 border-0 rounded cursor-pointer bg-transparent shrink-0"
           value={color}
           onChange={function (event) {
             onChange(
@@ -372,7 +372,7 @@ function ColorCard({
         />
 
         <input
-          className="pg-hex-input"
+          className="min-w-0 w-16 border-0 outline-0 bg-transparent text-ink font-mono text-[10px] font-extrabold uppercase"
           value={color}
           onChange={function (event) {
             var value =
@@ -399,7 +399,7 @@ function ColorCard({
           spellCheck="false"
         />
 
-        <span className="pg-index">
+        <span className="ml-auto text-muted font-mono text-[9px] font-bold">
           {index + 1}
         </span>
       </div>
@@ -592,979 +592,268 @@ export default function PaletteGenerator() {
   }
 
   return (
-    <>
-      <div className="palette-generator">
-        <div className="pg-wrapper">
-          <div className="pg-header">
-            <div>
-              <div className="pg-eyebrow">
-                DESIGN COLOR TOOL
-              </div>
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border">
+      
+      {/* HEADER SECTION */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border">
+        <div>
+          <div className="text-[10px] font-black text-brand uppercase tracking-widest mb-1">DESIGN COLOR TOOL</div>
+          <h1 className="text-xl sm:text-2xl font-black text-ink tracking-tight">Palette Generator</h1>
+          <p className="text-xs font-bold text-muted mt-0.5">Create balanced color palettes, lock colors, edit shades, and save combinations.</p>
+        </div>
 
-              <h1>
-                Palette Generator
-              </h1>
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <button
+            type="button"
+            className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-surface border border-line text-ink text-xs font-black uppercase tracking-wider hover:border-brand/50 transition-colors"
+            onClick={copyPalette}
+          >
+            {copied === "palette" ? "✓ Copied" : "Copy Palette"}
+          </button>
 
-              <p>
-                Create balanced color palettes,
-                lock the colors you love, edit
-                individual shades, check contrast
-                and save your favorite combinations.
-              </p>
-            </div>
-
-            <div className="pg-header-actions">
-              <button
-                type="button"
-                className="pg-secondary-button"
-                onClick={copyPalette}
-              >
-                {copied === "palette"
-                  ? "✓ Copied"
-                  : "Copy Palette"}
-              </button>
-
-              <button
-                type="button"
-                className="pg-primary-button"
-                onClick={randomize}
-              >
-                ↻ Randomize
-              </button>
-            </div>
-          </div>
-
-          <div className="pg-main-card">
-            <div className="pg-toolbar">
-              <div className="pg-control">
-                <label htmlFor="pg-base">
-                  Base color
-                </label>
-
-                <div className="pg-base-control">
-                  <input
-                    id="pg-base"
-                    type="color"
-                    value={baseColor}
-                    onChange={function (
-                      event
-                    ) {
-                      setBaseColor(
-                        event.target.value.toUpperCase()
-                      );
-                    }}
-                  />
-
-                  <input
-                    value={baseColor}
-                    onChange={function (
-                      event
-                    ) {
-                      var value =
-                        event.target.value.toUpperCase();
-
-                      if (
-                        /^#[0-9A-F]{0,6}$/.test(
-                          value
-                        )
-                      ) {
-                        setBaseColor(value);
-                      }
-                    }}
-                    onBlur={function () {
-                      if (
-                        !/^#[0-9A-F]{6}$/.test(
-                          baseColor
-                        )
-                      ) {
-                        setBaseColor(
-                          "#635BFF"
-                        );
-                      }
-                    }}
-                    maxLength={7}
-                    spellCheck="false"
-                  />
-                </div>
-              </div>
-
-              <div className="pg-control">
-                <label htmlFor="pg-mode">
-                  Palette harmony
-                </label>
-
-                <select
-                  id="pg-mode"
-                  value={mode}
-                  onChange={function (
-                    event
-                  ) {
-                    setMode(event.target.value);
-                  }}
-                >
-                  <option value="random">
-                    Color Harmony
-                  </option>
-                  <option value="monochromatic">
-                    Monochromatic
-                  </option>
-                  <option value="analogous">
-                    Analogous
-                  </option>
-                  <option value="complementary">
-                    Complementary
-                  </option>
-                </select>
-              </div>
-
-              <button
-                type="button"
-                className="pg-generate-button"
-                onClick={generate}
-              >
-                Generate Palette
-              </button>
-            </div>
-
-            <div className="pg-palette-grid">
-              {colors.map(function (
-                color,
-                index
-              ) {
-                return (
-                  <ColorCard
-                    key={index}
-                    color={color}
-                    index={index}
-                    locked={locked[index]}
-                    onChange={changeColor}
-                    onCopy={copyColor}
-                    onToggleLock={
-                      toggleLock
-                    }
-                  />
-                );
-              })}
-            </div>
-
-            <div className="pg-tip">
-              <span>⌘</span>
-              <p>
-                Lock any color to keep it while
-                generating a new palette.
-              </p>
-
-              <button
-                type="button"
-                onClick={savePalette}
-              >
-                + Save palette
-              </button>
-            </div>
-          </div>
-
-          {copied && copied !== "palette" ? (
-            <div className="pg-toast">
-              ✓ {copied} copied
-            </div>
-          ) : null}
-
-          <div className="pg-section">
-            <div className="pg-section-heading">
-              <div>
-                <h2>
-                  Accessibility check
-                </h2>
-
-                <p>
-                  Quickly see how each palette
-                  color performs with black and
-                  white text.
-                </p>
-              </div>
-            </div>
-
-            <div className="pg-accessibility">
-              {colors.map(function (
-                color,
-                index
-              ) {
-                var blackRatio =
-                  contrastRatio(
-                    color,
-                    "#000000"
-                  );
-
-                var whiteRatio =
-                  contrastRatio(
-                    color,
-                    "#FFFFFF"
-                  );
-
-                return (
-                  <div
-                    className="pg-access-card"
-                    key={index}
-                  >
-                    <div
-                      className="pg-access-color"
-                      style={{
-                        backgroundColor:
-                          color,
-                      }}
-                    >
-                      {color}
-                    </div>
-
-                    <div className="pg-ratios">
-                      <div>
-                        <span>
-                          Black
-                        </span>
-
-                        <strong>
-                          {blackRatio.toFixed(
-                            2
-                          )}
-                          :1
-                        </strong>
-                      </div>
-
-                      <div>
-                        <span>
-                          White
-                        </span>
-
-                        <strong>
-                          {whiteRatio.toFixed(
-                            2
-                          )}
-                          :1
-                        </strong>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="pg-section">
-            <div className="pg-section-heading">
-              <div>
-                <h2>
-                  Quick palettes
-                </h2>
-
-                <p>
-                  Start from a professionally
-                  balanced preset.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                className="pg-reset"
-                onClick={reset}
-              >
-                Reset
-              </button>
-            </div>
-
-            <div className="pg-presets">
-              {PRESETS.map(function (
-                preset
-              ) {
-                return (
-                  <button
-                    type="button"
-                    className="pg-preset"
-                    key={preset.name}
-                    onClick={function () {
-                      applyPreset(
-                        preset
-                      );
-                    }}
-                  >
-                    <div className="pg-preset-colors">
-                      {preset.colors.map(
-                        function (
-                          color
-                        ) {
-                          return (
-                            <span
-                              key={color}
-                              style={{
-                                backgroundColor:
-                                  color,
-                              }}
-                            />
-                          );
-                        }
-                      )}
-                    </div>
-
-                    <strong>
-                      {preset.name}
-                    </strong>
-
-                    <span>
-                      Use preset
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {saved.length > 0 ? (
-            <div className="pg-section">
-              <div className="pg-section-heading">
-                <div>
-                  <h2>
-                    Saved palettes
-                  </h2>
-
-                  <p>
-                    Your recent palettes are kept
-                    locally while this page is open.
-                  </p>
-                </div>
-              </div>
-
-              <div className="pg-saved-grid">
-                {saved.map(function (
-                  palette,
-                  paletteIndex
-                ) {
-                  return (
-                    <button
-                      type="button"
-                      className="pg-saved"
-                      key={paletteIndex}
-                      onClick={function () {
-                        loadPalette(
-                          palette
-                        );
-                      }}
-                    >
-                      <div>
-                        {palette.map(
-                          function (
-                            color
-                          ) {
-                            return (
-                              <span
-                                key={color}
-                                style={{
-                                  backgroundColor:
-                                    color,
-                                }}
-                              />
-                            );
-                          }
-                        )}
-                      </div>
-
-                      <small>
-                        Palette{" "}
-                        {paletteIndex +
-                          1}
-                      </small>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ) : null}
-
-          <div className="pg-privacy">
-            <span>✓</span>
-            <p>
-              All palette generation and color
-              calculations happen locally in your
-              browser. Nothing is uploaded.
-            </p>
-          </div>
+          <button
+            type="button"
+            className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-brand text-surface text-xs font-black uppercase tracking-wider shadow-sm transition-opacity hover:opacity-90"
+            onClick={randomize}
+          >
+            ↻ Randomize
+          </button>
         </div>
       </div>
 
-      <style jsx>{`
-        .palette-generator {
-          --pg-text: #172033;
-          --pg-muted: #667085;
-          --pg-border: #e4e7ec;
-          --pg-card: #ffffff;
-          --pg-soft: #f7f8fb;
-          --pg-primary: #635bff;
-
-          width: 100%;
-          color: var(--pg-text);
-          font-family: inherit;
-        }
-
-        .palette-generator *,
-        .palette-generator *::before,
-        .palette-generator *::after {
-          box-sizing: border-box;
-        }
-
-        .pg-wrapper {
-          width: 100%;
-          max-width: 1180px;
-          margin: 0 auto;
-        }
-
-        .pg-header {
-          display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
-          gap: 24px;
-          margin-bottom: 22px;
-        }
-
-        .pg-eyebrow {
-          color: var(--pg-primary);
-          font-size: 10px;
-          font-weight: 800;
-          letter-spacing: .14em;
-        }
-
-        .pg-header h1 {
-          margin: 6px 0 0;
-          font-size: clamp(28px, 4vw, 42px);
-          line-height: 1;
-          letter-spacing: -.05em;
-        }
-
-        .pg-header p {
-          max-width: 680px;
-          margin: 10px 0 0;
-          color: var(--pg-muted);
-          font-size: 13px;
-          line-height: 1.65;
-        }
-
-        .pg-header-actions {
-          display: flex;
-          gap: 8px;
-          flex-shrink: 0;
-        }
-
-        .pg-primary-button,
-        .pg-secondary-button,
-        .pg-generate-button,
-        .pg-reset {
-          height: 42px;
-          padding: 0 15px;
-          border-radius: 9px;
-          font: inherit;
-          font-size: 11px;
-          font-weight: 750;
-          cursor: pointer;
-        }
-
-        .pg-primary-button,
-        .pg-generate-button {
-          border: 1px solid var(--pg-primary);
-          background: var(--pg-primary);
-          color: #fff;
-        }
-
-        .pg-secondary-button,
-        .pg-reset {
-          border: 1px solid var(--pg-border);
-          background: var(--pg-card);
-          color: var(--pg-text);
-        }
-
-        .pg-main-card,
-        .pg-section {
-          border: 1px solid var(--pg-border);
-          border-radius: 16px;
-          background: var(--pg-card);
-          box-shadow: 0 8px 30px rgba(16, 24, 40, .035);
-        }
-
-        .pg-main-card {
-          overflow: hidden;
-        }
-
-        .pg-toolbar {
-          display: flex;
-          align-items: flex-end;
-          gap: 12px;
-          padding: 18px;
-          border-bottom: 1px solid var(--pg-border);
-          background: var(--pg-soft);
-        }
-
-        .pg-control {
-          min-width: 190px;
-        }
-
-        .pg-control label {
-          display: block;
-          margin-bottom: 6px;
-          color: var(--pg-muted);
-          font-size: 10px;
-          font-weight: 750;
-        }
-
-        .pg-base-control {
-          display: flex;
-          height: 42px;
-          overflow: hidden;
-          border: 1px solid var(--pg-border);
-          border-radius: 9px;
-          background: #fff;
-        }
-
-        .pg-base-control input[type="color"] {
-          width: 45px;
-          height: 42px;
-          padding: 4px;
-          border: 0;
-          cursor: pointer;
-        }
-
-        .pg-base-control input[type="text"],
-        .pg-base-control input:not([type]) {
-          min-width: 0;
-          border: 0;
-          outline: 0;
-          font: inherit;
-          font-size: 11px;
-          font-weight: 700;
-        }
-
-        .pg-base-control input:last-child {
-          width: 105px;
-          padding: 0 9px;
-          border: 0;
-          outline: none;
-          font: inherit;
-          font-size: 11px;
-          font-weight: 700;
-          color: var(--pg-text);
-        }
-
-        .pg-control select {
-          width: 100%;
-          height: 42px;
-          padding: 0 10px;
-          border: 1px solid var(--pg-border);
-          border-radius: 9px;
-          outline: none;
-          background: #fff;
-          color: var(--pg-text);
-          font: inherit;
-          font-size: 11px;
-          cursor: pointer;
-        }
-
-        .pg-generate-button {
-          min-width: 150px;
-        }
-
-        .pg-palette-grid {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          min-height: 310px;
-        }
-
-        .pg-color-card {
-          min-width: 0;
-          border-right: 1px solid var(--pg-border);
-        }
-
-        .pg-color-card:last-child {
-          border-right: 0;
-        }
-
-        .pg-color-preview {
-          position: relative;
-          display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
-          height: 245px;
-          padding: 13px;
-        }
-
-        .pg-lock,
-        .pg-copy-light {
-          border: 0;
-          border-radius: 7px;
-          background: rgba(255, 255, 255, .2);
-          color: inherit;
-          cursor: pointer;
-          backdrop-filter: blur(8px);
-        }
-
-        .pg-lock {
-          width: 30px;
-          height: 30px;
-          font-size: 13px;
-        }
-
-        .pg-copy-light {
-          height: 30px;
-          padding: 0 9px;
-          font: inherit;
-          font-size: 9px;
-          font-weight: 800;
-        }
-
-        .pg-color-bottom {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          padding: 10px;
-        }
-
-        .pg-color-bottom input[type="color"] {
-          width: 26px;
-          height: 26px;
-          padding: 0;
-          border: 0;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-
-        .pg-hex-input {
-          min-width: 0;
-          width: 76px;
-          border: 0;
-          outline: 0;
-          background: transparent;
-          color: var(--pg-text);
-          font: inherit;
-          font-size: 10px;
-          font-weight: 800;
-          text-transform: uppercase;
-        }
-
-        .pg-index {
-          margin-left: auto;
-          color: var(--pg-muted);
-          font-size: 9px;
-          font-weight: 700;
-        }
-
-        .pg-tip {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 13px 18px;
-          border-top: 1px solid var(--pg-border);
-        }
-
-        .pg-tip > span {
-          display: grid;
-          place-items: center;
-          width: 22px;
-          height: 22px;
-          border-radius: 6px;
-          background: var(--pg-soft);
-          color: var(--pg-primary);
-          font-size: 11px;
-          font-weight: 900;
-        }
-
-        .pg-tip p {
-          margin: 0;
-          color: var(--pg-muted);
-          font-size: 9px;
-        }
-
-        .pg-tip button {
-          margin-left: auto;
-          border: 0;
-          background: transparent;
-          color: var(--pg-primary);
-          font: inherit;
-          font-size: 9px;
-          font-weight: 800;
-          cursor: pointer;
-        }
-
-        .pg-section {
-          margin-top: 18px;
-          padding: 20px;
-        }
-
-        .pg-section-heading {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 15px;
-          margin-bottom: 17px;
-        }
-
-        .pg-section-heading h2 {
-          margin: 0;
-          font-size: 17px;
-          letter-spacing: -.025em;
-        }
-
-        .pg-section-heading p {
-          margin: 5px 0 0;
-          color: var(--pg-muted);
-          font-size: 10px;
-          line-height: 1.6;
-        }
-
-        .pg-accessibility {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          gap: 10px;
-        }
-
-        .pg-access-card {
-          overflow: hidden;
-          border: 1px solid var(--pg-border);
-          border-radius: 10px;
-        }
-
-        .pg-access-color {
-          display: flex;
-          align-items: flex-end;
-          height: 75px;
-          padding: 9px;
-          color: #fff;
-          font-size: 9px;
-          font-weight: 800;
-        }
-
-        .pg-ratios {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 8px;
-          padding: 10px;
-        }
-
-        .pg-ratios span {
-          display: block;
-          color: var(--pg-muted);
-          font-size: 8px;
-        }
-
-        .pg-ratios strong {
-          display: block;
-          margin-top: 3px;
-          font-size: 11px;
-        }
-
-        .pg-presets {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 10px;
-        }
-
-        .pg-preset {
-          padding: 0 0 12px;
-          overflow: hidden;
-          border: 1px solid var(--pg-border);
-          border-radius: 10px;
-          background: var(--pg-card);
-          text-align: left;
-          cursor: pointer;
-        }
-
-        .pg-preset-colors {
-          display: flex;
-          height: 62px;
-        }
-
-        .pg-preset-colors span {
-          flex: 1;
-        }
-
-        .pg-preset strong,
-        .pg-preset > span {
-          display: block;
-          padding: 0 11px;
-        }
-
-        .pg-preset strong {
-          margin-top: 10px;
-          font-size: 11px;
-        }
-
-        .pg-preset > span {
-          margin-top: 3px;
-          color: var(--pg-muted);
-          font-size: 8px;
-        }
-
-        .pg-saved-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 10px;
-        }
-
-        .pg-saved {
-          overflow: hidden;
-          padding: 0 0 9px;
-          border: 1px solid var(--pg-border);
-          border-radius: 9px;
-          background: var(--pg-card);
-          text-align: left;
-          cursor: pointer;
-        }
-
-        .pg-saved > div {
-          display: flex;
-          height: 45px;
-        }
-
-        .pg-saved > div span {
-          flex: 1;
-        }
-
-        .pg-saved small {
-          display: block;
-          margin: 8px 9px 0;
-          color: var(--pg-muted);
-          font-size: 8px;
-          font-weight: 700;
-        }
-
-        .pg-privacy {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-top: 14px;
-          padding: 0 4px;
-        }
-
-        .pg-privacy span {
-          color: #12b76a;
-          font-weight: 900;
-        }
-
-        .pg-privacy p {
-          margin: 0;
-          color: var(--pg-muted);
-          font-size: 9px;
-        }
-
-        .pg-toast {
-          position: fixed;
-          right: 22px;
-          bottom: 22px;
-          z-index: 100;
-          padding: 10px 14px;
-          border-radius: 9px;
-          background: #111827;
-          color: #fff;
-          font-size: 10px;
-          font-weight: 700;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
-        }
-
-        @media (max-width: 900px) {
-          .pg-header {
-            flex-direction: column;
-            align-items: stretch;
-          }
-
-          .pg-toolbar {
-            flex-wrap: wrap;
-          }
-
-          .pg-control {
-            flex: 1 1 180px;
-          }
-
-          .pg-palette-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
-          .pg-color-card:nth-child(2) {
-            border-right: 0;
-          }
-
-          .pg-color-card:nth-child(n + 3) {
-            border-top: 1px solid var(--pg-border);
-          }
-
-          .pg-accessibility {
-            grid-template-columns: repeat(2, 1fr);
-          }
-
-          .pg-presets {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (max-width: 600px) {
-          .pg-header-actions {
-            width: 100%;
-          }
-
-          .pg-header-actions button {
-            flex: 1;
-          }
-
-          .pg-toolbar {
-            flex-direction: column;
-            align-items: stretch;
-          }
-
-          .pg-generate-button {
-            width: 100%;
-          }
-
-          .pg-palette-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .pg-color-card {
-            border-right: 0;
-            border-top: 1px solid var(--pg-border);
-          }
-
-          .pg-color-card:first-child {
-            border-top: 0;
-          }
-
-          .pg-color-preview {
-            height: 180px;
-          }
-
-          .pg-accessibility,
-          .pg-presets,
-          .pg-saved-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .pg-tip {
-            align-items: flex-start;
-          }
-        }
-
-        .dark .palette-generator,
-        body.dark .palette-generator,
-        html.dark .palette-generator {
-          --pg-text: #f2f4f7;
-          --pg-muted: #98a2b3;
-          --pg-border: #2d3442;
-          --pg-card: #151922;
-          --pg-soft: #10141c;
-          --pg-primary: #8078ff;
-        }
-
-        .dark .pg-base-control,
-        .dark .pg-control select,
-        body.dark .pg-base-control,
-        body.dark .pg-control select,
-        html.dark .pg-base-control,
-        html.dark .pg-control select {
-          background: #10141c;
-          color: #f2f4f7;
-        }
-      `}</style>
-    </>
+      {/* MAIN PALETTE TOOLBAR & GRID */}
+      <div className="bg-paper border border-line rounded-2xl shadow-sm overflow-hidden">
+        
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 p-4 sm:p-5 border-b border-line bg-surface">
+          <div className="flex-1 min-w-[200px]">
+            <label className="block mb-1.5 text-muted text-[10px] font-extrabold uppercase tracking-wider" htmlFor="pg-base">
+              Base color
+            </label>
+            <div className="flex h-11 overflow-hidden border border-line rounded-xl bg-paper">
+              <input
+                id="pg-base"
+                type="color"
+                className="w-11 h-11 p-1 border-0 cursor-pointer bg-transparent shrink-0"
+                value={baseColor}
+                onChange={function (event) {
+                  setBaseColor(event.target.value.toUpperCase());
+                }}
+              />
+              <input
+                className="w-full px-3 border-0 outline-none bg-transparent text-ink font-mono text-xs font-bold uppercase"
+                value={baseColor}
+                onChange={function (event) {
+                  var value = event.target.value.toUpperCase();
+                  if (/^#[0-9A-F]{0,6}$/.test(value)) {
+                    setBaseColor(value);
+                  }
+                }}
+                onBlur={function () {
+                  if (!/^#[0-9A-F]{6}$/.test(baseColor)) {
+                    setBaseColor("#635BFF");
+                  }
+                }}
+                maxLength={7}
+                spellCheck="false"
+              />
+            </div>
+          </div>
+
+          <div className="flex-1 min-w-[200px]">
+            <label className="block mb-1.5 text-muted text-[10px] font-extrabold uppercase tracking-wider" htmlFor="pg-mode">
+              Palette harmony
+            </label>
+            <select
+              id="pg-mode"
+              className="w-full h-11 px-3 border border-line rounded-xl outline-none bg-paper text-ink font-sans text-xs font-bold cursor-pointer"
+              value={mode}
+              onChange={function (event) {
+                setMode(event.target.value);
+              }}
+            >
+              <option value="random">Color Harmony</option>
+              <option value="monochromatic">Monochromatic</option>
+              <option value="analogous">Analogous</option>
+              <option value="complementary">Complementary</option>
+            </select>
+          </div>
+
+          <button
+            type="button"
+            className="h-11 px-6 rounded-xl bg-brand text-surface text-xs font-black uppercase tracking-wider shadow-sm transition-opacity hover:opacity-90 shrink-0"
+            onClick={generate}
+          >
+            Generate Palette
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-5 min-h-[310px]">
+          {colors.map(function (color, index) {
+            return (
+              <ColorCard
+                key={index}
+                color={color}
+                index={index}
+                locked={locked[index]}
+                onChange={changeColor}
+                onCopy={copyColor}
+                onToggleLock={toggleLock}
+              />
+            );
+          })}
+        </div>
+
+        <div className="flex items-center gap-3 p-4 border-t border-line bg-surface">
+          <span className="grid place-items-center w-6 h-6 rounded-lg bg-surface border border-line text-brand text-xs font-black">⌘</span>
+          <p className="m-0 text-muted text-[10px] font-bold">Lock any color to keep it while generating a new palette.</p>
+          <button
+            type="button"
+            className="ml-auto border-0 bg-transparent text-brand text-[10px] font-extrabold uppercase cursor-pointer hover:underline"
+            onClick={savePalette}
+          >
+            + Save palette
+          </button>
+        </div>
+
+      </div>
+
+      {copied && copied !== "palette" ? (
+        <div className="fixed right-6 bottom-6 z-50 px-3.5 py-2.5 rounded-xl bg-ink text-surface text-xs font-extrabold shadow-xl">
+          ✓ {copied} copied
+        </div>
+      ) : null}
+
+      {/* ACCESSIBILITY CHECK SECTION */}
+      <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h2 className="text-base sm:text-lg font-black text-ink tracking-tight">Accessibility check</h2>
+            <p className="text-xs font-bold text-muted mt-0.5">Quickly see how each palette color performs with black and white text.</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
+          {colors.map(function (color, index) {
+            var blackRatio = contrastRatio(color, "#000000");
+            var whiteRatio = contrastRatio(color, "#FFFFFF");
+
+            return (
+              <div className="overflow-hidden border border-line rounded-xl bg-surface" key={index}>
+                <div
+                  className="flex items-end h-[75px] p-3 text-white text-[10px] font-black font-mono shadow-inner"
+                  style={{ backgroundColor: color }}
+                >
+                  {color}
+                </div>
+                <div className="grid grid-cols-2 gap-2 p-3 bg-paper border-t border-line text-xs">
+                  <div>
+                    <span className="block text-[8px] font-extrabold text-muted uppercase">Black</span>
+                    <strong className="block mt-0.5 font-mono text-[11px] text-ink">{blackRatio.toFixed(2)}:1</strong>
+                  </div>
+                  <div>
+                    <span className="block text-[8px] font-extrabold text-muted uppercase">White</span>
+                    <strong className="block mt-0.5 font-mono text-[11px] text-ink">{whiteRatio.toFixed(2)}:1</strong>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* QUICK PALETTES PRESETS */}
+      <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h2 className="text-base sm:text-lg font-black text-ink tracking-tight">Quick palettes</h2>
+            <p className="text-xs font-bold text-muted mt-0.5">Start from a professionally balanced preset.</p>
+          </div>
+          <button
+            type="button"
+            className="px-4 py-2 rounded-xl bg-surface border border-line text-ink text-xs font-black uppercase tracking-wider hover:border-brand/50 transition-colors"
+            onClick={reset}
+          >
+            Reset
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+          {PRESETS.map(function (preset) {
+            return (
+              <button
+                type="button"
+                className="overflow-hidden p-0 pb-3 border border-line rounded-xl bg-surface text-left cursor-pointer transition-transform hover:scale-[1.02]"
+                key={preset.name}
+                onClick={function () {
+                  applyPreset(preset);
+                }}
+              >
+                <div className="flex h-14 w-full">
+                  {preset.colors.map(function (color) {
+                    return (
+                      <span
+                        key={color}
+                        className="flex-1"
+                        style={{ backgroundColor: color }}
+                      />
+                    );
+                  })}
+                </div>
+                <strong className="block mt-2.5 px-3 text-xs font-black text-ink">{preset.name}</strong>
+                <span className="block mt-0.5 px-3 text-[9px] font-extrabold text-muted uppercase">Use preset</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* SAVED PALETTES */}
+      {saved.length > 0 ? (
+        <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-base sm:text-lg font-black text-ink tracking-tight">Saved palettes</h2>
+              <p className="text-xs font-bold text-muted mt-0.5">Your recent palettes are kept locally while this page is open.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {saved.map(function (palette, paletteIndex) {
+              return (
+                <button
+                  type="button"
+                  className="overflow-hidden p-0 pb-2.5 border border-line rounded-xl bg-surface text-left cursor-pointer transition-transform hover:scale-[1.02]"
+                  key={paletteIndex}
+                  onClick={function () {
+                    loadPalette(palette);
+                  }}
+                >
+                  <div className="flex h-11 w-full">
+                    {palette.map(function (color) {
+                      return (
+                        <span
+                          key={color}
+                          className="flex-1"
+                          style={{ backgroundColor: color }}
+                        />
+                      );
+                    })}
+                  </div>
+                  <small className="block mt-2 px-3 text-[9px] font-extrabold text-muted uppercase">
+                    Palette {paletteIndex + 1}
+                  </small>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      <div className="flex items-center gap-2 px-1 pt-1">
+        <span className="text-emerald-500 font-black">✓</span>
+        <p className="m-0 text-muted text-[10px] font-bold">All palette generation and color calculations happen locally in your browser. Nothing is uploaded.</p>
+      </div>
+
+    </div>
   );
 }

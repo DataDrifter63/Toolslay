@@ -11,11 +11,9 @@ export default function TimeDurationCalculator() {
   const [isMounted, setIsMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("span"); // 'span' or 'math'
 
-  // Mode 1: Time Span (Difference)
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("17:00");
 
-  // Mode 2: Time Math (Add/Sub)
   const [baseTime, setBaseTime] = useState("12:00");
   const [mathAction, setMathAction] = useState("add"); // 'add' or 'sub'
   const [mathHours, setMathHours] = useState("");
@@ -42,7 +40,6 @@ export default function TimeDurationCalculator() {
     return `${hours}:${minutes} ${ampm}`;
   };
 
-  // --- ENGINE 1: TIME SPAN ---
   const spanCalc = useMemo(() => {
     if (!startTime || !endTime) return null;
 
@@ -53,8 +50,6 @@ export default function TimeDurationCalculator() {
     let endMs = (endH * 60 + endM) * 60000;
 
     let isOvernight = false;
-    
-    // If end time is earlier than start time, assume it crosses midnight
     if (endMs < startMs) {
       endMs += 24 * 60 * 60 * 1000;
       isOvernight = true;
@@ -63,28 +58,21 @@ export default function TimeDurationCalculator() {
     const diffMs = endMs - startMs;
     const diffHours = Math.floor(diffMs / 3600000);
     const diffMins = Math.floor((diffMs % 3600000) / 60000);
-    
-    // Payroll Decimal (e.g. 8 hrs 30 mins = 8.5)
     const decimalHours = (diffMs / 3600000).toFixed(2);
 
     return { diffHours, diffMins, isOvernight, decimalHours };
   }, [startTime, endTime]);
 
-
-  // --- ENGINE 2: TIME MATH ---
   const mathCalc = useMemo(() => {
     if (!baseTime) return null;
 
     const [baseH, baseM] = baseTime.split(':').map(Number);
-    
     const h = parseInt(mathHours) || 0;
     const m = parseInt(mathMins) || 0;
     const s = parseInt(mathSecs) || 0;
 
-    // Convert everything to a base date today
     const dateObj = new Date();
     dateObj.setHours(baseH, baseM, 0, 0);
-    
     const originalDate = dateObj.getDate();
 
     const addMs = (h * 3600000) + (m * 60000) + (s * 1000);
@@ -96,7 +84,7 @@ export default function TimeDurationCalculator() {
     }
 
     const newDate = dateObj.getDate();
-    let dayShift = 0; // 0 = same day, 1 = next day, -1 = prev day
+    let dayShift = 0;
     
     if (dateObj.getTime() > new Date().setHours(23,59,59,999)) {
       dayShift = Math.floor((dateObj.getTime() - new Date().setHours(0,0,0,0)) / 86400000);
@@ -116,237 +104,212 @@ export default function TimeDurationCalculator() {
 
   if (!isMounted) return null;
 
+  const baseInputStyle = "w-full min-w-0 bg-paper border border-line rounded-xl px-4 py-3 sm:py-3.5 text-base font-bold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all";
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
       
-      {/* Premium Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-cyan-100 via-violet-50 to-transparent dark:from-cyan-900/30 dark:via-violet-900/10 rounded-bl-full -z-10 opacity-70"></div>
-        <div className="flex items-center gap-4">
-          <div className="bg-gradient-to-br from-cyan-500 to-violet-600 p-3.5 rounded-2xl shadow-md">
-            <Timer className="w-6 h-6 text-white" />
+      {/* Header */}
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-surface border border-line px-5 sm:px-6 py-5 rounded-2xl shadow-card relative overflow-hidden min-w-0">
+        <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
+          <div className="bg-brand/15 text-brand p-3 rounded-xl shrink-0">
+            <Timer className="w-6 h-6" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
               Chrono Math Engine
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
+            <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-muted mt-0.5 truncate">
               Time Span & Payroll Calculator
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start min-w-0">
         
-        {/* ================= LEFT: CONTROLS & INPUTS ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8">
+        {/* CONTROLS & INPUTS */}
+        <div className="space-y-6 min-w-0">
+          <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
             
-            {/* Mode Switcher */}
-            <div className="flex bg-slate-100 dark:bg-slate-800 rounded-xl p-1 shadow-inner">
+            {/* FIXED Mode Switcher */}
+            <div className="flex bg-paper rounded-xl p-1 border border-line min-w-0 gap-1">
               <button 
+                type="button"
                 onClick={() => setActiveTab("span")}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs font-black uppercase tracking-widest rounded-lg transition-all ${activeTab === "span" ? "bg-white dark:bg-slate-700 text-cyan-600 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+                className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-2 py-2.5 sm:py-3 text-[9px] sm:text-xs font-black uppercase tracking-wider sm:tracking-widest rounded-lg transition-all min-w-0 ${activeTab === "span" ? "bg-surface text-brand shadow-sm border border-line" : "text-muted hover:text-ink"}`}
               >
-                <ArrowRightLeft className="w-4 h-4" /> Time Difference
+                <ArrowRightLeft className="w-3.5 h-3.5 shrink-0" /> 
+                <span className="truncate">Time Difference</span>
               </button>
               <button 
+                type="button"
                 onClick={() => setActiveTab("math")}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs font-black uppercase tracking-widest rounded-lg transition-all ${activeTab === "math" ? "bg-white dark:bg-slate-700 text-violet-600 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+                className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-2 py-2.5 sm:py-3 text-[9px] sm:text-xs font-black uppercase tracking-wider sm:tracking-widest rounded-lg transition-all min-w-0 ${activeTab === "math" ? "bg-surface text-brand shadow-sm border border-line" : "text-muted hover:text-ink"}`}
               >
-                <RotateCcw className="w-4 h-4" /> Time Math (+/-)
+                <RotateCcw className="w-3.5 h-3.5 shrink-0" /> 
+                <span className="truncate">Time Math (+/-)</span>
               </button>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
-            {/* --- TAB 1: TIME SPAN (DIFFERENCE) --- */}
+            {/* TAB 1: TIME SPAN */}
             {activeTab === "span" && (
-              <div className="space-y-6 animate-in fade-in slide-in-from-left-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-2">
-                      <Sun className="w-3.5 h-3.5 text-cyan-500" /> Start Time
+              <div className="space-y-5 animate-in fade-in min-w-0">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+                  <div className="min-w-0">
+                    <label className="text-[10px] font-black text-muted uppercase tracking-widest flex items-center gap-1.5 mb-2 truncate">
+                      <Sun className="w-3.5 h-3.5 text-brand shrink-0" /> Start Time
                     </label>
-                    <input
-                      type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)}
-                      className="w-full bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-4 text-lg font-black text-slate-800 dark:text-slate-100 outline-none focus:border-cyan-500 transition-colors"
-                    />
+                    <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className={baseInputStyle} />
                   </div>
-                  <div>
-                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-2">
-                      <Moon className="w-3.5 h-3.5 text-violet-500" /> End Time
+                  <div className="min-w-0">
+                    <label className="text-[10px] font-black text-muted uppercase tracking-widest flex items-center gap-1.5 mb-2 truncate">
+                      <Moon className="w-3.5 h-3.5 text-brand shrink-0" /> End Time
                     </label>
-                    <input
-                      type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)}
-                      className="w-full bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-4 text-lg font-black text-slate-800 dark:text-slate-100 outline-none focus:border-violet-500 transition-colors"
-                    />
+                    <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} className={baseInputStyle} />
                   </div>
                 </div>
               </div>
             )}
 
-            {/* --- TAB 2: TIME MATH (ADD/SUBTRACT) --- */}
+            {/* TAB 2: TIME MATH */}
             {activeTab === "math" && (
-              <div className="space-y-6 animate-in fade-in slide-in-from-right-4">
-                
-                {/* Base Time */}
-                <div>
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-2">
-                    <Clock className="w-3.5 h-3.5 text-violet-500" /> Base Clock Time
+              <div className="space-y-5 animate-in fade-in min-w-0">
+                <div className="min-w-0">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-widest flex items-center gap-1.5 mb-2 truncate">
+                    <Clock className="w-3.5 h-3.5 text-brand shrink-0" /> Base Clock Time
                   </label>
-                  <input
-                    type="time" value={baseTime} onChange={(e) => setBaseTime(e.target.value)}
-                    className="w-full max-w-[200px] bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-4 text-lg font-black text-slate-800 dark:text-slate-100 outline-none focus:border-violet-500 transition-colors"
-                  />
+                  <input type="time" value={baseTime} onChange={(e) => setBaseTime(e.target.value)} className={`${baseInputStyle} sm:max-w-[200px]`} />
                 </div>
 
-                <div className="flex items-center gap-4 p-2 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                <div className="flex items-center gap-2 p-1.5 bg-paper rounded-xl border border-line min-w-0">
                   <button
+                    type="button"
                     onClick={() => setMathAction("add")}
-                    className={`flex-1 py-3 rounded-lg flex items-center justify-center gap-2 text-xs font-black uppercase tracking-widest transition-colors ${mathAction === "add" ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 border border-emerald-200 dark:border-emerald-800' : 'text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                    className={`flex-1 py-2.5 rounded-lg flex items-center justify-center gap-1.5 text-[11px] font-black uppercase tracking-widest transition-colors ${mathAction === "add" ? 'bg-teal/10 text-teal border border-teal/30' : 'text-muted hover:text-ink'}`}
                   >
-                    <Plus className="w-4 h-4" /> Add Time
+                    <Plus className="w-3.5 h-3.5 shrink-0" /> Add
                   </button>
                   <button
+                    type="button"
                     onClick={() => setMathAction("sub")}
-                    className={`flex-1 py-3 rounded-lg flex items-center justify-center gap-2 text-xs font-black uppercase tracking-widest transition-colors ${mathAction === "sub" ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 border border-rose-200 dark:border-rose-800' : 'text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                    className={`flex-1 py-2.5 rounded-lg flex items-center justify-center gap-1.5 text-[11px] font-black uppercase tracking-widest transition-colors ${mathAction === "sub" ? 'bg-[#fb7185]/10 text-[#e11d48] border border-[#fb7185]/30' : 'text-muted hover:text-ink'}`}
                   >
-                    <Minus className="w-4 h-4" /> Subtract Time
+                    <Minus className="w-3.5 h-3.5 shrink-0" /> Subtract
                   </button>
                 </div>
 
-                {/* Duration Inputs */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Hours</label>
-                    <input type="text" value={mathHours} onChange={(e) => handleMathInput(setMathHours, e.target.value)} placeholder="0" className="w-full bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-lg font-black outline-none focus:border-violet-500 text-center" />
+                <div className="grid grid-cols-3 gap-2.5 min-w-0">
+                  <div className="min-w-0">
+                    <label className="block text-[9px] font-black text-muted uppercase tracking-widest mb-1.5 truncate text-center">Hours</label>
+                    <input type="text" value={mathHours} onChange={(e) => handleMathInput(setMathHours, e.target.value)} placeholder="0" className={`${baseInputStyle} text-center`} />
                   </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Minutes</label>
-                    <input type="text" value={mathMins} onChange={(e) => handleMathInput(setMathMins, e.target.value)} placeholder="0" className="w-full bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-lg font-black outline-none focus:border-violet-500 text-center" />
+                  <div className="min-w-0">
+                    <label className="block text-[9px] font-black text-muted uppercase tracking-widest mb-1.5 truncate text-center">Minutes</label>
+                    <input type="text" value={mathMins} onChange={(e) => handleMathInput(setMathMins, e.target.value)} placeholder="0" className={`${baseInputStyle} text-center`} />
                   </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">Seconds</label>
-                    <input type="text" value={mathSecs} onChange={(e) => handleMathInput(setMathSecs, e.target.value)} placeholder="0" className="w-full bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-lg font-black outline-none focus:border-violet-500 text-center" />
+                  <div className="min-w-0">
+                    <label className="block text-[9px] font-black text-muted uppercase tracking-widest mb-1.5 truncate text-center">Seconds</label>
+                    <input type="text" value={mathSecs} onChange={(e) => handleMathInput(setMathSecs, e.target.value)} placeholder="0" className={`${baseInputStyle} text-center`} />
                   </div>
                 </div>
-
               </div>
             )}
             
           </div>
         </div>
 
-        {/* ================= RIGHT: THE DASHBOARD RECEIPT ================= */}
-        <div className="space-y-6 sticky top-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col min-h-[500px]">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[22px] p-6 h-full flex flex-col relative overflow-hidden">
-              
-              <div className="flex items-center justify-between mb-6 border-b border-slate-200 dark:border-slate-700 pb-4 shrink-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Calculator className="w-4 h-4 text-cyan-500" /> Result Engine
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 bg-white dark:bg-slate-800 px-2 py-1 rounded shadow-sm">
-                  {activeTab === "span" ? "Difference Mode" : "Math Mode"}
-                </span>
-              </div>
-
-              {/* --- RESULTS: SPAN MODE --- */}
-              {activeTab === "span" && spanCalc && (
-                <div className="flex-1 flex flex-col animate-in fade-in zoom-in-95">
-                  
-                  {/* Visual Wrap Alert */}
-                  {spanCalc.isOvernight && (
-                    <div className="mb-4 bg-violet-100 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 p-3 rounded-xl flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-violet-600 dark:text-violet-400">
-                      <Moon className="w-4 h-4" /> Cross-Midnight Shift Detected (+1 Day)
-                    </div>
-                  )}
-
-                  <div className="text-center bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 py-8 px-4 rounded-3xl shadow-sm mb-6 flex-1 flex flex-col justify-center relative overflow-hidden">
-                    <div className="absolute -left-6 -bottom-6 opacity-5">
-                      <Clock className="w-40 h-40 text-cyan-500" />
-                    </div>
-                    
-                    <span className="block text-xs font-black uppercase tracking-widest text-slate-400 mb-4 z-10">Total Duration</span>
-                    
-                    <div className="flex items-center justify-center gap-4 z-10">
-                      <div className="text-center">
-                        <span className="text-6xl sm:text-7xl font-black text-cyan-600 dark:text-cyan-400 tracking-tighter tabular-nums leading-none">
-                          {spanCalc.diffHours}
-                        </span>
-                        <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Hours</span>
-                      </div>
-                      <span className="text-4xl font-black text-slate-300 pb-4">:</span>
-                      <div className="text-center">
-                        <span className="text-6xl sm:text-7xl font-black text-cyan-600 dark:text-cyan-400 tracking-tighter tabular-nums leading-none">
-                          {spanCalc.diffMins.toString().padStart(2, '0')}
-                        </span>
-                        <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Minutes</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Payroll Decimal Breakdown */}
-                  <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-0.5 flex items-center gap-1.5">
-                        <Briefcase className="w-3.5 h-3.5" /> Payroll / Billing
-                      </span>
-                      <span className="text-[10px] font-bold text-slate-400">Decimal Hours Conversion</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-2xl font-black tabular-nums text-slate-800 dark:text-slate-100">{spanCalc.decimalHours}</span>
-                      <span className="text-xs font-bold text-slate-400 ml-1">hrs</span>
-                    </div>
-                  </div>
-
-                </div>
-              )}
-
-              {/* --- RESULTS: MATH MODE --- */}
-              {activeTab === "math" && mathCalc && (
-                <div className="flex-1 flex flex-col animate-in fade-in zoom-in-95">
-                  
-                  {/* Visual Wrap Alert */}
-                  {mathCalc.dayShift !== 0 && (
-                    <div className={`mb-4 border p-3 rounded-xl flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest ${mathCalc.dayShift > 0 ? 'bg-violet-100 dark:bg-violet-900/20 border-violet-200 dark:border-violet-800 text-violet-600 dark:text-violet-400' : 'bg-rose-100 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400'}`}>
-                      {mathCalc.dayShift > 0 ? <ArrowRight className="w-4 h-4" /> : <RotateCcw className="w-4 h-4" />}
-                      Shifted {mathCalc.dayShift > 0 ? `+${mathCalc.dayShift} Day(s) Ahead` : `${mathCalc.dayShift} Day(s) Back`}
-                    </div>
-                  )}
-
-                  <div className="text-center bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 py-10 px-4 rounded-3xl shadow-sm mb-6 flex-1 flex flex-col justify-center relative overflow-hidden">
-                    <div className="absolute -right-6 -bottom-6 opacity-5">
-                      <Timer className="w-40 h-40 text-violet-500" />
-                    </div>
-                    
-                    <span className="block text-xs font-black uppercase tracking-widest text-slate-400 mb-4 z-10">Calculated Clock Time</span>
-                    
-                    <div className="z-10">
-                      <span className="text-6xl sm:text-7xl font-black text-violet-600 dark:text-violet-400 tracking-tighter leading-none">
-                        {mathCalc.resultTime.split(' ')[0]}
-                      </span>
-                      <span className="text-3xl font-black text-slate-400 ml-2">
-                        {mathCalc.resultTime.split(' ')[1]}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-800 dark:bg-slate-800 p-4 rounded-2xl flex items-center justify-between text-white shadow-md">
-                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-300 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Math Applied
-                     </span>
-                     <span className="text-sm font-black tabular-nums tracking-widest">
-                       {mathAction === 'add' ? '+' : '-'} {mathHours || 0}H : {mathMins || 0}M : {mathSecs || 0}S
-                     </span>
-                  </div>
-
-                </div>
-              )}
-
+        {/* DASHBOARD RECEIPT */}
+        <div className="space-y-6 lg:sticky lg:top-6 min-w-0">
+          <div className="bg-surface border border-line p-5 sm:p-6 rounded-2xl shadow-card flex flex-col min-h-[440px] min-w-0">
+            
+            <div className="flex items-center justify-between mb-5 border-b border-line pb-3 shrink-0 min-w-0">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-ink truncate">
+                <Calculator className="w-4 h-4 text-brand shrink-0" /> Result Engine
+              </span>
+              <span className="text-[9px] font-bold uppercase tracking-wider text-muted bg-paper px-2 py-0.5 rounded border border-line shrink-0">
+                {activeTab === "span" ? "Difference" : "Math"}
+              </span>
             </div>
+
+            {/* SPAN MODE RESULTS */}
+            {activeTab === "span" && spanCalc && (
+              <div className="flex-1 flex flex-col animate-in fade-in min-w-0">
+                {spanCalc.isOvernight && (
+                  <div className="mb-4 bg-brand/10 border border-brand/30 p-2.5 rounded-xl flex items-center justify-center gap-1.5 text-[9px] font-black uppercase tracking-wider text-brand shrink-0">
+                    <Moon className="w-3.5 h-3.5 shrink-0" /> Cross-Midnight Shift (+1 Day)
+                  </div>
+                )}
+
+                <div className="text-center bg-paper border border-line py-7 px-4 rounded-xl shadow-sm mb-4 relative overflow-hidden min-w-0">
+                  <span className="block text-[10px] font-black uppercase tracking-widest text-muted mb-3 truncate">Total Duration</span>
+                  <div className="flex items-baseline justify-center gap-2 sm:gap-3 min-w-0">
+                    <div className="text-center min-w-0">
+                      <span className="text-5xl sm:text-6xl font-black text-brand tracking-tight tabular-nums leading-none">
+                        {spanCalc.diffHours}
+                      </span>
+                      <span className="block text-[9px] font-bold text-muted uppercase tracking-wider mt-1">Hours</span>
+                    </div>
+                    <span className="text-2xl font-black text-muted pb-4">:</span>
+                    <div className="text-center min-w-0">
+                      <span className="text-5xl sm:text-6xl font-black text-brand tracking-tight tabular-nums leading-none">
+                        {spanCalc.diffMins.toString().padStart(2, '0')}
+                      </span>
+                      <span className="block text-[9px] font-bold text-muted uppercase tracking-wider mt-1">Minutes</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-paper p-4 rounded-xl border border-line shadow-sm flex items-center justify-between min-w-0">
+                  <div className="min-w-0">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1 truncate">
+                      <Briefcase className="w-3 h-3 text-brand shrink-0" /> Payroll / Billing
+                    </span>
+                    <span className="text-[10px] font-semibold text-muted block truncate">Decimal Hours</span>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <span className="text-xl sm:text-2xl font-black tabular-nums text-ink">{spanCalc.decimalHours}</span>
+                    <span className="text-xs font-bold text-muted ml-1">hrs</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* MATH MODE RESULTS */}
+            {activeTab === "math" && mathCalc && (
+              <div className="flex-1 flex flex-col animate-in fade-in min-w-0">
+                {mathCalc.dayShift !== 0 && (
+                  <div className={`mb-4 border p-2.5 rounded-xl flex items-center justify-center gap-1.5 text-[9px] font-black uppercase tracking-wider shrink-0 ${mathCalc.dayShift > 0 ? 'bg-brand/10 border-brand/30 text-brand' : 'bg-[#fb7185]/10 border-[#fb7185]/30 text-[#e11d48]'}`}>
+                    {mathCalc.dayShift > 0 ? <ArrowRight className="w-3.5 h-3.5 shrink-0" /> : <RotateCcw className="w-3.5 h-3.5 shrink-0" />}
+                    Shifted {mathCalc.dayShift > 0 ? `+${mathCalc.dayShift} Day(s) Ahead` : `${mathCalc.dayShift} Day(s) Back`}
+                  </div>
+                )}
+
+                <div className="text-center bg-paper border border-line py-8 px-4 rounded-xl shadow-sm mb-4 relative overflow-hidden min-w-0">
+                  <span className="block text-[10px] font-black uppercase tracking-widest text-muted mb-2 truncate">Calculated Clock Time</span>
+                  <div className="min-w-0">
+                    <span className="text-5xl sm:text-6xl font-black text-brand tracking-tight tabular-nums leading-none">
+                      {mathCalc.resultTime.split(' ')[0]}
+                    </span>
+                    <span className="text-xl sm:text-2xl font-black text-muted ml-2">
+                      {mathCalc.resultTime.split(' ')}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="bg-slate-900 dark:bg-slate-800 text-white p-3.5 rounded-xl flex items-center justify-between shadow-sm min-w-0">
+                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-300 flex items-center gap-1.5 truncate">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-teal shrink-0" /> Math Applied
+                   </span>
+                   <span className="text-xs sm:text-sm font-black tabular-nums tracking-wider shrink-0">
+                     {mathAction === 'add' ? '+' : '-'} {mathHours || 0}H : {mathMins || 0}M : {mathSecs || 0}S
+                   </span>
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
 

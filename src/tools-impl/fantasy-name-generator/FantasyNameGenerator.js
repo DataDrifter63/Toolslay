@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Swords, Wand2, Shield, Sparkles, 
   Scroll, Dices, Copy, CheckCircle2, 
@@ -64,33 +64,27 @@ const ORIGINS = [
   "From the Gleaming Capital", "Of the Frozen Tundra", "Hailing from the Shimmering Coast"
 ];
 
-// Helper: Random item from array
 const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 export default function FantasyNameGenerator() {
   const [isMounted, setIsMounted] = useState(false);
   
-  // Controls
   const [race, setRace] = useState(RACES[0]);
   const [vibe, setVibe] = useState(VIBES[0]);
   const [useMid, setUseMid] = useState(true);
 
-  // App State
   const [currentHero, setCurrentHero] = useState(null);
   const [history, setHistory] = useState([]);
   const [copiedId, setCopiedId] = useState(null);
 
-  // Initial Generate on Mount
   useEffect(() => {
     setIsMounted(true);
     handleGenerate(RACES[0], VIBES[0], true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleGenerate = (selectedRace = race, selectedVibe = vibe, includeMid = useMid) => {
     const data = NAME_FRAGMENTS[selectedRace.id];
     
-    // Syllable Math
     const pre = rand(data.pre);
     const mid = includeMid && Math.random() > 0.3 ? rand(data.mid) : "";
     const suf = rand(data.suf);
@@ -99,7 +93,6 @@ export default function FantasyNameGenerator() {
     const title = rand(TITLES[selectedVibe.id]);
     const origin = rand(ORIGINS);
     
-    // Artificial "Meaning" Generator based on Prefix/Suffix logic
     const meanings = ["Bringer of", "Shadow of", "Light of", "Protector of", "Seeker of", "Voice of"];
     const nouns = ["the Dawn", "the Void", "Truth", "the Elements", "Stars", "the Realm"];
     const meaning = `"${rand(meanings)} ${rand(nouns)}"`;
@@ -115,7 +108,7 @@ export default function FantasyNameGenerator() {
     };
 
     setCurrentHero(newHero);
-    setHistory((prev) => [newHero, ...prev].slice(0, 10)); // Keep last 10
+    setHistory((prev) => [newHero, ...prev].slice(0, 10));
   };
 
   const handleCopy = (hero) => {
@@ -128,59 +121,58 @@ export default function FantasyNameGenerator() {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
       
-      {/* Premium Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-indigo-100 to-transparent dark:from-indigo-900/20 rounded-bl-full -z-10 opacity-70"></div>
-        <div className="flex items-center gap-4">
-          <div className="bg-indigo-50 dark:bg-indigo-900/30 p-3.5 rounded-2xl">
-            <Scroll className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+      {/* COMPACT SLEEK HEADER BAR */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex items-center justify-between gap-3 w-full box-border font-sans">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand shrink-0">
+            <Scroll className="w-5 h-5" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
               Fantasy Name Forge
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-              RPG Character Lore & Title Generator
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted truncate">
+              RPG character lore & title generator with custom syllable algorithms.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,460px] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-4 sm:gap-6 items-start w-full">
         
-        {/* ================= LEFT: FORGE CONTROLS ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8">
+        {/* LEFT: FORGE CONTROLS */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6 font-sans">
             
-            {/* Race Selection */}
             <div>
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <Map className="w-4 h-4 text-indigo-500" /> Lineage & Race
+              <label className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5 mb-3 border-b border-line pb-2">
+                <Map className="w-3.5 h-3.5 text-brand" /> Lineage & Race
               </label>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {RACES.map((r) => {
                   const Icon = r.icon;
                   const isActive = race.id === r.id;
                   return (
                     <button
                       key={r.id}
+                      type="button"
                       onClick={() => setRace(r)}
-                      className={`p-4 rounded-xl border-2 text-left transition-all flex flex-col gap-1.5 ${
+                      className={`p-3 rounded-xl border text-left transition-all flex flex-col gap-1 ${
                         isActive
-                          ? "bg-indigo-50 dark:bg-indigo-900/20 border-indigo-500 shadow-sm"
-                          : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-indigo-200"
+                          ? "bg-brand/10 border-brand shadow-sm"
+                          : "bg-surface border-line hover:border-brand/50"
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className={`block text-xs font-black uppercase tracking-widest ${isActive ? 'text-indigo-700 dark:text-indigo-400' : 'text-slate-600 dark:text-slate-400'}`}>
+                        <span className={`block text-xs font-black uppercase tracking-wider ${isActive ? 'text-brand' : 'text-ink'}`}>
                           {r.label}
                         </span>
-                        <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-500' : 'text-slate-400'}`} />
+                        <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-brand' : 'text-muted'}`} />
                       </div>
-                      <span className="block text-[10px] font-medium text-slate-500">
+                      <span className="block text-[10px] font-bold text-muted truncate">
                         {r.desc}
                       </span>
                     </button>
@@ -189,28 +181,28 @@ export default function FantasyNameGenerator() {
               </div>
             </div>
 
-            {/* Class / Vibe Selection */}
             <div>
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <Swords className="w-4 h-4 text-indigo-500" /> Class & Vibe
+              <label className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5 mb-3 border-b border-line pb-2">
+                <Swords className="w-3.5 h-3.5 text-brand" /> Class & Vibe
               </label>
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2.5">
                 {VIBES.map((v) => {
                   const Icon = v.icon;
                   const isActive = vibe.id === v.id;
                   return (
                     <button
                       key={v.id}
+                      type="button"
                       onClick={() => setVibe(v)}
-                      className={`p-3 rounded-xl border-2 text-center transition-all flex flex-col items-center justify-center gap-2 ${
+                      className={`p-3 rounded-xl border text-center transition-all flex flex-col items-center justify-center gap-2 ${
                         isActive
-                          ? `bg-${v.color}-50 dark:bg-${v.color}-900/20 ${v.border} shadow-sm scale-[1.02]`
-                          : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-slate-300"
+                          ? "bg-brand/10 border-brand shadow-sm"
+                          : "bg-surface border-line hover:border-brand/50"
                       }`}
                     >
-                      <Icon className={`w-5 h-5 ${isActive ? v.text : 'text-slate-400'}`} />
-                      <span className={`block text-[10px] font-black uppercase tracking-widest ${isActive ? v.text : 'text-slate-600 dark:text-slate-400'}`}>
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-brand' : 'text-muted'}`} />
+                      <span className={`block text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-brand' : 'text-ink'}`}>
                         {v.label}
                       </span>
                     </button>
@@ -219,125 +211,120 @@ export default function FantasyNameGenerator() {
               </div>
             </div>
 
-            {/* Syllable Complexity Toggle */}
-            <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+            <div className="flex items-center justify-between bg-surface p-3.5 rounded-xl border border-line">
               <div>
-                <span className="block text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-widest mb-1">Complex Names</span>
-                <span className="text-[10px] font-medium text-slate-500">Allow longer, 3-syllable names</span>
+                <span className="block text-xs font-bold text-ink uppercase tracking-wider mb-0.5">Complex Names</span>
+                <span className="text-[10px] font-bold text-muted">Allow longer, 3-syllable names</span>
               </div>
-              <div 
-                className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-colors ${useMid ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-slate-600'}`}
+              <button 
+                type="button"
                 onClick={() => setUseMid(!useMid)}
+                className={`w-11 h-6 rounded-full p-1 cursor-pointer transition-colors ${useMid ? 'bg-brand' : 'bg-line'}`}
               >
-                <div className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${useMid ? 'translate-x-6' : 'translate-x-0'}`}></div>
-              </div>
+                <div className={`w-4 h-4 rounded-full bg-surface shadow-sm transition-transform ${useMid ? 'translate-x-5' : 'translate-x-0'}`}></div>
+              </button>
             </div>
 
-            {/* BIG GENERATE BUTTON */}
             <button
+              type="button"
               onClick={() => handleGenerate()}
-              className="w-full py-5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-widest shadow-lg shadow-indigo-500/30 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+              className="w-full py-3.5 rounded-xl bg-brand text-surface text-xs font-black uppercase tracking-wider shadow-sm transition-opacity hover:opacity-90 flex items-center justify-center gap-2"
             >
-              <Dices className="w-6 h-6" /> Roll New Character
+              <Dices className="w-4 h-4" /> Roll New Character
             </button>
 
           </div>
         </div>
 
-        {/* ================= RIGHT: HERO DASHBOARD ================= */}
-        <div className="space-y-6 sticky top-6">
+        {/* RIGHT: HERO DASHBOARD */}
+        <div className="space-y-4 sm:space-y-6 w-full font-sans">
           
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative overflow-hidden flex flex-col min-h-[700px]">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[22px] p-6 h-full flex flex-col">
-              
-              <div className="flex items-center justify-between mb-6">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-sm">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500" /> Current Hero
-                </span>
-              </div>
-              
-              {/* PRIMARY HERO CARD */}
-              {currentHero && (
-                <div 
-                  key={currentHero.id}
-                  className={`bg-white dark:bg-slate-900 border-2 ${currentHero.vibe.border} rounded-2xl p-6 shadow-md relative overflow-hidden animate-in fade-in zoom-in-95 duration-300 mb-8`}
-                >
-                  <div className={`absolute top-0 right-0 w-32 h-32 opacity-10 bg-gradient-to-bl from-current to-transparent rounded-bl-full ${currentHero.vibe.text}`}></div>
-                  
-                  <div className="relative z-10 text-center mb-6">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">
-                      {currentHero.race.label} {currentHero.vibe.label}
-                    </span>
-                    <h3 className="text-4xl lg:text-5xl font-black text-slate-800 dark:text-slate-100 tracking-tight leading-none mb-3">
-                      {currentHero.name}
-                    </h3>
-                    <span className={`text-lg font-bold uppercase tracking-widest ${currentHero.vibe.text}`}>
-                      {currentHero.title}
-                    </span>
-                  </div>
-
-                  <div className="space-y-3 relative z-10 border-t border-slate-100 dark:border-slate-800 pt-4">
-                    <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 px-3 py-2 rounded-lg">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Origin</span>
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{currentHero.origin}</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 px-3 py-2 rounded-lg">
-                      <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Meaning</span>
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300 italic">{currentHero.meaning}</span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => handleCopy(currentHero)}
-                    className={`mt-6 w-full flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-                      copiedId === currentHero.id 
-                      ? "bg-emerald-500 text-white" 
-                      : `bg-slate-100 dark:bg-slate-800 ${currentHero.vibe.text} hover:opacity-80`
-                    }`}
-                  >
-                    {copiedId === currentHero.id ? <><CheckCircle2 className="w-4 h-4"/> Copied to Clipboard</> : <><Copy className="w-4 h-4"/> Copy Full Lore</>}
-                  </button>
-                </div>
-              )}
-
-              {/* THE TAVERN (HISTORY) */}
-              <div className="flex-1 flex flex-col">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 flex items-center gap-1.5">
-                  <History className="w-4 h-4 text-slate-400" /> The Tavern (Recent Rolls)
-                </h4>
-                
-                <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar pr-2">
-                  {history.slice(1).map((hero) => (
-                    <div 
-                      key={hero.id} 
-                      className="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-3 rounded-xl flex items-center justify-between hover:border-indigo-300 transition-colors cursor-pointer"
-                      onClick={() => handleCopy(hero)}
-                    >
-                      <div>
-                        <span className="block text-sm font-black text-slate-800 dark:text-slate-100">
-                          {hero.name} <span className="opacity-60">{hero.title}</span>
-                        </span>
-                        <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">
-                          {hero.race.label} {hero.vibe.label}
-                        </span>
-                      </div>
-                      <button className="text-slate-300 group-hover:text-indigo-500 transition-colors">
-                        {copiedId === hero.id ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-                      </button>
-                    </div>
-                  ))}
-                  
-                  {history.length <= 1 && (
-                    <div className="h-full flex items-center justify-center text-center opacity-40">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Keep rolling to fill the tavern</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+            
+            <div className="flex items-center justify-between border-b border-line pb-2">
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-brand" /> Current Hero
+              </span>
             </div>
+            
+            {currentHero && (
+              <div className="bg-surface border border-line rounded-2xl p-4 sm:p-5 shadow-sm relative overflow-hidden animate-in fade-in">
+                <div className="text-center mb-4">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-muted block mb-1">
+                    {currentHero.race.label} · {currentHero.vibe.label}
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-black text-ink tracking-tight leading-none mb-2 break-all">
+                    {currentHero.name}
+                  </h3>
+                  <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand">
+                    {currentHero.title}
+                  </span>
+                </div>
+
+                <div className="space-y-2 border-t border-line pt-3">
+                  <div className="flex justify-between items-center bg-paper px-3 py-2 rounded-xl border border-line">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted">Origin</span>
+                    <span className="text-xs font-bold text-ink">{currentHero.origin}</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-paper px-3 py-2 rounded-xl border border-line">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-muted">Meaning</span>
+                    <span className="text-xs font-bold text-ink italic">{currentHero.meaning}</span>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleCopy(currentHero)}
+                  className={`mt-4 w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all ${
+                    copiedId === currentHero.id 
+                      ? "bg-emerald-500 text-surface" 
+                      : "bg-surface border border-line text-ink hover:border-brand"
+                  }`}
+                >
+                  {copiedId === currentHero.id ? <><CheckCircle2 className="w-4 h-4"/> Copied Lore</> : <><Copy className="w-4 h-4"/> Copy Full Lore</>}
+                </button>
+              </div>
+            )}
+
+            {/* THE TAVERN (HISTORY) */}
+            <div className="space-y-2 pt-2">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5">
+                <History className="w-3.5 h-3.5 text-muted" /> The Tavern (Recent Rolls)
+              </h4>
+              
+              <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                {history.slice(1).map((hero) => (
+                  <div 
+                    key={hero.id} 
+                    className="group bg-surface border border-line p-3 rounded-xl flex items-center justify-between hover:border-brand/50 transition-colors cursor-pointer"
+                    onClick={() => handleCopy(hero)}
+                  >
+                    <div className="min-w-0 pr-2">
+                      <span className="block text-xs font-black text-ink truncate">
+                        {hero.name} <span className="text-muted font-normal">{hero.title}</span>
+                      </span>
+                      <span className="text-[9px] font-black uppercase tracking-widest text-muted">
+                        {hero.race.label} · {hero.vibe.label}
+                      </span>
+                    </div>
+                    <button type="button" className="text-muted group-hover:text-brand transition-colors shrink-0">
+                      {copiedId === hero.id ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                    </button>
+                  </div>
+                ))}
+                
+                {history.length <= 1 && (
+                  <div className="py-8 text-center opacity-40">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-muted">Keep rolling to fill the tavern</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
           </div>
+
         </div>
+
       </div>
     </div>
   );

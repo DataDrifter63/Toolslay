@@ -1,280 +1,12 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Crop, Upload, RotateCcw, RotateCw, FlipHorizontal, FlipVertical, 
+  Grid, Download, Trash2, CheckCircle2, Sliders, Zap
+} from "lucide-react";
 
 const h = React.createElement;
-
-const S = {
-  wrap: {
-    width: "100%",
-    maxWidth: "1080px",
-    margin: "0 auto",
-    padding: "24px",
-    fontFamily:
-      "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
-    color: "#111827",
-    background: "#ffffff",
-    border: "1px solid #e5e7eb",
-    borderRadius: "24px",
-    boxShadow: "0 12px 40px rgba(15,23,42,.07)",
-  },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    gap: "20px",
-    marginBottom: "22px",
-    flexWrap: "wrap",
-  },
-  title: {
-    margin: 0,
-    fontSize: "28px",
-    fontWeight: 800,
-    letterSpacing: "-0.7px",
-  },
-  subtitle: {
-    margin: "7px 0 0",
-    color: "#64748b",
-    fontSize: "14px",
-    lineHeight: 1.5,
-  },
-  badge: {
-    padding: "8px 12px",
-    borderRadius: "999px",
-    background: "#f5f3ff",
-    color: "#5b45e6",
-    fontSize: "12px",
-    fontWeight: 700,
-    whiteSpace: "nowrap",
-  },
-  upload: {
-    border: "2px dashed #cbd5e1",
-    borderRadius: "18px",
-    minHeight: "190px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    cursor: "pointer",
-    background: "#f8fafc",
-    transition: "all .2s ease",
-    padding: "30px",
-  },
-  uploadInner: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "10px",
-  },
-  uploadIcon: {
-    width: "58px",
-    height: "58px",
-    borderRadius: "16px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "#ede9fe",
-    color: "#5b45e6",
-    fontSize: "27px",
-  },
-  uploadTitle: {
-    fontSize: "17px",
-    fontWeight: 750,
-  },
-  muted: {
-    color: "#64748b",
-    fontSize: "13px",
-  },
-  hidden: {
-    display: "none",
-  },
-  editor: {
-    marginTop: "20px",
-  },
-  stage: {
-    width: "100%",
-    height: "520px",
-    position: "relative",
-    overflow: "hidden",
-    borderRadius: "18px",
-    background:
-      "linear-gradient(45deg,#e5e7eb 25%,transparent 25%),linear-gradient(-45deg,#e5e7eb 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e5e7eb 75%),linear-gradient(-45deg,transparent 75%,#e5e7eb 75%)",
-    backgroundSize: "24px 24px",
-    backgroundPosition: "0 0,0 12px,12px -12px,-12px 0",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    userSelect: "none",
-  },
-  imageBox: {
-    position: "relative",
-    overflow: "visible",
-    touchAction: "none",
-  },
-  image: {
-    display: "block",
-    width: "100%",
-    height: "100%",
-    objectFit: "fill",
-    pointerEvents: "none",
-  },
-  shade: {
-    position: "absolute",
-    background: "rgba(0,0,0,.52)",
-    pointerEvents: "none",
-  },
-  cropBox: {
-    position: "absolute",
-    border: "2px solid #ffffff",
-    boxShadow: "0 0 0 1px rgba(91,69,230,.7), 0 8px 30px rgba(0,0,0,.25)",
-    cursor: "move",
-    touchAction: "none",
-  },
-  gridV1: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: "33.333%",
-    width: "1px",
-    background: "rgba(255,255,255,.5)",
-    pointerEvents: "none",
-  },
-  gridV2: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: "66.666%",
-    width: "1px",
-    background: "rgba(255,255,255,.5)",
-    pointerEvents: "none",
-  },
-  gridH1: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: "33.333%",
-    height: "1px",
-    background: "rgba(255,255,255,.5)",
-    pointerEvents: "none",
-  },
-  gridH2: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: "66.666%",
-    height: "1px",
-    background: "rgba(255,255,255,.5)",
-    pointerEvents: "none",
-  },
-  handle: {
-    position: "absolute",
-    width: "12px",
-    height: "12px",
-    borderRadius: "4px",
-    background: "#ffffff",
-    border: "2px solid #5b45e6",
-    boxSizing: "border-box",
-    zIndex: 5,
-  },
-  toolbar: {
-    marginTop: "18px",
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))",
-    gap: "12px",
-  },
-  control: {
-    border: "1px solid #e2e8f0",
-    borderRadius: "14px",
-    padding: "13px",
-    background: "#ffffff",
-  },
-  label: {
-    display: "block",
-    fontSize: "11px",
-    fontWeight: 800,
-    color: "#64748b",
-    textTransform: "uppercase",
-    letterSpacing: ".5px",
-    marginBottom: "8px",
-  },
-  select: {
-    width: "100%",
-    height: "40px",
-    border: "1px solid #dbe2ea",
-    borderRadius: "10px",
-    padding: "0 10px",
-    background: "#fff",
-    color: "#111827",
-    outline: "none",
-  },
-  range: {
-    width: "100%",
-    accentColor: "#5b45e6",
-  },
-  buttonRow: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "9px",
-    marginTop: "14px",
-  },
-  button: {
-    height: "42px",
-    padding: "0 15px",
-    borderRadius: "11px",
-    border: "1px solid #e2e8f0",
-    background: "#ffffff",
-    color: "#172033",
-    fontWeight: 700,
-    cursor: "pointer",
-  },
-  primary: {
-    height: "44px",
-    padding: "0 19px",
-    borderRadius: "11px",
-    border: "0",
-    background: "#5b45e6",
-    color: "#ffffff",
-    fontWeight: 800,
-    cursor: "pointer",
-    boxShadow: "0 7px 18px rgba(91,69,230,.22)",
-  },
-  danger: {
-    height: "42px",
-    padding: "0 15px",
-    borderRadius: "11px",
-    border: "1px solid #fecaca",
-    background: "#fff7f7",
-    color: "#dc2626",
-    fontWeight: 700,
-    cursor: "pointer",
-  },
-  info: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "9px",
-    marginTop: "15px",
-  },
-  stat: {
-    padding: "10px 13px",
-    background: "#f8fafc",
-    border: "1px solid #e2e8f0",
-    borderRadius: "10px",
-    fontSize: "12px",
-    color: "#475569",
-  },
-  statStrong: {
-    color: "#111827",
-    fontWeight: 800,
-  },
-  empty: {
-    marginTop: "18px",
-    padding: "15px",
-    borderRadius: "12px",
-    background: "#f8fafc",
-    color: "#64748b",
-    fontSize: "13px",
-  },
-};
 
 function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v));
@@ -286,7 +18,8 @@ function getFileExtension(format) {
   return "png";
 }
 
-function ImageCropTool() {
+export default function ImageCropTool() {
+  const [isMounted, setIsMounted] = useState(false);
   const inputRef = useRef(null);
   const imageRef = useRef(null);
   const stageRef = useRef(null);
@@ -315,6 +48,10 @@ function ImageCropTool() {
 
   const [resultInfo, setResultInfo] = useState(null);
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const loadFile = useCallback(function (selectedFile) {
     if (!selectedFile || !selectedFile.type.startsWith("image/")) {
@@ -766,7 +503,11 @@ function ImageCropTool() {
   };
 
   const stageImageStyle = {
-    ...S.image,
+    display: "block",
+    width: "100%",
+    height: "100%",
+    objectFit: "fill",
+    pointerEvents: "none",
     transform:
       "scale(" +
       zoom +
@@ -782,49 +523,30 @@ function ImageCropTool() {
 
   const handleStyle = function (position) {
     const base = {
-      ...S.handle,
+      position: "absolute",
+      width: "12px",
+      height: "12px",
+      borderRadius: "4px",
+      background: "#ffffff",
+      border: "2px solid var(--color-brand, #4f46e5)",
+      boxSizing: "border-box",
+      zIndex: 5,
     };
 
-    if (position.indexOf("top") !== -1) {
-      base.top = "-7px";
-    }
-
-    if (position.indexOf("bottom") !== -1) {
-      base.bottom = "-7px";
-    }
-
-    if (position.indexOf("left") !== -1) {
-      base.left = "-7px";
-    }
-
-    if (position.indexOf("right") !== -1) {
-      base.right = "-7px";
-    }
-
-    if (position === "top" || position === "bottom") {
-      base.left = "calc(50% - 6px)";
-    }
-
-    if (position === "left" || position === "right") {
-      base.top = "calc(50% - 6px)";
-    }
+    if (position.indexOf("top") !== -1) base.top = "-7px";
+    if (position.indexOf("bottom") !== -1) base.bottom = "-7px";
+    if (position.indexOf("left") !== -1) base.left = "-7px";
+    if (position.indexOf("right") !== -1) base.right = "-7px";
+    if (position === "top" || position === "bottom") base.left = "calc(50% - 6px)";
+    if (position === "left" || position === "right") base.top = "calc(50% - 6px)";
 
     return base;
   };
 
   const handleCursor = function (position) {
-    if (position === "top-left" || position === "bottom-right") {
-      return "nwse-resize";
-    }
-
-    if (position === "top-right" || position === "bottom-left") {
-      return "nesw-resize";
-    }
-
-    if (position === "top" || position === "bottom") {
-      return "ns-resize";
-    }
-
+    if (position === "top-left" || position === "bottom-right") return "nwse-resize";
+    if (position === "top-right" || position === "bottom-left") return "nesw-resize";
+    if (position === "top" || position === "bottom") return "ns-resize";
     return "ew-resize";
   };
 
@@ -841,643 +563,345 @@ function ImageCropTool() {
     });
   };
 
-  return h(
-    "div",
-    { style: S.wrap },
-
-    h(
-      "div",
-      { style: S.header },
-
-      h(
-        "div",
-        null,
-
-        h(
-          "h2",
-          { style: S.title },
-          "Image Crop Tool"
-        ),
-
-        h(
-          "p",
-          { style: S.subtitle },
-          "Crop, rotate, flip and export images with precision — directly in your browser."
-        )
-      ),
-
-      h(
-        "div",
-        { style: S.badge },
-        "100% Browser Based"
-      )
-    ),
-
-    h(
-      "input",
-      {
-        ref: inputRef,
-        type: "file",
-        accept: "image/*",
-        style: S.hidden,
-        onChange: onInputChange,
-      }
-    ),
-
-    !src &&
-      h(
-        "div",
-        {
-          style: S.upload,
-          onClick: openPicker,
-          onDragOver: function (e) {
-            e.preventDefault();
-          },
-          onDrop: function (e) {
-            e.preventDefault();
-
-            const dropped =
-              e.dataTransfer.files &&
-              e.dataTransfer.files[0];
-
-            if (dropped) {
-              loadFile(dropped);
-            }
-          },
-        },
-
-        h(
-          "div",
-          { style: S.uploadInner },
-
-          h(
-            "div",
-            { style: S.uploadIcon },
-            "✦"
-          ),
-
-          h(
-            "div",
-            { style: S.uploadTitle },
-            "Drop your image here"
-          ),
-
-          h(
-            "div",
-            { style: S.muted },
-            "or click to browse • JPG, PNG, WebP, GIF and more"
-          )
-        )
-      ),
-
-    src &&
-      h(
-        "div",
-        { style: S.editor },
-
-        h(
-          "div",
-          { style: S.stage, ref: stageRef },
-
-          h(
-            "div",
-            {
-              style: {
-                ...S.imageBox,
-                width: "min(92%, 900px)",
-                aspectRatio:
-                  imageSize.width && imageSize.height
-                    ? imageSize.width +
-                      " / " +
-                      imageSize.height
-                    : "16 / 9",
-              },
-            },
-
-            h("img", {
-              ref: imageRef,
-              src: src,
-              alt: "Crop preview",
-              style: stageImageStyle,
-              onLoad: onImageLoad,
-              draggable: false,
-            }),
-
-            h("div", {
-              style: {
-                ...S.shade,
-                left: 0,
-                top: 0,
-                width: "100%",
-                height: crop.y + "%",
-              },
-            }),
-
-            h("div", {
-              style: {
-                ...S.shade,
-                left: 0,
-                top: crop.y + "%",
-                width: crop.x + "%",
-                height: crop.h + "%",
-              },
-            }),
-
-            h("div", {
-              style: {
-                ...S.shade,
-                left: crop.x + crop.w + "%",
-                top: crop.y + "%",
-                width:
-                  100 - crop.x - crop.w + "%",
-                height: crop.h + "%",
-              },
-            }),
-
-            h("div", {
-              style: {
-                ...S.shade,
-                left: 0,
-                top: crop.y + crop.h + "%",
-                width: "100%",
-                height:
-                  100 - crop.y - crop.h + "%",
-              },
-            }),
-
-            h(
-              "div",
-              {
-                style: {
-                  ...S.cropBox,
-                  ...cropStyle,
-                },
-                onPointerDown: function (e) {
-                  startMove(e, "move");
-                },
-              },
-
-              showGrid &&
-                h("div", {
-                  style: S.gridV1,
-                }),
-
-              showGrid &&
-                h("div", {
-                  style: S.gridV2,
-                }),
-
-              showGrid &&
-                h("div", {
-                  style: S.gridH1,
-                }),
-
-              showGrid &&
-                h("div", {
-                  style: S.gridH2,
-                }),
-
-              [
-                "top-left",
-                "top",
-                "top-right",
-                "left",
-                "right",
-                "bottom-left",
-                "bottom",
-                "bottom-right",
-              ].map(makeHandle)
-            )
-          )
-        ),
-
-        h(
-          "div",
-          { style: S.info },
-
-          h(
-            "div",
-            { style: S.stat },
-            "Original: ",
-            h(
-              "span",
-              { style: S.statStrong },
-              imageSize.width +
-                " × " +
-                imageSize.height
-            )
-          ),
-
-          h(
-            "div",
-            { style: S.stat },
-            "Crop: ",
-            h(
-              "span",
-              { style: S.statStrong },
-              Math.round(
-                (crop.w / 100) * imageSize.width
-              ) +
-                " × " +
-                Math.round(
-                  (crop.h / 100) * imageSize.height
-                )
-            )
-          ),
-
-          h(
-            "div",
-            { style: S.stat },
-            "Zoom: ",
-            h(
-              "span",
-              { style: S.statStrong },
-              Math.round(zoom * 100) + "%"
-            )
-          ),
-
-          h(
-            "div",
-            { style: S.stat },
-            "Rotation: ",
-            h(
-              "span",
-              { style: S.statStrong },
-              rotation + "°"
-            )
-          )
-        ),
-
-        h(
-          "div",
-          { style: S.toolbar },
-
-          h(
-            "div",
-            { style: S.control },
-
-            h(
-              "label",
-              { style: S.label },
-              "Aspect Ratio"
-            ),
-
-            h(
-              "select",
-              {
-                value: aspect,
-                style: S.select,
-                onChange: function (e) {
-                  changeAspect(e.target.value);
-                },
-              },
-
-              h(
-                "option",
-                { value: "free" },
-                "Free Crop"
-              ),
-
-              h(
-                "option",
-                { value: "1" },
-                "1 : 1 Square"
-              ),
-
-              h(
-                "option",
-                { value: "0.8" },
-                "4 : 5 Portrait"
-              ),
-
-              h(
-                "option",
-                { value: "1.7777777778" },
-                "16 : 9 Landscape"
-              ),
-
-              h(
-                "option",
-                { value: "0.5625" },
-                "9 : 16 Story"
-              )
-            )
-          ),
-
-          h(
-            "div",
-            { style: S.control },
-
-            h(
-              "label",
-              { style: S.label },
-              "Quick Preset"
-            ),
-
-            h(
-              "select",
-              {
-                defaultValue: "",
-                style: S.select,
-                onChange: function (e) {
-                  selectPreset(e.target.value);
-                  e.target.value = "";
-                },
-              },
-
-              h(
-                "option",
-                { value: "" },
-                "Choose preset..."
-              ),
-
-              h(
-                "option",
-                { value: "square" },
-                "Square"
-              ),
-
-              h(
-                "option",
-                { value: "portrait" },
-                "Portrait 4:5"
-              ),
-
-              h(
-                "option",
-                { value: "landscape" },
-                "Landscape 16:9"
-              ),
-
-              h(
-                "option",
-                { value: "story" },
-                "Story 9:16"
-              ),
-
-              h(
-                "option",
-                { value: "youtube" },
-                "YouTube 16:9"
-              )
-            )
-          ),
-
-          h(
-            "div",
-            { style: S.control },
-
-            h(
-              "label",
-              { style: S.label },
-              "Zoom • " +
-                Math.round(zoom * 100) +
-                "%"
-            ),
-
-            h("input", {
-              type: "range",
-              min: "1",
-              max: "2",
-              step: "0.01",
-              value: zoom,
-              style: S.range,
-              onChange: function (e) {
-                setZoom(Number(e.target.value));
-              },
-            })
-          ),
-
-          h(
-            "div",
-            { style: S.control },
-
-            h(
-              "label",
-              { style: S.label },
-              "Output Format"
-            ),
-
-            h(
-              "select",
-              {
-                value: format,
-                style: S.select,
-                onChange: function (e) {
-                  setFormat(e.target.value);
-                },
-              },
-
-              h(
-                "option",
-                { value: "image/jpeg" },
-                "JPG"
-              ),
-
-              h(
-                "option",
-                { value: "image/png" },
-                "PNG"
-              ),
-
-              h(
-                "option",
-                { value: "image/webp" },
-                "WebP"
-              )
-            )
-          ),
-
-          h(
-            "div",
-            { style: S.control },
-
-            h(
-              "label",
-              { style: S.label },
-              "Quality • " +
-                quality +
-                "%"
-            ),
-
-            h("input", {
-              type: "range",
-              min: "40",
-              max: "100",
-              step: "1",
-              value: quality,
-              disabled: format === "image/png",
-              style: S.range,
-              onChange: function (e) {
-                setQuality(Number(e.target.value));
-              },
-            })
-          )
-        ),
-
-        h(
-          "div",
-          { style: S.buttonRow },
-
-          h(
-            "button",
-            {
-              type: "button",
-              style: S.button,
-              onClick: rotateLeft,
-            },
-            "↶ Rotate Left"
-          ),
-
-          h(
-            "button",
-            {
-              type: "button",
-              style: S.button,
-              onClick: rotateRight,
-            },
-            "↷ Rotate Right"
-          ),
-
-          h(
-            "button",
-            {
-              type: "button",
-              style: S.button,
-              onClick: function () {
-                setFlipX(function (v) {
-                  return !v;
-                });
-              },
-            },
-            "↔ Flip H"
-          ),
-
-          h(
-            "button",
-            {
-              type: "button",
-              style: S.button,
-              onClick: function () {
-                setFlipY(function (v) {
-                  return !v;
-                });
-              },
-            },
-            "↕ Flip V"
-          ),
-
-          h(
-            "button",
-            {
-              type: "button",
-              style: S.button,
-              onClick: function () {
-                setShowGrid(function (v) {
-                  return !v;
-                });
-              },
-            },
-            showGrid
-              ? "Hide Grid"
-              : "Show Grid"
-          ),
-
-          h(
-            "button",
-            {
-              type: "button",
-              style: S.button,
-              onClick: resetCrop,
-            },
-            "Reset"
-          ),
-
-          h(
-            "button",
-            {
-              type: "button",
-              style: S.danger,
-              onClick: removeImage,
-            },
-            "Remove Image"
-          )
-        ),
-
-        h(
-          "div",
-          { style: S.buttonRow },
-
-          h(
-            "label",
-            {
-              style: {
-                ...S.button,
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-              },
-            },
-
-            h("input", {
-              type: "checkbox",
-              checked: autoDownload,
-              onChange: function (e) {
-                setAutoDownload(e.target.checked);
-              },
-            }),
-
-            "Auto Download"
-          ),
-
-          h(
-            "button",
-            {
-              type: "button",
-              style: S.primary,
-              disabled: busy,
-              onClick: cropImage,
-            },
-            busy
-              ? "Processing..."
-              : "Crop & Download Image"
-          )
-        ),
-
-        resultInfo &&
-          h(
-            "div",
-            {
-              style: {
-                ...S.empty,
-                background: "#f0fdf4",
-                color: "#166534",
-                border: "1px solid #bbf7d0",
-              },
-            },
-
-            h(
-              "strong",
-              null,
-              "Done! "
-            ),
-
-            resultInfo.width +
-              " × " +
-              resultInfo.height +
-              " px • " +
-              resultInfo.size.toFixed(1) +
-              " KB"
-          )
-      )
+  if (!isMounted) return null;
+
+  return (
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
+      
+      {/* Header */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border relative overflow-hidden">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="bg-paper p-2.5 sm:p-3.5 rounded-xl border border-line shrink-0">
+            <Crop className="w-5 h-5 sm:w-6 sm:h-6 text-brand" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-2xl font-black text-ink tracking-tight truncate">
+              Image Crop Tool
+            </h2>
+            <p className="text-[9px] sm:text-[10px] font-black text-brand uppercase tracking-widest mt-0.5 truncate">
+              Crop, rotate, flip and export images with precision — directly in your browser.
+            </p>
+          </div>
+        </div>
+        <div className="px-3 py-1.5 rounded-xl bg-surface border border-line text-brand text-[10px] font-black uppercase tracking-wider shrink-0 shadow-sm">
+          100% Browser Based
+        </div>
+      </div>
+
+      <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6">
+
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={onInputChange}
+        />
+
+        {!src && (
+          <div
+            onClick={openPicker}
+            onDragOver={function (e) {
+              e.preventDefault();
+            }}
+            onDrop={function (e) {
+              e.preventDefault();
+              const dropped = e.dataTransfer.files && e.dataTransfer.files[0];
+              if (dropped) {
+                loadFile(dropped);
+              }
+            }}
+            className="border-2 border-dashed border-line hover:border-brand rounded-2xl p-8 sm:p-14 text-center cursor-pointer transition-all bg-surface group"
+          >
+            <div className="w-14 h-14 mx-auto mb-3 rounded-xl bg-paper border border-line flex items-center justify-center text-brand text-2xl group-hover:scale-105 transition-transform shadow-sm">
+              <Upload className="w-6 h-6 shrink-0" />
+            </div>
+            <div className="text-sm sm:text-base font-black text-ink tracking-tight">
+              Drop your image here
+            </div>
+            <div className="text-xs text-muted mt-1">
+              or click to browse • JPG, PNG, WebP, GIF and more
+            </div>
+          </div>
+        )}
+
+        {src && (
+          <div className="space-y-6">
+            
+            {/* Stage */}
+            <div 
+              ref={stageRef}
+              className="w-full h-[400px] sm:h-[520px] relative overflow-hidden rounded-2xl bg-surface border border-line flex items-center justify-center select-none shadow-inner"
+              style={{
+                backgroundImage: "linear-gradient(45deg,#e5e7eb 25%,transparent 25%),linear-gradient(-45deg,#e5e7eb 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#e5e7eb 75%),linear-gradient(-45deg,transparent 75%,#e5e7eb 75%)",
+                backgroundSize: "24px 24px",
+                backgroundPosition: "0 0,0 12px,12px -12px,-12px 0"
+              }}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  overflow: "visible",
+                  touchAction: "none",
+                  width: "min(92%, 900px)",
+                  aspectRatio: imageSize.width && imageSize.height ? imageSize.width + " / " + imageSize.height : "16 / 9",
+                }}
+              >
+                <img
+                  ref={imageRef}
+                  src={src}
+                  alt="Crop preview"
+                  style={stageImageStyle}
+                  onLoad={onImageLoad}
+                  draggable={false}
+                />
+
+                {/* Shading Overlays */}
+                <div style={{ position: "absolute", background: "rgba(0,0,0,.52)", pointerEvents: "none", left: 0, top: 0, width: "100%", height: crop.y + "%" }} />
+                <div style={{ position: "absolute", background: "rgba(0,0,0,.52)", pointerEvents: "none", left: 0, top: crop.y + "%", width: crop.x + "%", height: crop.h + "%" }} />
+                <div style={{ position: "absolute", background: "rgba(0,0,0,.52)", pointerEvents: "none", left: crop.x + crop.w + "%", top: crop.y + "%", width: 100 - crop.x - crop.w + "%", height: crop.h + "%" }} />
+                <div style={{ position: "absolute", background: "rgba(0,0,0,.52)", pointerEvents: "none", left: 0, top: crop.y + crop.h + "%", width: "100%", height: 100 - crop.y - crop.h + "%" }} />
+
+                {/* Active Crop Box */}
+                <div
+                  style={{
+                    position: "absolute",
+                    border: "2px solid #ffffff",
+                    boxShadow: "0 0 0 1px rgba(79,70,229,.7), 0 8px 30px rgba(0,0,0,.25)",
+                    cursor: "move",
+                    touchAction: "none",
+                    ...cropStyle,
+                  }}
+                  onPointerDown={function (e) {
+                    startMove(e, "move");
+                  }}
+                >
+                  {showGrid && <div style={{ position: "absolute", top: 0, bottom: 0, left: "33.333%", width: "1px", background: "rgba(255,255,255,.5)", pointerEvents: "none" }} />}
+                  {showGrid && <div style={{ position: "absolute", top: 0, bottom: 0, left: "66.666%", width: "1px", background: "rgba(255,255,255,.5)", pointerEvents: "none" }} />}
+                  {showGrid && <div style={{ position: "absolute", left: 0, right: 0, top: "33.333%", height: "1px", background: "rgba(255,255,255,.5)", pointerEvents: "none" }} />}
+                  {showGrid && <div style={{ position: "absolute", left: 0, right: 0, top: "66.666%", height: "1px", background: "rgba(255,255,255,.5)", pointerEvents: "none" }} />}
+
+                  {[
+                    "top-left", "top", "top-right", "left",
+                    "right", "bottom-left", "bottom", "bottom-right"
+                  ].map(makeHandle)}
+                </div>
+              </div>
+            </div>
+
+            {/* Stats Bar */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="p-3 bg-surface border border-line rounded-xl text-xs font-bold text-muted">
+                Original: <span className="text-ink font-black font-mono">{imageSize.width} × {imageSize.height}</span>
+              </div>
+              <div className="p-3 bg-surface border border-line rounded-xl text-xs font-bold text-muted">
+                Crop: <span className="text-ink font-black font-mono">{Math.round((crop.w / 100) * imageSize.width)} × {Math.round((crop.h / 100) * imageSize.height)}</span>
+              </div>
+              <div className="p-3 bg-surface border border-line rounded-xl text-xs font-bold text-muted">
+                Zoom: <span className="text-ink font-black font-mono">{Math.round(zoom * 100)}%</span>
+              </div>
+              <div className="p-3 bg-surface border border-line rounded-xl text-xs font-bold text-muted">
+                Rotation: <span className="text-ink font-black font-mono">{rotation}°</span>
+              </div>
+            </div>
+
+            {/* Controls Toolbar */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              
+              <div className="p-4 bg-surface border border-line rounded-xl space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Aspect Ratio</label>
+                <select
+                  value={aspect}
+                  onChange={function (e) {
+                    changeAspect(e.target.value);
+                  }}
+                  className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
+                >
+                  <option value="free">Free Crop</option>
+                  <option value="1">1 : 1 Square</option>
+                  <option value="0.8">4 : 5 Portrait</option>
+                  <option value="1.7777777778">16 : 9 Landscape</option>
+                  <option value="0.5625">9 : 16 Story</option>
+                </select>
+              </div>
+
+              <div className="p-4 bg-surface border border-line rounded-xl space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Quick Preset</label>
+                <select
+                  defaultValue=""
+                  onChange={function (e) {
+                    selectPreset(e.target.value);
+                    e.target.value = "";
+                  }}
+                  className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
+                >
+                  <option value="">Choose preset...</option>
+                  <option value="square">Square</option>
+                  <option value="portrait">Portrait 4:5</option>
+                  <option value="landscape">Landscape 16:9</option>
+                  <option value="story">Story 9:16</option>
+                  <option value="youtube">YouTube 16:9</option>
+                </select>
+              </div>
+
+              <div className="p-4 bg-surface border border-line rounded-xl space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted flex justify-between">
+                  <span>Zoom</span>
+                  <span className="font-mono text-brand font-black">{Math.round(zoom * 100)}%</span>
+                </label>
+                <input
+                  type="range"
+                  min="1"
+                  max="2"
+                  step="0.01"
+                  value={zoom}
+                  onChange={function (e) {
+                    setZoom(Number(e.target.value));
+                  }}
+                  className="w-full h-1.5 bg-paper rounded-lg appearance-none cursor-pointer accent-brand border border-line mt-2"
+                />
+              </div>
+
+              <div className="p-4 bg-surface border border-line rounded-xl space-y-2">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Output Format</label>
+                <select
+                  value={format}
+                  onChange={function (e) {
+                    setFormat(e.target.value);
+                  }}
+                  className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
+                >
+                  <option value="image/jpeg">JPG</option>
+                  <option value="image/png">PNG</option>
+                  <option value="image/webp">WebP</option>
+                </select>
+              </div>
+
+              <div className="p-4 bg-surface border border-line rounded-xl space-y-2 sm:col-span-2">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted flex justify-between">
+                  <span>Quality</span>
+                  <span className="font-mono text-brand font-black">{quality}%</span>
+                </label>
+                <input
+                  type="range"
+                  min="40"
+                  max="100"
+                  step="1"
+                  value={quality}
+                  disabled={format === "image/png"}
+                  onChange={function (e) {
+                    setQuality(Number(e.target.value));
+                  }}
+                  className="w-full h-1.5 bg-paper rounded-lg appearance-none cursor-pointer accent-brand border border-line mt-2"
+                />
+              </div>
+
+            </div>
+
+            {/* Action Buttons Row */}
+            <div className="flex flex-wrap gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={rotateLeft}
+                className="h-10 px-4 rounded-xl border border-line bg-surface text-ink text-xs font-black uppercase tracking-wider hover:border-brand flex items-center gap-1.5 cursor-pointer shadow-sm"
+              >
+                <RotateCcw className="w-3.5 h-3.5 shrink-0" /> Rotate Left
+              </button>
+
+              <button
+                type="button"
+                onClick={rotateRight}
+                className="h-10 px-4 rounded-xl border border-line bg-surface text-ink text-xs font-black uppercase tracking-wider hover:border-brand flex items-center gap-1.5 cursor-pointer shadow-sm"
+              >
+                <RotateCw className="w-3.5 h-3.5 shrink-0" /> Rotate Right
+              </button>
+
+              <button
+                type="button"
+                onClick={function () {
+                  setFlipX(function (v) { return !v; });
+                }}
+                className="h-10 px-4 rounded-xl border border-line bg-surface text-ink text-xs font-black uppercase tracking-wider hover:border-brand flex items-center gap-1.5 cursor-pointer shadow-sm"
+              >
+                <FlipHorizontal className="w-3.5 h-3.5 shrink-0" /> Flip H
+              </button>
+
+              <button
+                type="button"
+                onClick={function () {
+                  setFlipY(function (v) { return !v; });
+                }}
+                className="h-10 px-4 rounded-xl border border-line bg-surface text-ink text-xs font-black uppercase tracking-wider hover:border-brand flex items-center gap-1.5 cursor-pointer shadow-sm"
+              >
+                <FlipVertical className="w-3.5 h-3.5 shrink-0" /> Flip V
+              </button>
+
+              <button
+                type="button"
+                onClick={function () {
+                  setShowGrid(function (v) { return !v; });
+                }}
+                className="h-10 px-4 rounded-xl border border-line bg-surface text-ink text-xs font-black uppercase tracking-wider hover:border-brand flex items-center gap-1.5 cursor-pointer shadow-sm"
+              >
+                <Grid className="w-3.5 h-3.5 shrink-0" /> {showGrid ? "Hide Grid" : "Show Grid"}
+              </button>
+
+              <button
+                type="button"
+                onClick={resetCrop}
+                className="h-10 px-4 rounded-xl border border-line bg-surface text-muted text-xs font-black uppercase tracking-wider hover:text-ink hover:border-brand cursor-pointer shadow-sm"
+              >
+                Reset
+              </button>
+
+              <button
+                type="button"
+                onClick={removeImage}
+                className="h-10 px-4 rounded-xl border border-rose-500/20 bg-rose-500/10 text-rose-600 dark:text-rose-400 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-sm ml-auto"
+              >
+                <Trash2 className="w-3.5 h-3.5 shrink-0" /> Remove Image
+              </button>
+            </div>
+
+            {/* Export Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-surface border border-line shadow-inner">
+              <label className="flex items-center gap-2.5 text-xs font-black uppercase tracking-wider text-ink cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={autoDownload}
+                  onChange={function (e) {
+                    setAutoDownload(e.target.checked);
+                  }}
+                  className="w-4 h-4 accent-brand rounded border-line cursor-pointer shrink-0"
+                />
+                Auto Download on Crop
+              </label>
+
+              <button
+                type="button"
+                disabled={busy}
+                onClick={cropImage}
+                className="w-full sm:w-auto h-11 px-6 rounded-xl bg-brand text-surface text-xs font-black uppercase tracking-wider shadow-sm hover:opacity-95 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Download className="w-4 h-4 shrink-0" />
+                {busy ? "Processing..." : "Crop & Download Image"}
+              </button>
+            </div>
+
+            {resultInfo && (
+              <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-2 shadow-sm">
+                <CheckCircle2 className="w-4 h-4 shrink-0" />
+                <span>
+                  <strong>Done! </strong>
+                  {resultInfo.width} × {resultInfo.height} px • {resultInfo.size.toFixed(1)} KB
+                </span>
+              </div>
+            )}
+
+          </div>
+        )}
+
+      </div>
+    </div>
   );
 }
-
-/*
- * IMPORTANT:
- * This MUST stay a default export.
- * Do not change it to:
- * export { ImageCropTool }
- * Do not export an object.
- */
-export default ImageCropTool;

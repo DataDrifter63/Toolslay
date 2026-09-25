@@ -10,12 +10,10 @@ import {
 export default function TournamentBracketGenerator() {
   const [isMounted, setIsMounted] = useState(false);
   
-  // Inputs
   const [tournamentName, setTournamentName] = useState("Muxair Championship");
   const [teamsInput, setTeamsInput] = useState("Team Alpha\nTeam Bravo\nTeam Charlie\nTeam Delta\nTeam Echo");
   const [error, setError] = useState("");
   
-  // Bracket State
   const [bracket, setBracket] = useState([]);
   const [isGenerated, setIsGenerated] = useState(false);
 
@@ -38,7 +36,6 @@ export default function TournamentBracketGenerator() {
     setTeamsInput(shuffled.join("\n"));
   };
 
-  // --- SMART TOURNAMENT ENGINE ---
   const generateBracket = () => {
     let teamList = teamsInput.split("\n").map(t => t.trim()).filter(t => t !== "");
     
@@ -52,15 +49,12 @@ export default function TournamentBracketGenerator() {
     }
     setError("");
 
-    // Find next power of 2 (2, 4, 8, 16, 32, 64)
     let pow = 1;
     while (pow < teamList.length) pow *= 2;
 
-    // Smart Seeding Distribution (Ensures BYEs don't fight BYEs)
     const slots = new Array(pow).fill("BYE");
     let currentSlot = 0;
     
-    // Fill even slots first, then odd slots to distribute teams evenly
     for (let i = 0; i < teamList.length; i++) {
       slots[currentSlot] = teamList[i];
       currentSlot += 2;
@@ -72,7 +66,6 @@ export default function TournamentBracketGenerator() {
     const roundsCount = Math.log2(pow);
     const newBracket = [];
 
-    // Initialize blank rounds
     for (let r = 0; r < roundsCount; r++) {
       const matchesInRound = pow / Math.pow(2, r + 1);
       const roundMatches = [];
@@ -87,13 +80,11 @@ export default function TournamentBracketGenerator() {
       newBracket.push(roundMatches);
     }
 
-    // Auto-advance BYEs for Round 1
     newBracket[0].forEach((match, idx) => {
       if (match.p1 === "BYE" || match.p2 === "BYE") {
         const winner = match.p1 === "BYE" ? match.p2 : match.p1;
         match.winner = winner;
         
-        // Push winner to Round 2 automatically
         if (roundsCount > 1) {
           const nextIdx = Math.floor(idx / 2);
           const isTop = idx % 2 === 0;
@@ -107,20 +98,16 @@ export default function TournamentBracketGenerator() {
     setIsGenerated(true);
   };
 
-  // Click to Advance Logic
   const handleAdvance = (roundIdx, matchIdx, teamName) => {
     if (!teamName || teamName === "BYE") return;
     
     const newBracket = [...bracket];
     const match = newBracket[roundIdx][matchIdx];
     
-    // If clicking the same winner again, do nothing
     if (match.winner === teamName) return;
     
-    // Set Winner
     match.winner = teamName;
 
-    // Cascade advance to next round
     if (roundIdx < newBracket.length - 1) {
       const nextIdx = Math.floor(matchIdx / 2);
       const isTop = matchIdx % 2 === 0;
@@ -131,7 +118,6 @@ export default function TournamentBracketGenerator() {
         newBracket[roundIdx + 1][nextIdx].p2 = teamName;
       }
       
-      // Clear any downstream winners if the user changed a past match result
       for (let r = roundIdx + 1; r < newBracket.length; r++) {
         const downstreamIdx = Math.floor(matchIdx / Math.pow(2, r - roundIdx));
         newBracket[r][downstreamIdx].winner = null;
@@ -148,158 +134,155 @@ export default function TournamentBracketGenerator() {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-[1400px] mx-auto space-y-6 font-sans">
+    <div className="mx-auto w-full max-w-[1400px] px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
       
-      {/* Premium Header (Hidden in Print Mode) */}
-      <div className="print:hidden flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-100 via-cyan-50 to-transparent dark:from-blue-900/30 dark:via-cyan-900/10 rounded-bl-full -z-10 opacity-70"></div>
-        <div className="flex items-center gap-4">
-          <div className="bg-gradient-to-br from-blue-600 to-cyan-500 p-3.5 rounded-2xl shadow-md">
-            <Trophy className="w-6 h-6 text-white" />
+      {/* COMPACT SLEEK HEADER BAR */}
+      <div className="print:hidden bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex items-center justify-between gap-3 w-full box-border font-sans">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand shrink-0">
+            <Trophy className="w-5 h-5" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
               Pro Bracket Generator
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-              Auto-Seeding & Printable Layouts
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted truncate">
+              Auto-seeding tournament manager and printable layouts.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 items-start">
+      <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 items-start w-full">
         
-        {/* ================= LEFT: CONFIGURATION SIDEBAR ================= */}
-        <div className="w-full lg:w-[350px] shrink-0 space-y-6 print:hidden">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl shadow-sm space-y-6">
+        {/* LEFT: CONFIGURATION SIDEBAR */}
+        <div className="w-full lg:w-[320px] shrink-0 space-y-4 sm:space-y-6 print:hidden font-sans">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-5">
             
             <div className="space-y-4">
               <div>
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-2">
-                  <Settings className="w-3.5 h-3.5" /> Tournament Name
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider flex items-center gap-1.5 mb-2">
+                  <Settings className="w-3.5 h-3.5 text-brand" /> Tournament Name
                 </label>
                 <input
                   type="text" value={tournamentName} onChange={(e) => setTournamentName(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-blue-500 transition-colors"
+                  className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none focus:border-brand"
                 />
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5" /> Participants List
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider flex items-center gap-1.5">
+                    <Users className="w-3.5 h-3.5 text-brand" /> Participants List
                   </label>
-                  <span className="text-[10px] font-bold bg-blue-50 dark:bg-blue-900/30 text-blue-600 px-2 py-0.5 rounded">
+                  <span className="text-[9px] font-black uppercase tracking-wider bg-brand/10 text-brand px-2 py-0.5 rounded border border-brand/20">
                     {teamsInput.split("\n").filter(t => t.trim() !== "").length} Teams
                   </span>
                 </div>
                 <textarea
                   value={teamsInput} onChange={(e) => setTeamsInput(e.target.value)}
-                  rows={8}
+                  rows={7}
                   placeholder="Paste teams here (one per line)..."
-                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-medium text-slate-800 dark:text-slate-100 outline-none focus:border-blue-500 transition-colors resize-none custom-scrollbar"
+                  className="w-full bg-surface border border-line rounded-xl p-3 text-xs font-bold text-ink outline-none focus:border-brand resize-none custom-scrollbar"
                 ></textarea>
                 <button 
+                  type="button"
                   onClick={handleShuffleClick}
-                  className="mt-2 w-full flex items-center justify-center gap-2 py-2 text-xs font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                  className="mt-2 w-full flex items-center justify-center gap-1.5 py-2 text-[10px] font-black uppercase tracking-wider text-ink bg-surface border border-line hover:border-brand/50 rounded-xl transition-colors"
                 >
-                  <Shuffle className="w-3.5 h-3.5" /> Shuffle Seeds
+                  <Shuffle className="w-3.5 h-3.5 text-brand" /> Shuffle Seeds
                 </button>
               </div>
             </div>
 
             {error && (
-              <div className="flex items-start gap-2 p-3 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 rounded-xl text-xs font-bold border border-rose-200 dark:border-rose-800/50">
+              <div className="flex items-start gap-2 p-3 bg-rose-500/10 text-rose-500 rounded-xl text-xs font-bold border border-rose-500/20">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" /> {error}
               </div>
             )}
 
             <button
+              type="button"
               onClick={generateBracket}
-              className="w-full py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest shadow-lg shadow-blue-500/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-xl bg-brand text-surface text-xs font-black uppercase tracking-wider shadow-sm transition-opacity hover:opacity-90 flex items-center justify-center gap-2"
             >
-              <LayoutTemplate className="w-5 h-5" /> Generate Bracket
+              <LayoutTemplate className="w-4 h-4" /> Generate Bracket
             </button>
             
             {isGenerated && (
               <button
+                type="button"
                 onClick={handlePrint}
-                className="w-full py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 text-slate-600 dark:text-slate-300 hover:text-blue-600 font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-surface border border-line text-ink text-xs font-black uppercase tracking-wider hover:border-brand transition-colors flex items-center justify-center gap-2"
               >
-                <Printer className="w-4 h-4" /> Print / Save as PDF
+                <Printer className="w-4 h-4 text-brand" /> Print / PDF
               </button>
             )}
 
           </div>
         </div>
 
-        {/* ================= RIGHT: THE INTERACTIVE BRACKET ================= */}
-        <div className="flex-1 w-full bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-3xl shadow-inner relative overflow-hidden min-h-[600px] print:m-0 print:border-none print:shadow-none print:bg-white print:dark:bg-white print:fixed print:inset-0 print:z-50">
+        {/* RIGHT: THE INTERACTIVE BRACKET */}
+        <div className="flex-1 w-full bg-paper border border-line rounded-2xl shadow-sm relative overflow-hidden min-h-[550px] print:m-0 print:border-none print:shadow-none print:bg-surface print:fixed print:inset-0 print:z-50 font-sans">
           
-          {/* Print Header (Only visible when printing) */}
           <div className="hidden print:block text-center pt-8 pb-4">
-            <h1 className="text-3xl font-black text-black uppercase tracking-widest border-b-4 border-black inline-block pb-2">
+            <h1 className="text-2xl font-black text-ink uppercase tracking-widest border-b-2 border-ink inline-block pb-2">
               {tournamentName}
             </h1>
           </div>
 
           {!isGenerated ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 opacity-50 print:hidden">
-              <PlayCircle className="w-16 h-16 text-slate-400 mb-4" />
-              <p className="text-sm font-black uppercase tracking-widest text-slate-500">Awaiting Generation</p>
-              <p className="text-xs font-medium text-slate-400 mt-2 max-w-xs">Enter your teams on the left and click generate to build your interactive bracket.</p>
+              <PlayCircle className="w-12 h-12 text-muted mb-3" />
+              <p className="text-[10px] font-black uppercase tracking-wider text-muted">Awaiting Generation</p>
+              <p className="text-xs font-medium text-muted mt-1 max-w-xs">Enter your teams on the left and click generate to build your bracket.</p>
             </div>
           ) : (
-            <div className="absolute inset-0 overflow-auto custom-scrollbar p-8 print:p-4 print:overflow-visible">
+            <div className="absolute inset-0 overflow-auto custom-scrollbar p-6 print:p-4 print:overflow-visible">
               
-              {/* Bracket Container */}
-              <div className="flex gap-12 min-w-max h-full items-stretch print:text-black">
+              <div className="flex gap-8 min-w-max h-full items-stretch">
                 
                 {bracket.map((round, rIdx) => (
-                  <div key={rIdx} className="flex flex-col justify-around w-[220px] shrink-0">
+                  <div key={rIdx} className="flex flex-col justify-around w-[200px] shrink-0">
                     
-                    {/* Round Header */}
-                    <div className="text-center mb-6 shrink-0">
-                      <span className="inline-block bg-slate-200 dark:bg-slate-800 print:bg-gray-200 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 print:text-black">
+                    <div className="text-center mb-4 shrink-0">
+                      <span className="inline-block bg-surface border border-line px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest text-muted">
                         {rIdx === bracket.length - 1 ? "Finals" : rIdx === bracket.length - 2 ? "Semi-Finals" : `Round ${rIdx + 1}`}
                       </span>
                     </div>
 
-                    {/* Matches */}
-                    <div className="flex flex-col justify-around flex-1 gap-4">
+                    <div className="flex flex-col justify-around flex-1 gap-3">
                       {round.map((match, mIdx) => (
                         <div key={match.id} className="relative group flex items-center justify-center">
                           
-                          {/* Match Card */}
-                          <div className="w-full bg-white dark:bg-slate-900 print:bg-white border-2 border-slate-200 dark:border-slate-700 print:border-gray-400 rounded-xl overflow-hidden shadow-sm flex flex-col">
+                          <div className="w-full bg-surface border border-line rounded-xl overflow-hidden shadow-sm flex flex-col">
                             
-                            {/* Team 1 (Top) */}
                             <button
+                              type="button"
                               onClick={() => handleAdvance(rIdx, mIdx, match.p1)}
                               disabled={!match.p1 || match.p1 === "BYE"}
-                              className={`text-left px-3 py-2.5 text-sm font-bold border-b border-slate-100 dark:border-slate-800 print:border-gray-300 transition-colors flex items-center justify-between ${
-                                match.p1 === "BYE" ? "text-slate-400 bg-slate-50 dark:bg-slate-800/50 print:bg-gray-50 italic" 
-                                : match.winner === match.p1 ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 print:font-black print:text-black print:bg-gray-100" 
-                                : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 print:text-black"
+                              className={`text-left px-3 py-2 text-xs font-bold border-b border-line transition-colors flex items-center justify-between ${
+                                match.p1 === "BYE" ? "text-muted bg-paper italic" 
+                                : match.winner === match.p1 ? "bg-brand/10 text-brand font-black" 
+                                : "text-ink hover:bg-paper"
                               }`}
                             >
-                              <span className="truncate pr-2">{match.p1 || "-"}</span>
-                              {match.winner === match.p1 && <Trophy className="w-3.5 h-3.5 shrink-0 text-blue-500 print:text-black" />}
+                              <span className="truncate pr-2 font-mono">{match.p1 || "-"}</span>
+                              {match.winner === match.p1 && <Trophy className="w-3 h-3 shrink-0 text-brand" />}
                             </button>
                             
-                            {/* Team 2 (Bottom) */}
                             <button
+                              type="button"
                               onClick={() => handleAdvance(rIdx, mIdx, match.p2)}
                               disabled={!match.p2 || match.p2 === "BYE"}
-                              className={`text-left px-3 py-2.5 text-sm font-bold transition-colors flex items-center justify-between ${
-                                match.p2 === "BYE" ? "text-slate-400 bg-slate-50 dark:bg-slate-800/50 print:bg-gray-50 italic" 
-                                : match.winner === match.p2 ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 print:font-black print:text-black print:bg-gray-100" 
-                                : "text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 print:text-black"
+                              className={`text-left px-3 py-2 text-xs font-bold transition-colors flex items-center justify-between ${
+                                match.p2 === "BYE" ? "text-muted bg-paper italic" 
+                                : match.winner === match.p2 ? "bg-brand/10 text-brand font-black" 
+                                : "text-ink hover:bg-paper"
                               }`}
                             >
-                              <span className="truncate pr-2">{match.p2 || "-"}</span>
-                              {match.winner === match.p2 && <Trophy className="w-3.5 h-3.5 shrink-0 text-blue-500 print:text-black" />}
+                              <span className="truncate pr-2 font-mono">{match.p2 || "-"}</span>
+                              {match.winner === match.p2 && <Trophy className="w-3 h-3 shrink-0 text-brand" />}
                             </button>
 
                           </div>
@@ -310,22 +293,19 @@ export default function TournamentBracketGenerator() {
                   </div>
                 ))}
                 
-                {/* The Champion Slot */}
                 {bracket.length > 0 && (
-                  <div className="flex flex-col justify-around w-[220px] shrink-0">
-                    <div className="text-center mb-6 shrink-0">
-                      <span className="inline-block bg-amber-100 dark:bg-amber-900/30 print:bg-gray-300 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400 print:text-black">
-                        Tournament Champion
+                  <div className="flex flex-col justify-around w-[200px] shrink-0">
+                    <div className="text-center mb-4 shrink-0">
+                      <span className="inline-block bg-brand/10 border border-brand/20 px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest text-brand">
+                        Champion
                       </span>
                     </div>
                     <div className="flex flex-col justify-around flex-1">
-                      <div className="w-full bg-gradient-to-br from-amber-400 to-orange-500 print:from-white print:to-white print:border-4 print:border-black p-[2px] rounded-xl shadow-lg">
-                        <div className="bg-white dark:bg-slate-900 print:bg-white rounded-[10px] px-4 py-6 text-center flex flex-col items-center justify-center">
-                          <Trophy className="w-10 h-10 text-amber-500 mb-3 print:text-black" />
-                          <span className="text-lg font-black text-slate-800 dark:text-slate-100 print:text-black uppercase tracking-tight">
-                            {bracket[bracket.length - 1][0].winner || "TBD"}
-                          </span>
-                        </div>
+                      <div className="w-full bg-surface border border-brand/40 p-4 rounded-xl shadow-sm text-center flex flex-col items-center justify-center">
+                        <Trophy className="w-8 h-8 text-brand mb-2" />
+                        <span className="text-sm font-black text-ink uppercase tracking-tight font-mono">
+                          {bracket[bracket.length - 1][0].winner || "TBD"}
+                        </span>
                       </div>
                     </div>
                   </div>

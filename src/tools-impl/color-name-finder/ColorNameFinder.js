@@ -178,7 +178,6 @@ export default function ColorNameFinder() {
   const handleHexChange = (e) => {
     let val = e.target.value;
     if (!val.startsWith("#")) val = "#" + val;
-    // Basic valid hex check (allow typing intermediate values)
     if (val.length <= 7) {
       setHexColor(val);
     }
@@ -198,20 +197,20 @@ export default function ColorNameFinder() {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans">
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border">
       
       {/* Premium Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden transition-colors"
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border"
            style={{ borderBottom: `4px solid ${hexColor.length === 7 ? hexColor : '#3B82F6'}` }}>
         <div className="flex items-center gap-4">
-          <div className="bg-slate-100 dark:bg-slate-800 p-3.5 rounded-2xl">
-            <Palette className="w-6 h-6 text-slate-700 dark:text-slate-300" />
+          <div className="bg-paper p-3 rounded-xl border border-line">
+            <Palette className="w-6 h-6 text-brand" />
           </div>
           <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-black text-ink tracking-tight">
               Color Name Finder
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
+            <p className="text-[10px] font-black text-brand uppercase tracking-widest mt-1">
               Chroma Naming & Accessibility Engine
             </p>
           </div>
@@ -222,14 +221,14 @@ export default function ColorNameFinder() {
         
         {/* ================= LEFT: INPUT PANEL ================= */}
         <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8">
+          <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-6">
             
             {/* Visual Color Picker */}
-            <div className="space-y-4">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                <Droplet className="w-4 h-4 text-slate-400" /> Visual Picker
+            <div className="space-y-3">
+              <label className="text-[10px] font-black text-muted uppercase tracking-wider flex items-center gap-1.5">
+                <Droplet className="w-4 h-4 text-muted" /> Visual Picker
               </label>
-              <div className="relative h-24 rounded-2xl overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer hover:border-slate-400 transition-colors">
+              <div className="relative h-24 rounded-xl overflow-hidden border border-line shadow-sm cursor-pointer hover:border-brand transition-colors">
                 <input
                   type="color"
                   value={hexColor.length === 7 ? hexColor : "#000000"}
@@ -240,72 +239,72 @@ export default function ColorNameFinder() {
                   className="absolute inset-0 transition-colors duration-200 flex items-center justify-center"
                   style={{ backgroundColor: hexColor.length === 7 ? hexColor : "#000000", color: colorData.textColor }}
                 >
-                  <span className="font-black tracking-widest opacity-80 uppercase flex items-center gap-2">
-                    <Droplet className="w-5 h-5" /> Tap to pick color
+                  <span className="font-black tracking-widest opacity-80 uppercase flex items-center gap-2 text-xs">
+                    <Droplet className="w-4 h-4" /> Tap to pick color
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-line">
               {/* HEX Input */}
-              <div className="space-y-3">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                  <Hash className="w-4 h-4 text-slate-400" /> HEX Code
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider flex items-center gap-1.5">
+                  <Hash className="w-4 h-4 text-muted" /> HEX Code
                 </label>
-                <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus-within:border-slate-400 transition-all overflow-hidden">
+                <div className="relative flex items-center bg-surface border border-line rounded-xl focus-within:border-brand transition-all overflow-hidden">
                   <input
                     type="text" value={hexColor} onChange={handleHexChange} maxLength={7}
-                    className="w-full bg-transparent px-5 py-4 text-xl font-black text-slate-800 dark:text-slate-100 outline-none uppercase"
+                    className="w-full bg-transparent px-4 py-3 text-sm font-black text-ink outline-none uppercase font-mono"
                   />
                   <button 
                     onClick={() => handleCopy(hexColor)}
-                    className="px-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                    className="px-3 text-muted hover:text-brand transition-colors"
                   >
-                    {copiedValue === hexColor ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
+                    {copiedValue === hexColor ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
               {/* RGB Text Input */}
-              <div className="space-y-3">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                  <SlidersHorizontal className="w-4 h-4 text-slate-400" /> RGB Value
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider flex items-center gap-1.5">
+                  <SlidersHorizontal className="w-4 h-4 text-muted" /> RGB Value
                 </label>
-                <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus-within:border-slate-400 transition-all overflow-hidden">
+                <div className="relative flex items-center bg-surface border border-line rounded-xl focus-within:border-brand transition-all overflow-hidden">
                   <input
                     type="text" value={colorData.rgbString} readOnly
-                    className="w-full bg-transparent px-5 py-4 text-base font-black text-slate-800 dark:text-slate-100 outline-none"
+                    className="w-full bg-transparent px-4 py-3 text-xs font-black text-ink outline-none font-mono"
                   />
                   <button 
                     onClick={() => handleCopy(colorData.rgbString)}
-                    className="px-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                    className="px-3 text-muted hover:text-brand transition-colors"
                   >
-                    {copiedValue === colorData.rgbString ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Copy className="w-5 h-5" />}
+                    {copiedValue === colorData.rgbString ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* RGB Sliders (Premium Interactivity) */}
-            <div className="space-y-5 pt-6 border-t border-slate-100 dark:border-slate-800">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Fine Tune (RGB Channels)</label>
+            {/* RGB Sliders */}
+            <div className="space-y-4 pt-4 border-t border-line">
+              <label className="text-[10px] font-black text-muted uppercase tracking-wider block">Fine Tune (RGB Channels)</label>
               
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <span className="w-4 font-black text-rose-500">R</span>
-                  <input type="range" min="0" max="255" value={colorData.rgb.r} onChange={(e) => handleRgbChange('r', e.target.value)} className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full appearance-none cursor-pointer accent-rose-500" />
-                  <span className="w-8 text-right text-xs font-bold text-slate-500">{colorData.rgb.r}</span>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="w-4 font-black text-rose-500 text-xs">R</span>
+                  <input type="range" min="0" max="255" value={colorData.rgb.r} onChange={(e) => handleRgbChange('r', e.target.value)} className="flex-1 h-1.5 bg-surface rounded-full appearance-none cursor-pointer accent-rose-500 border border-line" />
+                  <span className="w-8 text-right text-xs font-mono font-bold text-muted">{colorData.rgb.r}</span>
                 </div>
-                <div className="flex items-center gap-4">
-                  <span className="w-4 font-black text-emerald-500">G</span>
-                  <input type="range" min="0" max="255" value={colorData.rgb.g} onChange={(e) => handleRgbChange('g', e.target.value)} className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full appearance-none cursor-pointer accent-emerald-500" />
-                  <span className="w-8 text-right text-xs font-bold text-slate-500">{colorData.rgb.g}</span>
+                <div className="flex items-center gap-3">
+                  <span className="w-4 font-black text-emerald-500 text-xs">G</span>
+                  <input type="range" min="0" max="255" value={colorData.rgb.g} onChange={(e) => handleRgbChange('g', e.target.value)} className="flex-1 h-1.5 bg-surface rounded-full appearance-none cursor-pointer accent-emerald-500 border border-line" />
+                  <span className="w-8 text-right text-xs font-mono font-bold text-muted">{colorData.rgb.g}</span>
                 </div>
-                <div className="flex items-center gap-4">
-                  <span className="w-4 font-black text-blue-500">B</span>
-                  <input type="range" min="0" max="255" value={colorData.rgb.b} onChange={(e) => handleRgbChange('b', e.target.value)} className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full appearance-none cursor-pointer accent-blue-500" />
-                  <span className="w-8 text-right text-xs font-bold text-slate-500">{colorData.rgb.b}</span>
+                <div className="flex items-center gap-3">
+                  <span className="w-4 font-black text-blue-500 text-xs">B</span>
+                  <input type="range" min="0" max="255" value={colorData.rgb.b} onChange={(e) => handleRgbChange('b', e.target.value)} className="flex-1 h-1.5 bg-surface rounded-full appearance-none cursor-pointer accent-blue-500 border border-line" />
+                  <span className="w-8 text-right text-xs font-mono font-bold text-muted">{colorData.rgb.b}</span>
                 </div>
               </div>
             </div>
@@ -314,109 +313,108 @@ export default function ColorNameFinder() {
         </div>
 
         {/* ================= RIGHT: ANALYSIS DASHBOARD ================= */}
-        <div className="space-y-6 sticky top-6">
+        <div className="space-y-6 lg:sticky lg:top-6">
           
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative overflow-hidden flex flex-col min-h-[600px]">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[22px] p-6 h-full flex flex-col">
-              
-              <div className="flex items-center justify-between mb-8">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-sm">
-                  <Eye className="w-3.5 h-3.5" /> Color Analysis
-                </span>
-              </div>
-              
-              {/* Grand Identification */}
-              <div className="text-center mb-8 pb-8 border-b border-slate-200 dark:border-slate-800">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2 flex justify-center items-center gap-1.5">
-                  <Type className="w-3.5 h-3.5" /> 
-                  {colorData.isExactMatch ? "Exact Match Found" : "Closest Known Color"}
-                </span>
-                
-                <h3 className="text-4xl lg:text-5xl font-black text-slate-800 dark:text-slate-100 tracking-tight leading-tight mb-2">
-                  {colorData.closest.name}
-                </h3>
-                
-                <div className="flex justify-center items-center gap-2 mt-3">
-                  <div className="w-4 h-4 rounded-full border border-slate-200" style={{ backgroundColor: colorData.closest.hex }}></div>
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-                    {colorData.closest.hex}
-                  </span>
-                </div>
-              </div>
-
-              {/* Tints & Shades Generator */}
-              <div className="mb-8">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 flex items-center gap-1.5">
-                  <Palette className="w-4 h-4 text-slate-400" /> Tints & Shades
-                </h4>
-                <div className="flex h-12 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm cursor-pointer group">
-                  {colorData.palette.map((shade, idx) => (
-                    <div 
-                      key={idx} 
-                      onClick={() => handleCopy(shade)}
-                      className="flex-1 transition-all hover:flex-[1.5] relative flex items-center justify-center group/shade"
-                      style={{ backgroundColor: shade }}
-                      title={`Click to copy: ${shade}`}
-                    >
-                      <span className="opacity-0 group-hover/shade:opacity-100 text-[8px] font-black uppercase tracking-widest transition-opacity px-1 bg-black/30 text-white rounded">
-                        Copy
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-2">
-                  <span className="flex items-center gap-1"><Sun className="w-3 h-3"/> Lighter</span>
-                  <span>Base</span>
-                  <span className="flex items-center gap-1">Darker <Moon className="w-3 h-3"/></span>
-                </div>
-              </div>
-
-              {/* WCAG Accessibility Contrast Checker */}
-              <div className="flex-1 flex flex-col justify-end">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 flex items-center gap-1.5">
-                  <Contrast className="w-4 h-4 text-slate-400" /> Accessibility (A11Y) Checker
-                </h4>
-                
-                <div className="grid grid-cols-2 gap-3">
-                  {/* Black Text Test */}
-                  <div 
-                    className="p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center transition-colors"
-                    style={{ backgroundColor: hexColor, color: '#000000' }}
-                  >
-                    <span className="text-sm font-black mb-1">Black Text</span>
-                    {!colorData.isDark ? (
-                      <span className="inline-flex items-center gap-1 bg-black/10 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest">
-                        <CheckCircle2 className="w-3 h-3" /> Readable
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 bg-black/10 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest opacity-60">
-                        Poor Contrast
-                      </span>
-                    )}
-                  </div>
-
-                  {/* White Text Test */}
-                  <div 
-                    className="p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center transition-colors"
-                    style={{ backgroundColor: hexColor, color: '#FFFFFF' }}
-                  >
-                    <span className="text-sm font-black mb-1">White Text</span>
-                    {colorData.isDark ? (
-                      <span className="inline-flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest">
-                        <CheckCircle2 className="w-3 h-3" /> Readable
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest opacity-60">
-                        Poor Contrast
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-
+          <div className="bg-paper border border-line rounded-2xl shadow-sm overflow-hidden flex flex-col p-5 sm:p-6 space-y-6">
+            
+            <div className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface border border-line text-[10px] font-black uppercase tracking-wider text-muted shadow-sm">
+                <Eye className="w-3.5 h-3.5 text-brand" /> Color Analysis
+              </span>
             </div>
+            
+            {/* Grand Identification */}
+            <div className="text-center pb-6 border-b border-line">
+              <span className="text-[10px] font-black text-muted uppercase tracking-wider block mb-2 flex justify-center items-center gap-1.5">
+                <Type className="w-3.5 h-3.5 text-brand" /> 
+                {colorData.isExactMatch ? "Exact Match Found" : "Closest Known Color"}
+              </span>
+              
+              <h3 className="text-3xl sm:text-4xl font-black text-ink tracking-tight leading-tight mb-2">
+                {colorData.closest.name}
+              </h3>
+              
+              <div className="flex justify-center items-center gap-2 mt-2">
+                <div className="w-3.5 h-3.5 rounded-full border border-line shrink-0" style={{ backgroundColor: colorData.closest.hex }}></div>
+                <span className="text-xs font-mono font-bold text-muted uppercase tracking-wider">
+                  {colorData.closest.hex}
+                </span>
+              </div>
+            </div>
+
+            {/* Tints & Shades Generator */}
+            <div className="space-y-2.5">
+              <h4 className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5">
+                <Palette className="w-4 h-4 text-muted" /> Tints & Shades
+              </h4>
+              <div className="flex h-12 rounded-xl overflow-hidden border border-line shadow-sm cursor-pointer">
+                {colorData.palette.map((shade, idx) => (
+                  <div 
+                    key={idx} 
+                    onClick={() => handleCopy(shade)}
+                    className="flex-1 transition-all hover:flex-[1.5] relative flex items-center justify-center group"
+                    style={{ backgroundColor: shade }}
+                    title={`Click to copy: ${shade}`}
+                  >
+                    <span className="opacity-0 group-hover:opacity-100 text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 bg-black/40 text-white rounded transition-opacity shadow-sm">
+                      Copy
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-between text-[9px] font-black uppercase tracking-wider text-muted">
+                <span className="flex items-center gap-1"><Sun className="w-3 h-3 text-amber-500"/> Lighter</span>
+                <span>Base</span>
+                <span className="flex items-center gap-1">Darker <Moon className="w-3 h-3 text-indigo-400"/></span>
+              </div>
+            </div>
+
+            {/* WCAG Accessibility Contrast Checker */}
+            <div className="space-y-3 pt-2">
+              <h4 className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5">
+                <Contrast className="w-4 h-4 text-muted" /> Accessibility (A11Y) Checker
+              </h4>
+              
+              <div className="grid grid-cols-2 gap-3">
+                {/* Black Text Test */}
+                <div 
+                  className="p-3.5 rounded-xl border border-line shadow-sm flex flex-col items-center justify-center text-center transition-colors bg-surface"
+                  style={{ backgroundColor: hexColor, color: '#000000' }}
+                >
+                  <span className="text-xs font-black mb-1">Black Text</span>
+                  {!colorData.isDark ? (
+                    <span className="inline-flex items-center gap-1 bg-black/10 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Readable
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 bg-black/10 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider opacity-70">
+                      Poor Contrast
+                    </span>
+                  )}
+                </div>
+
+                {/* White Text Test */}
+                <div 
+                  className="p-3.5 rounded-xl border border-line shadow-sm flex flex-col items-center justify-center text-center transition-colors bg-surface"
+                  style={{ backgroundColor: hexColor, color: '#FFFFFF' }}
+                >
+                  <span className="text-xs font-black mb-1">White Text</span>
+                  {colorData.isDark ? (
+                    <span className="inline-flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Readable
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider opacity-70">
+                      Poor Contrast
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
+
       </div>
     </div>
   );

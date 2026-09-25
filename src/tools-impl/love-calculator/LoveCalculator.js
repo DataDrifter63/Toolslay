@@ -1,8 +1,13 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import { 
+  Heart, Sparkles, Copy, Check, RotateCcw, 
+  Lightbulb, ShieldAlert, SlidersHorizontal 
+} from "lucide-react";
 
 function normalizeName(value) {
+  if (typeof value !== "string") return "";
   return value
     .toLowerCase()
     .trim()
@@ -14,69 +19,62 @@ function cleanName(value) {
 }
 
 function hashString(value) {
-  var hash = 0;
-
-  for (var i = 0; i < value.length; i++) {
+  let hash = 0;
+  for (let i = 0; i < value.length; i++) {
     hash = (hash * 31 + value.charCodeAt(i)) % 1000000007;
   }
-
   return Math.abs(hash);
 }
 
 function calculateLoveScore(first, second) {
-  var a = cleanName(first);
-  var b = cleanName(second);
+  const a = cleanName(first);
+  const b = cleanName(second);
 
   if (!a || !b) return null;
 
-  var combined = a + "|" + b;
+  const combined = a + "|" + b;
+  const forwardHash = hashString(combined);
+  const reverseHash = hashString(b + "|" + a);
 
-  var forwardHash = hashString(combined);
-  var reverseHash = hashString(b + "|" + a);
+  const lettersA = {};
+  const lettersB = {};
 
-  var lettersA = {};
-  var lettersB = {};
-
-  for (var i = 0; i < a.length; i++) {
+  for (let i = 0; i < a.length; i++) {
     lettersA[a[i]] = (lettersA[a[i]] || 0) + 1;
   }
 
-  for (var j = 0; j < b.length; j++) {
+  for (let j = 0; j < b.length; j++) {
     lettersB[b[j]] = (lettersB[b[j]] || 0) + 1;
   }
 
-  var shared = 0;
-  var uniqueA = 0;
-  var uniqueB = 0;
+  let shared = 0;
+  let uniqueA = 0;
+  let uniqueB = 0;
 
-  Object.keys(lettersA).forEach(function (letter) {
+  Object.keys(lettersA).forEach((letter) => {
     if (lettersB[letter]) {
       shared += Math.min(lettersA[letter], lettersB[letter]);
     }
   });
 
-  Object.keys(lettersA).forEach(function (letter) {
+  Object.keys(lettersA).forEach((letter) => {
     uniqueA += lettersA[letter];
   });
 
-  Object.keys(lettersB).forEach(function (letter) {
+  Object.keys(lettersB).forEach((letter) => {
     uniqueB += lettersB[letter];
   });
 
-  var lengthFactor =
-    Math.max(1, Math.min(20, a.length + b.length));
+  const lengthFactor = Math.max(1, Math.min(20, a.length + b.length));
+  const sharedRatio = shared / Math.max(1, Math.min(uniqueA, uniqueB));
 
-  var sharedRatio =
-    shared / Math.max(1, Math.min(uniqueA, uniqueB));
-
-  var base =
+  const base =
     (forwardHash % 61) +
     (reverseHash % 31) +
     Math.round(sharedRatio * 25) +
     lengthFactor;
 
-  var score = 35 + (base % 66);
-
+  const score = 35 + (base % 66);
   return Math.max(1, Math.min(100, score));
 }
 
@@ -84,74 +82,57 @@ function getLevel(score) {
   if (score >= 90) {
     return {
       title: "Exceptional Match",
-      description:
-        "Your names create an unusually strong compatibility pattern.",
+      description: "Your names create an unusually strong compatibility pattern.",
       emoji: "💖",
+      color: "text-teal",
     };
   }
-
   if (score >= 80) {
     return {
       title: "Very Strong Connection",
-      description:
-        "There is a strong harmony between both names with excellent potential.",
+      description: "There is a strong harmony between both names with excellent potential.",
       emoji: "💕",
+      color: "text-teal",
     };
   }
-
   if (score >= 70) {
     return {
       title: "Strong Potential",
-      description:
-        "Your compatibility looks promising with plenty of positive energy.",
+      description: "Your compatibility looks promising with plenty of positive energy.",
       emoji: "💗",
+      color: "text-brand",
     };
   }
-
   if (score >= 60) {
     return {
       title: "Good Connection",
-      description:
-        "There is a nice balance between both personalities and energies.",
+      description: "There is a nice balance between both personalities and energies.",
       emoji: "💞",
+      color: "text-brand",
     };
   }
-
   if (score >= 45) {
     return {
       title: "Interesting Match",
-      description:
-        "Your connection has potential and could become stronger with understanding.",
+      description: "Your connection has potential and could become stronger with understanding.",
       emoji: "✨",
+      color: "text-amber",
     };
   }
-
   return {
     title: "Opposites Attract",
-    description:
-      "Your names show a more contrasting pattern. Differences can create interesting chemistry.",
+    description: "Your names show a more contrasting pattern. Differences can create interesting chemistry.",
     emoji: "💫",
+    color: "text-amber",
   };
 }
 
 function getCompatibility(score) {
   return {
-    communication: Math.min(
-      98,
-      Math.max(30, 48 + ((score * 7) % 45))
-    ),
-    trust: Math.min(
-      97,
-      Math.max(32, 42 + ((score * 11) % 48))
-    ),
-    chemistry: Math.min(
-      99,
-      Math.max(35, 50 + ((score * 13) % 47))
-    ),
-    fun: Math.min(
-      98,
-      Math.max(38, 45 + ((score * 17) % 50))
-    ),
+    communication: Math.min(98, Math.max(30, 48 + ((score * 7) % 45))),
+    trust: Math.min(97, Math.max(32, 42 + ((score * 11) % 48))),
+    chemistry: Math.min(99, Math.max(35, 50 + ((score * 13) % 47))),
+    fun: Math.min(98, Math.max(38, 45 + ((score * 17) % 50))),
   };
 }
 
@@ -159,103 +140,63 @@ function getAdvice(score) {
   if (score >= 85) {
     return "Keep communication honest and protect the little moments that make the relationship special.";
   }
-
   if (score >= 70) {
     return "Make time for each other, communicate openly and celebrate your differences.";
   }
-
   if (score >= 55) {
     return "Patience and clear communication can turn your natural differences into strengths.";
   }
-
   return "Focus on understanding each other instead of trying to be identical. Differences can be valuable.";
 }
 
 function getLuckyNumber(first, second) {
-  var hash = hashString(
-    cleanName(first) + cleanName(second)
-  );
-
+  const hash = hashString(cleanName(first) + cleanName(second));
   return (hash % 9) + 1;
 }
 
 function getInitials(first, second) {
-  var a = normalizeName(first);
-  var b = normalizeName(second);
-
+  const a = normalizeName(first);
+  const b = normalizeName(second);
   return (
     (a ? a.charAt(0).toUpperCase() : "?") +
     (b ? b.charAt(0).toUpperCase() : "?")
   );
 }
 
-function getScoreLabel(value) {
-  if (value >= 90) return "Exceptional";
-  if (value >= 80) return "Excellent";
-  if (value >= 70) return "Very Good";
-  if (value >= 60) return "Good";
-  if (value >= 45) return "Moderate";
-  return "Challenging";
-}
-
 export default function LoveCalculator() {
-  var [nameOne, setNameOne] = useState("");
-  var [nameTwo, setNameTwo] = useState("");
-  var [relationship, setRelationship] = useState("Romantic");
-  var [showDetails, setShowDetails] = useState(true);
-  var [copied, setCopied] = useState(false);
+  const [nameOne, setNameOne] = useState("");
+  const [nameTwo, setNameTwo] = useState("");
+  const [relationship, setRelationship] = useState("Romantic");
+  const [showDetails, setShowDetails] = useState(true);
+  const [copied, setCopied] = useState(false);
 
-  var result = useMemo(
-    function () {
-      if (
-        !cleanName(nameOne) ||
-        !cleanName(nameTwo)
-      ) {
-        return null;
-      }
+  const result = useMemo(() => {
+    if (!cleanName(nameOne) || !cleanName(nameTwo)) {
+      return null;
+    }
+    const score = calculateLoveScore(nameOne, nameTwo);
+    const level = getLevel(score);
+    const compatibility = getCompatibility(score);
 
-      var score = calculateLoveScore(
-        nameOne,
-        nameTwo
-      );
-
-      var level = getLevel(score);
-      var compatibility = getCompatibility(score);
-
-      return {
-        score: score,
-        level: level,
-        compatibility: compatibility,
-        advice: getAdvice(score),
-        luckyNumber: getLuckyNumber(
-          nameOne,
-          nameTwo
-        ),
-        initials: getInitials(
-          nameOne,
-          nameTwo
-        ),
-      };
-    },
-    [nameOne, nameTwo]
-  );
+    return {
+      score,
+      level,
+      compatibility,
+      advice: getAdvice(score),
+      luckyNumber: getLuckyNumber(nameOne, nameTwo),
+      initials: getInitials(nameOne, nameTwo),
+    };
+  }, [nameOne, nameTwo]);
 
   function calculateRandomExample() {
-    var examples = [
+    const examples = [
       ["Alex", "Taylor"],
       ["Emma", "Noah"],
       ["Sophia", "Liam"],
       ["Olivia", "James"],
       ["Mia", "Ethan"],
     ];
-
-    var item =
-      examples[
-        Math.floor(
-          Math.random() * examples.length
-        )
-      ];
-
+    const item = examples[Math.floor(Math.random() * examples.length)];
     setNameOne(item[0]);
     setNameTwo(item[1]);
   }
@@ -269,8 +210,7 @@ export default function LoveCalculator() {
 
   function copyResult() {
     if (!result) return;
-
-    var text =
+    const text =
       "Love Compatibility Result\n\n" +
       nameOne +
       " + " +
@@ -297,963 +237,264 @@ export default function LoveCalculator() {
       "Advice: " +
       result.advice;
 
-    if (
-      typeof navigator !== "undefined" &&
-      navigator.clipboard
-    ) {
-      navigator.clipboard
-        .writeText(text)
-        .then(function () {
-          setCopied(true);
-
-          setTimeout(function () {
-            setCopied(false);
-          }, 1800);
-        })
-        .catch(function () {
-          setCopied(false);
-        });
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1800);
+      }).catch(() => {});
     }
   }
 
-  var styles = `
-    .love-tool {
-      --love-text: #171923;
-      --love-muted: #697386;
-      --love-border: #e7e8ee;
-      --love-card: #ffffff;
-      --love-soft: #f8f8fb;
-      --love-primary: #e94b83;
-      --love-primary-soft: rgba(233,75,131,.10);
-
-      width: 100%;
-      color: var(--love-text);
-      font-family: inherit;
-      box-sizing: border-box;
-    }
-
-    .love-tool *,
-    .love-tool *::before,
-    .love-tool *::after {
-      box-sizing: border-box;
-    }
-
-    .love-wrapper {
-      width: 100%;
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-
-    .love-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .love-eyebrow {
-      color: var(--love-primary);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .14em;
-    }
-
-    .love-title {
-      margin: 6px 0 0;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.05;
-      letter-spacing: -.045em;
-    }
-
-    .love-description {
-      margin: 8px 0 0;
-      max-width: 650px;
-      color: var(--love-muted);
-      font-size: 12px;
-      line-height: 1.65;
-    }
-
-    .love-example {
-      height: 40px;
-      padding: 0 13px;
-      border: 1px solid var(--love-border);
-      border-radius: 9px;
-      background: var(--love-card);
-      color: var(--love-text);
-      cursor: pointer;
-      font: inherit;
-      font-size: 10px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .love-main {
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      gap: 18px;
-    }
-
-    .love-card {
-      border: 1px solid var(--love-border);
-      border-radius: 16px;
-      background: var(--love-card);
-      box-shadow: 0 8px 30px rgba(16,24,40,.035);
-    }
-
-    .love-form {
-      padding: 22px;
-    }
-
-    .love-form-title {
-      font-size: 17px;
-      font-weight: 750;
-      letter-spacing: -.025em;
-    }
-
-    .love-form-subtitle {
-      margin-top: 5px;
-      color: var(--love-muted);
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .love-label {
-      display: block;
-      margin: 17px 0 7px;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .love-input {
-      width: 100%;
-      height: 46px;
-      padding: 0 12px;
-      border: 1px solid var(--love-border);
-      border-radius: 9px;
-      outline: none;
-      background: var(--love-card);
-      color: var(--love-text);
-      font: inherit;
-      font-size: 12px;
-      transition: border-color .18s, box-shadow .18s;
-    }
-
-    .love-input:focus {
-      border-color: var(--love-primary);
-      box-shadow: 0 0 0 3px var(--love-primary-soft);
-    }
-
-    .love-select {
-      width: 100%;
-      height: 44px;
-      padding: 0 11px;
-      border: 1px solid var(--love-border);
-      border-radius: 9px;
-      background: var(--love-card);
-      color: var(--love-text);
-      font: inherit;
-      font-size: 11px;
-      outline: none;
-    }
-
-    .love-button-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    .love-primary-button,
-    .love-secondary-button {
-      height: 43px;
-      border-radius: 9px;
-      cursor: pointer;
-      font: inherit;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .love-primary-button {
-      border: 1px solid var(--love-primary);
-      background: var(--love-primary);
-      color: white;
-    }
-
-    .love-secondary-button {
-      border: 1px solid var(--love-border);
-      background: var(--love-soft);
-      color: var(--love-text);
-    }
-
-    .love-result {
-      min-height: 400px;
-      padding: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      background:
-        radial-gradient(
-          circle at 85% 5%,
-          rgba(233,75,131,.13),
-          transparent 42%
-        ),
-        var(--love-card);
-    }
-
-    .love-empty {
-      text-align: center;
-      max-width: 330px;
-    }
-
-    .love-empty-icon {
-      width: 58px;
-      height: 58px;
-      margin: 0 auto 14px;
-      display: grid;
-      place-items: center;
-      border-radius: 17px;
-      background: var(--love-primary-soft);
-      color: var(--love-primary);
-      font-size: 25px;
-    }
-
-    .love-empty h2 {
-      margin: 0;
-      font-size: 21px;
-    }
-
-    .love-empty p {
-      margin: 8px 0 0;
-      color: var(--love-muted);
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .love-result-content {
-      width: 100%;
-      text-align: center;
-    }
-
-    .love-couple {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .love-avatar {
-      width: 47px;
-      height: 47px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--love-primary-soft);
-      color: var(--love-primary);
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    .love-heart {
-      color: var(--love-primary);
-      font-size: 19px;
-      animation: lovePulse 1.6s infinite ease-in-out;
-    }
-
-    @keyframes lovePulse {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-    }
-
-    .love-result-label {
-      color: var(--love-primary);
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: .16em;
-    }
-
-    .love-score {
-      margin-top: 5px;
-      font-size: clamp(64px, 9vw, 88px);
-      line-height: .95;
-      letter-spacing: -.08em;
-      font-weight: 850;
-    }
-
-    .love-score span {
-      font-size: 28px;
-      color: var(--love-primary);
-      letter-spacing: -.04em;
-    }
-
-    .love-level {
-      margin-top: 9px;
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .love-level-description {
-      max-width: 480px;
-      margin: 7px auto 0;
-      color: var(--love-muted);
-      font-size: 10px;
-      line-height: 1.65;
-    }
-
-    .love-meter {
-      max-width: 470px;
-      height: 8px;
-      margin: 20px auto 0;
-      overflow: hidden;
-      border-radius: 20px;
-      background: var(--love-soft);
-    }
-
-    .love-meter-fill {
-      height: 100%;
-      border-radius: inherit;
-      background: var(--love-primary);
-      transition: width .5s ease;
-    }
-
-    .love-mini-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 7px;
-      max-width: 540px;
-      margin: 17px auto 0;
-    }
-
-    .love-mini {
-      padding: 10px 7px;
-      border: 1px solid var(--love-border);
-      border-radius: 9px;
-      background: var(--love-soft);
-    }
-
-    .love-mini strong {
-      display: block;
-      font-size: 15px;
-    }
-
-    .love-mini span {
-      display: block;
-      margin-top: 3px;
-      color: var(--love-muted);
-      font-size: 7px;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-
-    .love-actions {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    .love-copy {
-      height: 36px;
-      padding: 0 12px;
-      border: 1px solid var(--love-border);
-      border-radius: 8px;
-      background: var(--love-card);
-      color: var(--love-text);
-      cursor: pointer;
-      font: inherit;
-      font-size: 9px;
-      font-weight: 800;
-    }
-
-    .love-section {
-      margin-top: 18px;
-      padding: 22px;
-    }
-
-    .love-section-title {
-      margin: 0;
-      font-size: 17px;
-      letter-spacing: -.025em;
-    }
-
-    .love-section-description {
-      margin: 5px 0 18px;
-      color: var(--love-muted);
-      font-size: 10px;
-      line-height: 1.6;
-    }
-
-    .love-compatibility-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 10px;
-    }
-
-    .love-compatibility {
-      padding: 14px;
-      border: 1px solid var(--love-border);
-      border-radius: 10px;
-      background: var(--love-soft);
-    }
-
-    .love-compatibility-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 5px;
-    }
-
-    .love-compatibility-top span {
-      color: var(--love-muted);
-      font-size: 9px;
-    }
-
-    .love-compatibility-top strong {
-      font-size: 10px;
-    }
-
-    .love-progress {
-      height: 5px;
-      margin-top: 10px;
-      border-radius: 20px;
-      overflow: hidden;
-      background: var(--love-border);
-    }
-
-    .love-progress div {
-      height: 100%;
-      border-radius: inherit;
-      background: var(--love-primary);
-    }
-
-    .love-insight {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 12px;
-      margin-top: 18px;
-      padding: 16px;
-      border: 1px solid var(--love-border);
-      border-radius: 11px;
-      background: var(--love-soft);
-    }
-
-    .love-insight-icon {
-      width: 39px;
-      height: 39px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--love-primary-soft);
-      font-size: 17px;
-    }
-
-    .love-insight span {
-      display: block;
-      color: var(--love-muted);
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: .08em;
-    }
-
-    .love-insight strong {
-      display: block;
-      margin-top: 4px;
-      font-size: 11px;
-      line-height: 1.5;
-    }
-
-    .love-lucky {
-      text-align: center;
-      min-width: 60px;
-    }
-
-    .love-lucky strong {
-      color: var(--love-primary);
-      font-size: 25px;
-    }
-
-    .love-lucky span {
-      font-size: 7px;
-    }
-
-    .love-disclaimer {
-      margin-top: 14px;
-      color: var(--love-muted);
-      text-align: center;
-      font-size: 8px;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 850px) {
-      .love-main {
-        grid-template-columns: 1fr;
-      }
-
-      .love-compatibility-grid {
-        grid-template-columns: repeat(2,1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .love-top {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .love-example {
-        width: 100%;
-      }
-
-      .love-form,
-      .love-result,
-      .love-section {
-        padding: 16px;
-      }
-
-      .love-result {
-        min-height: 360px;
-      }
-
-      .love-mini-grid {
-        grid-template-columns: repeat(2,1fr);
-      }
-
-      .love-insight {
-        grid-template-columns: auto 1fr;
-      }
-
-      .love-lucky {
-        display: none;
-      }
-    }
-
-    @media (max-width: 400px) {
-      .love-compatibility-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .love-button-row {
-        grid-template-columns: 1fr;
-      }
-
-      .love-score {
-        font-size: 62px;
-      }
-    }
-
-    .dark .love-tool,
-    body.dark .love-tool,
-    html.dark .love-tool {
-      --love-text: #f2f4f7;
-      --love-muted: #98a2b3;
-      --love-border: #2d3442;
-      --love-card: #151922;
-      --love-soft: #10141c;
-      --love-primary: #ff6699;
-      --love-primary-soft: rgba(255,102,153,.13);
-    }
-  `;
+  const baseInputStyle = "w-full min-w-0 h-10 px-3 bg-surface border border-line rounded-lg text-ink text-xs focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all";
+  const baseSelectStyle = "w-full min-w-0 h-10 pl-3 pr-8 bg-surface border border-line rounded-lg text-ink text-xs focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
 
   return (
-    <>
-      <div className="love-tool">
-        <div className="love-wrapper">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
+      
+      {/* MAIN WRAPPER SHELL */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 space-y-6 min-w-0">
+        
+        {/* HEADER BAR WITH ACTION BUTTONS ALIGNED RIGHT */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
+            <Heart className="w-5 h-5 text-brand shrink-0 fill-current" />
+            <h2 className="text-base sm:text-lg font-display font-bold text-ink truncate">
+              Advanced Love Analyzer
+            </h2>
+          </div>
 
-          <div className="love-top">
-            <div>
-              <div className="love-eyebrow">
-                FUN & RELATIONSHIP TOOL
-              </div>
-
-              <h1 className="love-title">
-                Love Calculator
-              </h1>
-
-              <p className="love-description">
-                Discover a fun compatibility score with
-                detailed chemistry, communication, trust
-                and relationship insights.
-              </p>
-            </div>
+          <div className="flex items-center gap-2 shrink-0 flex-wrap sm:flex-nowrap">
+            <button
+              type="button"
+              onClick={calculateRandomExample}
+              className="inline-flex flex-1 sm:flex-none items-center justify-center gap-1.5 h-9 px-3.5 rounded-lg border border-line bg-surface hover:bg-paper text-ink text-xs font-bold transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-brand" /> Try Example
+            </button>
 
             <button
               type="button"
-              className="love-example"
-              onClick={calculateRandomExample}
+              onClick={() => setShowDetails((prev) => !prev)}
+              className="inline-flex flex-1 sm:flex-none items-center justify-center gap-1.5 h-9 px-3.5 rounded-lg border border-line bg-surface hover:bg-paper text-ink text-xs font-semibold transition-colors"
             >
-              Try Example
+              <SlidersHorizontal className="w-3.5 h-3.5 text-brand" />
+              {showDetails ? "Hide Insights" : "Show Insights"}
             </button>
           </div>
+        </div>
 
-          <div className="love-main">
-
-            <div className="love-card love-form">
-              <div className="love-form-title">
-                Check your compatibility
-              </div>
-
-              <div className="love-form-subtitle">
-                Enter two names and let the calculator
-                generate a unique compatibility reading.
-              </div>
-
-              <label
-                className="love-label"
-                htmlFor="love-name-one"
-              >
-                YOUR NAME
+        {/* INPUTS + RESULT MAIN GRID */}
+        <div className="grid grid-cols-1 items-start gap-4 sm:gap-6 lg:grid-cols-[1fr,1.15fr] min-w-0">
+          
+          {/* INPUT FORM PANEL */}
+          <div className="space-y-4 min-w-0">
+            <div className="min-w-0">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-muted mb-1.5" htmlFor="love-name-one">
+                Your Name
               </label>
-
               <input
                 id="love-name-one"
-                className="love-input"
+                className={baseInputStyle}
                 type="text"
                 value={nameOne}
                 placeholder="e.g. Alex"
                 autoComplete="off"
-                onChange={function (event) {
-                  setNameOne(event.target.value);
-                }}
+                onChange={(e) => setNameOne(e.target.value)}
               />
+            </div>
 
-              <label
-                className="love-label"
-                htmlFor="love-name-two"
-              >
-                THEIR NAME
+            <div className="min-w-0">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-muted mb-1.5" htmlFor="love-name-two">
+                Their Name
               </label>
-
               <input
                 id="love-name-two"
-                className="love-input"
+                className={baseInputStyle}
                 type="text"
                 value={nameTwo}
                 placeholder="e.g. Taylor"
                 autoComplete="off"
-                onChange={function (event) {
-                  setNameTwo(event.target.value);
-                }}
+                onChange={(e) => setNameTwo(e.target.value)}
               />
-
-              <label
-                className="love-label"
-                htmlFor="love-relationship"
-              >
-                CONNECTION TYPE
-              </label>
-
-              <select
-                id="love-relationship"
-                className="love-select"
-                value={relationship}
-                onChange={function (event) {
-                  setRelationship(event.target.value);
-                }}
-              >
-                <option>Romantic</option>
-                <option>Dating</option>
-                <option>Marriage</option>
-                <option>Friendship</option>
-                <option>Crush</option>
-                <option>Just Curious</option>
-              </select>
-
-              <div className="love-button-row">
-                <button
-                  type="button"
-                  className="love-primary-button"
-                  onClick={function () {
-                    if (nameOne && nameTwo) {
-                      setShowDetails(true);
-                    }
-                  }}
-                >
-                  Calculate Match
-                </button>
-
-                <button
-                  type="button"
-                  className="love-secondary-button"
-                  onClick={resetTool}
-                >
-                  Reset
-                </button>
-              </div>
             </div>
 
-            <div className="love-card love-result">
+            <div className="min-w-0">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-muted mb-1.5" htmlFor="love-relationship">
+                Connection Type
+              </label>
+              <select
+                id="love-relationship"
+                className={baseSelectStyle}
+                value={relationship}
+                onChange={(e) => setRelationship(e.target.value)}
+              >
+                <option value="Romantic">Romantic</option>
+                <option value="Dating">Dating</option>
+                <option value="Marriage">Marriage</option>
+                <option value="Friendship">Friendship</option>
+                <option value="Crush">Crush</option>
+                <option value="Just Curious">Just Curious</option>
+              </select>
+            </div>
 
+            <div className="grid grid-cols-2 gap-3 pt-2 min-w-0">
+              <button
+                type="button"
+                onClick={() => {
+                  if (nameOne && nameTwo) setShowDetails(true);
+                }}
+                className="h-10 rounded-lg bg-brand hover:bg-brand/90 text-white text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-1.5 min-h-[40px]"
+              >
+                <Heart className="w-3.5 h-3.5 fill-current" /> Calculate Match
+              </button>
+
+              <button
+                type="button"
+                onClick={resetTool}
+                className="h-10 rounded-lg border border-line bg-surface hover:bg-paper text-ink text-xs font-bold transition-colors flex items-center justify-center gap-1.5 min-h-[40px]"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-muted" /> Reset
+              </button>
+            </div>
+          </div>
+
+          {/* HERO RESULT CARD (Grey Background Style) */}
+          <div className="rounded-xl border border-line bg-paper p-1.5 min-w-0 h-full">
+            <div className="bg-surface rounded-lg w-full h-full p-5 sm:p-8 flex flex-col justify-center relative overflow-hidden min-h-[320px] sm:min-h-[350px]">
               {!result ? (
-                <div className="love-empty">
-                  <div className="love-empty-icon">
-                    ♡
+                <div className="text-center max-w-sm mx-auto space-y-3">
+                  <div className="w-14 h-14 mx-auto rounded-2xl bg-brand/10 text-brand flex items-center justify-center text-2xl font-black shadow-inner">
+                    <Heart className="w-6 h-6 fill-current animate-pulse" />
                   </div>
-
-                  <h2>
+                  <h3 className="text-base sm:text-lg font-display font-bold text-ink">
                     Your match is waiting
-                  </h2>
-
-                  <p>
-                    Enter both names to reveal your
-                    compatibility score and detailed
-                    relationship insights.
+                  </h3>
+                  <p className="text-xs text-muted leading-relaxed">
+                    Enter both names to reveal your compatibility score and detailed relationship insights.
                   </p>
                 </div>
               ) : (
-                <div className="love-result-content">
-
-                  <div className="love-couple">
-                    <div className="love-avatar">
+                <div className="text-center space-y-4 min-w-0">
+                  <div className="flex items-center justify-center gap-2.5">
+                    <div className="w-10 h-10 rounded-full bg-brand/15 text-brand flex items-center justify-center text-xs font-black font-mono shadow-sm">
                       {result.initials.charAt(0)}
                     </div>
-
-                    <div className="love-heart">
-                      ♥
-                    </div>
-
-                    <div className="love-avatar">
+                    <Heart className="w-4 h-4 text-brand fill-current animate-bounce" />
+                    <div className="w-10 h-10 rounded-full bg-brand/15 text-brand flex items-center justify-center text-xs font-black font-mono shadow-sm">
                       {result.initials.charAt(1)}
                     </div>
                   </div>
 
-                  <div className="love-result-label">
-                    {relationship.toUpperCase()} COMPATIBILITY
-                  </div>
-
-                  <div className="love-score">
-                    {result.score}
-                    <span>%</span>
-                  </div>
-
-                  <div className="love-level">
-                    {result.level.emoji}{" "}
-                    {result.level.title}
-                  </div>
-
-                  <p className="love-level-description">
-                    {result.level.description}
-                  </p>
-
-                  <div className="love-meter">
-                    <div
-                      className="love-meter-fill"
-                      style={{
-                        width:
-                          result.score + "%",
-                      }}
-                    />
-                  </div>
-
-                  <div className="love-mini-grid">
-                    <div className="love-mini">
-                      <strong>
-                        {result.compatibility.communication}%
-                      </strong>
-                      <span>
-                        Communication
-                      </span>
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-brand block mb-1">
+                      {relationship.toUpperCase()} COMPATIBILITY SCORE
+                    </span>
+                    <div className="text-6xl sm:text-7xl md:text-8xl font-display font-black tracking-tighter text-ink font-mono">
+                      {result.score}<span className="text-brand text-3xl sm:text-4xl align-top ml-0.5">%</span>
                     </div>
-
-                    <div className="love-mini">
-                      <strong>
-                        {result.compatibility.trust}%
-                      </strong>
-                      <span>
-                        Trust
-                      </span>
-                    </div>
-
-                    <div className="love-mini">
-                      <strong>
-                        {result.compatibility.chemistry}%
-                      </strong>
-                      <span>
-                        Chemistry
-                      </span>
-                    </div>
-
-                    <div className="love-mini">
-                      <strong>
-                        {result.compatibility.fun}%
-                      </strong>
-                      <span>
-                        Fun
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="love-actions">
-                    <button
-                      type="button"
-                      className="love-copy"
-                      onClick={copyResult}
-                    >
-                      {copied
-                        ? "✓ Copied"
-                        : "Copy Result"}
-                    </button>
-
-                    <button
-                      type="button"
-                      className="love-copy"
-                      onClick={function () {
-                        setShowDetails(
-                          function (current) {
-                            return !current;
-                          }
-                        );
-                      }}
-                    >
-                      {showDetails
-                        ? "Hide Details"
-                        : "Show Details"}
-                    </button>
-                  </div>
-
-                </div>
-              )}
-
-            </div>
-          </div>
-
-          {result && showDetails && (
-            <>
-              <div className="love-card love-section">
-
-                <h2 className="love-section-title">
-                  Compatibility breakdown
-                </h2>
-
-                <p className="love-section-description">
-                  A detailed look at the different
-                  dimensions behind your overall score.
-                </p>
-
-                <div className="love-compatibility-grid">
-
-                  <div className="love-compatibility">
-                    <div className="love-compatibility-top">
-                      <span>Communication</span>
-                      <strong>
-                        {result.compatibility.communication}%
-                      </strong>
-                    </div>
-
-                    <div className="love-progress">
-                      <div
-                        style={{
-                          width:
-                            result.compatibility.communication +
-                            "%",
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="love-compatibility">
-                    <div className="love-compatibility-top">
-                      <span>Trust</span>
-                      <strong>
-                        {result.compatibility.trust}%
-                      </strong>
-                    </div>
-
-                    <div className="love-progress">
-                      <div
-                        style={{
-                          width:
-                            result.compatibility.trust +
-                            "%",
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="love-compatibility">
-                    <div className="love-compatibility-top">
-                      <span>Chemistry</span>
-                      <strong>
-                        {result.compatibility.chemistry}%
-                      </strong>
-                    </div>
-
-                    <div className="love-progress">
-                      <div
-                        style={{
-                          width:
-                            result.compatibility.chemistry +
-                            "%",
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="love-compatibility">
-                    <div className="love-compatibility-top">
-                      <span>Fun & Energy</span>
-                      <strong>
-                        {result.compatibility.fun}%
-                      </strong>
-                    </div>
-
-                    <div className="love-progress">
-                      <div
-                        style={{
-                          width:
-                            result.compatibility.fun +
-                            "%",
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                </div>
-
-                <div className="love-insight">
-
-                  <div className="love-insight-icon">
-                    💡
                   </div>
 
                   <div>
-                    <span>
-                      PERSONALIZED INSIGHT
-                    </span>
-
-                    <strong>
-                      {result.advice}
-                    </strong>
+                    <div className="text-sm sm:text-base font-bold text-ink flex items-center justify-center gap-1.5">
+                      <span>{result.level.emoji}</span>
+                      <span>{result.level.title}</span>
+                    </div>
+                    <p className="text-xs text-muted max-w-md mx-auto mt-1 leading-relaxed">
+                      {result.level.description}
+                    </p>
                   </div>
 
-                  <div className="love-lucky">
-                    <strong>
-                      {result.luckyNumber}
-                    </strong>
-
-                    <span>
-                      LUCKY
-                    </span>
+                  <div className="max-w-md mx-auto w-full h-2 rounded-full bg-line overflow-hidden">
+                    <div
+                      className="h-full bg-brand transition-all duration-500 rounded-full"
+                      style={{ width: `${result.score}%` }}
+                    />
                   </div>
 
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={copyResult}
+                      className="inline-flex items-center gap-1.5 h-9 px-4 rounded-lg border border-line bg-paper hover:bg-line text-ink text-xs font-bold transition-colors min-h-[36px]"
+                    >
+                      {copied ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-teal" /> Copied Result
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" /> Copy Summary
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
-
-                <div className="love-disclaimer">
-                  This calculator is designed for
-                  entertainment. Compatibility cannot
-                  scientifically be determined from names.
-                </div>
-
-              </div>
-            </>
-          )}
-
+              )}
+            </div>
+          </div>
         </div>
-      </div>
 
-      <style>{styles}</style>
-    </>
+        {/* DETAILED BREAKDOWN & INSIGHTS PANEL */}
+        {result && showDetails && (
+          <div className="space-y-4 pt-4 border-t border-line min-w-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 min-w-0">
+              {[
+                { label: "Communication", val: result.compatibility.communication },
+                { label: "Trust", val: result.compatibility.trust },
+                { label: "Chemistry", val: result.compatibility.chemistry },
+                { label: "Fun & Energy", val: result.compatibility.fun },
+              ].map((item) => (
+                <div key={item.label} className="p-3.5 rounded-xl border border-line bg-paper space-y-2 min-w-0">
+                  <div className="flex items-center justify-between gap-2 min-w-0">
+                    <span className="text-xs text-muted font-medium truncate">{item.label}</span>
+                    <strong className="text-xs font-bold font-mono text-ink shrink-0">{item.val}%</strong>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-line overflow-hidden">
+                    <div
+                      className="h-full bg-brand rounded-full transition-all duration-300"
+                      style={{ width: `${item.val}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr,auto] gap-4 items-center p-4 rounded-xl border border-line bg-paper min-w-0">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-lg bg-brand/10 text-brand flex items-center justify-center shrink-0">
+                  <Lightbulb className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted block">
+                    PERSONALIZED INSIGHT
+                  </span>
+                  <strong className="text-xs sm:text-sm font-semibold text-ink block mt-0.5 leading-relaxed">
+                    {result.advice}
+                  </strong>
+                </div>
+              </div>
+
+              {/* PERFECTLY CENTERED LUCKY NUMBER BOX */}
+              <div className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg border border-line bg-surface shrink-0 w-full lg:w-auto mt-2 lg:mt-0">
+                <div className="text-center">
+                  <span className="text-[9px] font-extrabold uppercase tracking-widest text-muted block mb-1">
+                    LUCKY NUMBER
+                  </span>
+                  <strong className="text-2xl font-black font-mono text-brand block leading-none">
+                    {result.luckyNumber}
+                  </strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 pt-1 text-[11px] text-muted">
+              <ShieldAlert className="w-3.5 h-3.5 text-amber shrink-0" />
+              <span>This calculator is designed for entertainment. Compatibility cannot scientifically be determined from names.</span>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
   );
 }

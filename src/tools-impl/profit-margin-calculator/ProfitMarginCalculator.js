@@ -102,168 +102,178 @@ export default function ProfitMarginCalculator() {
     calculateMetrics();
   }, [calculateMetrics]);
 
+  const baseInputStyle = "w-full min-w-0 h-11 px-3 sm:px-4 bg-paper border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
+  const baseCurrencyInputStyle = "w-full min-w-0 h-11 pl-8 sm:pl-9 pr-3 bg-paper border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6 relative">
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <TrendingUp className="w-6 h-6 text-emerald-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Pro Margin & Pricing Engine</h2>
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
+      
+      {/* HEADER BAR */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <TrendingUp className="w-6 h-6 md:w-7 md:h-7 text-brand shrink-0" />
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-ink truncate">Pro Margin & Pricing Engine</h2>
         </div>
-        <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 p-1 rounded-lg border border-slate-200 dark:border-slate-700">
+        <div className="flex flex-wrap items-center gap-2 bg-paper p-1 rounded-lg border border-line shrink-0">
            <button 
+             type="button"
              onClick={() => setCalcMode("margin")} 
-             className={`px-4 py-2 text-xs font-bold rounded-md transition-all ${calcMode === 'margin' ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+             className={`px-3 py-1.5 text-xs font-bold rounded transition-all ${calcMode === 'margin' ? 'bg-surface text-brand shadow-sm border border-line' : 'text-muted hover:text-ink'}`}
            >
              Analyze Profit
            </button>
            <button 
+             type="button"
              onClick={() => setCalcMode("price")} 
-             className={`px-4 py-2 text-xs font-bold rounded-md transition-all ${calcMode === 'price' ? 'bg-white dark:bg-slate-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+             className={`px-3 py-1.5 text-xs font-bold rounded transition-all ${calcMode === 'price' ? 'bg-surface text-brand shadow-sm border border-line' : 'text-muted hover:text-ink'}`}
            >
              Target Pricing
            </button>
            
-           <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+           <div className="w-px h-5 bg-line mx-0.5"></div>
            
            <select 
              value={currency.code}
              onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
-             className="text-xs font-bold bg-transparent text-slate-700 dark:text-slate-200 px-2 py-1 outline-none cursor-pointer"
+             className="text-xs font-bold bg-transparent text-ink px-2 py-1 outline-none cursor-pointer"
            >
              {CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.code}</option>)}
            </select>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-6 items-start">
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm space-y-6">
-            <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <ShoppingCart className="w-5 h-5 text-indigo-500" />
-                <h3 className="font-bold text-slate-800 dark:text-slate-200">Core Financials</h3>
+      <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,1fr] gap-6 md:gap-8 items-start min-w-0">
+        
+        {/* INPUT FORMS */}
+        <div className="space-y-6 min-w-0">
+          <div className="bg-surface border border-line p-5 sm:p-6 rounded-xl shadow-card space-y-5 min-w-0">
+            <div className="flex items-center gap-2 border-b border-line pb-3 min-w-0">
+                <ShoppingCart className="w-5 h-5 text-brand shrink-0" />
+                <h3 className="font-bold text-ink text-sm sm:text-base truncate">Core Financials</h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-               <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1">
-                     Product Cost (COGS)
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 min-w-0">
+               <div className="space-y-1.5 min-w-0">
+                  <label className="text-xs font-bold uppercase tracking-wide text-muted block truncate">
+                      Product Cost (COGS)
                   </label>
-                  <div className="relative group">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-indigo-500">{currency.symbol}</span>
-                    <input type="number" min="0" value={cost} onChange={(e) => setCost(e.target.value)} className="w-full text-xl font-bold pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
+                  <div className="relative group min-w-0">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                    <input type="number" min="0" value={cost} onChange={(e) => setCost(e.target.value)} className={baseCurrencyInputStyle} />
                   </div>
                </div>
 
                {calcMode === "margin" ? (
-                 <div className="space-y-2 animate-in fade-in slide-in-from-right-4">
-                    <label className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                       Selling Price
+                 <div className="space-y-1.5 animate-in fade-in min-w-0">
+                    <label className="text-xs font-bold uppercase tracking-wide text-teal block truncate">
+                        Selling Price
                     </label>
-                    <div className="relative group">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-emerald-400 group-focus-within:text-emerald-500">{currency.symbol}</span>
-                      <input type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value)} className="w-full text-xl font-bold pl-10 pr-4 py-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg outline-none focus:ring-2 focus:ring-emerald-500 text-emerald-900 dark:text-emerald-100" />
+                    <div className="relative group min-w-0">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-teal pointer-events-none">{currency.symbol}</span>
+                      <input type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value)} className={`${baseCurrencyInputStyle} border-teal/40 text-teal`} />
                     </div>
                  </div>
                ) : (
-                 <div className="space-y-2 animate-in fade-in slide-in-from-left-4">
-                    <label className="text-xs font-bold uppercase tracking-widest text-violet-600 dark:text-violet-400 flex items-center gap-1">
-                       Target Net Margin
+                 <div className="space-y-1.5 animate-in fade-in min-w-0">
+                    <label className="text-xs font-bold uppercase tracking-wide text-brand block truncate">
+                        Target Net Margin
                     </label>
-                    <div className="relative group">
-                      <input type="number" min="0" max="99" value={targetMargin} onChange={(e) => setTargetMargin(e.target.value)} className="w-full text-xl font-bold pl-4 pr-10 py-3 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-lg outline-none focus:ring-2 focus:ring-violet-500 text-violet-900 dark:text-violet-100" />
-                      <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-violet-400 group-focus-within:text-violet-500">%</span>
+                    <div className="relative group min-w-0">
+                      <input type="number" min="0" max="99" value={targetMargin} onChange={(e) => setTargetMargin(e.target.value)} className={`${baseInputStyle} border-brand/40 pr-8 text-brand`} />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-brand pointer-events-none">%</span>
                     </div>
                  </div>
                )}
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm space-y-6">
-            <div className="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-3">
-               <div className="flex items-center gap-2">
-                   <Target className="w-5 h-5 text-amber-500" />
-                   <h3 className="font-bold text-slate-800 dark:text-slate-200">FBA / Dropshipping Expenses</h3>
+          <div className="bg-surface border border-line p-5 sm:p-6 rounded-xl shadow-card space-y-5 min-w-0">
+            <div className="flex justify-between items-center border-b border-line pb-3 min-w-0">
+               <div className="flex items-center gap-2 min-w-0">
+                   <Target className="w-5 h-5 text-amber-500 shrink-0" />
+                   <h3 className="font-bold text-ink text-sm sm:text-base truncate">FBA / Dropshipping Expenses</h3>
                </div>
-               <span className="text-[10px] bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-1 rounded font-black uppercase tracking-widest">Optional</span>
+               <span className="text-[9px] bg-amber-500/10 text-amber-600 px-2 py-0.5 rounded font-black uppercase tracking-wider shrink-0">Optional</span>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-               <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1"><Truck className="w-3 h-3"/> Shipping</label>
-                  <div className="relative group">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-amber-500">{currency.symbol}</span>
-                    <input type="number" min="0" value={shipping} onChange={(e) => setShipping(e.target.value)} className="w-full text-sm font-bold pl-8 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 dark:text-slate-100" />
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 min-w-0">
+               <div className="space-y-1.5 min-w-0">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted flex items-center gap-1 truncate"><Truck className="w-3 h-3 shrink-0"/> Shipping</label>
+                  <div className="relative group min-w-0">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                    <input type="number" min="0" value={shipping} onChange={(e) => setShipping(e.target.value)} className={baseCurrencyInputStyle} />
                   </div>
                </div>
-               <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1"><Megaphone className="w-3 h-3"/> Marketing/Ads</label>
-                  <div className="relative group">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-amber-500">{currency.symbol}</span>
-                    <input type="number" min="0" value={marketing} onChange={(e) => setMarketing(e.target.value)} className="w-full text-sm font-bold pl-8 pr-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 dark:text-slate-100" />
+               <div className="space-y-1.5 min-w-0">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted flex items-center gap-1 truncate"><Megaphone className="w-3 h-3 shrink-0"/> Marketing/Ads</label>
+                  <div className="relative group min-w-0">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                    <input type="number" min="0" value={marketing} onChange={(e) => setMarketing(e.target.value)} className={baseCurrencyInputStyle} />
                   </div>
                </div>
-               <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1"><Activity className="w-3 h-3"/> Platform Fee</label>
-                  <div className="relative group">
-                    <input type="number" min="0" value={platformFeePct} onChange={(e) => setPlatformFeePct(e.target.value)} className="w-full text-sm font-bold pl-3 pr-8 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-amber-500 text-slate-800 dark:text-slate-100" />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-amber-500">%</span>
+               <div className="space-y-1.5 min-w-0">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted flex items-center gap-1 truncate"><Activity className="w-3 h-3 shrink-0"/> Platform Fee</label>
+                  <div className="relative group min-w-0">
+                    <input type="number" min="0" value={platformFeePct} onChange={(e) => setPlatformFeePct(e.target.value)} className={`${baseInputStyle} pr-7`} />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 font-bold text-muted pointer-events-none">%</span>
                   </div>
                </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm space-y-4">
-             <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                 <Tag className="w-5 h-5 text-rose-500" />
-                 <h3 className="font-bold text-slate-800 dark:text-slate-200">Discount Simulation</h3>
-             </div>
-             <div className="overflow-x-auto">
-               <table className="w-full text-left border-collapse">
-                 <thead>
-                   <tr className="border-b border-slate-100 dark:border-slate-800">
-                     <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Offer</th>
-                     <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">New Price</th>
-                     <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Net Profit</th>
-                     <th className="py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Net Margin</th>
-                   </tr>
-                 </thead>
-                 <tbody>
-                   {[10, 15, 20].map((discountPct) => {
-                     const discountedPrice = results.sellingPrice * (1 - discountPct / 100);
-                     const fee = discountedPrice * ((Number(platformFeePct) || 0) / 100);
-                     const totalC = (Number(cost) || 0) + (Number(shipping) || 0) + (Number(marketing) || 0) + fee;
-                     const pft = discountedPrice - totalC;
-                     const mrg = discountedPrice > 0 ? (pft / discountedPrice) * 100 : 0;
-                     const isLoss = pft < 0;
+          <div className="bg-surface border border-line p-5 sm:p-6 rounded-xl shadow-card space-y-4 min-w-0">
+              <div className="flex items-center gap-2 border-b border-line pb-3 min-w-0">
+                  <Tag className="w-5 h-5 text-[#fb7185] shrink-0" />
+                  <h3 className="font-bold text-ink text-sm sm:text-base truncate">Discount Simulation</h3>
+              </div>
+              <div className="overflow-x-auto min-w-0">
+                <table className="w-full text-left border-collapse min-w-[320px]">
+                  <thead>
+                    <tr className="border-b border-line">
+                      <th className="py-2.5 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-muted">Offer</th>
+                      <th className="py-2.5 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-muted">New Price</th>
+                      <th className="py-2.5 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-muted">Net Profit</th>
+                      <th className="py-2.5 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-muted">Net Margin</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[10, 15, 20].map((discountPct) => {
+                      const discountedPrice = results.sellingPrice * (1 - discountPct / 100);
+                      const fee = discountedPrice * ((Number(platformFeePct) || 0) / 100);
+                      const totalC = (Number(cost) || 0) + (Number(shipping) || 0) + (Number(marketing) || 0) + fee;
+                      const pft = discountedPrice - totalC;
+                      const mrg = discountedPrice > 0 ? (pft / discountedPrice) * 100 : 0;
+                      const isLoss = pft < 0;
 
-                     return (
-                       <tr key={discountPct} className="border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                         <td className="py-3 text-sm font-bold text-rose-500">{discountPct}% OFF</td>
-                         <td className="py-3 text-sm font-semibold text-slate-700 dark:text-slate-300">{isMounted ? formatCurrency(discountedPrice, currency.code, currency.locale) : '0'}</td>
-                         <td className={`py-3 text-sm font-bold ${isLoss ? 'text-rose-500' : 'text-emerald-500'}`}>{isMounted ? formatCurrency(pft, currency.code, currency.locale) : '0'}</td>
-                         <td className="py-3 text-sm font-semibold text-slate-500">{isMounted ? mrg.toFixed(1) : '0'}%</td>
-                       </tr>
-                     )
-                   })}
-                 </tbody>
-               </table>
-             </div>
+                      return (
+                        <tr key={discountPct} className="border-b border-line/50 hover:bg-paper/50 transition-colors">
+                          <td className="py-2.5 text-xs sm:text-sm font-bold text-[#fb7185]">{discountPct}% OFF</td>
+                          <td className="py-2.5 text-xs sm:text-sm font-semibold text-ink">{isMounted ? formatCurrency(discountedPrice, currency.code, currency.locale) : '0'}</td>
+                          <td className={`py-2.5 text-xs sm:text-sm font-bold ${isLoss ? 'text-[#e11d48]' : 'text-teal'}`}>{isMounted ? formatCurrency(pft, currency.code, currency.locale) : '0'}</td>
+                          <td className="py-2.5 text-xs sm:text-sm font-semibold text-muted">{isMounted ? mrg.toFixed(1) : '0'}%</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 sticky top-6">
-           <div className={`border p-6 md:p-8 rounded-xl shadow-sm text-center relative overflow-hidden transition-colors ${
+        {/* OUTPUT DASHBOARD */}
+        <div className="flex flex-col gap-6 sticky top-6 min-w-0">
+           <div className={`border p-5 sm:p-7 rounded-xl shadow-card text-center relative overflow-hidden transition-colors min-w-0 ${
              results.netProfit >= 0 
-               ? 'bg-slate-900 border-slate-800' 
-               : 'bg-rose-950 border-rose-900'
+               ? 'bg-paper border-line text-ink' 
+               : 'bg-[#fb7185]/10 border-[#fb7185]/30 text-ink'
            }`}>
              
-             <div className="z-10 relative">
-               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-center gap-2">
+             <div className="z-10 relative min-w-0">
+               <h3 className="text-xs font-bold text-muted uppercase tracking-widest mb-2 truncate">
                  {calcMode === "margin" ? "Net Profit" : "Required Selling Price"}
                </h3>
                
-               <div className={`text-5xl md:text-6xl font-black tracking-tighter mb-4 ${results.netProfit >= 0 ? 'text-emerald-400' : 'text-rose-500'}`}>
+               <div className={`text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 truncate ${results.netProfit >= 0 ? 'text-teal' : 'text-[#e11d48]'}`}>
                  {isMounted 
                    ? (calcMode === "margin" 
                        ? formatCurrency(results.netProfit, currency.code, currency.locale) 
@@ -272,62 +282,63 @@ export default function ProfitMarginCalculator() {
                  }
                </div>
 
-               <div className="grid grid-cols-2 gap-4 mt-6">
-                 <div className="bg-slate-800/50 border border-slate-700/50 p-4 rounded-lg">
-                    <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Net Margin</span>
-                    <span className="text-xl font-bold text-white">{isMounted ? results.netMargin.toFixed(1) : '0'}%</span>
+               <div className="grid grid-cols-2 gap-3 mt-4 min-w-0">
+                 <div className="bg-surface border border-line p-3.5 rounded-lg min-w-0">
+                    <span className="block text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-muted mb-1 truncate">Net Margin</span>
+                    <span className="text-lg sm:text-xl font-black text-ink">{isMounted ? results.netMargin.toFixed(1) : '0'}%</span>
                  </div>
-                 <div className="bg-slate-800/50 border border-slate-700/50 p-4 rounded-lg">
-                    <span className="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Markup</span>
-                    <span className="text-xl font-bold text-white">{isMounted ? results.markup.toFixed(1) : '0'}%</span>
+                 <div className="bg-surface border border-line p-3.5 rounded-lg min-w-0">
+                    <span className="block text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-muted mb-1 truncate">Markup</span>
+                    <span className="text-lg sm:text-xl font-black text-ink">{isMounted ? results.markup.toFixed(1) : '0'}%</span>
                  </div>
                </div>
              </div>
            </div>
 
-           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm">
-             <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 text-center">Unit Economics Breakdown</h3>
+           <div className="bg-paper border border-line p-5 sm:p-6 rounded-xl shadow-card min-w-0">
+             <h3 className="text-[10px] font-black uppercase tracking-widest text-muted mb-4 text-center truncate">Unit Economics Breakdown</h3>
              
-             <div className="space-y-3">
-               <div className="flex justify-between items-center text-sm">
-                 <span className="font-semibold text-slate-600 dark:text-slate-400">Selling Price</span>
-                 <span className="font-bold text-slate-800 dark:text-slate-200">{isMounted ? formatCurrency(results.sellingPrice, currency.code, currency.locale) : '0'}</span>
+             <div className="space-y-3 min-w-0">
+               <div className="flex justify-between items-center text-xs sm:text-sm min-w-0">
+                 <span className="font-semibold text-muted truncate">Selling Price</span>
+                 <span className="font-bold text-ink shrink-0 pl-2">{isMounted ? formatCurrency(results.sellingPrice, currency.code, currency.locale) : '0'}</span>
                </div>
                
-               <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
-                 <div className="flex justify-between items-center text-sm">
-                   <span className="text-rose-500 flex items-center gap-2"><ArrowRight className="w-3 h-3"/> Cost of Goods</span>
-                   <span className="font-medium text-slate-600 dark:text-slate-400">-{isMounted ? formatCurrency(Number(cost)||0, currency.code, currency.locale) : '0'}</span>
+               <div className="pt-2 border-t border-line space-y-2 min-w-0">
+                 <div className="flex justify-between items-center text-xs sm:text-sm min-w-0">
+                   <span className="text-[#fb7185] flex items-center gap-1.5 truncate"><ArrowRight className="w-3 h-3 shrink-0"/> Cost of Goods</span>
+                   <span className="font-medium text-muted shrink-0 pl-2">-{isMounted ? formatCurrency(Number(cost)||0, currency.code, currency.locale) : '0'}</span>
                  </div>
                  {Number(shipping) > 0 && (
-                   <div className="flex justify-between items-center text-sm">
-                     <span className="text-rose-500 flex items-center gap-2"><ArrowRight className="w-3 h-3"/> Shipping</span>
-                     <span className="font-medium text-slate-600 dark:text-slate-400">-{isMounted ? formatCurrency(Number(shipping), currency.code, currency.locale) : '0'}</span>
+                   <div className="flex justify-between items-center text-xs sm:text-sm min-w-0">
+                     <span className="text-[#fb7185] flex items-center gap-1.5 truncate"><ArrowRight className="w-3 h-3 shrink-0"/> Shipping</span>
+                     <span className="font-medium text-muted shrink-0 pl-2">-{isMounted ? formatCurrency(Number(shipping), currency.code, currency.locale) : '0'}</span>
                    </div>
                  )}
                  {Number(marketing) > 0 && (
-                   <div className="flex justify-between items-center text-sm">
-                     <span className="text-rose-500 flex items-center gap-2"><ArrowRight className="w-3 h-3"/> Marketing</span>
-                     <span className="font-medium text-slate-600 dark:text-slate-400">-{isMounted ? formatCurrency(Number(marketing), currency.code, currency.locale) : '0'}</span>
+                   <div className="flex justify-between items-center text-xs sm:text-sm min-w-0">
+                     <span className="text-[#fb7185] flex items-center gap-1.5 truncate"><ArrowRight className="w-3 h-3 shrink-0"/> Marketing</span>
+                     <span className="font-medium text-muted shrink-0 pl-2">-{isMounted ? formatCurrency(Number(marketing), currency.code, currency.locale) : '0'}</span>
                    </div>
                  )}
                  {Number(platformFeePct) > 0 && (
-                   <div className="flex justify-between items-center text-sm">
-                     <span className="text-rose-500 flex items-center gap-2"><ArrowRight className="w-3 h-3"/> Fees ({platformFeePct}%)</span>
-                     <span className="font-medium text-slate-600 dark:text-slate-400">-{isMounted ? formatCurrency(results.platformFeeAmount, currency.code, currency.locale) : '0'}</span>
+                   <div className="flex justify-between items-center text-xs sm:text-sm min-w-0">
+                     <span className="text-[#fb7185] flex items-center gap-1.5 truncate"><ArrowRight className="w-3 h-3 shrink-0"/> Fees ({platformFeePct}%)</span>
+                     <span className="font-medium text-muted shrink-0 pl-2">-{isMounted ? formatCurrency(results.platformFeeAmount, currency.code, currency.locale) : '0'}</span>
                    </div>
                  )}
                </div>
 
-               <div className="pt-3 mt-3 border-t-2 border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                 <span className="text-sm font-black uppercase tracking-widest text-slate-800 dark:text-slate-200">Net Profit</span>
-                 <span className={`text-xl font-black ${results.netProfit >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+               <div className="pt-3 mt-3 border-t-2 border-line flex justify-between items-center min-w-0">
+                 <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-ink truncate">Net Profit</span>
+                 <span className={`text-lg sm:text-xl font-black shrink-0 pl-2 ${results.netProfit >= 0 ? 'text-teal' : 'text-[#e11d48]'}`}>
                    {isMounted ? formatCurrency(results.netProfit, currency.code, currency.locale) : '0'}
                  </span>
                </div>
              </div>
            </div>
         </div>
+
       </div>
     </div>
   );

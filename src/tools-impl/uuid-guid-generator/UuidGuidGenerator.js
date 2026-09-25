@@ -5,11 +5,9 @@ import { Settings2, Fingerprint, Trash2, Copy, RotateCcw, Check, Download, Hash,
 
 // ✅ 100% Native, Dependency-Free UUID v4 Generator
 const generateNativeUUID = () => {
-  // Use Modern Native Crypto API if available (Ultra-fast & Secure)
   if (typeof window !== 'undefined' && window.crypto && window.crypto.randomUUID) {
     return window.crypto.randomUUID();
   }
-  // Safe Fallback for older browsers
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
@@ -20,21 +18,19 @@ export default function UuidGuidGenerator() {
   const [isMounted, setIsMounted] = useState(false);
   const [results, setResults] = useState([]);
   
-  // Settings State
   const [count, setCount] = useState(1);
-  const [format, setFormat] = useState("standard"); // standard, uppercase, no-hyphen, braces
+  const [format, setFormat] = useState("standard");
   
   const [copiedState, setCopiedState] = useState(false);
-  const [showSettings, setShowSettings] = useState(true);
+  const [showSettings, setShowSettings] = useState(false); // Default closed on mobile for clean start
 
   const generateUUIDs = useCallback(() => {
     const newUUIDs = [];
-    const maxCount = Math.min(Math.max(1, count), 10000); // Strict limit 1 to 10,000
+    const maxCount = Math.min(Math.max(1, count), 10000);
     
     for (let i = 0; i < maxCount; i++) {
       let id = generateNativeUUID();
       
-      // Apply Custom Formatting
       if (format === "uppercase") id = id.toUpperCase();
       if (format === "no-hyphen") id = id.replace(/-/g, "");
       if (format === "no-hyphen-upper") id = id.replace(/-/g, "").toUpperCase();
@@ -46,14 +42,11 @@ export default function UuidGuidGenerator() {
     setResults(newUUIDs);
   }, [count, format]);
 
-  // Generate initial UUID only after client mount for hydration safety
   useEffect(() => {
     setIsMounted(true);
     generateUUIDs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [generateUUIDs]);
 
-  // Regenerate immediately when settings change
   useEffect(() => {
     if (isMounted) generateUUIDs();
   }, [format, count, generateUUIDs, isMounted]);
@@ -83,81 +76,113 @@ export default function UuidGuidGenerator() {
   const displayedText = isMounted ? results.join('\n') : "";
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border">
       
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Fingerprint className="w-6 h-6 text-indigo-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">UUID / GUID Generator</h2>
-          <span className="bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold px-3 py-1 rounded-full uppercase hidden sm:block">Native Speed</span>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-2 text-sm font-semibold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-indigo-500 hover:text-indigo-600 transition-all">
-            <Settings2 className="w-4 h-4" /> {showSettings ? "Hide Options" : "Show Options"}
-          </button>
-          <button onClick={handleDownload} disabled={!results.length} className="flex items-center gap-2 text-sm font-semibold bg-slate-100 dark:bg-slate-800 disabled:opacity-50 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-            <Download className="w-4 h-4" /> Export .txt
-          </button>
-          <button onClick={handleCopy} disabled={!results.length} className="flex items-center gap-2 text-sm font-semibold bg-indigo-600 disabled:bg-slate-400 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-indigo-700 transition-colors">
-            {copiedState ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />} {copiedState ? "Copied!" : "Copy All"}
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,auto] gap-6 items-start">
+      {/* HEADER BAR */}
+      <div className="bg-surface border border-line p-4 sm:p-8 rounded-2xl shadow-card space-y-4 sm:space-y-6 w-full box-border">
         
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden flex flex-col shadow-sm min-h-[600px] h-[75vh]">
-          <div className="bg-slate-50 dark:bg-slate-800 px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-            <label className="text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                <Hash className="w-4 h-4 text-slate-500"/> Generated v4 Outputs ({isMounted ? results.length : 0})
-            </label>
-            <div className="flex gap-1">
-              <button onClick={() => setResults([])} className="p-1.5 text-slate-500 hover:text-red-600 rounded transition-colors" title="Clear"><Trash2 className="w-4 h-4"/></button>
-              <button onClick={generateUUIDs} className="p-1.5 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded transition-colors flex items-center gap-1 font-bold text-xs" title="Generate New">
-                  <RotateCcw className="w-3.5 h-3.5"/> REGENERATE
-              </button>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-line pb-4 sm:pb-5 w-full">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-lg sm:text-xl font-black shrink-0">
+              <Fingerprint className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+
+            <div className="min-w-0">
+              <div className="text-[9px] sm:text-[10px] font-black tracking-widest text-brand uppercase mb-0.5 sm:mb-1">
+                WEB DEVELOPMENT UTILITY
+              </div>
+              <h2 className="text-lg sm:text-2xl font-bold text-ink tracking-tight truncate">
+                UUID / GUID Generator
+              </h2>
+              <p className="text-[10px] sm:text-[11px] font-bold text-muted mt-0.5 truncate">
+                Generate secure version 4 UUIDs in bulk instantly using native crypto.
+              </p>
             </div>
           </div>
-          
-          <textarea
-            readOnly
-            value={displayedText}
-            placeholder="UUIDs will appear here..."
-            className="w-full h-full flex-grow p-6 bg-transparent text-sm md:text-base font-mono leading-relaxed text-slate-800 dark:text-slate-200 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            spellCheck="false"
-          />
+
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 shrink-0">
+            <button 
+              type="button"
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-line bg-paper text-ink hover:border-brand text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shrink-0"
+            >
+              <Settings2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand" /> {showSettings ? "Hide Options" : "Options"}
+            </button>
+            <button 
+              type="button"
+              onClick={handleDownload} 
+              disabled={!results.length}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-line bg-paper disabled:opacity-50 text-ink text-[11px] sm:text-xs font-black uppercase tracking-wider hover:bg-surface transition-all shrink-0"
+            >
+              <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand" /> Export
+            </button>
+            <button 
+              type="button"
+              onClick={handleCopy} 
+              disabled={!results.length}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-brand disabled:opacity-50 text-surface hover:opacity-95 text-[11px] sm:text-xs font-black uppercase tracking-wider transition-opacity shadow-sm shrink-0"
+            >
+              {copiedState ? <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />} {copiedState ? "Copied!" : "Copy"}
+            </button>
+          </div>
         </div>
 
-        {showSettings && (
-          <div className="space-y-6 lg:w-72 lg:max-w-72 flex flex-col h-full">
+        {/* WORK AREA GRID (Responsive stack on mobile) */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 sm:gap-6 items-start w-full">
+          
+          {/* Main Output Panel */}
+          <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col h-[65vh] sm:h-[70vh] min-h-[400px] w-full shadow-sm">
+            <div className="bg-surface px-4 py-3 border-b border-line flex items-center justify-between w-full">
+              <label className="text-[11px] sm:text-xs font-black text-ink uppercase tracking-wider flex items-center gap-2 truncate">
+                <Hash className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand shrink-0"/> Outputs ({isMounted ? results.length : 0})
+              </label>
+              <div className="flex items-center gap-2 shrink-0">
+                <button type="button" onClick={() => setResults([])} className="p-1.5 text-muted hover:text-[#fb7185] hover:bg-paper rounded-xl transition-colors" title="Clear"><Trash2 className="w-4 h-4"/></button>
+                <button type="button" onClick={generateUUIDs} className="flex items-center gap-1 text-[11px] font-black text-brand uppercase tracking-wider hover:opacity-80 transition-opacity">
+                  <RotateCcw className="w-3 h-3"/> Regenerate
+                </button>
+              </div>
+            </div>
             
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <ListOrdered className="w-5 h-5 text-indigo-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Generation Quantity</h3>
+            <textarea
+              readOnly
+              value={displayedText}
+              placeholder="UUIDs will appear here..."
+              className="w-full h-full flex-grow p-4 sm:p-5 bg-surface border-0 text-xs sm:text-sm font-mono leading-relaxed text-ink outline-none resize-none tabular-nums box-border"
+              spellCheck="false"
+            />
+          </div>
+
+          {/* SIDEBAR OPTIONS (Collapsible on mobile or stacked cleanly) */}
+          <div className={`space-y-4 sm:space-y-6 w-full ${showSettings ? "block" : "hidden lg:block"}`}>
+            
+            <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl space-y-3 sm:space-y-4 w-full box-border">
+              <div className="flex items-center gap-2 border-b border-line pb-3">
+                <ListOrdered className="w-4 h-4 sm:w-5 sm:h-5 text-brand" />
+                <h3 className="text-xs font-black text-ink uppercase tracking-wider">Quantity</h3>
               </div>
               
               <div className="pt-1">
-                <label className="block text-xs font-semibold text-slate-500 mb-2">How many UUIDs?</label>
+                <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-1.5">How many UUIDs?</label>
                 <input 
                     type="number" 
                     min="1" 
                     max="10000" 
                     value={count} 
                     onChange={(e) => setCount(Number(e.target.value))}
-                    className="w-full font-bold text-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-indigo-500 text-slate-700 dark:text-slate-200"
+                    className="w-full h-10 sm:h-11 text-xs sm:text-sm font-bold bg-surface border border-line rounded-xl px-3 outline-none focus:border-brand text-ink tabular-nums"
                 />
-                <span className="block text-[10px] text-slate-400 mt-1.5 text-right">Max: 10,000 per click</span>
+                <span className="block text-[10px] font-medium text-muted mt-1 text-right">Max: 10,000 per click</span>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <Braces className="w-5 h-5 text-pink-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Output Format</h3>
+            <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl space-y-3 sm:space-y-4 w-full box-border">
+              <div className="flex items-center gap-2 border-b border-line pb-3">
+                <Braces className="w-4 h-4 sm:w-5 sm:h-5 text-brand" />
+                <h3 className="text-xs font-black text-ink uppercase tracking-wider">Output Format</h3>
               </div>
               
-              <div className="space-y-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2">
                 {[
                     { id: "standard", label: "Standard", desc: "xxxx-xxxx" },
                     { id: "uppercase", label: "Uppercase", desc: "XXXX-XXXX" },
@@ -168,18 +193,20 @@ export default function UuidGuidGenerator() {
                 ].map((fmt) => (
                     <button 
                         key={fmt.id}
+                        type="button"
                         onClick={() => setFormat(fmt.id)}
-                        className={`w-full flex items-center justify-between p-2.5 text-xs font-medium rounded-lg transition-colors border ${format === fmt.id ? 'bg-pink-50 dark:bg-pink-900/20 border-pink-200 dark:border-pink-800 text-pink-700 dark:text-pink-400' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-pink-300'}`}
+                        className={`w-full flex items-center justify-between p-2.5 sm:p-3 text-[11px] sm:text-xs font-black uppercase tracking-wider rounded-xl transition-all border ${format === fmt.id ? 'bg-brand/10 border-brand/30 text-brand shadow-sm' : 'bg-surface border-line text-muted hover:text-ink'}`}
                     >
-                        <span className="font-bold">{fmt.label}</span>
-                        <span className="font-mono opacity-60 text-[10px]">{fmt.desc}</span>
+                        <span className="truncate">{fmt.label}</span>
+                        <span className="font-mono text-[9px] sm:text-[10px] font-medium opacity-70 shrink-0">{fmt.desc}</span>
                     </button>
                 ))}
               </div>
             </div>
 
           </div>
-        )}
+
+        </div>
 
       </div>
     </div>

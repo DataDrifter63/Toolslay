@@ -8,25 +8,21 @@ import {
   Swords, ShieldAlert
 } from "lucide-react";
 
-// --- PLAYSTYLE MULTIPLIERS ---
 const PLAYSTYLES = [
-  { id: "speedrun", label: "Speedrun", mult: 0.7, icon: Zap, desc: "Rushing main objectives only", color: "text-amber-500", bg: "bg-amber-50 dark:bg-amber-900/20", border: "border-amber-200 dark:border-amber-800" },
-  { id: "casual", label: "Casual Play", mult: 1.0, icon: Gamepad2, desc: "Normal pace, enjoying the game", color: "text-indigo-500", bg: "bg-indigo-50 dark:bg-indigo-900/20", border: "border-indigo-200 dark:border-indigo-800" },
-  { id: "completionist", label: "100% Run", mult: 1.4, icon: Trophy, desc: "Getting every achievement/item", color: "text-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-900/20", border: "border-emerald-200 dark:border-emerald-800" }
+  { id: "speedrun", label: "Speedrun", mult: 0.7, icon: Zap, desc: "Rushing main objectives only" },
+  { id: "casual", label: "Casual Play", mult: 1.0, icon: Gamepad2, desc: "Normal pace, enjoying the game" },
+  { id: "completionist", label: "100% Run", mult: 1.4, icon: Trophy, desc: "Getting every achievement/item" }
 ];
 
 export default function GamingSessionCalculator() {
   const [isMounted, setIsMounted] = useState(false);
   
-  // Game Info States
   const [gameTitle, setGameTitle] = useState("");
-  const [playstyle, setPlaystyle] = useState(PLAYSTYLES[1]); // Default Casual
+  const [playstyle, setPlaystyle] = useState(PLAYSTYLES[1]);
   
-  // Gameplay Metrics
   const [mainQuests, setMainQuests] = useState({ count: "", avgMins: "" });
   const [sideQuests, setSideQuests] = useState({ count: "", avgMins: "" });
   
-  // Real-life Scheduling
   const [dailyPlayHours, setDailyPlayHours] = useState("2");
 
   useEffect(() => {
@@ -45,42 +41,32 @@ export default function GamingSessionCalculator() {
     }
   };
 
-  // --- CORE ENGINE CALCULATIONS ---
   const calculations = useMemo(() => {
-    // Parse Inputs
     const mCount = parseInt(mainQuests.count) || 0;
     const mMins = parseInt(mainQuests.avgMins) || 0;
     const sCount = parseInt(sideQuests.count) || 0;
     const sMins = parseInt(sideQuests.avgMins) || 0;
-    const dailyHrs = parseFloat(dailyPlayHours) || 1; // Default to 1 to prevent infinity
+    const dailyHrs = parseFloat(dailyPlayHours) || 1;
 
-    // Base Math
     const baseMainMins = mCount * mMins;
     const baseSideMins = sCount * sMins;
     const totalBaseMins = baseMainMins + baseSideMins;
 
-    // Apply Playstyle Multiplier
     const totalMins = Math.round(totalBaseMins * playstyle.mult);
     
-    // Time Breakdowns
     const totalHours = Math.floor(totalMins / 60);
     const remainingMins = totalMins % 60;
     
-    // Distribution for visual bars
     const mainMinsAdjusted = Math.round(baseMainMins * playstyle.mult);
     const sideMinsAdjusted = Math.round(baseSideMins * playstyle.mult);
     const pctMain = totalMins > 0 ? (mainMinsAdjusted / totalMins) * 100 : 0;
     const pctSide = totalMins > 0 ? (sideMinsAdjusted / totalMins) * 100 : 0;
 
-    // Real-Life Dates
     const daysToBeat = Math.ceil((totalMins / 60) / dailyHrs);
     const completionDate = new Date();
     completionDate.setDate(completionDate.getDate() + daysToBeat);
 
-    // Gamer Health Metrics
-    // 1 break recommended every 90 mins (1.5 hours)
     const recommendedBreaks = Math.floor(totalMins / 90); 
-    // Roughly 0.25 Liters of water per hour of gaming
     const hydrationLiters = ((totalMins / 60) * 0.25).toFixed(1);
 
     return {
@@ -94,219 +80,203 @@ export default function GamingSessionCalculator() {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
       
-      {/* Premium Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-purple-100 via-fuchsia-50 to-transparent dark:from-purple-900/30 dark:via-fuchsia-900/10 rounded-bl-full -z-10 opacity-70"></div>
-        <div className="flex items-center gap-4">
-          <div className="bg-gradient-to-br from-purple-500 to-fuchsia-500 p-3.5 rounded-2xl shadow-md">
-            <MonitorPlay className="w-6 h-6 text-white" />
+      {/* COMPACT SLEEK HEADER BAR */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex items-center justify-between gap-3 w-full box-border font-sans">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand shrink-0">
+            <MonitorPlay className="w-5 h-5" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
               Session Time Oracle
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-              Game Completion & Schedule Estimator
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted truncate">
+              Game completion time calculator and gamer health advisor.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-4 sm:gap-6 items-start w-full">
         
-        {/* ================= LEFT: GAMING INPUT ENGINE ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8">
+        {/* LEFT: GAMING INPUT ENGINE */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-5 font-sans">
             
-            {/* Title & Playstyle */}
-            <div className="space-y-6 border-b border-slate-100 dark:border-slate-800 pb-8">
-              <div className="relative">
+            <div className="space-y-4 border-b border-line pb-5">
+              <div>
                 <input
                   type="text" value={gameTitle} onChange={(e) => setGameTitle(e.target.value)}
                   placeholder="Enter Game Title (Optional)"
-                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl px-5 py-4 text-xl font-black text-slate-800 dark:text-slate-100 outline-none focus:border-purple-500 transition-colors placeholder:text-slate-300 dark:placeholder:text-slate-600"
+                  className="w-full bg-surface border border-line rounded-xl px-4 py-3 text-sm font-bold text-ink outline-none focus:border-brand placeholder:text-muted"
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                  <Gamepad2 className="w-3.5 h-3.5" /> Select Your Playstyle
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider flex items-center gap-1.5">
+                  <Gamepad2 className="w-3.5 h-3.5 text-brand" /> Playstyle Mode
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   {PLAYSTYLES.map((style) => (
                     <button 
-                      key={style.id} onClick={() => setPlaystyle(style)}
-                      className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${playstyle.id === style.id ? `${style.bg} ${style.border} ${style.color} shadow-sm` : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-500 hover:border-slate-300"}`}
+                      key={style.id} type="button" onClick={() => setPlaystyle(style)}
+                      className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${playstyle.id === style.id ? "bg-brand/10 border-brand shadow-sm text-brand" : "bg-surface border-line text-muted hover:border-brand/50"}`}
                     >
-                      <style.icon className="w-5 h-5 mb-2" />
-                      <span className="text-xs font-black uppercase tracking-widest">{style.label}</span>
-                      <span className="text-[9px] font-bold mt-1 opacity-70 text-center leading-tight">{style.desc}</span>
+                      <style.icon className="w-4 h-4 mb-1.5" />
+                      <span className="text-[10px] font-black uppercase tracking-wider">{style.label}</span>
+                      <span className="text-[8px] font-bold mt-0.5 opacity-70 text-center leading-tight truncate w-full">{style.desc}</span>
                     </button>
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Content Multipliers */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               
-              {/* Main Quests */}
-              <div className="p-5 rounded-2xl bg-purple-50/50 dark:bg-purple-900/10 border border-purple-200 dark:border-purple-800/50">
-                <h4 className="text-[10px] font-black uppercase tracking-widest mb-4 flex items-center gap-1.5 text-purple-600 dark:text-purple-400">
-                  <Swords className="w-4 h-4" /> Main Story / Campaign
+              <div className="p-3.5 rounded-xl bg-surface border border-line">
+                <h4 className="text-[10px] font-black uppercase tracking-wider mb-3 flex items-center gap-1.5 text-ink">
+                  <Swords className="w-3.5 h-3.5 text-brand" /> Main Story / Campaign
                 </h4>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-2.5">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">Total Missions/Levels</label>
-                    <input type="text" value={mainQuests.count} onChange={(e) => handleInput(setMainQuests, "count", e.target.value)} className="w-full bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800 rounded-xl px-4 py-3 text-sm font-black outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g. 25" />
+                    <label className="block text-[9px] font-bold text-muted mb-1">Missions/Levels</label>
+                    <input type="text" value={mainQuests.count} onChange={(e) => handleInput(setMainQuests, "count", e.target.value)} className="w-full bg-paper border border-line rounded-xl px-3 py-2 text-xs font-black text-ink outline-none focus:border-brand" placeholder="e.g. 25" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">Avg. Mins per Mission</label>
-                    <input type="text" value={mainQuests.avgMins} onChange={(e) => handleInput(setMainQuests, "avgMins", e.target.value)} className="w-full bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800 rounded-xl px-4 py-3 text-sm font-black outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g. 45" />
+                    <label className="block text-[9px] font-bold text-muted mb-1">Avg. Mins/Mission</label>
+                    <input type="text" value={mainQuests.avgMins} onChange={(e) => handleInput(setMainQuests, "avgMins", e.target.value)} className="w-full bg-paper border border-line rounded-xl px-3 py-2 text-xs font-black text-ink outline-none focus:border-brand" placeholder="e.g. 45" />
                   </div>
                 </div>
               </div>
 
-              {/* Side Quests */}
-              <div className="p-5 rounded-2xl bg-fuchsia-50/50 dark:bg-fuchsia-900/10 border border-fuchsia-200 dark:border-fuchsia-800/50">
-                <h4 className="text-[10px] font-black uppercase tracking-widest mb-4 flex items-center gap-1.5 text-fuchsia-600 dark:text-fuchsia-400">
-                  <Target className="w-4 h-4" /> Side Quests / Extras
+              <div className="p-3.5 rounded-xl bg-surface border border-line">
+                <h4 className="text-[10px] font-black uppercase tracking-wider mb-3 flex items-center gap-1.5 text-ink">
+                  <Target className="w-3.5 h-3.5 text-brand" /> Side Quests / Extras
                 </h4>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-2.5">
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">Total Side Missions</label>
-                    <input type="text" value={sideQuests.count} onChange={(e) => handleInput(setSideQuests, "count", e.target.value)} className="w-full bg-white dark:bg-slate-900 border border-fuchsia-200 dark:border-fuchsia-800 rounded-xl px-4 py-3 text-sm font-black outline-none focus:ring-2 focus:ring-fuchsia-500" placeholder="e.g. 15" />
+                    <label className="block text-[9px] font-bold text-muted mb-1">Side Missions</label>
+                    <input type="text" value={sideQuests.count} onChange={(e) => handleInput(setSideQuests, "count", e.target.value)} className="w-full bg-paper border border-line rounded-xl px-3 py-2 text-xs font-black text-ink outline-none focus:border-brand" placeholder="e.g. 15" />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">Avg. Mins per Side Quest</label>
-                    <input type="text" value={sideQuests.avgMins} onChange={(e) => handleInput(setSideQuests, "avgMins", e.target.value)} className="w-full bg-white dark:bg-slate-900 border border-fuchsia-200 dark:border-fuchsia-800 rounded-xl px-4 py-3 text-sm font-black outline-none focus:ring-2 focus:ring-fuchsia-500" placeholder="e.g. 20" />
+                    <label className="block text-[9px] font-bold text-muted mb-1">Avg. Mins/Quest</label>
+                    <input type="text" value={sideQuests.avgMins} onChange={(e) => handleInput(setSideQuests, "avgMins", e.target.value)} className="w-full bg-paper border border-line rounded-xl px-3 py-2 text-xs font-black text-ink outline-none focus:border-brand" placeholder="e.g. 20" />
                   </div>
                 </div>
               </div>
 
-              {/* Real Life Scheduler */}
-              <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-4">
+              <div className="p-3.5 rounded-xl bg-surface border border-line flex items-center justify-between gap-3">
                 <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 text-slate-800 dark:text-slate-200 mb-1">
-                    <CalendarDays className="w-4 h-4 text-blue-500" /> Daily Playtime
+                  <h4 className="text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 text-ink mb-0.5">
+                    <CalendarDays className="w-3.5 h-3.5 text-brand" /> Daily Playtime
                   </h4>
-                  <p className="text-[10px] font-bold text-slate-400">How many hours a day can you play?</p>
+                  <p className="text-[9px] font-bold text-muted">Hours you can play per day</p>
                 </div>
-                <div className="w-24 shrink-0">
+                <div className="w-20 shrink-0">
                   <div className="relative flex items-center">
-                    <input type="text" value={dailyPlayHours} onChange={(e) => handleDailyInput(e.target.value)} className="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-xl px-3 py-2 text-base font-black text-center outline-none focus:border-blue-500" />
-                    <span className="absolute right-3 text-xs font-bold text-slate-400 pointer-events-none">hrs</span>
+                    <input type="text" value={dailyPlayHours} onChange={(e) => handleDailyInput(e.target.value)} className="w-full bg-paper border border-line rounded-xl px-2.5 py-2 text-xs font-black text-center text-ink outline-none focus:border-brand" />
+                    <span className="absolute right-2.5 text-[9px] font-bold text-muted pointer-events-none">hrs</span>
                   </div>
                 </div>
               </div>
 
             </div>
+
           </div>
         </div>
 
-        {/* ================= RIGHT: THE DASHBOARD ORACLE ================= */}
-        <div className="space-y-6 sticky top-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col min-h-[600px]">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[22px] p-6 h-full flex flex-col relative overflow-hidden">
-              
-              <div className="flex items-center justify-between mb-6 border-b border-slate-200 dark:border-slate-700 pb-4 shrink-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Activity className="w-4 h-4 text-purple-500" /> Mission Briefing
-                </span>
-                <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded shadow-sm border ${playstyle.border} ${playstyle.bg} ${playstyle.color}`}>
-                  {playstyle.label} Mode
-                </span>
-              </div>
+        {/* RIGHT: THE DASHBOARD ORACLE */}
+        <div className="space-y-4 sm:space-y-6 w-full font-sans">
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm flex flex-col min-h-[550px]">
+             
+            <div className="flex items-center justify-between mb-4 border-b border-line pb-3 shrink-0">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-ink">
+                <Activity className="w-4 h-4 text-brand" /> Mission Briefing
+              </span>
+              <span className="text-[9px] font-black uppercase tracking-widest text-brand bg-brand/10 border border-brand/20 px-2.5 py-1 rounded-xl">
+                {playstyle.label}
+              </span>
+            </div>
 
-              {/* TOTAL PLAYTIME HERO */}
-              <div className="text-center mb-6 bg-white dark:bg-slate-900 py-8 px-4 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm relative overflow-hidden">
-                <div className="absolute -right-4 -bottom-4 opacity-5">
-                  <Clock className="w-40 h-40 text-purple-500" />
-                </div>
-                
-                <span className="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Estimated Total Playtime</span>
-                <div className="flex items-end justify-center gap-2 mb-2">
-                  {calculations.totalHours > 0 && (
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-6xl sm:text-7xl font-black tabular-nums tracking-tighter leading-none text-purple-600 dark:text-purple-400">{calculations.totalHours}</span>
-                      <span className="text-xl font-bold text-slate-400 uppercase">h</span>
-                    </div>
-                  )}
+            {/* TOTAL PLAYTIME HERO */}
+            <div className="text-center mb-4 bg-surface py-6 px-4 rounded-2xl border border-line shadow-sm relative overflow-hidden">
+              <span className="block text-[9px] font-black uppercase tracking-widest text-muted mb-1">Estimated Total Playtime</span>
+              <div className="flex items-end justify-center gap-1.5 mb-2 font-mono">
+                {calculations.totalHours > 0 && (
                   <div className="flex items-baseline gap-1">
-                    <span className={`font-black tabular-nums tracking-tighter leading-none ${calculations.totalHours > 0 ? 'text-4xl text-fuchsia-500' : 'text-6xl sm:text-7xl text-purple-600 dark:text-purple-400'}`}>
-                      {calculations.remainingMins}
-                    </span>
-                    <span className="text-xl font-bold text-slate-400 uppercase">m</span>
-                  </div>
-                </div>
-
-                {/* Progress Bar Distribution */}
-                {calculations.totalMins > 0 && (
-                  <div className="w-full mt-8">
-                    <div className="flex h-2.5 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-                      {calculations.pctMain > 0 && <div style={{ width: `${calculations.pctMain}%` }} className="bg-purple-500" title={`Main Story: ${Math.floor(calculations.mainMinsAdjusted/60)}h ${calculations.mainMinsAdjusted%60}m`}></div>}
-                      {calculations.pctSide > 0 && <div style={{ width: `${calculations.pctSide}%` }} className="bg-fuchsia-500" title={`Side Quests: ${Math.floor(calculations.sideMinsAdjusted/60)}h ${calculations.sideMinsAdjusted%60}m`}></div>}
-                    </div>
-                    <div className="flex justify-between mt-2 px-1 text-[9px] font-black uppercase tracking-widest text-slate-400">
-                      {calculations.pctMain > 0 && <span className="text-purple-500 flex items-center gap-1"><Swords className="w-3 h-3"/> Main</span>}
-                      {calculations.pctSide > 0 && <span className="text-fuchsia-500 flex items-center gap-1"><Target className="w-3 h-3"/> Side</span>}
-                    </div>
+                    <span className="text-5xl sm:text-6xl font-black tabular-nums tracking-tighter leading-none text-ink">{calculations.totalHours}</span>
+                    <span className="text-base font-bold text-muted uppercase">h</span>
                   </div>
                 )}
-              </div>
-
-              {/* REAL-LIFE SCHEDULE */}
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="bg-blue-50/50 dark:bg-blue-900/10 p-4 rounded-2xl border border-blue-200 dark:border-blue-800/50 flex flex-col justify-center">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 block mb-1 flex items-center gap-1"><CalendarDays className="w-3 h-3"/> Days to Beat</span>
-                  <span className="text-3xl font-black text-slate-800 dark:text-slate-100 tabular-nums leading-none">
-                    {calculations.totalMins > 0 ? calculations.daysToBeat : 0} <span className="text-sm font-bold text-slate-500 uppercase">Days</span>
+                <div className="flex items-baseline gap-1">
+                  <span className={`font-black tabular-nums tracking-tighter leading-none ${calculations.totalHours > 0 ? 'text-3xl text-brand' : 'text-5xl sm:text-6xl text-ink'}`}>
+                    {calculations.remainingMins}
                   </span>
-                </div>
-                <div className="bg-emerald-50/50 dark:bg-emerald-900/10 p-4 rounded-2xl border border-emerald-200 dark:border-emerald-800/50 flex flex-col justify-center">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400 block mb-1 flex items-center gap-1"><Trophy className="w-3 h-3"/> Finished By</span>
-                  <span className="text-base sm:text-lg font-black text-slate-800 dark:text-slate-100 leading-tight">
-                    {calculations.totalMins > 0 ? calculations.completionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '---'}
-                  </span>
+                  <span className="text-base font-bold text-muted uppercase">m</span>
                 </div>
               </div>
 
-              {/* GAMER HEALTH / BIO-STATS */}
-              <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4 flex items-center gap-1.5 shrink-0">
-                  <ShieldAlert className="w-3.5 h-3.5 text-rose-500" /> Gamer Bio-Health Advisor
-                </h4>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
-                    <div className="bg-amber-100 dark:bg-amber-900/40 p-2.5 rounded-lg shrink-0">
-                      <Coffee className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-0.5">Screen Breaks</span>
-                      <span className="text-sm font-black text-slate-800 dark:text-slate-100">
-                        {calculations.recommendedBreaks} Breaks <span className="text-[10px] font-medium text-slate-400 normal-case">(Every 90 mins)</span>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700">
-                    <div className="bg-cyan-100 dark:bg-cyan-900/40 p-2.5 rounded-lg shrink-0">
-                      <Droplets className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
-                    </div>
-                    <div>
-                      <span className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-0.5">Hydration Required</span>
-                      <span className="text-sm font-black text-slate-800 dark:text-slate-100">
-                        {calculations.hydrationLiters} Liters <span className="text-[10px] font-medium text-slate-400 normal-case">of water</span>
-                      </span>
-                    </div>
+              {calculations.totalMins > 0 && (
+                <div className="w-3/4 mx-auto mt-4">
+                  <div className="flex h-2 rounded-full overflow-hidden bg-paper border border-line">
+                    {calculations.pctMain > 0 && <div style={{ width: `${calculations.pctMain}%` }} className="bg-brand" title="Main Story"></div>}
+                    {calculations.pctSide > 0 && <div style={{ width: `${calculations.pctSide}%` }} className="bg-amber-500" title="Side Quests"></div>}
                   </div>
                 </div>
-              </div>
-
+              )}
             </div>
+
+            {/* REAL-LIFE SCHEDULE */}
+            <div className="grid grid-cols-2 gap-2.5 mb-4">
+              <div className="bg-surface p-3 rounded-xl border border-line flex flex-col justify-center">
+                <span className="text-[8px] font-black uppercase tracking-widest text-muted block mb-0.5 flex items-center gap-1"><CalendarDays className="w-3 h-3 text-brand"/> Days to Beat</span>
+                <span className="text-xl font-black text-ink tabular-nums leading-none font-mono">
+                  {calculations.totalMins > 0 ? calculations.daysToBeat : 0} <span className="text-xs font-bold text-muted uppercase">Days</span>
+                </span>
+              </div>
+              <div className="bg-surface p-3 rounded-xl border border-line flex flex-col justify-center">
+                <span className="text-[8px] font-black uppercase tracking-widest text-muted block mb-0.5 flex items-center gap-1"><Trophy className="w-3 h-3 text-brand"/> Finished By</span>
+                <span className="text-xs sm:text-sm font-black text-ink leading-tight">
+                  {calculations.totalMins > 0 ? calculations.completionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '---'}
+                </span>
+              </div>
+            </div>
+
+            {/* GAMER HEALTH / BIO-STATS */}
+            <div className="flex-1 flex flex-col min-h-0 bg-surface rounded-xl border border-line p-3.5 shadow-sm">
+              <h4 className="text-[9px] font-black uppercase tracking-widest text-muted mb-2.5 flex items-center gap-1.5 shrink-0">
+                <ShieldAlert className="w-3 h-3 text-rose-500" /> Gamer Bio-Health Advisor
+              </h4>
+              
+              <div className="space-y-2">
+                <div className="flex items-center gap-3 bg-paper p-2.5 rounded-xl border border-line">
+                  <div className="bg-amber-500/10 p-2 rounded-lg shrink-0 text-amber-500">
+                    <Coffee className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block text-[8px] font-black uppercase tracking-widest text-muted">Screen Breaks</span>
+                    <span className="text-xs font-black text-ink">
+                      {calculations.recommendedBreaks} Breaks <span className="text-[9px] font-medium text-muted">(Every 90m)</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 bg-paper p-2.5 rounded-xl border border-line">
+                  <div className="bg-cyan-500/10 p-2 rounded-lg shrink-0 text-cyan-500">
+                    <Droplets className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="block text-[8px] font-black uppercase tracking-widest text-muted">Hydration Required</span>
+                    <span className="text-xs font-black text-ink">
+                      {calculations.hydrationLiters} Liters <span className="text-[9px] font-medium text-muted">of water</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 

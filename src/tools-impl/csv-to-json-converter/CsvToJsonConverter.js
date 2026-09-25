@@ -10,9 +10,8 @@ import {
 export default function CsvToJsonConverter() {
   const [isMounted, setIsMounted] = useState(false);
 
-  // States
   const [csvInput, setCsvInput] = useState(`id,user.name,user.isActive,score,role\n1,Alex Mercer,true,95.5,admin\n2,Sarah Connor,false,88,user\n3,John Doe,null,0,guest`);
-  const [delimiter, setDelimiter] = useState(","); // ',', '\t', ';', '|'
+  const [delimiter, setDelimiter] = useState(",");
   const [useNesting, setUseNesting] = useState(true);
   const [autoType, setAutoType] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -21,7 +20,6 @@ export default function CsvToJsonConverter() {
     setIsMounted(true);
   }, []);
 
-  // --- CORE PARSING ENGINE ---
   const parseCSV = (text, del) => {
     let rows = [];
     let currentRow = [];
@@ -55,7 +53,6 @@ export default function CsvToJsonConverter() {
     currentRow.push(currentVal);
     if (currentRow.length > 0 || currentVal !== '') rows.push(currentRow);
     
-    // Remove empty trailing rows
     if (rows.length > 0 && rows[rows.length - 1].length === 1 && rows[rows.length - 1][0] === '') {
       rows.pop();
     }
@@ -82,7 +79,6 @@ export default function CsvToJsonConverter() {
     current[keys[keys.length - 1]] = value;
   };
 
-  // --- COMPUTE JSON ---
   const results = useMemo(() => {
     if (!csvInput.trim()) return { json: "", obj: [], error: false, rows: 0, size: 0 };
 
@@ -97,7 +93,7 @@ export default function CsvToJsonConverter() {
 
       for (let i = 1; i < parsedRows.length; i++) {
         const row = parsedRows[i];
-        if (row.length === 1 && row[0].trim() === "") continue; // Skip empty rows
+        if (row.length === 1 && row[0].trim() === "") continue;
 
         let obj = {};
         for (let j = 0; j < headers.length; j++) {
@@ -152,53 +148,47 @@ export default function CsvToJsonConverter() {
 
   if (!isMounted) return null;
 
-  // Premium Cyber-Fuchsia Theme
-  const theme = {
-    gradient: "from-fuchsia-200 via-violet-100 to-transparent dark:from-fuchsia-900/30 dark:via-violet-900/20",
-    bgIcon: "bg-gradient-to-br from-fuchsia-500 to-violet-600",
-    textPri: "text-fuchsia-600 dark:text-fuchsia-400",
-    textSec: "text-violet-600 dark:text-violet-400",
-    borderLight: "border-fuchsia-200 dark:border-fuchsia-800/50",
-    bgLight: "bg-fuchsia-50 dark:bg-fuchsia-900/20"
-  };
-
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-mono">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
       
-      {/* Premium Header */}
-      <div className={`flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden transition-colors duration-500 font-sans`}>
-        <div className={`absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl ${theme.gradient} rounded-bl-full -z-10 opacity-70`}></div>
-        <div className="flex items-center gap-4">
-          <div className={`${theme.bgIcon} p-3.5 rounded-2xl shadow-md`}>
-            <FileJson className="w-6 h-6 text-white" />
+      {/* HEADER BAR */}
+      <div className="bg-surface border border-line p-4 sm:p-8 rounded-2xl shadow-card space-y-4 sm:space-y-6 w-full box-border relative overflow-hidden font-sans">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-lg sm:text-xl font-black shrink-0">
+            <FileJson className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+
+          <div className="min-w-0">
+            <div className="text-[9px] sm:text-[10px] font-black tracking-widest text-brand uppercase mb-0.5 sm:mb-1">
+              SERIALIZATION UTILITY
+            </div>
+            <h2 className="text-lg sm:text-2xl font-bold text-ink tracking-tight truncate">
               Data Serialization Engine
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-              CSV to Structured JSON Transformer
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted mt-0.5 truncate">
+              CSV to structured JSON transformer with smart type casting and nesting.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,500px] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4 sm:gap-6 items-start w-full">
         
-        {/* ================= LEFT: CONFIGURATION ENGINE ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8">
+        {/* LEFT: CONFIGURATION ENGINE */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6 w-full box-border">
             
             {/* 1. Primary Input */}
-            <div className="space-y-4 font-sans">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
-                  <AlignLeft className={`w-3.5 h-3.5 ${theme.textPri}`} /> 1. Raw Data Input
+            <div className="space-y-3 font-sans">
+              <div className="flex items-center justify-between border-b border-line pb-2">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5">
+                  <AlignLeft className="w-3.5 h-3.5 text-brand" /> 1. Raw Data Input
                 </h3>
                 
                 <select
-                  value={delimiter} onChange={(e) => setDelimiter(e.target.value)}
-                  className={`text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded shadow-sm outline-none cursor-pointer border bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-900/50 dark:text-slate-300 dark:border-slate-700`}
+                  value={delimiter} 
+                  onChange={(e) => setDelimiter(e.target.value)}
+                  className="text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-xl outline-none cursor-pointer border bg-surface text-ink border-line"
                 >
                   <option value=",">Comma (CSV)</option>
                   <option value="tab">Tab (TSV)</option>
@@ -207,60 +197,68 @@ export default function CsvToJsonConverter() {
                 </select>
               </div>
               
-              <div className={`relative flex flex-col bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-2xl focus-within:border-fuchsia-500 focus-within:ring-4 focus-within:ring-fuchsia-500/10 transition-all overflow-hidden group shadow-inner`}>
+              <div className="bg-surface border border-line rounded-xl overflow-hidden focus-within:border-brand transition-all w-full">
                 <textarea
                   value={csvInput} 
                   onChange={(e) => setCsvInput(e.target.value)}
                   placeholder="id,name,email..."
-                  rows="8"
-                  className="w-full bg-transparent px-5 py-5 text-sm font-mono text-slate-800 dark:text-slate-100 outline-none resize-none custom-scrollbar break-all whitespace-pre"
+                  rows="6"
+                  className="w-full bg-surface px-4 py-3 text-xs sm:text-sm font-mono text-ink outline-none resize-none custom-scrollbar break-all whitespace-pre tabular-nums"
                   spellCheck="false"
                 />
               </div>
 
               {results.error && csvInput && (
-                <div className="flex items-center gap-2 p-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-xl text-rose-600 dark:text-rose-400 text-xs font-bold">
-                  <AlertCircle className="w-4 h-4" /> {results.error}
+                <div className="flex items-center gap-2 p-3 bg-[#fb7185]/10 border border-[#fb7185]/30 rounded-xl text-[#fb7185] text-xs font-bold">
+                  <AlertCircle className="w-4 h-4 shrink-0" /> {results.error}
                 </div>
               )}
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
             {/* 2. Format Controls */}
-            <div className="space-y-4 font-sans">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <Settings2 className={`w-3.5 h-3.5 ${theme.textPri}`} /> 2. Transformation Rules
+            <div className="space-y-3 font-sans">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <Settings2 className="w-3.5 h-3.5 text-brand" /> 2. Transformation Rules
               </h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 
                 {/* Auto Type Toggle */}
-                <div className={`flex flex-col p-4 rounded-xl border ${autoType ? theme.borderLight + " " + theme.bgLight : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50"} transition-colors duration-500`}>
+                <div className={`flex flex-col p-3.5 rounded-xl border ${autoType ? 'border-brand/30 bg-brand/10' : 'border-line bg-surface'} transition-colors`}>
                   <div className="flex items-start justify-between mb-2">
-                    <div className={`p-2 rounded-lg ${autoType ? `bg-white dark:bg-slate-800 shadow-sm ${theme.textPri}` : "text-slate-400 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"}`}>
+                    <div className={`p-2 rounded-lg bg-surface border border-line shadow-sm shrink-0 ${autoType ? 'text-brand' : 'text-muted'}`}>
                       <Type className="w-4 h-4" />
                     </div>
-                    <button onClick={() => setAutoType(!autoType)} className={`w-10 h-5 rounded-full transition-colors relative p-1 shadow-inner ${autoType ? `bg-gradient-to-r ${theme.gradient.split(' ').slice(0, 2).join(' ')}` : "bg-slate-300 dark:bg-slate-700"}`}>
-                      <div className={`w-3 h-3 rounded-full bg-white shadow-sm transition-transform ${autoType ? "translate-x-5" : "translate-x-0"}`}></div>
+                    <button 
+                      type="button"
+                      onClick={() => setAutoType(!autoType)} 
+                      className={`w-10 h-5 rounded-full transition-colors relative p-1 shadow-inner shrink-0 ${autoType ? 'bg-brand' : 'bg-surface border border-line'}`}
+                    >
+                      <div className={`w-3 h-3 rounded-full bg-surface shadow-sm transition-transform ${autoType ? "translate-x-5" : "translate-x-0"}`}></div>
                     </button>
                   </div>
-                  <span className="block text-xs font-black text-slate-800 dark:text-slate-100 font-sans">Smart Type Cast</span>
-                  <span className="text-[9px] font-bold text-slate-500 block leading-snug mt-1 font-sans">Convert strings to numbers/booleans.</span>
+                  <span className="block text-xs font-black text-ink uppercase tracking-wider">Smart Type Cast</span>
+                  <span className="text-[9px] font-bold text-muted block leading-snug mt-1">Convert strings to numbers/booleans.</span>
                 </div>
 
                 {/* Dot Notation Nesting */}
-                <div className={`flex flex-col p-4 rounded-xl border ${useNesting ? theme.borderLight + " " + theme.bgLight : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50"} transition-colors duration-500`}>
+                <div className={`flex flex-col p-3.5 rounded-xl border ${useNesting ? 'border-brand/30 bg-brand/10' : 'border-line bg-surface'} transition-colors`}>
                   <div className="flex items-start justify-between mb-2">
-                    <div className={`p-2 rounded-lg ${useNesting ? `bg-white dark:bg-slate-800 shadow-sm ${theme.textSec}` : "text-slate-400 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"}`}>
+                    <div className={`p-2 rounded-lg bg-surface border border-line shadow-sm shrink-0 ${useNesting ? 'text-brand' : 'text-muted'}`}>
                       <Braces className="w-4 h-4" />
                     </div>
-                    <button onClick={() => setUseNesting(!useNesting)} className={`w-10 h-5 rounded-full transition-colors relative p-1 shadow-inner ${useNesting ? `bg-gradient-to-r ${theme.gradient.split(' ').slice(0, 2).join(' ')}` : "bg-slate-300 dark:bg-slate-700"}`}>
-                      <div className={`w-3 h-3 rounded-full bg-white shadow-sm transition-transform ${useNesting ? "translate-x-5" : "translate-x-0"}`}></div>
+                    <button 
+                      type="button"
+                      onClick={() => setUseNesting(!useNesting)} 
+                      className={`w-10 h-5 rounded-full transition-colors relative p-1 shadow-inner shrink-0 ${useNesting ? 'bg-brand' : 'bg-surface border border-line'}`}
+                    >
+                      <div className={`w-3 h-3 rounded-full bg-surface shadow-sm transition-transform ${useNesting ? "translate-x-5" : "translate-x-0"}`}></div>
                     </button>
                   </div>
-                  <span className="block text-xs font-black text-slate-800 dark:text-slate-100 font-sans">Dot Nesting</span>
-                  <span className="text-[9px] font-bold text-slate-500 block leading-snug mt-1 font-sans">e.g. 'user.name' becomes `{'{ user: { name } }'}`</span>
+                  <span className="block text-xs font-black text-ink uppercase tracking-wider">Dot Nesting</span>
+                  <span className="text-[9px] font-bold text-muted block leading-snug mt-1">e.g. 'user.name' becomes nested objects.</span>
                 </div>
 
               </div>
@@ -269,83 +267,81 @@ export default function CsvToJsonConverter() {
           </div>
         </div>
 
-        {/* ================= RIGHT: THE OUTPUT CONSOLE ================= */}
-        <div className="space-y-6 sticky top-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col min-h-[640px]">
-            <div className="bg-slate-50 dark:bg-[#161b22] rounded-[22px] p-6 h-full flex flex-col relative overflow-hidden">
-              
-              <div className="flex items-center justify-between mb-4 border-b border-slate-200 dark:border-slate-700/50 pb-4 shrink-0 font-sans">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Activity className={`w-4 h-4 ${theme.textPri}`} /> Output Console
-                </span>
-                <span className={`text-[9px] font-bold uppercase tracking-widest ${theme.textPri} bg-white dark:bg-[#0d1117] px-2 py-1 rounded shadow-sm border border-slate-100 dark:border-slate-700`}>
-                  JSON Structure
-                </span>
-              </div>
-
-              {/* Data Analytics */}
-              {!results.error && results.json && (
-                <div className="flex items-center justify-between p-3 bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-xl mb-4 shadow-sm shrink-0 font-sans">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Payload Integrity</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-[10px] font-black tracking-widest">
-                    <span className="text-slate-700 dark:text-slate-300 tabular-nums">{results.rows} Objects</span>
-                    <div className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></div>
-                    <span className="text-slate-700 dark:text-slate-300 tabular-nums">{(results.size / 1024).toFixed(2)} KB</span>
-                  </div>
-                </div>
-              )}
-
-              {/* The Actual Output Area */}
-              <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-[#0d1117] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
-                
-                {/* Output Header */}
-                <div className="flex justify-between items-center px-4 py-3 bg-slate-100/50 dark:bg-[#1f2937]/50 border-b border-slate-200 dark:border-slate-800 font-sans shrink-0">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-                    Compiled JSON
-                  </span>
-                  
-                  {results.json && !results.error && (
-                    <div className="flex gap-2">
-                      <button 
-                        onClick={handleCopy} 
-                        className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-colors ${
-                          copied ? "bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800" : "bg-white dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
-                        }`}
-                      >
-                        {copied ? <><CheckCircle2 className="w-3.5 h-3.5"/> Copied</> : <><Copy className="w-3.5 h-3.5"/> Copy</>}
-                      </button>
-                      <button 
-                        onClick={handleDownload} 
-                        className="text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 px-3 py-1.5 rounded-lg border bg-slate-800 text-white border-slate-700 hover:bg-slate-700 transition-colors"
-                      >
-                        <Download className="w-3.5 h-3.5"/> Save
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Output Content */}
-                <div className="flex-1 p-4 overflow-y-auto custom-scrollbar">
-                  {!results.json || results.error ? (
-                    <div className="h-full flex flex-col items-center justify-center text-slate-400 font-sans">
-                      <FileText className="w-10 h-10 mb-3 opacity-20" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-center max-w-[200px]">
-                        Awaiting Valid CSV Data
-                      </span>
-                    </div>
-                  ) : (
-                    <pre className="text-xs break-all text-slate-800 dark:text-slate-300 leading-relaxed font-mono m-0">
-                      <code>{results.json}</code>
-                    </pre>
-                  )}
-                </div>
-
-              </div>
-              
+        {/* RIGHT: THE OUTPUT CONSOLE */}
+        <div className="space-y-4 sm:space-y-6 w-full">
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm space-y-4 w-full box-border">
+            
+            <div className="flex items-center justify-between border-b border-line pb-3 font-sans">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-ink">
+                <Activity className="w-4 h-4 text-brand" /> Output Console
+              </span>
+              <span className="text-[9px] font-black uppercase tracking-wider text-brand bg-brand/10 px-2.5 py-1 rounded-xl border border-brand/30">
+                JSON Structure
+              </span>
             </div>
+
+            {/* Data Analytics */}
+            {!results.error && results.json && (
+              <div className="flex items-center justify-between p-3 bg-surface border border-line rounded-xl shadow-sm font-sans">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                  <span className="text-[10px] font-black uppercase tracking-wider text-muted">Payload Integrity</span>
+                </div>
+                <div className="flex items-center gap-2.5 text-[10px] font-black tracking-wider">
+                  <span className="text-ink tabular-nums">{results.rows} Objects</span>
+                  <div className="w-1 h-1 rounded-full bg-muted"></div>
+                  <span className="text-ink tabular-nums">{(results.size / 1024).toFixed(2)} KB</span>
+                </div>
+              </div>
+            )}
+
+            {/* The Actual Output Area */}
+            <div className="flex flex-col bg-surface border border-line rounded-xl shadow-sm overflow-hidden w-full">
+              
+              <div className="flex justify-between items-center px-3.5 py-2.5 bg-surface border-b border-line font-sans">
+                <span className="text-[10px] font-black uppercase tracking-wider text-muted">
+                  Compiled JSON
+                </span>
+                
+                {results.json && !results.error && (
+                  <div className="flex gap-1.5">
+                    <button 
+                      type="button"
+                      onClick={handleCopy} 
+                      className={`text-[10px] font-black uppercase tracking-wider flex items-center gap-1 px-2.5 py-1 rounded-lg border transition-colors ${
+                        copied ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/30" : "bg-surface text-muted border-line hover:text-ink"
+                      }`}
+                    >
+                      {copied ? <><CheckCircle2 className="w-3.5 h-3.5"/> Copied</> : <><Copy className="w-3.5 h-3.5"/> Copy</>}
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={handleDownload} 
+                      className="text-[10px] font-black uppercase tracking-wider flex items-center gap-1 px-2.5 py-1 rounded-lg border bg-brand text-white border-brand hover:opacity-90 transition-colors shadow-sm"
+                    >
+                      <Download className="w-3.5 h-3.5"/> Save
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="p-4 max-h-[350px] overflow-y-auto custom-scrollbar">
+                {!results.json || results.error ? (
+                  <div className="h-32 flex flex-col items-center justify-center text-muted font-sans">
+                    <FileText className="w-8 h-8 mb-2 opacity-30" />
+                    <span className="text-[10px] font-black uppercase tracking-wider text-center max-w-[200px]">
+                      Awaiting Valid CSV Data
+                    </span>
+                  </div>
+                ) : (
+                  <pre className="text-xs sm:text-sm break-all text-ink leading-relaxed font-mono m-0 tabular-nums">
+                    <code>{results.json}</code>
+                  </pre>
+                )}
+              </div>
+
+            </div>
+
           </div>
         </div>
 

@@ -19,7 +19,7 @@ export default function HashGenerator() {
   
   const [hashes, setHashes] = useState({});
   const [copiedHash, setCopiedHash] = useState(null);
-  const [showSettings, setShowSettings] = useState(true);
+  const [showSettings, setShowSettings] = useState(false); // Default hidden on mobile for clean start
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
@@ -55,7 +55,6 @@ export default function HashGenerator() {
       for (const algo of HASH_ALGOS) {
         let hashBuffer;
         if (useHmac && hmacSecret) {
-          // Generate HMAC
           const key = await crypto.subtle.importKey(
             "raw",
             enc.encode(hmacSecret),
@@ -65,11 +64,9 @@ export default function HashGenerator() {
           );
           hashBuffer = await crypto.subtle.sign("HMAC", key, dataBuffer);
         } else {
-          // Normal Hash
           hashBuffer = await crypto.subtle.digest(algo, dataBuffer);
         }
         
-        // Convert buffer to Hex String
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         results[algo] = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
       }
@@ -108,164 +105,193 @@ export default function HashGenerator() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border">
       
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <ShieldCheck className="w-6 h-6 text-teal-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Ultimate Hash Generator</h2>
-          <span className="bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 text-xs font-bold px-3 py-1 rounded-full uppercase hidden sm:block">0 Dependencies</span>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-2 text-sm font-semibold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-teal-500 hover:text-teal-600 transition-all">
-            <Settings2 className="w-4 h-4" /> {showSettings ? "Hide Tools" : "Show Tools"}
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,auto] gap-6 items-start">
+      {/* HEADER BAR */}
+      <div className="bg-surface border border-line p-4 sm:p-8 rounded-2xl shadow-card space-y-4 sm:space-y-6 w-full box-border">
         
-        <div className="flex flex-col gap-6 flex-grow min-h-[600px]">
-          
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden flex flex-col shadow-sm">
-            <div className="bg-slate-50 dark:bg-slate-800 px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              
-              <div className="flex gap-2 bg-slate-200/50 dark:bg-slate-900 p-1 rounded-lg">
-                <button 
-                  onClick={() => setInputMode("text")}
-                  className={`flex items-center gap-2 py-1.5 px-4 text-xs font-bold rounded-md transition-all ${inputMode === 'text' ? 'bg-white dark:bg-slate-700 text-teal-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
-                >
-                  <FileText className="w-3.5 h-3.5"/> Text Input
-                </button>
-                <button 
-                  onClick={() => setInputMode("file")}
-                  className={`flex items-center gap-2 py-1.5 px-4 text-xs font-bold rounded-md transition-all ${inputMode === 'file' ? 'bg-white dark:bg-slate-700 text-teal-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
-                >
-                  <UploadCloud className="w-3.5 h-3.5"/> File Input
-                </button>
-              </div>
-
-              {isProcessing && <span className="text-xs font-bold text-teal-500 animate-pulse flex items-center gap-1">Processing...</span>}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-line pb-4 sm:pb-5 w-full">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-lg sm:text-xl font-black shrink-0">
+              <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            
-            <div className="p-0 flex-grow">
-              {inputMode === "text" ? (
-                <textarea
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  placeholder="Type or paste your text here..."
-                  className="w-full h-full min-h-[150px] p-6 bg-transparent text-sm font-mono text-slate-800 dark:text-slate-200 resize-none focus:outline-none focus:ring-2 focus:ring-teal-500"
-                  spellCheck="false"
-                />
-              ) : (
-                <div className="h-full min-h-[150px] flex flex-col items-center justify-center p-8 bg-slate-50/50 dark:bg-slate-800/20 border-2 border-dashed border-slate-200 dark:border-slate-700 m-4 rounded-xl">
-                  <UploadCloud className="w-12 h-12 text-slate-300 dark:text-slate-600 mb-3" />
-                  <p className="text-sm font-semibold text-slate-600 dark:text-slate-300 mb-4 text-center">
-                    {fileName ? fileName : "Select a file to securely hash locally."}<br/>
-                    <span className="text-xs font-normal text-slate-400">File never leaves your browser.</span>
-                  </p>
-                  <label className="cursor-pointer bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-6 rounded-lg transition-colors shadow-sm">
-                    Browse File
-                    <input type="file" className="hidden" onChange={handleFileUpload} />
-                  </label>
-                </div>
-              )}
+
+            <div className="min-w-0">
+              <div className="text-[9px] sm:text-[10px] font-black tracking-widest text-brand uppercase mb-0.5 sm:mb-1">
+                WEB SECURITY UTILITY
+              </div>
+              <h2 className="text-lg sm:text-2xl font-bold text-ink tracking-tight truncate">
+                Ultimate Hash Generator
+              </h2>
+              <p className="text-[10px] sm:text-[11px] font-bold text-muted mt-0.5 truncate">
+                Generate SHA & HMAC cryptographic hashes locally with 0 dependencies.
+              </p>
             </div>
           </div>
-          
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden flex flex-col shadow-sm">
-            <div className="bg-slate-50 dark:bg-slate-800 px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center gap-2">
-              <Hash className="w-4 h-4 text-teal-500" />
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                Generated Hashes
-              </label>
-            </div>
-            <div className="p-4 space-y-4">
-              {HASH_ALGOS.map((algo) => {
-                const hashValue = hashes[algo] || "";
-                const isMatch = compareHash && hashValue && hashValue.toLowerCase() === compareHash.toLowerCase();
 
-                return (
-                  <div key={algo} className={`relative flex items-center justify-between p-3 rounded-lg border transition-colors ${isMatch ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-700' : 'bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-700/50'}`}>
-                    <div className="flex flex-col overflow-hidden mr-4">
-                      <span className={`text-[10px] font-black uppercase tracking-wider mb-1 ${isMatch ? 'text-emerald-600' : 'text-slate-500'}`}>
-                        {useHmac ? `HMAC-${algo}` : algo}
-                        {isMatch && " • MATCHED!"}
-                      </span>
-                      <span className="font-mono text-xs text-slate-700 dark:text-slate-300 truncate select-all">
-                        {hashValue || "..."}
-                      </span>
-                    </div>
-                    <button 
-                      onClick={() => handleCopy(hashValue, algo)}
-                      disabled={!hashValue}
-                      className="flex-shrink-0 p-2 text-slate-400 hover:text-teal-600 hover:bg-teal-50 dark:hover:bg-teal-900/30 rounded-md transition-colors disabled:opacity-30"
-                    >
-                      {copiedHash === algo ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button 
+              type="button"
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-line bg-paper text-ink hover:border-brand text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shrink-0"
+            >
+              <Settings2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand" /> {showSettings ? "Hide Tools" : "Tools"}
+            </button>
           </div>
         </div>
 
-        {showSettings && (
-          <div className="space-y-6 lg:w-80 lg:max-w-80 flex flex-col h-full">
+        {/* WORK AREA GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 sm:gap-6 items-start w-full">
+          
+          <div className="flex flex-col gap-4 sm:gap-6 flex-grow min-w-0">
             
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <Search className="w-5 h-5 text-indigo-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Hash Comparator</h3>
+            {/* Input Panel */}
+            <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col shadow-sm w-full">
+              <div className="bg-surface px-4 py-3 border-b border-line flex items-center justify-between w-full">
+                
+                <div className="flex gap-1 bg-surface p-1 rounded-xl border border-line">
+                  <button 
+                    type="button"
+                    onClick={() => setInputMode("text")}
+                    className={`flex items-center gap-1.5 py-1.5 px-3 text-[11px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all ${inputMode === 'text' ? 'bg-brand text-surface shadow-sm' : 'text-muted hover:text-ink'}`}
+                  >
+                    <FileText className="w-3.5 h-3.5"/> Text Input
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => setInputMode("file")}
+                    className={`flex items-center gap-1.5 py-1.5 px-3 text-[11px] sm:text-xs font-black uppercase tracking-wider rounded-lg transition-all ${inputMode === 'file' ? 'bg-brand text-surface shadow-sm' : 'text-muted hover:text-ink'}`}
+                  >
+                    <UploadCloud className="w-3.5 h-3.5"/> File Input
+                  </button>
+                </div>
+
+                {isProcessing && <span className="text-[10px] font-black uppercase tracking-wider text-brand animate-pulse">Processing...</span>}
+              </div>
+              
+              <div className="p-0 flex-grow">
+                {inputMode === "text" ? (
+                  <textarea
+                    value={inputText}
+                    onChange={(e) => setInputText(e.target.value)}
+                    placeholder="Type or paste your text here..."
+                    className="w-full h-full min-h-[140px] sm:min-h-[180px] p-4 sm:p-5 bg-surface border-0 text-xs sm:text-sm font-mono text-ink outline-none resize-none tabular-nums"
+                    spellCheck="false"
+                  />
+                ) : (
+                  <div className="h-full min-h-[140px] sm:min-h-[180px] flex flex-col items-center justify-center p-6 bg-surface border-2 border-dashed border-line m-4 rounded-xl text-center">
+                    <UploadCloud className="w-10 h-10 sm:w-12 sm:h-12 text-muted mb-2" />
+                    <p className="text-xs sm:text-sm font-bold text-ink mb-3 truncate max-w-xs">
+                      {fileName ? fileName : "Select a file to securely hash locally."}<br/>
+                      <span className="text-[10px] font-medium text-muted">File never leaves your browser.</span>
+                    </p>
+                    <label className="cursor-pointer bg-brand hover:opacity-95 text-surface text-xs font-black uppercase tracking-wider py-2.5 px-5 rounded-xl transition-opacity shadow-sm">
+                      Browse File
+                      <input type="file" className="hidden" onChange={handleFileUpload} />
+                    </label>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            {/* Hashes Output Panel */}
+            <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col shadow-sm w-full">
+              <div className="bg-surface px-4 py-3 border-b border-line flex items-center gap-2">
+                <Hash className="w-4 h-4 text-brand" />
+                <label className="text-xs font-black text-ink uppercase tracking-wider">
+                  Generated Hashes
+                </label>
+              </div>
+              <div className="p-4 space-y-3">
+                {HASH_ALGOS.map((algo) => {
+                  const hashValue = hashes[algo] || "";
+                  const isMatch = compareHash && hashValue && hashValue.toLowerCase() === compareHash.toLowerCase();
+
+                  return (
+                    <div key={algo} className={`relative flex items-center justify-between p-3 rounded-xl border transition-colors ${isMatch ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-surface border-line'}`}>
+                      <div className="flex flex-col overflow-hidden mr-3 min-w-0">
+                        <span className={`text-[9px] sm:text-[10px] font-black uppercase tracking-wider mb-1 truncate ${isMatch ? 'text-emerald-500' : 'text-muted'}`}>
+                          {useHmac ? `HMAC-${algo}` : algo}
+                          {isMatch && " • MATCHED!"}
+                        </span>
+                        <span className="font-mono text-[11px] sm:text-xs text-ink truncate select-all tabular-nums">
+                          {hashValue || "..."}
+                        </span>
+                      </div>
+                      <button 
+                        type="button"
+                        onClick={() => handleCopy(hashValue, algo)}
+                        disabled={!hashValue}
+                        className="flex-shrink-0 p-2 text-muted hover:text-brand hover:bg-surface rounded-xl transition-colors disabled:opacity-30"
+                      >
+                        {copiedHash === algo ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+          </div>
+
+          {/* SIDEBAR TOOLS (Collapsible or stacked) */}
+          <div className={`space-y-4 sm:space-y-6 w-full ${showSettings ? "block" : "hidden lg:block"}`}>
+            
+            {/* Hash Comparator */}
+            <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl space-y-3 sm:space-y-4 w-full box-border">
+              <div className="flex items-center gap-2 border-b border-line pb-3">
+                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-brand" />
+                <h3 className="text-xs font-black text-ink uppercase tracking-wider">Hash Comparator</h3>
               </div>
               
               <div className="pt-1">
-                <label className="block text-xs font-semibold text-slate-500 mb-2">Paste expected hash to verify</label>
+                <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-2">Paste expected hash to verify</label>
                 <input 
                     type="text" 
                     value={compareHash}
                     onChange={(e) => setCompareHash(e.target.value.trim())}
                     placeholder="e.g. d41d8cd98f..."
-                    className="w-full text-xs font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-teal-500 text-slate-700 dark:text-slate-200"
+                    className="w-full text-xs font-mono bg-surface border border-line rounded-xl py-2.5 px-3 outline-none focus:border-brand text-ink tabular-nums"
                     spellCheck="false"
                 />
                 {compareHash && !Object.values(hashes).some(h => h.toLowerCase() === compareHash.toLowerCase()) && (
-                  <span className="flex items-center gap-1 text-[10px] text-red-500 font-semibold mt-2">
-                    <AlertTriangle className="w-3 h-3"/> No match found
+                  <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-[#fb7185] mt-2">
+                    <AlertTriangle className="w-3.5 h-3.5"/> No match found
                   </span>
                 )}
                 {compareHash && Object.values(hashes).some(h => h.toLowerCase() === compareHash.toLowerCase()) && (
-                  <span className="flex items-center gap-1 text-[10px] text-emerald-500 font-semibold mt-2">
-                    <CheckCircle className="w-3 h-3"/> Hash matches perfectly!
+                  <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-emerald-500 mt-2">
+                    <CheckCircle className="w-3.5 h-3.5"/> Hash matches perfectly!
                   </span>
                 )}
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <Key className="w-5 h-5 text-amber-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">HMAC Security</h3>
+            {/* HMAC Security */}
+            <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl space-y-3 sm:space-y-4 w-full box-border">
+              <div className="flex items-center gap-2 border-b border-line pb-3">
+                <Key className="w-4 h-4 sm:w-5 sm:h-5 text-brand" />
+                <h3 className="text-xs font-black text-ink uppercase tracking-wider">HMAC Security</h3>
               </div>
               
-              <div className="space-y-4">
-                <label className="flex items-center gap-3 cursor-pointer p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                  <input type="checkbox" checked={useHmac} onChange={(e) => setUseHmac(e.target.checked)} className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">Enable HMAC Mode</span>
-                    <span className="text-[10px] text-slate-400">Generate Webhook signatures</span>
+              <div className="space-y-3">
+                <label className="flex items-center gap-3 cursor-pointer p-3 rounded-xl border border-line bg-surface hover:border-brand/50 transition-all select-none">
+                  <input type="checkbox" checked={useHmac} onChange={(e) => setUseHmac(e.target.checked)} className="w-4 h-4 accent-brand rounded border-line" />
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-xs font-black text-ink uppercase tracking-wider truncate">Enable HMAC Mode</span>
+                    <span className="text-[10px] font-medium text-muted mt-0.5 truncate">Generate Webhook signatures</span>
                   </div>
                 </label>
 
                 {useHmac && (
-                  <div className="animate-in fade-in slide-in-from-top-2">
-                    <label className="block text-xs font-semibold text-slate-500 mb-2">Secret Key</label>
+                  <div className="animate-in fade-in slide-in-from-top-2 pt-1">
+                    <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-2">Secret Key</label>
                     <input 
                         type="text" 
                         value={hmacSecret}
                         onChange={(e) => setHmacSecret(e.target.value)}
                         placeholder="Enter your secret key..."
-                        className="w-full text-sm font-mono bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md py-2 px-3 outline-none focus:ring-2 focus:ring-amber-500 text-slate-700 dark:text-slate-200"
+                        className="w-full text-xs font-mono bg-surface border border-line rounded-xl py-2.5 px-3 outline-none focus:border-brand text-ink"
                         spellCheck="false"
                     />
                   </div>
@@ -274,7 +300,8 @@ export default function HashGenerator() {
             </div>
 
           </div>
-        )}
+
+        </div>
 
       </div>
     </div>

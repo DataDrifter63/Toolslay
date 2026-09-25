@@ -20,17 +20,15 @@ const PRESETS = [
 export default function CssGradientGenerator() {
   const [isMounted, setIsMounted] = useState(false);
 
-  // States
   const [colors, setColors] = useState(["#3b82f6", "#8b5cf6"]);
   const [type, setType] = useState("linear"); // 'linear' or 'radial'
   const [angle, setAngle] = useState(135);
-  const [copiedType, setCopiedType] = useState(null); // 'css' or 'tailwind'
+  const [copiedType, setCopiedType] = useState(null);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Handlers
   const addColor = () => {
     if (colors.length < 6) {
       setColors([...colors, "#ffffff"]);
@@ -57,7 +55,6 @@ export default function CssGradientGenerator() {
     setAngle(Math.floor(Math.random() * 360));
   };
 
-  // --- CORE CSS ENGINE ---
   const results = useMemo(() => {
     const colorString = colors.join(", ");
     let cssValue = "";
@@ -82,145 +79,141 @@ export default function CssGradientGenerator() {
 
   if (!isMounted) return null;
 
-  // Premium Indigo Theme
-  const theme = {
-    gradient: "from-indigo-200 via-fuchsia-100 to-transparent dark:from-indigo-900/30 dark:via-fuchsia-900/20",
-    bgIcon: "bg-gradient-to-br from-indigo-500 to-fuchsia-500",
-    textPri: "text-indigo-600 dark:text-indigo-400",
-    textSec: "text-fuchsia-600 dark:text-fuchsia-400",
-    borderLight: "border-indigo-200 dark:border-indigo-800/50",
-    bgLight: "bg-indigo-50 dark:bg-indigo-900/20"
-  };
-
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-mono">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
       
-      {/* Premium Header */}
-      <div className={`flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden transition-colors duration-500 font-sans`}>
-        <div className={`absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl ${theme.gradient} rounded-bl-full -z-10 opacity-70`}></div>
-        <div className="flex items-center gap-4">
-          <div className={`${theme.bgIcon} p-3.5 rounded-2xl shadow-md`}>
-            <Palette className="w-6 h-6 text-white" />
+      {/* COMPACT SLEEK HEADER BAR */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 w-full box-border font-sans">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand shrink-0">
+            <Palette className="w-5 h-5" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
               UI Gradient Engine
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-              CSS & Tailwind Background Generator
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted truncate">
+              CSS & Tailwind Background Generator.
             </p>
           </div>
         </div>
+
         <button 
+          type="button"
           onClick={applyRandomPreset}
-          className="flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-sm"
+          className="flex items-center gap-1.5 px-3.5 py-2 bg-brand text-surface rounded-xl text-xs font-black uppercase tracking-wider hover:opacity-90 transition-opacity shadow-sm shrink-0"
         >
-          <Sparkles className="w-4 h-4" /> Magic Shuffle
+          <Sparkles className="w-3.5 h-3.5" /> Magic Shuffle
         </button>
       </div>
 
       {/* HUGE LIVE PREVIEW AREA */}
       <div 
-        className="w-full h-48 sm:h-64 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-inner relative overflow-hidden transition-all duration-300"
+        className="w-full h-40 sm:h-56 rounded-2xl border border-line shadow-inner relative overflow-hidden transition-all duration-300"
         style={{ background: results.cssValue }}
       >
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/10 backdrop-blur-sm">
-          <span className="text-white font-sans font-black text-2xl tracking-widest drop-shadow-md">LIVE PREVIEW</span>
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/20 backdrop-blur-xs">
+          <span className="text-white font-sans font-black text-xl tracking-widest drop-shadow-md">LIVE PREVIEW</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-4 sm:gap-6 items-start w-full">
         
-        {/* ================= LEFT: CONFIGURATION ENGINE ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8 font-sans">
+        {/* LEFT: CONFIGURATION ENGINE */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6 w-full box-border font-sans">
             
             {/* 1. Style Geometry */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <Layers className={`w-3.5 h-3.5 ${theme.textPri}`} /> 1. Style Geometry
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <Layers className="w-3.5 h-3.5 text-brand" /> 1. Style Geometry
               </h3>
               
-              <div className="flex bg-slate-100 dark:bg-slate-800/50 rounded-xl p-1 shadow-inner border border-slate-200 dark:border-slate-700">
+              <div className="flex bg-surface rounded-xl p-1 border border-line">
                 <button 
+                  type="button"
                   onClick={() => setType("linear")}
-                  className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${type === "linear" ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+                  className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 ${type === "linear" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"}`}
                 >
                   <MoveRight className="w-4 h-4" /> Linear
                 </button>
                 <button 
+                  type="button"
                   onClick={() => setType("radial")}
-                  className={`flex-1 py-3 text-xs font-black uppercase tracking-widest rounded-lg transition-all flex items-center justify-center gap-2 ${type === "radial" ? "bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+                  className={`flex-1 py-2.5 text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 ${type === "radial" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"}`}
                 >
                   <Sun className="w-4 h-4" /> Radial
                 </button>
               </div>
 
               {type === "linear" && (
-                <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+                <div className="mt-3 p-3.5 bg-surface rounded-xl border border-line">
                   <div className="flex justify-between items-center mb-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Angle Direction</label>
-                    <span className="text-xs font-black tabular-nums text-indigo-600 dark:text-indigo-400 bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-indigo-100 dark:border-indigo-900">{angle}°</span>
+                    <label className="text-[10px] font-black uppercase tracking-wider text-muted">Angle Direction</label>
+                    <span className="text-xs font-black tabular-nums text-brand bg-brand/10 px-2 py-0.5 rounded-lg border border-brand/30">{angle}°</span>
                   </div>
                   <input
                     type="range" min="0" max="360" value={angle}
                     onChange={(e) => setAngle(parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                    className="w-full h-2 bg-line rounded-lg appearance-none cursor-pointer accent-brand"
                   />
                 </div>
               )}
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
             {/* 2. Color Stops Engine */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
-                  <Palette className={`w-3.5 h-3.5 ${theme.textPri}`} /> 2. Multi-Color Stops
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-line pb-2">
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5">
+                  <Palette className="w-3.5 h-3.5 text-brand" /> 2. Multi-Color Stops
                 </h3>
-                <span className="text-[9px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 px-2 py-0.5 rounded">{colors.length} / 6 Max</span>
+                <span className="text-[9px] font-black uppercase tracking-wider bg-surface text-muted px-2 py-0.5 rounded-lg border border-line">{colors.length} / 6 Max</span>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {colors.map((color, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="relative w-12 h-12 rounded-xl overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-sm shrink-0 focus-within:border-indigo-500 transition-colors">
+                  <div key={index} className="flex items-center gap-2.5">
+                    <div className="relative w-11 h-11 rounded-xl overflow-hidden border border-line shadow-sm shrink-0 cursor-pointer">
                       <input 
                         type="color" 
                         value={color} 
                         onChange={(e) => updateColor(index, e.target.value)}
-                        className="absolute -top-2 -left-2 w-16 h-16 cursor-pointer"
+                        className="absolute -top-2 -left-2 w-16 h-16 cursor-pointer opacity-0"
                       />
+                      <div className="absolute inset-0 w-full h-full pointer-events-none" style={{ backgroundColor: color }}></div>
                     </div>
                     
-                    <div className="flex-1 relative flex items-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden focus-within:border-indigo-500 transition-all">
-                      <span className="pl-4 text-slate-400 font-mono text-sm font-bold">#</span>
+                    <div className="flex-1 relative flex items-center bg-surface border border-line rounded-xl overflow-hidden focus-within:border-brand transition-all">
+                      <span className="pl-3 text-muted font-mono text-xs font-bold">#</span>
                       <input 
                         type="text" 
                         value={color.replace('#', '')}
                         onChange={(e) => updateColor(index, '#' + e.target.value)}
-                        className="w-full bg-transparent px-2 py-3 text-sm font-mono font-bold text-slate-800 dark:text-slate-100 outline-none uppercase"
+                        className="w-full bg-surface px-1.5 py-2.5 text-xs sm:text-sm font-mono font-bold text-ink outline-none uppercase tabular-nums"
                         maxLength={6}
                       />
                     </div>
 
                     <button 
+                      type="button"
                       onClick={() => removeColor(index)}
                       disabled={colors.length <= 2}
-                      className="p-3 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl transition-colors disabled:opacity-30"
+                      className="p-2.5 text-muted hover:text-[#fb7185] hover:bg-[#fb7185]/10 rounded-xl transition-colors disabled:opacity-30"
                     >
-                      <MinusCircle className="w-5 h-5" />
+                      <MinusCircle className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
 
                 {colors.length < 6 && (
                   <button 
+                    type="button"
                     onClick={addColor}
-                    className="w-full py-3 mt-2 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 rounded-xl border border-indigo-200 dark:border-indigo-800/50 transition-colors"
+                    className="w-full py-2.5 mt-1 flex items-center justify-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-brand bg-brand/10 hover:bg-brand/20 rounded-xl border border-brand/30 transition-colors shadow-sm"
                   >
-                    <PlusCircle className="w-4 h-4" /> Add Color Stop
+                    <PlusCircle className="w-3.5 h-3.5" /> Add Color Stop
                   </button>
                 )}
               </div>
@@ -229,65 +222,65 @@ export default function CssGradientGenerator() {
           </div>
         </div>
 
-        {/* ================= RIGHT: THE EXPORT CONSOLE ================= */}
-        <div className="space-y-6 sticky top-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col min-h-[500px]">
-            <div className="bg-slate-50 dark:bg-[#161b22] rounded-[22px] p-6 h-full flex flex-col relative overflow-hidden font-sans">
+        {/* RIGHT: THE EXPORT CONSOLE */}
+        <div className="space-y-4 sm:space-y-6 w-full">
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm space-y-4 w-full box-border font-sans">
+            
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-ink">
+                <Code2 className="w-4 h-4 text-brand" /> Export Code
+              </span>
+              <span className="text-[9px] font-black uppercase tracking-wider text-brand bg-brand/10 px-2.5 py-1 rounded-xl border border-brand/30">
+                Ready to Paste
+              </span>
+            </div>
+
+            <div className="space-y-3">
               
-              <div className="flex items-center justify-between mb-6 border-b border-slate-200 dark:border-slate-700/50 pb-4 shrink-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Code2 className={`w-4 h-4 ${theme.textPri}`} /> Export Code
-                </span>
-                <span className={`text-[9px] font-bold uppercase tracking-widest ${theme.textPri} bg-white dark:bg-[#0d1117] px-2 py-1 rounded shadow-sm border border-slate-100 dark:border-slate-700`}>
-                  Ready to Paste
-                </span>
+              {/* Standard CSS Export */}
+              <div className="flex flex-col bg-surface border border-line rounded-xl overflow-hidden shadow-sm">
+                <div className="flex justify-between items-center px-3.5 py-2.5 bg-surface border-b border-line">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-muted">
+                    Standard CSS
+                  </span>
+                  <button 
+                    type="button"
+                    onClick={() => handleCopy(results.cssCode, 'css')} 
+                    className="text-muted hover:text-brand transition-colors p-1"
+                  >
+                    {copiedType === 'css' ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500"/> : <Copy className="w-3.5 h-3.5"/>}
+                  </button>
+                </div>
+                <div className="p-3.5">
+                  <pre className="text-xs break-all text-ink leading-relaxed font-mono m-0 whitespace-pre-wrap tabular-nums">
+                    <code>{results.cssCode}</code>
+                  </pre>
+                </div>
               </div>
 
-              <div className="flex-1 space-y-4">
-                
-                {/* Standard CSS Export */}
-                <div className="flex flex-col bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm group">
-                  <div className="flex justify-between items-center px-4 py-3 bg-slate-100/50 dark:bg-[#1f2937]/50 border-b border-slate-200 dark:border-slate-800 shrink-0">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-                      Standard CSS
-                    </span>
-                    <button 
-                      onClick={() => handleCopy(results.cssCode, 'css')} 
-                      className="text-slate-400 hover:text-indigo-500 transition-colors"
-                    >
-                      {copiedType === 'css' ? <CheckCircle2 className="w-4 h-4 text-indigo-500"/> : <Copy className="w-4 h-4"/>}
-                    </button>
-                  </div>
-                  <div className="p-4">
-                    <pre className="text-xs break-all text-slate-800 dark:text-slate-300 leading-relaxed font-mono m-0 whitespace-pre-wrap">
-                      <code>{results.cssCode}</code>
-                    </pre>
-                  </div>
+              {/* Tailwind Output */}
+              <div className="flex flex-col bg-brand/10 border border-brand/30 rounded-xl overflow-hidden shadow-sm">
+                <div className="flex justify-between items-center px-3.5 py-2.5 bg-brand/10 border-b border-brand/30">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-brand">
+                    Tailwind CSS (Arbitrary Value)
+                  </span>
+                  <button 
+                    type="button"
+                    onClick={() => handleCopy(results.tailwindCode, 'tailwind')} 
+                    className="text-brand hover:opacity-80 transition-opacity p-1"
+                  >
+                    {copiedType === 'tailwind' ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500"/> : <Copy className="w-3.5 h-3.5"/>}
+                  </button>
                 </div>
-
-                {/* Tailwind Output - KILLER FEATURE */}
-                <div className="flex flex-col bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-200 dark:border-indigo-800/50 rounded-xl overflow-hidden shadow-sm group">
-                  <div className="flex justify-between items-center px-4 py-3 bg-indigo-100/50 dark:bg-indigo-900/30 border-b border-indigo-200 dark:border-indigo-800/50 shrink-0">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
-                      Tailwind CSS (Arbitrary Value)
-                    </span>
-                    <button 
-                      onClick={() => handleCopy(results.tailwindCode, 'tailwind')} 
-                      className="text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
-                    >
-                      {copiedType === 'tailwind' ? <CheckCircle2 className="w-4 h-4"/> : <Copy className="w-4 h-4"/>}
-                    </button>
-                  </div>
-                  <div className="p-4">
-                    <pre className="text-xs break-all text-indigo-900 dark:text-indigo-200 leading-relaxed font-mono m-0 whitespace-pre-wrap">
-                      <code>{results.tailwindCode}</code>
-                    </pre>
-                  </div>
+                <div className="p-3.5">
+                  <pre className="text-xs break-all text-ink leading-relaxed font-mono m-0 whitespace-pre-wrap tabular-nums">
+                    <code>{results.tailwindCode}</code>
+                  </pre>
                 </div>
-
               </div>
 
             </div>
+
           </div>
         </div>
 

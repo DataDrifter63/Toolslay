@@ -42,103 +42,48 @@ function getType(value) {
 }
 
 function countNodes(value) {
-  if (
-    value === null ||
-    typeof value !== "object"
-  ) {
+  if (value === null || typeof value !== "object") {
     return 1;
   }
-
   if (Array.isArray(value)) {
-    return (
-      1 +
-      value.reduce(
-        (sum, item) =>
-          sum + countNodes(item),
-        0
-      )
-    );
+    return 1 + value.reduce((sum, item) => sum + countNodes(item), 0);
   }
-
-  return (
-    1 +
-    Object.values(value).reduce(
-      (sum, item) =>
-        sum + countNodes(item),
-      0
-    )
-  );
+  return 1 + Object.values(value).reduce((sum, item) => sum + countNodes(item), 0);
 }
 
 function getDepth(value) {
-  if (
-    value === null ||
-    typeof value !== "object"
-  ) {
+  if (value === null || typeof value !== "object") {
     return 0;
   }
-
-  const values = Array.isArray(value)
-    ? value
-    : Object.values(value);
-
+  const values = Array.isArray(value) ? value : Object.values(value);
   if (!values.length) return 1;
-
-  return (
-    1 +
-    Math.max(
-      ...values.map(getDepth)
-    )
-  );
+  return 1 + Math.max(...values.map(getDepth));
 }
 
 function countKeys(value) {
-  if (
-    value === null ||
-    typeof value !== "object"
-  ) {
+  if (value === null || typeof value !== "object") {
     return 0;
   }
-
   if (Array.isArray(value)) {
-    return value.reduce(
-      (sum, item) =>
-        sum + countKeys(item),
-      0
-    );
+    return value.reduce((sum, item) => sum + countKeys(item), 0);
   }
-
-  return (
-    Object.keys(value).length +
-    Object.values(value).reduce(
-      (sum, item) =>
-        sum + countKeys(item),
-      0
-    )
-  );
+  return Object.keys(value).length + Object.values(value).reduce((sum, item) => sum + countKeys(item), 0);
 }
 
 function findEmptyValues(value) {
   let count = 0;
-
   function walk(item) {
     if (item === null) {
       count++;
       return;
     }
-
     if (typeof item !== "object") {
       if (item === "") count++;
       return;
     }
-
-    const values = Array.isArray(item)
-      ? item
-      : Object.values(item);
-
+    const values = Array.isArray(item) ? item : Object.values(item);
     values.forEach(walk);
   }
-
   walk(value);
   return count;
 }
@@ -147,212 +92,94 @@ function sortDeep(value) {
   if (Array.isArray(value)) {
     return value.map(sortDeep);
   }
-
-  if (
-    value !== null &&
-    typeof value === "object"
-  ) {
+  if (value !== null && typeof value === "object") {
     return Object.keys(value)
-      .sort((a, b) =>
-        a.localeCompare(b)
-      )
+      .sort((a, b) => a.localeCompare(b))
       .reduce((obj, key) => {
-        obj[key] = sortDeep(
-          value[key]
-        );
+        obj[key] = sortDeep(value[key]);
         return obj;
       }, {});
   }
-
   return value;
 }
 
 function removeEmptyValues(value) {
   if (Array.isArray(value)) {
-    return value
-      .filter(
-        (item) =>
-          item !== null &&
-          item !== ""
-      )
-      .map(removeEmptyValues);
+    return value.filter((item) => item !== null && item !== "").map(removeEmptyValues);
   }
-
-  if (
-    value !== null &&
-    typeof value === "object"
-  ) {
+  if (value !== null && typeof value === "object") {
     const result = {};
-
-    Object.entries(value).forEach(
-      ([key, item]) => {
-        if (
-          item === null ||
-          item === ""
-        ) {
-          return;
-        }
-
-        result[key] =
-          removeEmptyValues(item);
+    Object.entries(value).forEach(([key, item]) => {
+      if (item === null || item === "") {
+        return;
       }
-    );
-
+      result[key] = removeEmptyValues(item);
+    });
     return result;
   }
-
   return value;
 }
 
 function findDuplicateKeys(text) {
   const duplicates = new Set();
   const stack = [];
-
-  const regex =
-    /"((?:\\.|[^"\\])*)"\s*:/g;
-
+  const regex = /"((?:\\.|[^"\\])*)"\s*:/g;
   let match;
-
-  while (
-    (match = regex.exec(text)) !== null
-  ) {
-    const before =
-      text.slice(0, match.index);
-
-    const opens =
-      (before.match(/{/g) || []).length;
-
-    const closes =
-      (before.match(/}/g) || []).length;
-
+  while ((match = regex.exec(text)) !== null) {
+    const before = text.slice(0, match.index);
+    const opens = (before.match(/{/g) || []).length;
+    const closes = (before.match(/}/g) || []).length;
     const depth = opens - closes;
-
     const key = match[1];
-
-    stack[depth] =
-      stack[depth] || new Set();
-
-    if (
-      stack[depth].has(key)
-    ) {
+    stack[depth] = stack[depth] || new Set();
+    if (stack[depth].has(key)) {
       duplicates.add(key);
     }
-
     stack[depth].add(key);
   }
-
   return [...duplicates];
 }
 
 function getErrorInfo(text, error) {
-  const message =
-    error?.message || "Invalid JSON";
-
-  const match =
-    message.match(
-      /position\s+(\d+)/
-    );
-
+  const message = error?.message || "Invalid JSON";
+  const match = message.match(/position\s+(\d+)/);
   if (!match) {
-    return {
-      message,
-      position: null,
-      line: null,
-      column: null,
-      snippet: "",
-    };
+    return { message, position: null, line: null, column: null, snippet: "" };
   }
-
-  const position =
-    Number(match[1]);
-
-  const before =
-    text.slice(0, position);
-
-  const line =
-    before.split("\n").length;
-
-  const lastNewLine =
-    before.lastIndexOf("\n");
-
-  const column =
-    position -
-    lastNewLine;
-
-  const start =
-    Math.max(0, position - 45);
-
-  const end =
-    Math.min(
-      text.length,
-      position + 45
-    );
-
-  return {
-    message,
-    position,
-    line,
-    column,
-    snippet: text.slice(start, end),
-  };
+  const position = Number(match[1]);
+  const before = text.slice(0, position);
+  const line = before.split("\n").length;
+  const lastNewLine = before.lastIndexOf("\n");
+  const column = position - lastNewLine;
+  const start = Math.max(0, position - 45);
+  const end = Math.min(text.length, position + 45);
+  return { message, position, line, column, snippet: text.slice(start, end) };
 }
 
-function downloadText(
-  content,
-  filename
-) {
-  const blob = new Blob(
-    [content],
-    {
-      type: "application/json;charset=utf-8",
-    }
-  );
-
-  const url =
-    URL.createObjectURL(blob);
-
-  const a =
-    document.createElement("a");
-
+function downloadText(content, filename) {
+  const blob = new Blob([content], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
   a.href = url;
   a.download = filename;
-
   document.body.appendChild(a);
   a.click();
   a.remove();
-
   URL.revokeObjectURL(url);
 }
 
-function TreeNode({
-  name,
-  value,
-  depth = 0,
-}) {
-  const [open, setOpen] =
-    useState(depth < 2);
-
+function TreeNode({ name, value, depth = 0 }) {
+  const [open, setOpen] = useState(depth < 2);
   const type = getType(value);
-
-  const isObject =
-    value !== null &&
-    typeof value === "object";
-
-  const entries =
-    Array.isArray(value)
-      ? value.map(
-          (item, index) => [
-            String(index),
-            item,
-          ]
-        )
-      : isObject
-      ? Object.entries(value)
-      : [];
+  const isObject = value !== null && typeof value === "object";
+  const entries = Array.isArray(value)
+    ? value.map((item, index) => [String(index), item])
+    : isObject
+    ? Object.entries(value)
+    : [];
 
   if (!isObject) {
     let display;
-
     if (typeof value === "string") {
       display = `"${value}"`;
     } else if (value === null) {
@@ -363,19 +190,11 @@ function TreeNode({
 
     return (
       <div
-        className="jf-tree-row"
-        style={{
-          paddingLeft:
-            depth * 18 + 8,
-        }}
+        className="flex items-center gap-2 min-h-[27px] font-mono text-[11px] w-full box-border text-ink"
+        style={{ paddingLeft: depth * 18 + 8 }}
       >
-        <span className="jf-tree-key">
-          {name}
-        </span>
-
-        <span
-          className={`jf-type jf-${type}`}
-        >
+        <span className="text-brand truncate">{name}</span>
+        <span className={`word-break-all ${type === 'string' ? 'text-emerald-500' : type === 'number' ? 'text-brand' : type === 'boolean' ? 'text-brand' : 'text-[#fb7185]'}`}>
           {display}
         </span>
       </div>
@@ -385,287 +204,125 @@ function TreeNode({
   return (
     <div>
       <button
-        className="jf-tree-row jf-tree-button"
-        style={{
-          paddingLeft:
-            depth * 18 + 8,
-        }}
-        onClick={() =>
-          setOpen(!open)
-        }
+        type="button"
+        className="w-full box-border flex items-center gap-2 min-h-[27px] font-mono text-[11px] border-0 bg-transparent text-ink cursor-pointer text-left hover:bg-paper/50"
+        style={{ paddingLeft: depth * 18 + 8 }}
+        onClick={() => setOpen(!open)}
       >
-        <span className="jf-arrow">
-          {open ? "⌄" : "›"}
-        </span>
-
-        <span className="jf-tree-key">
-          {name}
-        </span>
-
-        <span className="jf-container-type">
-          {Array.isArray(value)
-            ? `Array · ${value.length}`
-            : `Object · ${entries.length}`}
+        <span className="w-3 text-brand font-bold">{open ? "⌄" : "›"}</span>
+        <span className="text-brand truncate">{name}</span>
+        <span className="text-muted text-[9px]">
+          {Array.isArray(value) ? `Array · ${value.length}` : `Object · ${entries.length}`}
         </span>
       </button>
 
       {open &&
-        entries.map(
-          ([key, child]) => (
-            <TreeNode
-              key={key}
-              name={key}
-              value={child}
-              depth={depth + 1}
-            />
-          )
-        )}
+        entries.map(([key, child]) => (
+          <TreeNode key={key} name={key} value={child} depth={depth + 1} />
+        ))}
     </div>
   );
 }
 
 export default function JsonFormatter() {
-  const [input, setInput] =
-    useState(SAMPLE_JSON);
-
-  const [indent, setIndent] =
-    useState(2);
-
-  const [sortKeys, setSortKeys] =
-    useState(false);
-
-  const [
-    removeEmpty,
-    setRemoveEmpty,
-  ] = useState(false);
-
-  const [tab, setTab] =
-    useState("format");
-
-  const [copied, setCopied] =
-    useState(false);
-
-  const [query, setQuery] =
-    useState("");
-
-  const [queryResult, setQueryResult] =
-    useState(null);
-
-  const [history, setHistory] =
-    useState([]);
+  const [input, setInput] = useState(SAMPLE_JSON);
+  const [indent, setIndent] = useState(2);
+  const [sortKeys, setSortKeys] = useState(false);
+  const [removeEmpty, setRemoveEmpty] = useState(false);
+  const [tab, setTab] = useState("format");
+  const [copied, setCopied] = useState(false);
+  const [query, setQuery] = useState("");
+  const [queryResult, setQueryResult] = useState(null);
+  const [history, setHistory] = useState([]);
 
   const parsed = useMemo(() => {
     try {
-      let value =
-        JSON.parse(input);
-
+      let value = JSON.parse(input);
       if (removeEmpty) {
-        value =
-          removeEmptyValues(value);
+        value = removeEmptyValues(value);
       }
-
       if (sortKeys) {
         value = sortDeep(value);
       }
-
-      return {
-        valid: true,
-        value,
-        error: null,
-      };
+      return { valid: true, value, error: null };
     } catch (error) {
-      return {
-        valid: false,
-        value: null,
-        error: getErrorInfo(
-          input,
-          error
-        ),
-      };
+      return { valid: false, value: null, error: getErrorInfo(input, error) };
     }
-  }, [
-    input,
-    sortKeys,
-    removeEmpty,
-  ]);
+  }, [input, sortKeys, removeEmpty]);
 
   const formatted = useMemo(() => {
-    if (!parsed.valid) {
-      return input;
-    }
-
-    return JSON.stringify(
-      parsed.value,
-      null,
-      indent
-    );
-  }, [
-    parsed,
-    indent,
-    input,
-  ]);
+    if (!parsed.valid) return input;
+    return JSON.stringify(parsed.value, null, indent);
+  }, [parsed, indent, input]);
 
   const minified = useMemo(() => {
-    if (!parsed.valid) {
-      return input;
-    }
-
-    return JSON.stringify(
-      parsed.value
-    );
-  }, [
-    parsed,
-    input,
-  ]);
+    if (!parsed.valid) return input;
+    return JSON.stringify(parsed.value);
+  }, [parsed, input]);
 
   const stats = useMemo(() => {
-    if (!parsed.valid) {
-      return null;
-    }
-
+    if (!parsed.valid) return null;
     return {
-      nodes: countNodes(
-        parsed.value
-      ),
-      keys: countKeys(
-        parsed.value
-      ),
-      depth: getDepth(
-        parsed.value
-      ),
-      empty: findEmptyValues(
-        parsed.value
-      ),
-      type: getType(
-        parsed.value
-      ),
-      size: new Blob([
-        JSON.stringify(
-          parsed.value
-        ),
-      ]).size,
+      nodes: countNodes(parsed.value),
+      keys: countKeys(parsed.value),
+      depth: getDepth(parsed.value),
+      empty: findEmptyValues(parsed.value),
+      type: getType(parsed.value),
+      size: new Blob([JSON.stringify(parsed.value)]).size,
     };
   }, [parsed]);
 
-  const duplicates = useMemo(
-    () =>
-      findDuplicateKeys(input),
-    [input]
-  );
+  const duplicates = useMemo(() => findDuplicateKeys(input), [input]);
 
   function handleFormat() {
     if (!parsed.valid) {
       setTab("validate");
       return;
     }
-
     setInput(formatted);
-
-    setHistory((old) => [
-      input,
-      ...old.filter(
-        (item) => item !== input
-      ),
-    ].slice(0, 5));
+    setHistory((old) => [input, ...old.filter((item) => item !== input)].slice(0, 5));
   }
 
   async function copy(value) {
     try {
-      await navigator.clipboard.writeText(
-        value
-      );
+      await navigator.clipboard.writeText(value);
     } catch {
-      const textarea =
-        document.createElement(
-          "textarea"
-        );
-
+      const textarea = document.createElement("textarea");
       textarea.value = value;
-
-      document.body.appendChild(
-        textarea
-      );
-
+      document.body.appendChild(textarea);
       textarea.select();
-
-      document.execCommand(
-        "copy"
-      );
-
+      document.execCommand("copy");
       textarea.remove();
     }
-
     setCopied(true);
-
-    setTimeout(
-      () => setCopied(false),
-      1500
-    );
+    setTimeout(() => setCopied(false), 1500);
   }
 
   function runQuery() {
     if (!parsed.valid) {
-      setQueryResult({
-        found: false,
-        error:
-          "Fix the JSON before using Path Finder.",
-      });
-
+      setQueryResult({ found: false, error: "Fix the JSON before using Path Finder." });
       return;
     }
-
-    const path = query
-      .trim()
-      .replace(
-        /^\$\.?/,
-        ""
-      );
-
+    const path = query.trim().replace(/^\$\.?/, "");
     if (!path) {
-      setQueryResult({
-        found: true,
-        value: parsed.value,
-      });
-
+      setQueryResult({ found: true, value: parsed.value });
       return;
     }
-
-    const parts =
-      path
-        .split(".")
-        .filter(Boolean);
-
-    let current =
-      parsed.value;
-
+    const parts = path.split(".").filter(Boolean);
+    let current = parsed.value;
     for (const part of parts) {
-      if (
-        current === null ||
-        current === undefined
-      ) {
+      if (current === null || current === undefined) {
         current = undefined;
         break;
       }
-
-      if (
-        Object.prototype.hasOwnProperty.call(
-          current,
-          part
-        )
-      ) {
-        current =
-          current[part];
+      if (Object.prototype.hasOwnProperty.call(current, part)) {
+        current = current[part];
       } else {
         current = undefined;
         break;
       }
     }
-
-    setQueryResult({
-      found:
-        current !== undefined,
-      value: current,
-    });
+    setQueryResult({ found: current !== undefined, value: current });
   }
 
   function loadSample() {
@@ -681,1471 +338,379 @@ export default function JsonFormatter() {
     setHistory([]);
   }
 
-  const currentOutput =
-    tab === "minify"
-      ? minified
-      : formatted;
+  const currentOutput = tab === "minify" ? minified : formatted;
 
   return (
-    <div className="json-tool">
-      <div className="jf-shell">
-
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
+      
+      {/* MAIN CONTAINER */}
+      <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
+        
         {/* TOP BAR */}
-
-        <div className="jf-top">
-
-          <div>
-            <div className="jf-eyebrow">
-              DEVELOPER TOOL
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-xl font-black shrink-0">
+              {}
             </div>
 
-            <h1>
-              JSON Formatter
-              <span>
-                {" "} & Validator
-              </span>
-            </h1>
-
-            <p>
-              Format, validate, inspect,
-              clean and explore JSON
-              without sending your data
-              anywhere.
-            </p>
+            <div className="min-w-0">
+              <div className="text-[10px] font-black tracking-widest text-brand uppercase mb-1">
+                DEVELOPER TOOL
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
+                JSON Formatter & Validator
+              </h2>
+              <p className="text-[11px] font-bold text-muted mt-0.5 truncate">
+                Format, validate, inspect, clean and explore JSON safely locally.
+              </p>
+            </div>
           </div>
 
-          <div className="jf-actions">
-
+          <div className="flex items-center gap-2.5 shrink-0 min-w-0">
             <button
+              type="button"
               onClick={loadSample}
-              className="jf-soft"
+              className="px-4 py-2.5 rounded-xl border border-line bg-paper text-brand text-xs font-black uppercase tracking-wider hover:bg-surface transition-all truncate"
             >
               Load Sample
             </button>
-
             <button
+              type="button"
               onClick={clearAll}
-              className="jf-danger"
+              className="px-4 py-2.5 rounded-xl border border-[#fb7185]/30 bg-[#fb7185]/10 text-[#fb7185] text-xs font-black uppercase tracking-wider hover:bg-[#fb7185]/20 transition-all truncate"
             >
               Clear
             </button>
-
           </div>
-
         </div>
 
         {/* STATUS */}
-
-        <div
-          className={
-            parsed.valid
-              ? "jf-status valid"
-              : "jf-status invalid"
-          }
-        >
-          <div>
-            <b>
-              {parsed.valid
-                ? "✓ Valid JSON"
-                : "× Invalid JSON"}
-            </b>
-
-            <span>
-              {parsed.valid
-                ? "Your JSON can be safely parsed."
-                : parsed.error?.message ||
-                  "JSON parsing failed."}
+        <div className={`flex flex-wrap items-center justify-between gap-4 px-4 py-3.5 rounded-xl border transition-all min-w-0 ${parsed.valid ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-500" : "bg-[#fb7185]/10 border-[#fb7185]/30 text-[#fb7185]"}`}>
+          <div className="min-w-0 truncate">
+            <span className="font-black mr-2.5 truncate">{parsed.valid ? "✓ Valid JSON" : "× Invalid JSON"}</span>
+            <span className="text-muted text-xs truncate">
+              {parsed.valid ? "Your JSON can be safely parsed." : parsed.error?.message || "JSON parsing failed."}
             </span>
           </div>
-
-          {parsed.valid && (
-            <div className="jf-status-meta">
-              {stats.nodes} nodes
-              {" · "}
-              depth {stats.depth}
-              {" · "}
-              {formatBytes(
-                stats.size
-              )}
+          {parsed.valid && stats && (
+            <div className="font-bold text-xs text-muted whitespace-nowrap shrink-0">
+              {stats.nodes} nodes · depth {stats.depth} · {formatBytes(stats.size)}
             </div>
           )}
-
         </div>
 
-        {/* EDITOR */}
-
-        <div className="jf-editor-grid">
-
-          <section className="jf-card">
-
-            <div className="jf-card-head">
-
-              <div>
-                <b>
-                  JSON Input
-                </b>
-
-                <small>
-                  Paste JSON here
-                </small>
+        {/* EDITOR GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start min-w-0">
+          
+          {/* INPUT */}
+          <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col min-w-0">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-line bg-surface min-w-0">
+              <div className="min-w-0 truncate">
+                <span className="text-xs font-black text-ink uppercase tracking-wider block truncate">JSON Input</span>
               </div>
-
-              <div className="jf-mini-actions">
-
-                <button
-                  onClick={() =>
-                    copy(input)
-                  }
-                >
-                  {copied
-                    ? "Copied"
-                    : "Copy"}
-                </button>
-
-              </div>
-
+              <button
+                type="button"
+                onClick={() => copy(input)}
+                className="px-3 py-1.5 rounded-xl border border-line bg-paper text-ink text-[10px] font-black uppercase tracking-wider hover:bg-surface transition-all shrink-0"
+              >
+                {copied ? "Copied" : "Copy"}
+              </button>
             </div>
 
             <textarea
-              className="jf-editor"
+              className="w-full h-80 sm:h-[365px] bg-surface text-ink p-4 font-mono text-xs outline-none resize-y border-0 box-border leading-relaxed tabular-nums"
               value={input}
               spellCheck={false}
-              onChange={(event) =>
-                setInput(
-                  event.target.value
-                )
-              }
+              onChange={(event) => setInput(event.target.value)}
               placeholder='{"name":"John","active":true}'
             />
 
-            <div className="jf-editor-footer">
-
-              <span>
-                {input.length} chars
-              </span>
-
-              <span>
-                {input
-                  ? input.split(/\s+/)
-                      .filter(Boolean)
-                      .length
-                  : 0}{" "}
-                tokens*
-              </span>
-
-              <span>
-                UTF-8
-              </span>
-
+            <div className="flex items-center justify-between px-4 py-2.5 bg-surface border-t border-line text-[10px] font-bold text-muted min-w-0">
+              <span className="truncate">{input.length} chars</span>
+              <span className="truncate">{input ? input.split(/\s+/).filter(Boolean).length : 0} tokens</span>
+              <span className="truncate">UTF-8</span>
             </div>
-
-          </section>
+          </div>
 
           {/* OUTPUT */}
-
-          <section className="jf-card">
-
-            <div className="jf-card-head">
-
-              <div>
-                <b>
-                  Output
-                </b>
-
-                <small>
-                  Clean JSON result
-                </small>
+          <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col min-w-0">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-line bg-surface min-w-0">
+              <div className="min-w-0 truncate">
+                <span className="text-xs font-black text-ink uppercase tracking-wider block truncate">Output Result</span>
               </div>
-
-              <div className="jf-mini-actions">
-
+              <div className="flex items-center gap-2 shrink-0 min-w-0">
                 <button
-                  onClick={() =>
-                    copy(currentOutput)
-                  }
+                  type="button"
+                  onClick={() => copy(currentOutput)}
+                  className="px-3 py-1.5 rounded-xl border border-line bg-paper text-ink text-[10px] font-black uppercase tracking-wider hover:bg-surface transition-all truncate"
                 >
                   Copy
                 </button>
-
                 <button
-                  onClick={() =>
-                    downloadText(
-                      currentOutput,
-                      "formatted.json"
-                    )
-                  }
+                  type="button"
+                  onClick={() => downloadText(currentOutput, "formatted.json")}
+                  className="px-3 py-1.5 rounded-xl border border-line bg-paper text-ink text-[10px] font-black uppercase tracking-wider hover:bg-surface transition-all truncate"
                 >
                   Download
                 </button>
-
               </div>
-
             </div>
 
-            <pre className="jf-output">
+            <pre className="w-full h-80 sm:h-[365px] bg-surface text-ink p-4 font-mono text-xs overflow-auto m-0 box-border leading-relaxed whitespace-pre-wrap word-break-all tabular-nums">
               {currentOutput}
             </pre>
-
-          </section>
+          </div>
 
         </div>
 
         {/* CONTROLS */}
-
-        <div className="jf-controls">
-
-          <div className="jf-control-group">
-
-            <label>
+        <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl flex flex-wrap items-center justify-between gap-4 min-w-0">
+          <div className="flex flex-wrap items-center gap-4 min-w-0">
+            <label className="text-xs font-black text-muted uppercase tracking-wider flex items-center gap-2 min-w-0 truncate">
               Indent
-
               <select
                 value={indent}
-                onChange={(event) =>
-                  setIndent(
-                    Number(
-                      event.target.value
-                    )
-                  )
-                }
+                onChange={(event) => setIndent(Number(event.target.value))}
+                className="bg-surface border border-line rounded-xl px-3 py-2 text-xs font-bold text-ink outline-none cursor-pointer"
               >
-                <option value={2}>
-                  2 spaces
-                </option>
-
-                <option value={4}>
-                  4 spaces
-                </option>
-
-                <option value={8}>
-                  8 spaces
-                </option>
-
-                <option value={0}>
-                  Compact
-                </option>
+                <option value={2}>2 spaces</option>
+                <option value={4}>4 spaces</option>
+                <option value={8}>8 spaces</option>
+                <option value={0}>Compact</option>
               </select>
             </label>
 
+            <label className="flex items-center gap-2.5 text-xs font-bold text-ink cursor-pointer truncate">
+              <input
+                type="checkbox"
+                checked={sortKeys}
+                onChange={(event) => setSortKeys(event.target.checked)}
+                className="w-4 h-4 accent-brand rounded border-line"
+              />
+              <span>Sort keys</span>
+            </label>
+
+            <label className="flex items-center gap-2.5 text-xs font-bold text-ink cursor-pointer truncate">
+              <input
+                type="checkbox"
+                checked={removeEmpty}
+                onChange={(event) => setRemoveEmpty(event.target.checked)}
+                className="w-4 h-4 accent-brand rounded border-line"
+              />
+              <span>Remove null / empty</span>
+            </label>
           </div>
 
-          <label className="jf-check">
-
-            <input
-              type="checkbox"
-              checked={sortKeys}
-              onChange={(event) =>
-                setSortKeys(
-                  event.target.checked
-                )
-              }
-            />
-
-            <span>
-              Sort keys
-            </span>
-
-          </label>
-
-          <label className="jf-check">
-
-            <input
-              type="checkbox"
-              checked={removeEmpty}
-              onChange={(event) =>
-                setRemoveEmpty(
-                  event.target.checked
-                )
-              }
-            />
-
-            <span>
-              Remove null / empty
-            </span>
-
-          </label>
-
           <button
-            className="jf-format"
+            type="button"
+            className="px-5 py-3 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-widest transition-opacity shrink-0 ml-auto"
             onClick={handleFormat}
           >
             ✨ Format JSON
           </button>
-
         </div>
 
-        {/* TABS */}
-
-        <div className="jf-card jf-bottom">
-
-          <div className="jf-tabs">
-
-            <button
-              className={
-                tab === "format"
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setTab("format")
-              }
-            >
-              Formatter
-            </button>
-
-            <button
-              className={
-                tab === "validate"
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setTab("validate")
-              }
-            >
-              Validator
-            </button>
-
-            <button
-              className={
-                tab === "tree"
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setTab("tree")
-              }
-            >
-              JSON Tree
-            </button>
-
-            <button
-              className={
-                tab === "path"
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setTab("path")
-              }
-            >
-              Path Finder
-            </button>
-
-            <button
-              className={
-                tab === "stats"
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setTab("stats")
-              }
-            >
-              Inspector
-            </button>
-
+        {/* TABS CONTAINER */}
+        <div className="bg-paper border border-line rounded-2xl overflow-hidden min-w-0">
+          <div className="flex items-center gap-6 px-4 border-b border-line overflow-x-auto min-w-0">
+            {["format", "validate", "tree", "path", "stats"].map((t) => (
+              <button
+                type="button"
+                key={t}
+                className={`py-3.5 border-b-2 text-xs font-black uppercase tracking-wider cursor-pointer whitespace-nowrap shrink-0 transition-colors ${tab === t ? "text-brand border-brand" : "text-muted border-transparent hover:text-ink"}`}
+                onClick={() => setTab(t)}
+              >
+                {t === "format" ? "Formatter" : t === "validate" ? "Validator" : t === "tree" ? "JSON Tree" : t === "path" ? "Path Finder" : "Inspector"}
+              </button>
+            ))}
           </div>
 
-          {/* FORMATTER */}
-
-          {tab === "format" && (
-            <div className="jf-info">
-
-              <div className="jf-info-grid">
-
-                <div>
-                  <span>
-                    Output mode
-                  </span>
-
-                  <b>
-                    {indent === 0
-                      ? "Compact"
-                      : `${indent} spaces`}
-                  </b>
+          <div className="p-5 sm:p-6 min-w-0">
+            {/* FORMATTER TAB */}
+            {tab === "format" && (
+              <div className="space-y-4 min-w-0">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 min-w-0">
+                  <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                    <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Output mode</span>
+                    <strong className="text-xs font-black text-ink mt-0.5 block truncate">{indent === 0 ? "Compact" : `${indent} spaces`}</strong>
+                  </div>
+                  <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                    <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Key sorting</span>
+                    <strong className="text-xs font-black text-ink mt-0.5 block truncate">{sortKeys ? "Enabled" : "Original order"}</strong>
+                  </div>
+                  <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                    <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Cleanup</span>
+                    <strong className="text-xs font-black text-ink mt-0.5 block truncate">{removeEmpty ? "Enabled" : "Disabled"}</strong>
+                  </div>
                 </div>
-
-                <div>
-                  <span>
-                    Key sorting
-                  </span>
-
-                  <b>
-                    {sortKeys
-                      ? "Enabled"
-                      : "Original order"}
-                  </b>
+                <div className="p-3.5 rounded-xl bg-brand/10 border border-brand/30 text-brand text-xs font-bold min-w-0 truncate">
+                  Tip: Use <b>Format JSON</b> after pasting minified or messy JSON.
                 </div>
-
-                <div>
-                  <span>
-                    Cleanup
-                  </span>
-
-                  <b>
-                    {removeEmpty
-                      ? "Enabled"
-                      : "Disabled"}
-                  </b>
-                </div>
-
               </div>
+            )}
 
-              <div className="jf-shortcut">
-                Tip: Use
-                {" "}
-                <b>Format JSON</b>
-                {" "}
-                after pasting minified
-                or messy JSON.
-              </div>
-
-            </div>
-          )}
-
-          {/* VALIDATOR */}
-
-          {tab === "validate" && (
-            <div className="jf-validation">
-
-              {parsed.valid ? (
-                <div className="jf-success-box">
-
-                  <strong>
-                    ✓ JSON is valid
-                  </strong>
-
-                  <p>
-                    The complete input
-                    successfully parsed
-                    as JSON.
-                  </p>
-
-                  {duplicates.length >
-                    0 && (
-                    <div className="jf-warning">
-                      ⚠ Possible duplicate
-                      keys detected:
-                      {" "}
-                      {duplicates
-                        .map(
-                          (key) =>
-                            `"${key}"`
-                        )
-                        .join(", ")}
-                    </div>
-                  )}
-
-                </div>
-              ) : (
-                <div className="jf-error-box">
-
-                  <strong>
-                    × JSON validation failed
-                  </strong>
-
-                  <p>
-                    {parsed.error?.message}
-                  </p>
-
-                  {parsed.error?.line && (
-                    <div className="jf-error-grid">
-
-                      <div>
-                        <span>
-                          Line
-                        </span>
-
-                        <b>
-                          {
-                            parsed
-                              .error
-                              .line
-                          }
-                        </b>
+            {/* VALIDATOR TAB */}
+            {tab === "validate" && (
+              <div className="min-w-0">
+                {parsed.valid ? (
+                  <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 space-y-2 min-w-0">
+                    <strong className="text-xs font-black block truncate">✓ JSON is valid</strong>
+                    <p className="text-xs font-medium text-muted truncate">The complete input successfully parsed as JSON.</p>
+                    {duplicates.length > 0 && (
+                      <div className="p-3 rounded-xl bg-brand/10 border border-brand/30 text-brand text-xs font-bold truncate">
+                        ⚠ Possible duplicate keys detected: {duplicates.map((key) => `"${key}"`).join(", ")}
                       </div>
-
-                      <div>
-                        <span>
-                          Column
-                        </span>
-
-                        <b>
-                          {
-                            parsed
-                              .error
-                              .column
-                          }
-                        </b>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-4 rounded-xl bg-[#fb7185]/10 border border-[#fb7185]/30 text-[#fb7185] space-y-3 min-w-0">
+                    <strong className="text-xs font-black block truncate">× JSON validation failed</strong>
+                    <p className="text-xs font-bold truncate">{parsed.error?.message}</p>
+                    {parsed.error?.line && (
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 min-w-0">
+                        <div className="p-3 rounded-xl border border-line bg-surface text-ink min-w-0 truncate">
+                          <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Line</span>
+                          <strong className="text-xs font-black truncate">{parsed.error.line}</strong>
+                        </div>
+                        <div className="p-3 rounded-xl border border-line bg-surface text-ink min-w-0 truncate">
+                          <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Column</span>
+                          <strong className="text-xs font-black truncate">{parsed.error.column}</strong>
+                        </div>
+                        <div className="p-3 rounded-xl border border-line bg-surface text-ink min-w-0 truncate">
+                          <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Position</span>
+                          <strong className="text-xs font-black truncate">{parsed.error.position}</strong>
+                        </div>
                       </div>
-
-                      <div>
-                        <span>
-                          Position
-                        </span>
-
-                        <b>
-                          {
-                            parsed
-                              .error
-                              .position
-                          }
-                        </b>
-                      </div>
-
-                    </div>
-                  )}
-
-                  {parsed.error
-                    ?.snippet && (
-                    <pre className="jf-error-snippet">
-                      {
-                        parsed
-                          .error
-                          .snippet
-                      }
-                    </pre>
-                  )}
-
-                </div>
-              )}
-
-            </div>
-          )}
-
-          {/* TREE */}
-
-          {tab === "tree" && (
-            <div className="jf-tree">
-
-              {parsed.valid ? (
-                <TreeNode
-                  name={
-                    Array.isArray(
-                      parsed.value
-                    )
-                      ? "root[]"
-                      : "root"
-                  }
-                  value={
-                    parsed.value
-                  }
-                />
-              ) : (
-                <div className="jf-empty">
-                  Fix the JSON first
-                  to inspect its tree.
-                </div>
-              )}
-
-            </div>
-          )}
-
-          {/* PATH FINDER */}
-
-          {tab === "path" && (
-            <div className="jf-path">
-
-              <div className="jf-path-search">
-
-                <input
-                  value={query}
-                  onChange={(event) =>
-                    setQuery(
-                      event.target.value
-                    )
-                  }
-                  onKeyDown={(event) => {
-                    if (
-                      event.key ===
-                      "Enter"
-                    ) {
-                      runQuery();
-                    }
-                  }}
-                  placeholder="Example: project.owner.name"
-                />
-
-                <button
-                  onClick={runQuery}
-                >
-                  Find Value
-                </button>
-
-              </div>
-
-              <small>
-                Use dot notation, e.g.
-                {" "}
-                <b>
-                  project.owner.name
-                </b>
-                {" "}
-                or
-                {" "}
-                <b>
-                  $.settings.theme
-                </b>
-              </small>
-
-              {queryResult && (
-                <div
-                  className={
-                    queryResult.found
-                      ? "jf-path-result found"
-                      : "jf-path-result missing"
-                  }
-                >
-
-                  {queryResult.found ? (
-                    <>
-                      <strong>
-                        ✓ Value found
-                      </strong>
-
-                      <pre>
-                        {JSON.stringify(
-                          queryResult.value,
-                          null,
-                          2
-                        )}
+                    )}
+                    {parsed.error?.snippet && (
+                      <pre className="p-3 rounded-xl bg-surface text-[#fb7185] text-xs font-mono overflow-auto m-0 whitespace-pre-wrap word-break-all tabular-nums">
+                        {parsed.error.snippet}
                       </pre>
-                    </>
-                  ) : (
-                    <strong>
-                      × Path not found
-                    </strong>
-                  )}
-
-                </div>
-              )}
-
-            </div>
-          )}
-
-          {/* INSPECTOR */}
-
-          {tab === "stats" && (
-            <div className="jf-inspector">
-
-              {stats ? (
-                <>
-                  <div className="jf-stat-grid">
-
-                    <div>
-                      <span>
-                        Root type
-                      </span>
-
-                      <b>
-                        {stats.type}
-                      </b>
-                    </div>
-
-                    <div>
-                      <span>
-                        Total nodes
-                      </span>
-
-                      <b>
-                        {stats.nodes}
-                      </b>
-                    </div>
-
-                    <div>
-                      <span>
-                        Total keys
-                      </span>
-
-                      <b>
-                        {stats.keys}
-                      </b>
-                    </div>
-
-                    <div>
-                      <span>
-                        Max depth
-                      </span>
-
-                      <b>
-                        {stats.depth}
-                      </b>
-                    </div>
-
-                    <div>
-                      <span>
-                        Empty / null
-                      </span>
-
-                      <b>
-                        {stats.empty}
-                      </b>
-                    </div>
-
-                    <div>
-                      <span>
-                        JSON size
-                      </span>
-
-                      <b>
-                        {formatBytes(
-                          stats.size
-                        )}
-                      </b>
-                    </div>
-
+                    )}
                   </div>
+                )}
+              </div>
+            )}
 
-                  <div className="jf-insight">
+            {/* TREE TAB */}
+            {tab === "tree" && (
+              <div className="bg-surface text-ink rounded-xl p-4 max-h-[450px] overflow-auto min-w-0 border border-line">
+                {parsed.valid ? (
+                  <TreeNode name={Array.isArray(parsed.value) ? "root[]" : "root"} value={parsed.value} />
+                ) : (
+                  <div className="text-center py-8 text-muted text-xs font-bold">Fix the JSON first to inspect its tree.</div>
+                )}
+              </div>
+            )}
 
-                    <strong>
-                      Smart inspection
-                    </strong>
-
-                    <p>
-                      This inspector analyzes
-                      your JSON locally and
-                      shows structural
-                      information without
-                      uploading the data.
-                    </p>
-
-                  </div>
-
-                </>
-              ) : (
-                <div className="jf-empty">
-                  Valid JSON is required
-                  for inspection.
+            {/* PATH FINDER TAB */}
+            {tab === "path" && (
+              <div className="space-y-4 min-w-0">
+                <div className="flex flex-col sm:flex-row gap-2.5 min-w-0">
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    onKeyDown={(event) => { if (event.key === "Enter") runQuery(); }}
+                    placeholder="Example: project.owner.name"
+                    className="flex-1 min-w-0 bg-surface border border-line rounded-xl px-4 py-3 text-xs font-mono text-ink outline-none focus:border-brand"
+                  />
+                  <button
+                    type="button"
+                    onClick={runQuery}
+                    className="px-5 py-3 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-widest shrink-0"
+                  >
+                    Find Value
+                  </button>
                 </div>
-              )}
+                <small className="text-[10px] font-bold text-muted block truncate">
+                  Use dot notation, e.g. <b>project.owner.name</b> or <b>$.settings.theme</b>
+                </small>
 
-            </div>
-          )}
+                {queryResult && (
+                  <div className={`p-4 rounded-xl border transition-all min-w-0 ${queryResult.found ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-500" : "bg-[#fb7185]/10 border-[#fb7185]/30 text-[#fb7185]"}`}>
+                    {queryResult.found ? (
+                      <div className="space-y-2 min-w-0">
+                        <strong className="text-xs font-black block truncate">✓ Value found</strong>
+                        <pre className="p-3 rounded-xl bg-surface text-ink font-mono text-xs overflow-auto m-0 whitespace-pre-wrap word-break-all tabular-nums border border-line">
+                          {JSON.stringify(queryResult.value, null, 2)}
+                        </pre>
+                      </div>
+                    ) : (
+                      <strong className="text-xs font-black block truncate">× Path not found</strong>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
+            {/* INSPECTOR TAB */}
+            {tab === "stats" && (
+              <div className="space-y-4 min-w-0">
+                {stats ? (
+                  <>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 min-w-0">
+                      <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                        <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Root type</span>
+                        <strong className="text-xs font-black text-ink mt-0.5 block truncate">{stats.type}</strong>
+                      </div>
+                      <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                        <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Total nodes</span>
+                        <strong className="text-xs font-black text-ink mt-0.5 block truncate">{stats.nodes}</strong>
+                      </div>
+                      <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                        <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Total keys</span>
+                        <strong className="text-xs font-black text-ink mt-0.5 block truncate">{stats.keys}</strong>
+                      </div>
+                      <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                        <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Max depth</span>
+                        <strong className="text-xs font-black text-ink mt-0.5 block truncate">{stats.depth}</strong>
+                      </div>
+                      <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                        <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">Empty / null</span>
+                        <strong className="text-xs font-black text-ink mt-0.5 block truncate">{stats.empty}</strong>
+                      </div>
+                      <div className="p-3.5 rounded-xl border border-line bg-surface min-w-0 truncate">
+                        <span className="text-[9px] font-black text-muted uppercase tracking-wider block truncate">JSON size</span>
+                        <strong className="text-xs font-black text-ink mt-0.5 block truncate">{formatBytes(stats.size)}</strong>
+                      </div>
+                    </div>
+                    <div className="p-4 rounded-xl bg-surface border border-line min-w-0 truncate">
+                      <strong className="text-xs font-black text-ink block truncate">Smart inspection</strong>
+                      <p className="text-xs text-muted mt-1 truncate">This inspector analyzes your JSON locally and shows structural information without uploading data.</p>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-8 text-muted text-xs font-bold">Valid JSON is required for inspection.</div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* HISTORY */}
-
         {history.length > 0 && (
-          <div className="jf-history">
-
-            <div>
-              <b>
-                Recent versions
-              </b>
-
-              <small>
-                Restore one of your last
-                formatted inputs.
-              </small>
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl flex flex-wrap items-center justify-between gap-4 min-w-0">
+            <div className="min-w-0 truncate">
+              <span className="text-xs font-black text-ink uppercase tracking-wider block truncate">Recent versions</span>
+              <small className="text-[10px] font-bold text-muted block truncate">Restore one of your last formatted inputs.</small>
             </div>
-
-            <div className="jf-history-list">
-
-              {history.map(
-                (item, index) => (
-                  <button
-                    key={index}
-                    onClick={() =>
-                      setInput(item)
-                    }
-                  >
-                    Version{" "}
-                    {history.length -
-                      index}
-                  </button>
-                )
-              )}
-
+            <div className="flex flex-wrap gap-2 shrink-0 min-w-0">
+              {history.map((item, index) => (
+                <button
+                  type="button"
+                  key={index}
+                  onClick={() => setInput(item)}
+                  className="px-3 py-2 rounded-xl border border-line bg-surface text-ink text-[10px] font-black uppercase tracking-wider hover:bg-paper transition-all truncate"
+                >
+                  Version {history.length - index}
+                </button>
+              ))}
             </div>
-
           </div>
         )}
 
       </div>
-
-      <style jsx>{`
-
-        .json-tool {
-          width: 100%;
-          min-height: 100%;
-          box-sizing: border-box;
-          padding: 22px;
-          background: var(--json-bg, #f6f8fc);
-          color: var(--json-text, #111827);
-        }
-
-        .jf-shell {
-          width: 100%;
-          max-width: 1450px;
-          margin: 0 auto;
-        }
-
-        .jf-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          gap: 20px;
-          margin-bottom: 17px;
-        }
-
-        .jf-eyebrow {
-          color: #6366f1;
-          font-size: 10px;
-          font-weight: 900;
-          letter-spacing: .13em;
-          margin-bottom: 5px;
-        }
-
-        .jf-top h1 {
-          margin: 0;
-          font-size: 28px;
-          line-height: 1.1;
-          font-weight: 900;
-          letter-spacing: -.03em;
-        }
-
-        .jf-top h1 span {
-          color: #6366f1;
-        }
-
-        .jf-top p {
-          margin: 7px 0 0;
-          color: #64748b;
-          font-size: 12px;
-          line-height: 1.5;
-        }
-
-        .jf-actions {
-          display: flex;
-          gap: 8px;
-        }
-
-        button {
-          font-family: inherit;
-        }
-
-        .jf-actions button {
-          border: 0;
-          border-radius: 9px;
-          padding: 10px 13px;
-          cursor: pointer;
-          font-size: 11px;
-          font-weight: 800;
-        }
-
-        .jf-soft {
-          background: #eef2ff;
-          color: #4338ca;
-        }
-
-        .jf-danger {
-          background: #fff1f2;
-          color: #be123c;
-        }
-
-        .jf-status {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 15px;
-          padding: 11px 14px;
-          border: 1px solid;
-          border-radius: 11px;
-          margin-bottom: 15px;
-          font-size: 11px;
-        }
-
-        .jf-status.valid {
-          background: #ecfdf5;
-          border-color: #a7f3d0;
-          color: #047857;
-        }
-
-        .jf-status.invalid {
-          background: #fff1f2;
-          border-color: #fecdd3;
-          color: #be123c;
-        }
-
-        .jf-status b {
-          margin-right: 10px;
-        }
-
-        .jf-status span {
-          opacity: .8;
-        }
-
-        .jf-status-meta {
-          font-weight: 750;
-          white-space: nowrap;
-        }
-
-        .jf-editor-grid {
-          display: grid;
-          grid-template-columns:
-            minmax(0, 1fr)
-            minmax(0, 1fr);
-          gap: 14px;
-        }
-
-        .jf-card {
-          background: #fff;
-          border: 1px solid #e2e8f0;
-          border-radius: 14px;
-          overflow: hidden;
-        }
-
-        .jf-card-head {
-          min-height: 54px;
-          padding: 10px 13px;
-          box-sizing: border-box;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          border-bottom: 1px solid #e2e8f0;
-        }
-
-        .jf-card-head b {
-          display: block;
-          font-size: 12px;
-          font-weight: 850;
-        }
-
-        .jf-card-head small {
-          display: block;
-          margin-top: 2px;
-          color: #94a3b8;
-          font-size: 9px;
-        }
-
-        .jf-mini-actions {
-          display: flex;
-          gap: 5px;
-        }
-
-        .jf-mini-actions button {
-          border: 1px solid #e2e8f0;
-          background: #f8fafc;
-          color: #475569;
-          border-radius: 7px;
-          padding: 7px 9px;
-          cursor: pointer;
-          font-size: 10px;
-          font-weight: 750;
-        }
-
-        .jf-editor,
-        .jf-output {
-          width: 100%;
-          height: 365px;
-          min-height: 250px;
-          margin: 0;
-          box-sizing: border-box;
-          border: 0;
-          outline: 0;
-          padding: 15px;
-          resize: vertical;
-          font-family:
-            ui-monospace,
-            SFMono-Regular,
-            Menlo,
-            Monaco,
-            Consolas,
-            monospace;
-          font-size: 12px;
-          line-height: 1.65;
-          background: #0b1120;
-          color: #dbeafe;
-        }
-
-        .jf-editor {
-          resize: vertical;
-        }
-
-        .jf-output {
-          overflow: auto;
-          white-space: pre-wrap;
-          word-break: break-word;
-        }
-
-        .jf-editor-footer {
-          display: flex;
-          gap: 14px;
-          padding: 8px 13px;
-          color: #94a3b8;
-          font-size: 9px;
-          border-top: 1px solid #1e293b;
-          background: #0b1120;
-        }
-
-        .jf-controls {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          flex-wrap: wrap;
-          padding: 12px 0;
-        }
-
-        .jf-control-group label {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          color: #64748b;
-          font-size: 10px;
-          font-weight: 800;
-        }
-
-        .jf-control-group select {
-          border: 1px solid #dbe1ea;
-          background: #fff;
-          color: #334155;
-          border-radius: 7px;
-          padding: 8px;
-          font-size: 10px;
-        }
-
-        .jf-check {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 10px;
-          font-weight: 750;
-          color: #475569;
-          cursor: pointer;
-        }
-
-        .jf-check input {
-          accent-color: #4f46e5;
-        }
-
-        .jf-format {
-          margin-left: auto;
-          border: 0;
-          border-radius: 8px;
-          background: #4f46e5;
-          color: white;
-          padding: 9px 15px;
-          cursor: pointer;
-          font-size: 11px;
-          font-weight: 850;
-        }
-
-        .jf-bottom {
-          padding: 0;
-        }
-
-        .jf-tabs {
-          display: flex;
-          gap: 20px;
-          padding: 0 14px;
-          border-bottom: 1px solid #e2e8f0;
-          overflow-x: auto;
-        }
-
-        .jf-tabs button {
-          flex-shrink: 0;
-          border: 0;
-          background: transparent;
-          padding: 12px 2px;
-          color: #64748b;
-          cursor: pointer;
-          font-size: 11px;
-          font-weight: 800;
-          border-bottom: 2px solid transparent;
-        }
-
-        .jf-tabs button.active {
-          color: #4f46e5;
-          border-bottom-color: #4f46e5;
-        }
-
-        .jf-info,
-        .jf-validation,
-        .jf-tree,
-        .jf-path,
-        .jf-inspector {
-          padding: 17px;
-        }
-
-        .jf-info-grid {
-          display: grid;
-          grid-template-columns:
-            repeat(3, 1fr);
-          gap: 9px;
-        }
-
-        .jf-info-grid div,
-        .jf-stat-grid div,
-        .jf-error-grid div {
-          border: 1px solid #e2e8f0;
-          border-radius: 9px;
-          padding: 11px;
-        }
-
-        .jf-info-grid span,
-        .jf-stat-grid span,
-        .jf-error-grid span {
-          display: block;
-          color: #94a3b8;
-          font-size: 9px;
-          margin-bottom: 4px;
-        }
-
-        .jf-info-grid b,
-        .jf-stat-grid b,
-        .jf-error-grid b {
-          font-size: 12px;
-        }
-
-        .jf-shortcut,
-        .jf-note {
-          margin-top: 11px;
-          padding: 10px;
-          border-radius: 8px;
-          background: #6366f110;
-          color: #4f46e5;
-          font-size: 10px;
-          line-height: 1.5;
-        }
-
-        .jf-success-box {
-          padding: 14px;
-          border-radius: 10px;
-          background: #ecfdf5;
-          color: #047857;
-          border: 1px solid #a7f3d0;
-        }
-
-        .jf-success-box strong,
-        .jf-error-box strong {
-          font-size: 13px;
-        }
-
-        .jf-success-box p,
-        .jf-error-box p {
-          font-size: 11px;
-          margin: 5px 0;
-        }
-
-        .jf-warning {
-          margin-top: 10px;
-          padding: 9px;
-          border-radius: 7px;
-          background: #fef3c7;
-          color: #92400e;
-          font-size: 10px;
-        }
-
-        .jf-error-box {
-          padding: 14px;
-          border-radius: 10px;
-          background: #fff1f2;
-          color: #be123c;
-          border: 1px solid #fecdd3;
-        }
-
-        .jf-error-grid {
-          display: grid;
-          grid-template-columns:
-            repeat(3, 1fr);
-          gap: 8px;
-          margin-top: 12px;
-        }
-
-        .jf-error-snippet {
-          margin: 10px 0 0;
-          padding: 11px;
-          border-radius: 8px;
-          background: #111827;
-          color: #fca5a5;
-          white-space: pre-wrap;
-          word-break: break-word;
-          font-size: 10px;
-          line-height: 1.5;
-        }
-
-        .jf-tree {
-          max-height: 450px;
-          overflow: auto;
-          background: #0b1120;
-          color: #e2e8f0;
-          margin: 14px;
-          border-radius: 9px;
-          padding: 8px 0;
-        }
-
-        .jf-tree-row {
-          width: 100%;
-          box-sizing: border-box;
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          min-height: 27px;
-          font-family:
-            ui-monospace,
-            SFMono-Regular,
-            Menlo,
-            monospace;
-          font-size: 10px;
-        }
-
-        .jf-tree-button {
-          border: 0;
-          background: transparent;
-          color: inherit;
-          cursor: pointer;
-          text-align: left;
-        }
-
-        .jf-arrow {
-          width: 12px;
-          color: #818cf8;
-        }
-
-        .jf-tree-key {
-          color: #c4b5fd;
-        }
-
-        .jf-container-type {
-          color: #64748b;
-          font-size: 9px;
-        }
-
-        .jf-type {
-          word-break: break-word;
-        }
-
-        .jf-string {
-          color: #86efac;
-        }
-
-        .jf-number {
-          color: #93c5fd;
-        }
-
-        .jf-boolean {
-          color: #fcd34d;
-        }
-
-        .jf-null {
-          color: #fda4af;
-        }
-
-        .jf-path-search {
-          display: flex;
-          gap: 7px;
-        }
-
-        .jf-path-search input {
-          flex: 1;
-          min-width: 0;
-          border: 1px solid #dbe1ea;
-          border-radius: 8px;
-          padding: 10px;
-          outline: 0;
-          font-family:
-            ui-monospace,
-            SFMono-Regular,
-            Menlo,
-            monospace;
-          font-size: 11px;
-        }
-
-        .jf-path-search button {
-          border: 0;
-          border-radius: 8px;
-          background: #4f46e5;
-          color: #fff;
-          padding: 0 13px;
-          cursor: pointer;
-          font-size: 10px;
-          font-weight: 800;
-        }
-
-        .jf-path > small {
-          display: block;
-          color: #94a3b8;
-          margin-top: 7px;
-          font-size: 9px;
-        }
-
-        .jf-path-result {
-          margin-top: 12px;
-          padding: 12px;
-          border-radius: 9px;
-        }
-
-        .jf-path-result.found {
-          background: #ecfdf5;
-          color: #047857;
-        }
-
-        .jf-path-result.missing {
-          background: #fff1f2;
-          color: #be123c;
-        }
-
-        .jf-path-result pre {
-          margin: 8px 0 0;
-          padding: 10px;
-          border-radius: 7px;
-          background: #0b1120;
-          color: #dbeafe;
-          overflow: auto;
-          font-size: 10px;
-        }
-
-        .jf-stat-grid {
-          display: grid;
-          grid-template-columns:
-            repeat(3, 1fr);
-          gap: 9px;
-        }
-
-        .jf-insight {
-          margin-top: 12px;
-          padding: 12px;
-          border-radius: 9px;
-          background: #f8fafc;
-        }
-
-        .jf-insight strong {
-          font-size: 11px;
-        }
-
-        .jf-insight p {
-          margin: 4px 0 0;
-          color: #64748b;
-          font-size: 10px;
-          line-height: 1.5;
-        }
-
-        .jf-empty {
-          padding: 35px;
-          text-align: center;
-          color: #94a3b8;
-          font-size: 11px;
-        }
-
-        .jf-history {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          margin-top: 13px;
-          padding: 12px 14px;
-          border: 1px solid #e2e8f0;
-          border-radius: 10px;
-          background: #fff;
-        }
-
-        .jf-history b {
-          display: block;
-          font-size: 11px;
-        }
-
-        .jf-history small {
-          display: block;
-          color: #94a3b8;
-          margin-top: 3px;
-          font-size: 9px;
-        }
-
-        .jf-history-list {
-          display: flex;
-          gap: 6px;
-        }
-
-        .jf-history-list button {
-          border: 1px solid #e2e8f0;
-          background: #f8fafc;
-          color: #475569;
-          border-radius: 7px;
-          padding: 7px 9px;
-          cursor: pointer;
-          font-size: 9px;
-          font-weight: 750;
-        }
-
-        @media (max-width: 900px) {
-          .jf-editor-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        @media (max-width: 650px) {
-          .json-tool {
-            padding: 10px;
-          }
-
-          .jf-top {
-            align-items: stretch;
-            flex-direction: column;
-          }
-
-          .jf-actions {
-            width: 100%;
-          }
-
-          .jf-actions button {
-            flex: 1;
-          }
-
-          .jf-top h1 {
-            font-size: 23px;
-          }
-
-          .jf-status {
-            align-items: flex-start;
-            flex-direction: column;
-          }
-
-          .jf-status-meta {
-            white-space: normal;
-          }
-
-          .jf-info-grid,
-          .jf-stat-grid {
-            grid-template-columns:
-              repeat(2, 1fr);
-          }
-
-          .jf-error-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .jf-controls {
-            align-items: stretch;
-            flex-direction: column;
-          }
-
-          .jf-format {
-            width: 100%;
-            margin-left: 0;
-          }
-
-          .jf-history {
-            align-items: stretch;
-            flex-direction: column;
-          }
-
-          .jf-history-list {
-            flex-wrap: wrap;
-          }
-
-          .jf-path-search {
-            flex-direction: column;
-          }
-
-          .jf-path-search button {
-            height: 38px;
-          }
-        }
-
-      `}</style>
     </div>
   );
 }

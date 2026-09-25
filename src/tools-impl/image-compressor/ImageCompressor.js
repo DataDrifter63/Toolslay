@@ -1,267 +1,12 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Upload, Download, Trash2, Sliders, ShieldCheck, 
+  FileImage, CheckCircle2, AlertCircle, Plus
+} from "lucide-react";
 
 const h = React.createElement;
-
-const styles = {
-  wrap: {
-    width: "100%",
-    maxWidth: 980,
-    margin: "0 auto",
-    padding: 24,
-    fontFamily:
-      "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
-    color: "#111827",
-  },
-
-  card: {
-    background: "#ffffff",
-    border: "1px solid #e5e7eb",
-    borderRadius: 24,
-    overflow: "hidden",
-    boxShadow: "0 18px 55px rgba(15,23,42,.08)",
-  },
-
-  head: {
-    padding: "28px 28px 18px",
-  },
-
-  title: {
-    margin: 0,
-    fontSize: 30,
-    lineHeight: 1.15,
-    fontWeight: 800,
-    letterSpacing: "-.04em",
-  },
-
-  sub: {
-    margin: "9px 0 0",
-    color: "#64748b",
-    fontSize: 14,
-  },
-
-  drop: {
-    margin: "8px 28px 22px",
-    minHeight: 190,
-    border: "2px dashed #cbd5e1",
-    borderRadius: 20,
-    background: "#f8fafc",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    cursor: "pointer",
-    padding: 24,
-  },
-
-  dropActive: {
-    borderColor: "#4f46e5",
-    background: "#eef2ff",
-  },
-
-  uploadIcon: {
-    width: 54,
-    height: 54,
-    borderRadius: 16,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "0 auto 12px",
-    background: "#eef2ff",
-    color: "#4f46e5",
-    fontSize: 25,
-    fontWeight: 800,
-  },
-
-  controls: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3,minmax(0,1fr))",
-    gap: 14,
-    padding: "0 28px 22px",
-  },
-
-  field: {
-    border: "1px solid #e2e8f0",
-    borderRadius: 16,
-    padding: 14,
-    background: "#fff",
-  },
-
-  label: {
-    display: "block",
-    fontSize: 12,
-    fontWeight: 700,
-    color: "#475569",
-    marginBottom: 8,
-  },
-
-  input: {
-    width: "100%",
-    border: "1px solid #dbe2ea",
-    borderRadius: 11,
-    padding: "10px 11px",
-    fontSize: 14,
-    outline: "none",
-    background: "#fff",
-    color: "#0f172a",
-  },
-
-  select: {
-    width: "100%",
-    border: "1px solid #dbe2ea",
-    borderRadius: 11,
-    padding: "10px 11px",
-    fontSize: 14,
-    outline: "none",
-    background: "#fff",
-    color: "#0f172a",
-  },
-
-  range: {
-    width: "100%",
-    accentColor: "#4f46e5",
-  },
-
-  row: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-
-  actions: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 10,
-    padding: "0 28px 24px",
-  },
-
-  btn: {
-    border: 0,
-    borderRadius: 12,
-    padding: "12px 17px",
-    fontWeight: 750,
-    fontSize: 14,
-    cursor: "pointer",
-    background: "#eef2f7",
-    color: "#0f172a",
-  },
-
-  primary: {
-    background: "#4f46e5",
-    color: "white",
-    boxShadow: "0 8px 18px rgba(79,70,229,.2)",
-  },
-
-  danger: {
-    background: "#fff1f2",
-    color: "#be123c",
-  },
-
-  stats: {
-    display: "grid",
-    gridTemplateColumns: "repeat(4,minmax(0,1fr))",
-    gap: 12,
-    padding: "0 28px 24px",
-  },
-
-  stat: {
-    border: "1px solid #e5e7eb",
-    borderRadius: 15,
-    padding: 14,
-    background: "#fafafa",
-  },
-
-  statLabel: {
-    fontSize: 11,
-    color: "#64748b",
-    textTransform: "uppercase",
-    letterSpacing: ".06em",
-    fontWeight: 700,
-  },
-
-  statValue: {
-    marginTop: 6,
-    fontSize: 18,
-    fontWeight: 800,
-  },
-
-  list: {
-    borderTop: "1px solid #e5e7eb",
-  },
-
-  item: {
-    display: "grid",
-    gridTemplateColumns: "58px 1fr auto",
-    gap: 14,
-    alignItems: "center",
-    padding: "15px 28px",
-    borderBottom: "1px solid #eef2f7",
-  },
-
-  thumb: {
-    width: 58,
-    height: 58,
-    objectFit: "cover",
-    borderRadius: 12,
-    border: "1px solid #e5e7eb",
-    background: "#f1f5f9",
-  },
-
-  itemName: {
-    fontSize: 14,
-    fontWeight: 750,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-  },
-
-  itemMeta: {
-    marginTop: 5,
-    fontSize: 12,
-    color: "#64748b",
-  },
-
-  badge: {
-    display: "inline-block",
-    marginLeft: 6,
-    padding: "3px 7px",
-    borderRadius: 999,
-    background: "#ecfdf5",
-    color: "#047857",
-    fontWeight: 700,
-  },
-
-  footer: {
-    padding: "15px 28px",
-    background: "#fafafa",
-    color: "#64748b",
-    fontSize: 12,
-  },
-
-  empty: {
-    padding: "34px 28px",
-    textAlign: "center",
-    color: "#64748b",
-  },
-
-  error: {
-    margin: "0 28px 20px",
-    padding: "12px 14px",
-    borderRadius: 12,
-    background: "#fff1f2",
-    color: "#be123c",
-    fontSize: 13,
-    fontWeight: 650,
-  },
-
-  hint: {
-    fontSize: 12,
-    color: "#64748b",
-    marginTop: 6,
-  },
-};
 
 function formatBytes(bytes) {
   if (!Number.isFinite(bytes) || bytes <= 0) {
@@ -466,11 +211,6 @@ async function compressFile(file, settings) {
     settings.quality / 100
   );
 
-  /*
-   * Smart target-size compression.
-   * First reduce quality.
-   * If still above target, reduce dimensions.
-   */
   if (
     settings.targetKB > 0 &&
     mime !== "image/png" &&
@@ -564,12 +304,6 @@ async function compressFile(file, settings) {
     }
   }
 
-  /*
-   * Important:
-   * If compression output somehow becomes larger
-   * than the original file, keep the original file
-   * instead of creating a heavier "compressed" file.
-   */
   if (
     blob.size >= file.size &&
     settings.targetKB <= 0
@@ -595,43 +329,24 @@ async function compressFile(file, settings) {
 }
 
 export default function ImageCompressor() {
+  const [isMounted, setIsMounted] = useState(false);
   const inputRef = useRef(null);
 
   const [files, setFiles] = useState([]);
   const [results, setResults] = useState([]);
 
-  const [quality, setQuality] =
-    useState(80);
+  const [quality, setQuality] = useState(80);
+  const [format, setFormat] = useState("webp");
+  const [maxWidth, setMaxWidth] = useState(0);
+  const [maxHeight, setMaxHeight] = useState(0);
+  const [targetKB, setTargetKB] = useState(0);
+  const [autoDownload, setAutoDownload] = useState(true);
+  const [dragging, setDragging] = useState(false);
+  const [working, setWorking] = useState(false);
+  const [error, setError] = useState("");
 
-  const [format, setFormat] =
-    useState("webp");
-
-  const [maxWidth, setMaxWidth] =
-    useState(0);
-
-  const [maxHeight, setMaxHeight] =
-    useState(0);
-
-  const [targetKB, setTargetKB] =
-    useState(0);
-
-  const [autoDownload, setAutoDownload] =
-    useState(true);
-
-  const [dragging, setDragging] =
-    useState(false);
-
-  const [working, setWorking] =
-    useState(false);
-
-  const [error, setError] =
-    useState("");
-
-  /*
-   * Clean generated preview URLs when
-   * component is removed.
-   */
   useEffect(function () {
+    setIsMounted(true);
     return function () {
       results.forEach(function (item) {
         if (item.preview) {
@@ -670,10 +385,6 @@ export default function ImageCompressor() {
           .slice(0, 50);
       });
 
-      /*
-       * Clear old compression results
-       * when new images are selected.
-       */
       setResults([]);
     },
     []
@@ -681,21 +392,13 @@ export default function ImageCompressor() {
 
   function onInputChange(event) {
     addFiles(event.target.files);
-
-    /*
-     * Allows selecting the same file again.
-     */
     event.target.value = "";
   }
 
   function onDrop(event) {
     event.preventDefault();
-
     setDragging(false);
-
-    addFiles(
-      event.dataTransfer.files
-    );
+    addFiles(event.dataTransfer.files);
   }
 
   function removeFile(index) {
@@ -789,10 +492,6 @@ export default function ImageCompressor() {
 
           output.push(item);
 
-          /*
-           * Update UI immediately after
-           * every image is processed.
-           */
           setResults(
             output.slice()
           );
@@ -892,865 +591,384 @@ export default function ImageCompressor() {
       }
     ).length;
 
-  function stat(label, value) {
-    return h(
-      "div",
-      {
-        style: styles.stat,
-      },
-      h(
-        "div",
-        {
-          style: styles.statLabel,
-        },
-        label
-      ),
-      h(
-        "div",
-        {
-          style: styles.statValue,
-        },
-        value
-      )
-    );
-  }
+  if (!isMounted) return null;
 
-  return h(
-    "div",
-    {
-      style: styles.wrap,
-    },
+  return (
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
+      
+      {/* Header */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border relative overflow-hidden">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="bg-paper p-2.5 sm:p-3.5 rounded-xl border border-line shrink-0">
+            <Sliders className="w-5 h-5 sm:w-6 sm:h-6 text-brand" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-2xl font-black text-ink tracking-tight truncate">
+              Image Compressor
+            </h2>
+            <p className="text-[9px] sm:text-[10px] font-black text-brand uppercase tracking-widest mt-0.5 whitespace-normal leading-relaxed">
+              Compress images locally with smart quality, target-size and dimension controls.
+            </p>
+          </div>
+        </div>
+        <div className="px-3 py-1.5 rounded-xl bg-surface border border-line text-brand text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1.5 shadow-sm">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Local Browser Processing
+        </div>
+      </div>
 
-    h(
-      "div",
-      {
-        style: styles.card,
-      },
+      <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6">
 
-      h(
-        "div",
-        {
-          style: styles.head,
-        },
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          multiple={true}
+          onChange={onInputChange}
+          className="hidden"
+        />
 
-        h(
-          "h2",
-          {
-            style: styles.title,
-          },
-          "Image Compressor"
-        ),
-
-        h(
-          "p",
-          {
-            style: styles.sub,
-          },
-          "Compress images locally with smart quality, target-size and dimension controls. Your images never leave this browser."
-        )
-      ),
-
-      h("input", {
-        ref: inputRef,
-        type: "file",
-        accept: "image/*",
-        multiple: true,
-        onChange: onInputChange,
-        style: {
-          display: "none",
-        },
-      }),
-
-      h(
-        "div",
-        {
-          style: Object.assign(
-            {},
-            styles.drop,
-            dragging
-              ? styles.dropActive
-              : {}
-          ),
-
-          onClick: function () {
-            if (
-              inputRef.current
-            ) {
+        {/* Dropzone */}
+        <div
+          onClick={function () {
+            if (inputRef.current) {
               inputRef.current.click();
             }
-          },
+          }}
+          onDragOver={function (event) {
+            event.preventDefault();
+            setDragging(true);
+          }}
+          onDragEnter={function (event) {
+            event.preventDefault();
+            setDragging(true);
+          }}
+          onDragLeave={function () {
+            setDragging(false);
+          }}
+          onDrop={onDrop}
+          className={`border-2 border-dashed rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-all ${
+            dragging ? "border-brand bg-surface" : "border-line bg-surface hover:border-brand"
+          }`}
+        >
+          <div className="w-14 h-14 mx-auto mb-3 rounded-xl bg-paper border border-line flex items-center justify-center text-brand text-2xl shadow-sm">
+            <Upload className="w-6 h-6 shrink-0" />
+          </div>
 
-          onDragOver:
-            function (event) {
-              event.preventDefault();
-              setDragging(true);
-            },
+          <div className="text-sm sm:text-base font-black text-ink tracking-tight">
+            {dragging ? "Drop images now" : "Drop your images here"}
+          </div>
 
-          onDragEnter:
-            function (event) {
-              event.preventDefault();
-              setDragging(true);
-            },
+          <div className="text-xs text-muted mt-1">
+            or click to browse • JPG, PNG, WebP, GIF and more
+          </div>
 
-          onDragLeave:
-            function () {
-              setDragging(false);
-            },
+          {files.length > 0 && (
+            <div className="mt-3 inline-block px-3 py-1 rounded-full bg-surface border border-line text-brand text-xs font-black uppercase tracking-wider shadow-sm">
+              {files.length} image{files.length === 1 ? "" : "s"} selected
+            </div>
+          )}
+        </div>
 
-          onDrop: onDrop,
-        },
+        {/* Controls Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          <div className="p-4 bg-surface border border-line rounded-xl space-y-2 shadow-inner">
+            <label className="text-[10px] font-black uppercase tracking-wider text-muted flex justify-between">
+              <span>Compression Quality</span>
+              <span className="font-mono text-brand font-black">{quality}%</span>
+            </label>
+            <input
+              type="range"
+              min={10}
+              max={100}
+              value={quality}
+              onChange={function (event) {
+                setQuality(Number(event.target.value));
+              }}
+              className="w-full h-1.5 bg-paper rounded-lg appearance-none cursor-pointer accent-brand border border-line mt-2"
+            />
+            <div className="text-[10px] text-muted truncate">Higher = better quality • Lower = smaller file</div>
+          </div>
 
-        h(
-          "div",
-          null,
+          <div className="p-4 bg-surface border border-line rounded-xl space-y-2 shadow-inner">
+            <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Output Format</label>
+            <select
+              value={format}
+              onChange={function (event) {
+                setFormat(event.target.value);
+              }}
+              className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
+            >
+              <option value="webp">WebP — Recommended</option>
+              <option value="jpeg">JPG — Maximum compatibility</option>
+              <option value="png">PNG — Lossless</option>
+            </select>
+            <div className="text-[10px] text-muted truncate">
+              {format === "png" ? "PNG is lossless and can sometimes be larger." : "WebP/JPG usually produce the biggest savings."}
+            </div>
+          </div>
 
-          h(
-            "div",
-            {
-              style:
-                styles.uploadIcon,
-            },
-            "↑"
-          ),
+          <div className="p-4 bg-surface border border-line rounded-xl space-y-2 shadow-inner">
+            <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Smart Target Size (KB)</label>
+            <input
+              type="number"
+              min={0}
+              placeholder="e.g. 300"
+              value={targetKB || ""}
+              onChange={function (event) {
+                setTargetKB(event.target.value === "" ? 0 : Number(event.target.value));
+              }}
+              className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none"
+            />
+            <div className="text-[10px] text-muted truncate">Optional. Best with WebP or JPG.</div>
+          </div>
 
-          h(
-            "div",
-            {
-              style: {
-                fontWeight: 800,
-                fontSize: 17,
-              },
-            },
-            dragging
-              ? "Drop images now"
-              : "Drop your images here"
-          ),
+          <div className="p-4 bg-surface border border-line rounded-xl space-y-2 shadow-inner">
+            <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Max Width (px)</label>
+            <input
+              type="number"
+              min={0}
+              placeholder="Original"
+              value={maxWidth || ""}
+              onChange={function (event) {
+                setMaxWidth(event.target.value === "" ? 0 : Number(event.target.value));
+              }}
+              className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none"
+            />
+          </div>
 
-          h(
-            "div",
-            {
-              style: {
-                marginTop: 6,
-                color: "#64748b",
-                fontSize: 13,
-              },
-            },
-            "or click to browse • JPG, PNG, WebP, GIF and more"
-          ),
+          <div className="p-4 bg-surface border border-line rounded-xl space-y-2 shadow-inner">
+            <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Max Height (px)</label>
+            <input
+              type="number"
+              min={0}
+              placeholder="Original"
+              value={maxHeight || ""}
+              onChange={function (event) {
+                setMaxHeight(event.target.value === "" ? 0 : Number(event.target.value));
+              }}
+              className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none"
+            />
+          </div>
 
-          files.length
-            ? h(
+          <div className="p-4 bg-surface border border-line rounded-xl flex flex-col justify-between shadow-inner">
+            <div className="flex items-center justify-between">
+              <label className="text-[10px] font-black uppercase tracking-wider text-muted">Auto Download</label>
+              <input
+                type="checkbox"
+                checked={autoDownload}
+                onChange={function (event) {
+                  setAutoDownload(event.target.checked);
+                }}
+                className="w-4 h-4 accent-brand rounded border-line cursor-pointer shrink-0"
+              />
+            </div>
+            <div className="text-[10px] text-muted mt-2">
+              {autoDownload ? "Each successful result downloads automatically." : "Results stay here until you download them."}
+            </div>
+          </div>
+
+        </div>
+
+        {error && (
+          <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-bold leading-relaxed shadow-sm flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" /> {error}
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-3 pt-2">
+          <button
+            type="button"
+            disabled={working || !files.length}
+            onClick={runCompression}
+            className={`flex-1 min-w-[140px] h-11 px-6 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm ${
+              working || !files.length
+                ? "bg-surface text-muted border border-line cursor-not-allowed opacity-50"
+                : "bg-brand text-surface hover:opacity-90 cursor-pointer"
+            }`}
+          >
+            <Sliders className="w-4 h-4 shrink-0" />
+            {working ? "Compressing…" : "Compress Images"}
+          </button>
+
+          <button
+            type="button"
+            onClick={function () {
+              if (inputRef.current) {
+                inputRef.current.click();
+              }
+            }}
+            className="h-11 px-4 rounded-xl border border-line bg-surface text-ink font-black text-xs uppercase tracking-wider hover:border-brand flex items-center gap-1.5 cursor-pointer shadow-sm"
+          >
+            <Plus className="w-4 h-4 shrink-0" /> Add Images
+          </button>
+
+          <button
+            type="button"
+            disabled={!successful}
+            onClick={downloadAll}
+            className={`h-11 px-4 rounded-xl border border-line bg-surface font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm ${
+              !successful ? "opacity-50 cursor-not-allowed text-muted" : "text-ink hover:border-brand cursor-pointer"
+            }`}
+          >
+            <Download className="w-4 h-4 shrink-0" /> Download All
+          </button>
+
+          <button
+            type="button"
+            onClick={clearAll}
+            className="h-11 px-6 rounded-xl border border-line bg-surface text-rose-600 dark:text-rose-400 font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm hover:bg-rose-500/10 cursor-pointer"
+          >
+            <Trash2 className="w-4 h-4 shrink-0" /> Clear
+          </button>
+        </div>
+
+        {/* Telemetry Stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+          <div className="p-3.5 bg-surface border border-line rounded-xl shadow-inner flex flex-col justify-center">
+            <span className="text-[9px] font-black uppercase tracking-wider text-muted">Images</span>
+            <span className="text-base font-black text-ink font-mono mt-1">{results.length ? String(results.length) : String(files.length)}</span>
+          </div>
+          <div className="p-3.5 bg-surface border border-line rounded-xl shadow-inner flex flex-col justify-center">
+            <span className="text-[9px] font-black uppercase tracking-wider text-muted">Original Size</span>
+            <span className="text-base font-black text-ink font-mono mt-1">{formatBytes(originalTotal)}</span>
+          </div>
+          <div className="p-3.5 bg-surface border border-line rounded-xl shadow-inner flex flex-col justify-center">
+            <span className="text-[9px] font-black uppercase tracking-wider text-muted">Compressed Size</span>
+            <span className="text-base font-black text-brand font-mono mt-1">{formatBytes(compressedTotal)}</span>
+          </div>
+          <div className="p-3.5 bg-surface border border-line rounded-xl shadow-inner flex flex-col justify-center">
+            <span className="text-[9px] font-black uppercase tracking-wider text-muted">Space Saved</span>
+            <span className="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono mt-1">{compressedTotal > 0 ? saved.toFixed(1) + "%" : "—"}</span>
+          </div>
+        </div>
+
+        {/* Results List */}
+        {results.length > 0 ? (
+          <div className="border border-line rounded-2xl overflow-hidden bg-surface shadow-sm divide-y divide-line">
+            {results.map(function (item, index) {
+              const percentSaved =
+                item.originalSize > 0 && item.blob
+                  ? Math.max(0, (1 - item.blob.size / item.originalSize) * 100)
+                  : 0;
+
+              return h(
                 "div",
                 {
-                  style: {
-                    marginTop: 10,
-                    color: "#4f46e5",
-                    fontSize: 12,
-                    fontWeight: 750,
-                  },
+                  key: item.name + "-" + index,
+                  className: "p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-surface hover:bg-paper/50 transition-colors",
                 },
-                files.length +
-                  " image" +
-                  (files.length === 1
-                    ? ""
-                    : "s") +
-                  " selected"
-              )
-            : null
-        )
-      ),
-
-      h(
-        "div",
-        {
-          style: styles.controls,
-        },
-
-        h(
-          "div",
-          {
-            style: styles.field,
-          },
-
-          h(
-            "label",
-            {
-              style: styles.label,
-            },
-            "Compression Quality — " +
-              quality +
-              "%"
-          ),
-
-          h("input", {
-            style: styles.range,
-            type: "range",
-            min: 10,
-            max: 100,
-            value: quality,
-
-            onChange:
-              function (event) {
-                setQuality(
-                  Number(
-                    event.target.value
-                  )
-                );
-              },
-          }),
-
-          h(
-            "div",
-            {
-              style: styles.hint,
-            },
-            "Higher = better quality • Lower = smaller file"
-          )
-        ),
-
-        h(
-          "div",
-          {
-            style: styles.field,
-          },
-
-          h(
-            "label",
-            {
-              style: styles.label,
-            },
-            "Output Format"
-          ),
-
-          h(
-            "select",
-            {
-              style: styles.select,
-              value: format,
-
-              onChange:
-                function (event) {
-                  setFormat(
-                    event.target.value
-                  );
-                },
-            },
-
-            h(
-              "option",
-              {
-                value: "webp",
-              },
-              "WebP — Recommended"
-            ),
-
-            h(
-              "option",
-              {
-                value: "jpeg",
-              },
-              "JPG — Maximum compatibility"
-            ),
-
-            h(
-              "option",
-              {
-                value: "png",
-              },
-              "PNG — Lossless"
-            )
-          ),
-
-          h(
-            "div",
-            {
-              style: styles.hint,
-            },
-            format === "png"
-              ? "PNG is lossless and can sometimes be larger."
-              : "WebP/JPG usually produce the biggest savings."
-          )
-        ),
-
-        h(
-          "div",
-          {
-            style: styles.field,
-          },
-
-          h(
-            "label",
-            {
-              style: styles.label,
-            },
-            "Smart Target Size (KB)"
-          ),
-
-          h("input", {
-            style: styles.input,
-            type: "number",
-            min: 0,
-            placeholder: "e.g. 300",
-            value:
-              targetKB || "",
-
-            onChange:
-              function (event) {
-                setTargetKB(
-                  event.target.value ===
-                    ""
-                    ? 0
-                    : Number(
-                        event.target
-                          .value
-                      )
-                );
-              },
-          }),
-
-          h(
-            "div",
-            {
-              style: styles.hint,
-            },
-            "Optional. Best with WebP or JPG."
-          )
-        ),
-
-        h(
-          "div",
-          {
-            style: styles.field,
-          },
-
-          h(
-            "label",
-            {
-              style: styles.label,
-            },
-            "Max Width (px)"
-          ),
-
-          h("input", {
-            style: styles.input,
-            type: "number",
-            min: 0,
-            placeholder: "Original",
-            value:
-              maxWidth || "",
-
-            onChange:
-              function (event) {
-                setMaxWidth(
-                  event.target.value ===
-                    ""
-                    ? 0
-                    : Number(
-                        event.target
-                          .value
-                      )
-                );
-              },
-          })
-        ),
-
-        h(
-          "div",
-          {
-            style: styles.field,
-          },
-
-          h(
-            "label",
-            {
-              style: styles.label,
-            },
-            "Max Height (px)"
-          ),
-
-          h("input", {
-            style: styles.input,
-            type: "number",
-            min: 0,
-            placeholder: "Original",
-            value:
-              maxHeight || "",
-
-            onChange:
-              function (event) {
-                setMaxHeight(
-                  event.target.value ===
-                    ""
-                    ? 0
-                    : Number(
-                        event.target
-                          .value
-                      )
-                );
-              },
-          })
-        ),
-
-        h(
-          "div",
-          {
-            style: styles.field,
-          },
-
-          h(
-            "div",
-            {
-              style: styles.row,
-            },
-
-            h(
-              "label",
-              {
-                style: Object.assign(
-                  {},
-                  styles.label,
-                  {
-                    marginBottom: 0,
-                  }
-                ),
-              },
-              "Auto Download"
-            ),
-
-            h("input", {
-              type: "checkbox",
-              checked: autoDownload,
-
-              onChange:
-                function (event) {
-                  setAutoDownload(
-                    event.target
-                      .checked
-                  );
-                },
-
-              style: {
-                width: 20,
-                height: 20,
-                accentColor:
-                  "#4f46e5",
-              },
-            })
-          ),
-
-          h(
-            "div",
-            {
-              style: styles.hint,
-            },
-            autoDownload
-              ? "Each successful result downloads automatically."
-              : "Results stay here until you download them."
-          )
-        )
-      ),
-
-      error
-        ? h(
-            "div",
-            {
-              style: styles.error,
-            },
-            error
-          )
-        : null,
-
-      h(
-        "div",
-        {
-          style: styles.actions,
-        },
-
-        h(
-          "button",
-          {
-            type: "button",
-
-            style: Object.assign(
-              {},
-              styles.btn,
-              styles.primary,
-
-              working ||
-              !files.length
-                ? {
-                    opacity: 0.55,
-                    cursor:
-                      "not-allowed",
-                  }
-                : {}
-            ),
-
-            disabled:
-              working ||
-              !files.length,
-
-            onClick:
-              runCompression,
-          },
-
-          working
-            ? "Compressing…"
-            : "Compress Images"
-        ),
-
-        h(
-          "button",
-          {
-            type: "button",
-            style: styles.btn,
-
-            onClick:
-              function () {
-                if (
-                  inputRef.current
-                ) {
-                  inputRef.current.click();
-                }
-              },
-          },
-          "+ Add Images"
-        ),
-
-        h(
-          "button",
-          {
-            type: "button",
-
-            style: Object.assign(
-              {},
-              styles.btn,
-
-              !successful
-                ? {
-                    opacity: 0.5,
-                    cursor:
-                      "not-allowed",
-                  }
-                : {}
-            ),
-
-            disabled:
-              !successful,
-
-            onClick:
-              downloadAll,
-          },
-
-          "Download All"
-        ),
-
-        h(
-          "button",
-          {
-            type: "button",
-
-            style: Object.assign(
-              {},
-              styles.btn,
-              styles.danger
-            ),
-
-            onClick:
-              clearAll,
-          },
-
-          "Clear"
-        )
-      ),
-
-      h(
-        "div",
-        {
-          style: styles.stats,
-        },
-
-        stat(
-          "Images",
-          results.length
-            ? String(
-                results.length
-              )
-            : String(files.length)
-        ),
-
-        stat(
-          "Original",
-          formatBytes(
-            originalTotal
-          )
-        ),
-
-        stat(
-          "Compressed",
-          formatBytes(
-            compressedTotal
-          )
-        ),
-
-        stat(
-          "Space Saved",
-          compressedTotal > 0
-            ? saved.toFixed(1) +
-                "%"
-            : "—"
-        )
-      ),
-
-      results.length
-        ? h(
-            "div",
-            {
-              style: styles.list,
-            },
-
-            results.map(
-              function (
-                item,
-                index
-              ) {
-                const percentSaved =
-                  item.originalSize >
-                    0 &&
-                  item.blob
-                    ? Math.max(
-                        0,
-                        (1 -
-                          item.blob
-                            .size /
-                            item.originalSize) *
-                          100
-                      )
-                    : 0;
-
-                return h(
-                  "div",
-                  {
-                    style:
-                      styles.item,
-
-                    key:
-                      item.name +
-                      "-" +
-                      index,
-                  },
-
-                  item.preview
-                    ? h("img", {
-                        src:
-                          item.preview,
-                        alt:
-                          item.name,
-                        style:
-                          styles.thumb,
-                      })
-                    : h(
-                        "div",
-                        {
-                          style:
-                            Object.assign(
-                              {},
-                              styles.thumb,
-                              {
-                                display:
-                                  "flex",
-                                alignItems:
-                                  "center",
-                                justifyContent:
-                                  "center",
-                                fontSize: 11,
-                              }
-                            ),
-                        },
-                        "Error"
-                      ),
-
+                [
                   h(
                     "div",
-                    {
-                      style: {
-                        minWidth: 0,
-                      },
-                    },
-
-                    h(
-                      "div",
-                      {
-                        style:
-                          styles.itemName,
-                        title:
-                          item.name,
-                      },
-                      item.name
-                    ),
-
-                    item.blob
-                      ? h(
-                          "div",
-                          {
-                            style:
-                              styles.itemMeta,
-                          },
-
-                          formatBytes(
-                            item.originalSize
+                    { className: "flex items-center gap-3.5 min-w-0 w-full sm:w-auto" },
+                    [
+                      item.preview
+                        ? h("img", {
+                            src: item.preview,
+                            alt: item.name,
+                            className: "w-14 h-14 object-cover rounded-xl border border-line bg-paper shrink-0",
+                          })
+                        : h(
+                            "div",
+                            {
+                              className: "w-14 h-14 rounded-xl border border-line bg-rose-500/10 text-rose-600 text-[10px] font-bold flex items-center justify-center shrink-0 uppercase",
+                            },
+                            "Error"
                           ),
-
-                          " → ",
-
-                          formatBytes(
-                            item.blob
-                              .size
+                      h(
+                        "div",
+                        { className: "min-w-0 flex-1" },
+                        [
+                          h(
+                            "div",
+                            { className: "text-xs font-black text-ink truncate", title: item.name },
+                            item.name
                           ),
-
-                          item.unchanged
+                          item.blob
                             ? h(
-                                "span",
-                                {
-                                  style:
-                                    Object.assign(
-                                      {},
-                                      styles.badge,
-                                      {
-                                        background:
-                                          "#fff7ed",
-                                        color:
-                                          "#c2410c",
-                                      }
-                                    ),
-                                },
-                                "Already optimized"
+                                "div",
+                                { className: "text-[11px] text-muted mt-1 flex flex-wrap items-center gap-1.5 font-mono" },
+                                [
+                                  formatBytes(item.originalSize),
+                                  "→",
+                                  formatBytes(item.blob.size),
+                                  item.unchanged
+                                    ? h(
+                                        "span",
+                                        { className: "px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-amber-500/10 text-amber-600 border border-amber-500/20" },
+                                        "Already optimized"
+                                      )
+                                    : h(
+                                        "span",
+                                        { className: "px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" },
+                                        percentSaved.toFixed(0) + "% smaller"
+                                      ),
+                                  "•",
+                                  item.width + " × " + item.height
+                                ]
                               )
                             : h(
-                                "span",
-                                {
-                                  style:
-                                    styles.badge,
-                                },
-                                percentSaved.toFixed(
-                                  0
-                                ) +
-                                  "% smaller"
-                              ),
-
-                          " • ",
-
-                          item.width +
-                            " × " +
-                            item.height
-                        )
-                      : h(
-                          "div",
-                          {
-                            style:
-                              Object.assign(
-                                {},
-                                styles.itemMeta,
-                                {
-                                  color:
-                                    "#be123c",
-                                }
-                              ),
-                          },
-                          item.error ||
-                            "Compression failed."
-                        )
+                                "div",
+                                { className: "text-[11px] text-rose-600 mt-1 font-bold" },
+                                item.error || "Compression failed."
+                              )
+                        ]
+                      )
+                    ]
                   ),
-
                   h(
                     "div",
-                    {
-                      style: {
-                        display:
-                          "flex",
-                        gap: 7,
-                      },
-                    },
-
-                    item.blob
-                      ? h(
+                    { className: "flex items-center gap-2 w-full sm:w-auto justify-end shrink-0" },
+                    [
+                      item.blob &&
+                        h(
                           "button",
                           {
-                            type:
-                              "button",
-
-                            style:
-                              Object.assign(
-                                {},
-                                styles.btn,
-                                {
-                                  padding:
-                                    "9px 12px",
-                                }
-                              ),
-
-                            onClick:
-                              function () {
-                                downloadBlob(
-                                  item.blob,
-                                  safeFileName(
-                                    item.name,
-                                    format
-                                  )
-                                );
-                              },
+                            type: "button",
+                            onClick: function () {
+                              downloadBlob(
+                                item.blob,
+                                safeFileName(item.name, format)
+                              );
+                            },
+                            className: "h-9 px-3.5 rounded-xl border border-line bg-surface text-ink text-[11px] font-black uppercase tracking-wider hover:border-brand flex items-center gap-1.5 cursor-pointer shadow-sm",
                           },
-                          "Download"
-                        )
-                      : null,
-
-                    h(
-                      "button",
-                      {
-                        type:
-                          "button",
-
-                        style:
-                          Object.assign(
-                            {},
-                            styles.btn,
-                            styles.danger,
-                            {
-                              padding:
-                                "9px 12px",
-                            }
-                          ),
-
-                        onClick:
-                          function () {
-                            removeFile(
-                              index
-                            );
+                          [h(Download, { className: "w-3.5 h-3.5 shrink-0" }), "Download"]
+                        ),
+                      h(
+                        "button",
+                        {
+                          type: "button",
+                          onClick: function () {
+                            removeFile(index);
                           },
-                      },
-                      "Remove"
-                    )
+                          className: "h-9 px-3.5 rounded-xl border border-rose-500/20 bg-rose-500/10 text-rose-600 dark:text-rose-400 text-[11px] font-black uppercase tracking-wider hover:bg-rose-500/20 flex items-center gap-1.5 cursor-pointer shadow-sm",
+                        },
+                        [h(Trash2, { className: "w-3.5 h-3.5 shrink-0" }), "Remove"]
+                      )
+                    ]
                   )
-                );
-              }
-            )
-          )
-        : h(
-            "div",
-            {
-              style:
-                styles.empty,
-            },
-            "Select one or more images to see their details here before compression."
-          ),
+                ]
+              );
+            })}
+          </div>
+        ) : (
+          <div className="p-8 text-center text-muted text-xs font-bold bg-surface rounded-xl border border-line">
+            Select one or more images to see their details here before compression.
+          </div>
+        )}
 
-      h(
-        "div",
-        {
-          style: styles.footer,
-        },
-        "Privacy friendly: all processing happens directly inside your browser. No image is uploaded to a server."
-      )
-    )
+        {/* Privacy Footer */}
+        <div className="p-4 rounded-xl bg-surface border border-line text-xs text-muted leading-relaxed flex items-start gap-2.5 shadow-inner">
+          <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+          <span>
+            Privacy friendly: all processing happens directly inside your browser. No image is uploaded to any external server.
+          </span>
+        </div>
+
+      </div>
+    </div>
   );
 }

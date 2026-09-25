@@ -356,42 +356,6 @@ export default function FakeDataGenerator() {
     setCopied(false);
   };
 
-  const resetTool = () => {
-    setCount(25);
-    setLocale("US");
-    setGender("mixed");
-    setMinAge(18);
-    setMaxAge(65);
-    setSeed("toolslay2026");
-
-    setFields({
-      id: true,
-      firstName: true,
-      lastName: true,
-      username: true,
-      email: true,
-      phone: true,
-      age: true,
-      gender: true,
-      company: true,
-      jobTitle: true,
-      city: true,
-      state: true,
-      zip: true,
-      address: true,
-      website: true,
-      createdAt: true
-    });
-
-    setFormat("json");
-    setPrettyJson(true);
-    setGenerated([]);
-    setCustomFields([]);
-    setCustomFieldName("");
-    setCopied(false);
-    setActiveTab("builder");
-  };
-
   const outputText = useMemo(() => {
     if (!generated.length) return "";
 
@@ -500,35 +464,40 @@ export default function FakeDataGenerator() {
     customFields.length;
 
   return (
-    <div className="fdg-root">
-      <div className="fdg-shell">
-
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
+      <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
+        
         {/* HEADER */}
-        <div className="fdg-header">
-          <div>
-            <div className="fdg-eyebrow">
-              DEVELOPER DATA TOOL
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-xl font-black shrink-0">
+              👥
             </div>
 
-            <h1>Fake Data Generator</h1>
-
-            <p>
-              Generate realistic dummy users, emails, addresses,
-              companies and developer-ready datasets instantly.
-            </p>
+            <div className="min-w-0">
+              <div className="text-[10px] font-black tracking-widest text-brand uppercase mb-1">
+                DEVELOPER DATA TOOL
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
+                Fake Data Generator
+              </h2>
+              <p className="text-[11px] font-bold text-muted mt-0.5 truncate">
+                Generate realistic dummy users, emails, addresses, companies and developer-ready datasets instantly.
+              </p>
+            </div>
           </div>
 
-          <div className="fdg-header-badge">
-            <span>●</span>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-paper text-[11px] font-black text-ink shrink-0">
+            <span className="text-emerald-500 text-xs">●</span>
             Local generation
           </div>
         </div>
 
         {/* TABS */}
-        <div className="fdg-tabs">
+        <div className="flex items-center bg-paper border border-line p-1 rounded-xl gap-1 w-fit">
           <button
             type="button"
-            className={activeTab === "builder" ? "active" : ""}
+            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${activeTab === "builder" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"}`}
             onClick={() => setActiveTab("builder")}
           >
             Generator
@@ -536,7 +505,7 @@ export default function FakeDataGenerator() {
 
           <button
             type="button"
-            className={activeTab === "preview" ? "active" : ""}
+            className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${activeTab === "preview" ? "bg-brand text-surface shadow-sm" : "text-muted hover:text-ink"}`}
             onClick={() => setActiveTab("preview")}
           >
             Preview
@@ -544,143 +513,106 @@ export default function FakeDataGenerator() {
         </div>
 
         {activeTab === "builder" && (
-          <div className="fdg-grid">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.55fr_0.8fr] gap-6 items-start min-w-0">
 
             {/* SETTINGS */}
-            <section className="fdg-card">
-              <div className="fdg-card-head">
-                <div>
-                  <h2>Dataset Settings</h2>
-                  <p>
-                    Configure the fake records you need.
-                  </p>
-                </div>
+            <section className="bg-paper border border-line p-5 sm:p-6 rounded-2xl space-y-6 min-w-0">
+              <div className="border-b border-line pb-4 min-w-0">
+                <h2 className="text-sm font-black text-ink uppercase tracking-wider">Dataset Settings</h2>
+                <p className="text-[11px] font-medium text-muted mt-0.5">Configure the fake records you need.</p>
               </div>
 
-              <div className="fdg-two">
-                <div className="fdg-field">
-                  <label>Number of records</label>
-
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">Number of records</label>
                   <input
                     type="number"
                     min="1"
                     max="1000"
                     value={count}
-                    onChange={(e) =>
-                      setCount(e.target.value)
-                    }
+                    onChange={(e) => setCount(e.target.value)}
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-bold text-ink outline-none"
                   />
-
-                  <small>
-                    Maximum 1,000 records per generation.
-                  </small>
+                  <small className="block mt-1 text-[10px] font-medium text-muted">Maximum 1,000 records per generation.</small>
                 </div>
 
-                <div className="fdg-field">
-                  <label>Locale</label>
-
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">Locale</label>
                   <select
                     value={locale}
-                    onChange={(e) =>
-                      setLocale(e.target.value)
-                    }
+                    onChange={(e) => setLocale(e.target.value)}
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-bold text-ink outline-none cursor-pointer"
                   >
-                    <option value="US">
-                      United States
-                    </option>
-                    <option value="GB">
-                      United Kingdom
-                    </option>
-                    <option value="CA">
-                      Canada
-                    </option>
-                    <option value="AU">
-                      Australia
-                    </option>
+                    <option value="US">United States</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="CA">Canada</option>
+                    <option value="AU">Australia</option>
                   </select>
                 </div>
               </div>
 
-              <div className="fdg-three">
-                <div className="fdg-field">
-                  <label>Gender</label>
-
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">Gender</label>
                   <select
                     value={gender}
-                    onChange={(e) =>
-                      setGender(e.target.value)
-                    }
+                    onChange={(e) => setGender(e.target.value)}
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-bold text-ink outline-none cursor-pointer"
                   >
-                    <option value="mixed">
-                      Mixed
-                    </option>
-                    <option value="male">
-                      Male
-                    </option>
-                    <option value="female">
-                      Female
-                    </option>
+                    <option value="mixed">Mixed</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
                   </select>
                 </div>
 
-                <div className="fdg-field">
-                  <label>Minimum age</label>
-
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">Minimum age</label>
                   <input
                     type="number"
                     min="1"
                     max="100"
                     value={minAge}
-                    onChange={(e) =>
-                      setMinAge(e.target.value)
-                    }
+                    onChange={(e) => setMinAge(e.target.value)}
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-bold text-ink outline-none"
                   />
                 </div>
 
-                <div className="fdg-field">
-                  <label>Maximum age</label>
-
+                <div>
+                  <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">Maximum age</label>
                   <input
                     type="number"
                     min="1"
                     max="100"
                     value={maxAge}
-                    onChange={(e) =>
-                      setMaxAge(e.target.value)
-                    }
+                    onChange={(e) => setMaxAge(e.target.value)}
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-bold text-ink outline-none"
                   />
                 </div>
               </div>
 
-              <div className="fdg-field">
-                <label>Seed</label>
-
+              <div>
+                <label className="block text-xs font-black text-ink uppercase tracking-wider mb-2">Seed</label>
                 <input
                   value={seed}
-                  onChange={(e) =>
-                    setSeed(e.target.value)
-                  }
+                  onChange={(e) => setSeed(e.target.value)}
                   placeholder="Enter any seed"
+                  className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
                 />
-
-                <small>
-                  Same seed + settings produce repeatable data.
-                  Great for testing and bug reproduction.
+                <small className="block mt-1 text-[10px] font-medium text-muted">
+                  Same seed + settings produce repeatable data. Great for testing and bug reproduction.
                 </small>
               </div>
 
               {/* FIELDS */}
-              <div className="fdg-section">
-                <div className="fdg-section-head">
+              <div className="pt-5 border-t border-line space-y-4">
+                <div className="flex items-center justify-between gap-2">
                   <div>
-                    <h3>Fields</h3>
-                    <span>
-                      {activeFieldCount} fields selected
-                    </span>
+                    <h3 className="text-xs font-black text-ink uppercase tracking-wider">Fields</h3>
+                    <span className="text-[10px] font-medium text-muted">{activeFieldCount} fields selected</span>
                   </div>
                 </div>
 
-                <div className="fdg-field-grid">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {[
                     ["id", "ID"],
                     ["firstName", "First name"],
@@ -700,40 +632,34 @@ export default function FakeDataGenerator() {
                     ["createdAt", "Created at"]
                   ].map(([key, label]) => (
                     <label
-                      className="fdg-check"
+                      className="flex items-center gap-2.5 p-2.5 rounded-xl border border-line bg-surface cursor-pointer select-none text-xs font-black text-ink"
                       key={key}
                     >
                       <input
                         type="checkbox"
                         checked={fields[key]}
-                        onChange={() =>
-                          toggleField(key)
-                        }
+                        onChange={() => toggleField(key)}
+                        className="w-4 h-4 accent-brand rounded border-line"
                       />
-
-                      <span>{label}</span>
+                      <span className="truncate">{label}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
               {/* CUSTOM FIELDS */}
-              <div className="fdg-section">
-                <div className="fdg-section-head">
+              <div className="pt-5 border-t border-line space-y-4">
+                <div className="flex items-center justify-between gap-2">
                   <div>
-                    <h3>Custom fields</h3>
-                    <span>
-                      Add fields specific to your project
-                    </span>
+                    <h3 className="text-xs font-black text-ink uppercase tracking-wider">Custom fields</h3>
+                    <span className="text-[10px] font-medium text-muted">Add fields specific to your project</span>
                   </div>
                 </div>
 
-                <div className="fdg-custom-add">
+                <div className="grid grid-cols-[1fr_auto] gap-2">
                   <input
                     value={customFieldName}
-                    onChange={(e) =>
-                      setCustomFieldName(e.target.value)
-                    }
+                    onChange={(e) => setCustomFieldName(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault();
@@ -741,27 +667,27 @@ export default function FakeDataGenerator() {
                       }
                     }}
                     placeholder="Example: department"
+                    className="w-full h-11 bg-surface border border-line rounded-xl px-3 text-xs font-mono text-ink outline-none"
                   />
 
                   <button
                     type="button"
                     onClick={addCustomField}
+                    className="px-4 py-2.5 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity"
                   >
                     Add
                   </button>
                 </div>
 
                 {customFields.length > 0 && (
-                  <div className="fdg-custom-list">
+                  <div className="flex flex-wrap gap-2 pt-1">
                     {customFields.map((field) => (
-                      <span key={field}>
+                      <span key={field} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand/10 text-brand text-xs font-black">
                         {field}
-
                         <button
                           type="button"
-                          onClick={() =>
-                            removeCustomField(field)
-                          }
+                          onClick={() => removeCustomField(field)}
+                          className="text-brand hover:opacity-75 font-bold text-sm"
                         >
                           ×
                         </button>
@@ -773,7 +699,7 @@ export default function FakeDataGenerator() {
 
               <button
                 type="button"
-                className="fdg-generate"
+                className="w-full h-12 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity shadow-sm mt-4"
                 onClick={generateUsers}
               >
                 Generate {count || 0} records →
@@ -781,119 +707,85 @@ export default function FakeDataGenerator() {
             </section>
 
             {/* OUTPUT SETTINGS */}
-            <aside className="fdg-side">
+            <aside className="space-y-6 min-w-0">
 
-              <section className="fdg-card">
-                <div className="fdg-card-head">
-                  <div>
-                    <h2>Output Format</h2>
-                    <p>
-                      Choose your development format.
-                    </p>
-                  </div>
+              <section className="bg-paper border border-line p-5 sm:p-6 rounded-2xl space-y-5 min-w-0">
+                <div className="border-b border-line pb-4 min-w-0">
+                  <h2 className="text-sm font-black text-ink uppercase tracking-wider">Output Format</h2>
+                  <p className="text-[11px] font-medium text-muted mt-0.5">Choose your development format.</p>
                 </div>
 
-                <div className="fdg-format-grid">
+                <div className="grid grid-cols-1 gap-2.5">
                   <button
                     type="button"
-                    className={
-                      format === "json"
-                        ? "selected"
-                        : ""
-                    }
+                    className={`flex items-center justify-between p-4 rounded-xl border transition-all ${format === "json" ? "border-brand bg-brand/5 shadow-sm" : "border-line bg-surface hover:border-brand/50"}`}
                     onClick={() => setFormat("json")}
                   >
-                    <strong>JSON</strong>
-                    <span>API / Apps</span>
+                    <strong className="text-xs font-black text-ink">JSON</strong>
+                    <span className="text-[10px] font-bold text-muted uppercase tracking-wider">API / Apps</span>
                   </button>
 
                   <button
                     type="button"
-                    className={
-                      format === "csv"
-                        ? "selected"
-                        : ""
-                    }
+                    className={`flex items-center justify-between p-4 rounded-xl border transition-all ${format === "csv" ? "border-brand bg-brand/5 shadow-sm" : "border-line bg-surface hover:border-brand/50"}`}
                     onClick={() => setFormat("csv")}
                   >
-                    <strong>CSV</strong>
-                    <span>Excel / Sheets</span>
+                    <strong className="text-xs font-black text-ink">CSV</strong>
+                    <span className="text-[10px] font-bold text-muted uppercase tracking-wider">Excel / Sheets</span>
                   </button>
 
                   <button
                     type="button"
-                    className={
-                      format === "sql"
-                        ? "selected"
-                        : ""
-                    }
+                    className={`flex items-center justify-between p-4 rounded-xl border transition-all ${format === "sql" ? "border-brand bg-brand/5 shadow-sm" : "border-line bg-surface hover:border-brand/50"}`}
                     onClick={() => setFormat("sql")}
                   >
-                    <strong>SQL</strong>
-                    <span>Database seed</span>
+                    <strong className="text-xs font-black text-ink">SQL</strong>
+                    <span className="text-[10px] font-bold text-muted uppercase tracking-wider">Database seed</span>
                   </button>
                 </div>
 
                 {format === "json" && (
-                  <label className="fdg-toggle">
+                  <label className="flex items-start gap-3 pt-4 border-t border-line cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={prettyJson}
-                      onChange={(e) =>
-                        setPrettyJson(
-                          e.target.checked
-                        )
-                      }
+                      onChange={(e) => setPrettyJson(e.target.checked)}
+                      className="w-4 h-4 accent-brand rounded border-line mt-0.5"
                     />
-
-                    <span>
-                      <strong>Pretty JSON</strong>
-                      <small>
-                        Format JSON with readable indentation.
-                      </small>
+                    <span className="space-y-0.5">
+                      <strong className="text-xs font-black text-ink block">Pretty JSON</strong>
+                      <small className="text-[10px] font-medium text-muted block">Format JSON with readable indentation.</small>
                     </span>
                   </label>
                 )}
               </section>
 
-              <section className="fdg-card fdg-info-card">
-                <div className="fdg-info-icon">
+              <section className="bg-paper border border-line p-5 sm:p-6 rounded-2xl space-y-3 bg-gradient-to-br from-brand/5 to-transparent min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-black text-sm">
                   ✦
                 </div>
-
-                <h3>Why use a seed?</h3>
-
-                <p>
-                  A deterministic seed lets you regenerate the
-                  same dataset later. This is useful when
-                  reproducing UI bugs, testing APIs or creating
-                  stable demo environments.
+                <h3 className="text-xs font-black text-ink uppercase tracking-wider">Why use a seed?</h3>
+                <p className="text-[11px] text-muted leading-relaxed">
+                  A deterministic seed lets you regenerate the same dataset later. This is useful when reproducing UI bugs, testing APIs or creating stable demo environments.
                 </p>
               </section>
 
-              <section className="fdg-card">
-                <div className="fdg-card-head">
-                  <div>
-                    <h2>Privacy</h2>
-                    <p>
-                      Generated data is synthetic.
-                    </p>
+              <section className="bg-paper border border-line p-5 sm:p-6 rounded-2xl space-y-3 min-w-0">
+                <div className="border-b border-line pb-3 min-w-0">
+                  <h2 className="text-xs font-black text-ink uppercase tracking-wider">Privacy</h2>
+                  <p className="text-[11px] font-medium text-muted mt-0.5">Generated data is synthetic.</p>
+                </div>
+
+                <div className="space-y-2.5 text-xs font-bold text-muted">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-500">✓</span> No API request required
                   </div>
-                </div>
-
-                <div className="fdg-privacy">
-                  <span>✓</span>
-                  No API request required
-                </div>
-
-                <div className="fdg-privacy">
-                  <span>✓</span>
-                  Generated in your browser
-                </div>
-
-                <div className="fdg-privacy">
-                  <span>✓</span>
-                  No real personal data lookup
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-500">✓</span> Generated in your browser
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-500">✓</span> No real personal data lookup
+                  </div>
                 </div>
               </section>
 
@@ -903,23 +795,21 @@ export default function FakeDataGenerator() {
 
         {/* PREVIEW */}
         {activeTab === "preview" && (
-          <section className="fdg-card fdg-preview">
+          <section className="bg-paper border border-line p-5 sm:p-6 rounded-2xl space-y-5 min-w-0">
 
-            <div className="fdg-preview-head">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4 min-w-0">
               <div>
-                <h2>Generated Dataset</h2>
-
-                <p>
-                  {generated.length
-                    ? `${generated.length} records generated`
-                    : "Generate data from the Generator tab."}
+                <h2 className="text-sm font-black text-ink uppercase tracking-wider">Generated Dataset</h2>
+                <p className="text-[11px] font-medium text-muted mt-0.5">
+                  {generated.length ? `${generated.length} records generated` : "Generate data from the Generator tab."}
                 </p>
               </div>
 
               {generated.length > 0 && (
-                <div className="fdg-preview-actions">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
+                    className="px-4 py-2.5 rounded-xl border border-line bg-surface text-ink hover:bg-paper text-xs font-black uppercase tracking-wider transition-all"
                     onClick={copyOutput}
                   >
                     {copied ? "Copied!" : "Copy"}
@@ -927,7 +817,7 @@ export default function FakeDataGenerator() {
 
                   <button
                     type="button"
-                    className="primary"
+                    className="px-4 py-2.5 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity"
                     onClick={downloadOutput}
                   >
                     Download {format.toUpperCase()}
@@ -937,35 +827,29 @@ export default function FakeDataGenerator() {
             </div>
 
             {generated.length === 0 ? (
-              <div className="fdg-empty-preview">
-                <div>✦</div>
-                <strong>No data generated yet</strong>
-                <p>
-                  Configure your fields and click Generate.
-                </p>
+              <div className="border-2 border-dashed border-line rounded-2xl p-12 text-center space-y-3 bg-surface min-w-0">
+                <div className="w-12 h-12 mx-auto rounded-xl bg-brand/10 text-brand flex items-center justify-center font-black text-lg">
+                  ✦
+                </div>
+                <strong className="text-xs font-black text-ink block">No data generated yet</strong>
+                <p className="text-[11px] font-medium text-muted">Configure your fields and click Generate.</p>
 
                 <button
                   type="button"
-                  onClick={() =>
-                    setActiveTab("builder")
-                  }
+                  onClick={() => setActiveTab("builder")}
+                  className="px-4 py-2.5 rounded-xl bg-brand text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity mt-2"
                 >
                   Open Generator
                 </button>
               </div>
             ) : (
-              <div className="fdg-output">
-                <div className="fdg-output-top">
-                  <span>
-                    fake-data.{format}
-                  </span>
-
-                  <span>
-                    {outputText.length.toLocaleString()} chars
-                  </span>
+              <div className="border border-line rounded-xl overflow-hidden bg-[#10131a] min-w-0">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 text-[#98a2b3] font-mono text-[11px]">
+                  <span>fake-data.{format}</span>
+                  <span>{outputText.length.toLocaleString()} chars</span>
                 </div>
 
-                <pre>
+                <pre className="p-4 text-[#e7eaf0] font-mono text-xs leading-relaxed overflow-auto max-h-[600px] whitespace-pre-wrap break-words">
                   <code>{outputText}</code>
                 </pre>
               </div>
@@ -974,636 +858,6 @@ export default function FakeDataGenerator() {
         )}
 
       </div>
-
-      <style jsx>{`
-        .fdg-root {
-          --fdg-text: #172033;
-          --fdg-muted: #667085;
-          --fdg-border: #e1e5ec;
-          --fdg-card: #ffffff;
-          --fdg-soft: #f7f8fb;
-          --fdg-input: #ffffff;
-          --fdg-primary: #635bff;
-
-          width: 100%;
-          color: var(--fdg-text);
-          padding: 24px 0 40px;
-        }
-
-        .fdg-shell {
-          width: 100%;
-          max-width: 1180px;
-          margin: 0 auto;
-        }
-
-        .fdg-header {
-          display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
-          gap: 20px;
-          margin-bottom: 22px;
-        }
-
-        .fdg-eyebrow {
-          color: var(--fdg-primary);
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: .13em;
-          margin-bottom: 7px;
-        }
-
-        .fdg-header h1 {
-          margin: 0;
-          font-size: clamp(27px, 4vw, 39px);
-          line-height: 1.1;
-          letter-spacing: -.04em;
-        }
-
-        .fdg-header p {
-          margin: 9px 0 0;
-          max-width: 680px;
-          color: var(--fdg-muted);
-          font-size: 14px;
-          line-height: 1.6;
-        }
-
-        .fdg-header-badge {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          padding: 9px 12px;
-          border: 1px solid var(--fdg-border);
-          border-radius: 30px;
-          background: var(--fdg-card);
-          font-size: 11px;
-          font-weight: 700;
-          white-space: nowrap;
-        }
-
-        .fdg-header-badge span {
-          color: #12b76a;
-          font-size: 9px;
-        }
-
-        .fdg-tabs {
-          display: flex;
-          gap: 4px;
-          width: fit-content;
-          padding: 4px;
-          margin-bottom: 18px;
-          border-radius: 11px;
-          background: var(--fdg-soft);
-          border: 1px solid var(--fdg-border);
-        }
-
-        .fdg-tabs button {
-          border: 0;
-          background: transparent;
-          color: var(--fdg-muted);
-          padding: 9px 16px;
-          border-radius: 8px;
-          cursor: pointer;
-          font: inherit;
-          font-size: 12px;
-          font-weight: 700;
-        }
-
-        .fdg-tabs button.active {
-          background: var(--fdg-card);
-          color: var(--fdg-text);
-          box-shadow: 0 2px 8px rgba(0,0,0,.06);
-        }
-
-        .fdg-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 1.55fr) minmax(290px, .8fr);
-          gap: 18px;
-          align-items: start;
-        }
-
-        .fdg-side {
-          display: grid;
-          gap: 18px;
-        }
-
-        .fdg-card {
-          background: var(--fdg-card);
-          border: 1px solid var(--fdg-border);
-          border-radius: 16px;
-          padding: 21px;
-          box-shadow: 0 8px 30px rgba(16,24,40,.035);
-        }
-
-        .fdg-card-head {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 15px;
-          margin-bottom: 19px;
-        }
-
-        .fdg-card h2 {
-          margin: 0;
-          font-size: 17px;
-          letter-spacing: -.02em;
-        }
-
-        .fdg-card-head p {
-          margin: 5px 0 0;
-          color: var(--fdg-muted);
-          font-size: 12px;
-        }
-
-        .fdg-two {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-        }
-
-        .fdg-three {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          gap: 12px;
-        }
-
-        .fdg-field {
-          margin-bottom: 15px;
-        }
-
-        .fdg-field label {
-          display: block;
-          margin-bottom: 7px;
-          color: var(--fdg-text);
-          font-size: 12px;
-          font-weight: 700;
-        }
-
-        .fdg-field input,
-        .fdg-field select,
-        .fdg-custom-add input {
-          box-sizing: border-box;
-          width: 100%;
-          min-height: 42px;
-          padding: 0 11px;
-          border: 1px solid var(--fdg-border);
-          border-radius: 9px;
-          background: var(--fdg-input);
-          color: var(--fdg-text);
-          outline: none;
-          font: inherit;
-          font-size: 13px;
-          transition: border-color .16s, box-shadow .16s;
-        }
-
-        .fdg-field input:focus,
-        .fdg-field select:focus,
-        .fdg-custom-add input:focus {
-          border-color: var(--fdg-primary);
-          box-shadow: 0 0 0 3px rgba(99,91,255,.11);
-        }
-
-        .fdg-field small {
-          display: block;
-          margin-top: 6px;
-          color: var(--fdg-muted);
-          font-size: 10px;
-          line-height: 1.5;
-        }
-
-        .fdg-section {
-          padding-top: 21px;
-          margin-top: 6px;
-          border-top: 1px solid var(--fdg-border);
-        }
-
-        .fdg-section-head {
-          display: flex;
-          justify-content: space-between;
-          gap: 12px;
-          margin-bottom: 12px;
-        }
-
-        .fdg-section-head h3 {
-          margin: 0;
-          font-size: 13px;
-        }
-
-        .fdg-section-head span {
-          display: block;
-          margin-top: 3px;
-          color: var(--fdg-muted);
-          font-size: 10px;
-        }
-
-        .fdg-field-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 7px;
-        }
-
-        .fdg-check {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          min-height: 38px;
-          padding: 0 9px;
-          border: 1px solid var(--fdg-border);
-          border-radius: 8px;
-          background: var(--fdg-soft);
-          cursor: pointer;
-          font-size: 11px;
-        }
-
-        .fdg-check input {
-          margin: 0;
-          accent-color: var(--fdg-primary);
-        }
-
-        .fdg-custom-add {
-          display: grid;
-          grid-template-columns: 1fr auto;
-          gap: 8px;
-        }
-
-        .fdg-custom-add button {
-          padding: 0 14px;
-          border: 0;
-          border-radius: 9px;
-          background: var(--fdg-primary);
-          color: white;
-          cursor: pointer;
-          font: inherit;
-          font-size: 12px;
-          font-weight: 700;
-        }
-
-        .fdg-custom-list {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 7px;
-          margin-top: 10px;
-        }
-
-        .fdg-custom-list span {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          padding: 6px 8px 6px 10px;
-          border-radius: 7px;
-          background: #efedff;
-          color: #5146c7;
-          font-size: 11px;
-          font-weight: 700;
-        }
-
-        .fdg-custom-list button {
-          border: 0;
-          background: transparent;
-          color: inherit;
-          cursor: pointer;
-          font-size: 15px;
-          line-height: 1;
-        }
-
-        .fdg-generate {
-          width: 100%;
-          min-height: 47px;
-          margin-top: 21px;
-          border: 0;
-          border-radius: 10px;
-          background: var(--fdg-primary);
-          color: white;
-          cursor: pointer;
-          font: inherit;
-          font-size: 13px;
-          font-weight: 750;
-          box-shadow: 0 9px 20px rgba(99,91,255,.2);
-          transition: transform .16s, box-shadow .16s;
-        }
-
-        .fdg-generate:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 12px 24px rgba(99,91,255,.25);
-        }
-
-        .fdg-format-grid {
-          display: grid;
-          gap: 8px;
-        }
-
-        .fdg-format-grid button {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          min-height: 54px;
-          padding: 0 13px;
-          border: 1px solid var(--fdg-border);
-          border-radius: 10px;
-          background: var(--fdg-input);
-          color: var(--fdg-text);
-          cursor: pointer;
-          text-align: left;
-        }
-
-        .fdg-format-grid button.selected {
-          border-color: var(--fdg-primary);
-          background: rgba(99,91,255,.07);
-          box-shadow: 0 0 0 2px rgba(99,91,255,.07);
-        }
-
-        .fdg-format-grid strong {
-          font-size: 12px;
-        }
-
-        .fdg-format-grid span {
-          color: var(--fdg-muted);
-          font-size: 10px;
-        }
-
-        .fdg-toggle {
-          display: flex;
-          gap: 10px;
-          align-items: flex-start;
-          margin-top: 14px;
-          padding-top: 14px;
-          border-top: 1px solid var(--fdg-border);
-          cursor: pointer;
-        }
-
-        .fdg-toggle input {
-          margin-top: 3px;
-          accent-color: var(--fdg-primary);
-        }
-
-        .fdg-toggle span {
-          display: grid;
-          gap: 3px;
-        }
-
-        .fdg-toggle strong {
-          font-size: 12px;
-        }
-
-        .fdg-toggle small {
-          color: var(--fdg-muted);
-          font-size: 10px;
-        }
-
-        .fdg-info-card {
-          background: linear-gradient(
-            135deg,
-            rgba(99,91,255,.09),
-            var(--fdg-card)
-          );
-        }
-
-        .fdg-info-icon {
-          display: grid;
-          place-items: center;
-          width: 34px;
-          height: 34px;
-          margin-bottom: 12px;
-          border-radius: 9px;
-          background: #efedff;
-          color: var(--fdg-primary);
-          font-weight: 800;
-        }
-
-        .fdg-info-card h3 {
-          margin: 0;
-          font-size: 14px;
-        }
-
-        .fdg-info-card p {
-          margin: 7px 0 0;
-          color: var(--fdg-muted);
-          font-size: 11px;
-          line-height: 1.7;
-        }
-
-        .fdg-privacy {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 9px 0;
-          border-bottom: 1px solid var(--fdg-border);
-          color: var(--fdg-muted);
-          font-size: 11px;
-        }
-
-        .fdg-privacy:last-child {
-          border-bottom: 0;
-        }
-
-        .fdg-privacy span {
-          color: #12b76a;
-          font-weight: 900;
-        }
-
-        .fdg-preview {
-          padding: 21px;
-        }
-
-        .fdg-preview-head {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 15px;
-          margin-bottom: 15px;
-        }
-
-        .fdg-preview-head h2 {
-          margin: 0;
-          font-size: 18px;
-        }
-
-        .fdg-preview-head p {
-          margin: 5px 0 0;
-          color: var(--fdg-muted);
-          font-size: 11px;
-        }
-
-        .fdg-preview-actions {
-          display: flex;
-          gap: 8px;
-        }
-
-        .fdg-preview-actions button {
-          min-height: 39px;
-          padding: 0 13px;
-          border: 1px solid var(--fdg-border);
-          border-radius: 8px;
-          background: var(--fdg-input);
-          color: var(--fdg-text);
-          cursor: pointer;
-          font: inherit;
-          font-size: 11px;
-          font-weight: 700;
-        }
-
-        .fdg-preview-actions button.primary {
-          border-color: var(--fdg-primary);
-          background: var(--fdg-primary);
-          color: white;
-        }
-
-        .fdg-output {
-          overflow: hidden;
-          border: 1px solid var(--fdg-border);
-          border-radius: 12px;
-          background: #10131a;
-        }
-
-        .fdg-output-top {
-          display: flex;
-          justify-content: space-between;
-          padding: 11px 13px;
-          border-bottom: 1px solid rgba(255,255,255,.08);
-          color: #98a2b3;
-          font-family: monospace;
-          font-size: 10px;
-        }
-
-        .fdg-output pre {
-          max-height: 650px;
-          min-height: 350px;
-          overflow: auto;
-          margin: 0;
-          padding: 18px;
-          color: #e7eaf0;
-          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-          font-size: 12px;
-          line-height: 1.7;
-          white-space: pre-wrap;
-          word-break: break-word;
-        }
-
-        .fdg-empty-preview {
-          display: grid;
-          place-items: center;
-          min-height: 390px;
-          padding: 30px;
-          border: 1px dashed var(--fdg-border);
-          border-radius: 12px;
-          text-align: center;
-        }
-
-        .fdg-empty-preview > div {
-          display: grid;
-          place-items: center;
-          width: 48px;
-          height: 48px;
-          margin-bottom: 10px;
-          border-radius: 13px;
-          background: #efedff;
-          color: var(--fdg-primary);
-        }
-
-        .fdg-empty-preview strong {
-          font-size: 14px;
-        }
-
-        .fdg-empty-preview p {
-          margin: 5px 0 14px;
-          color: var(--fdg-muted);
-          font-size: 11px;
-        }
-
-        .fdg-empty-preview button {
-          min-height: 38px;
-          padding: 0 13px;
-          border: 0;
-          border-radius: 8px;
-          background: var(--fdg-primary);
-          color: white;
-          cursor: pointer;
-          font: inherit;
-          font-size: 11px;
-          font-weight: 700;
-        }
-
-        @media (max-width: 900px) {
-          .fdg-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        @media (max-width: 650px) {
-          .fdg-root {
-            padding: 12px 0 30px;
-          }
-
-          .fdg-header {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          .fdg-header-badge {
-            display: none;
-          }
-
-          .fdg-card {
-            padding: 16px;
-          }
-
-          .fdg-two,
-          .fdg-three {
-            grid-template-columns: 1fr;
-            gap: 0;
-          }
-
-          .fdg-field-grid {
-            grid-template-columns: 1fr 1fr;
-          }
-
-          .fdg-preview-head {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          .fdg-preview-actions {
-            width: 100%;
-          }
-
-          .fdg-preview-actions button {
-            flex: 1;
-          }
-        }
-
-        @media (max-width: 420px) {
-          .fdg-field-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .fdg-custom-add {
-            grid-template-columns: 1fr;
-          }
-
-          .fdg-custom-add button {
-            min-height: 40px;
-          }
-        }
-
-        :global(html.dark) .fdg-root {
-          --fdg-text: #f2f4f7;
-          --fdg-muted: #98a2b3;
-          --fdg-border: #2d3442;
-          --fdg-card: #151922;
-          --fdg-soft: #10141c;
-          --fdg-input: #10141c;
-          --fdg-primary: #786cff;
-        }
-
-        :global(.dark) .fdg-root {
-          --fdg-text: #f2f4f7;
-          --fdg-muted: #98a2b3;
-          --fdg-border: #2d3442;
-          --fdg-card: #151922;
-          --fdg-soft: #10141c;
-          --fdg-input: #10141c;
-          --fdg-primary: #786cff;
-        }
-      `}</style>
     </div>
   );
 }

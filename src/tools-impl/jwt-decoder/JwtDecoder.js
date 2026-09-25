@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Settings2, ShieldCheck, Key, AlertTriangle, Copy, Check, Clock, Code, Lock, ShieldAlert, CheckCircle2 } from "lucide-react";
+import { Settings2, ShieldCheck, Key, AlertTriangle, Copy, Check, Clock, Code, ShieldAlert, CheckCircle2 } from "lucide-react";
 
 // ✅ 100% Native Base64Url Decoder (No third-party libraries needed!)
 const decodeBase64Url = (base64Url) => {
@@ -10,7 +10,6 @@ const decodeBase64Url = (base64Url) => {
     while (base64.length % 4) {
       base64 += "=";
     }
-    // decodeURIComponent/escape ensures UTF-8 characters are handled correctly
     return decodeURIComponent(escape(atob(base64)));
   } catch (e) {
     throw new Error("Invalid Base64Url encoding");
@@ -23,17 +22,15 @@ export default function JwtDecoder() {
   const [isMounted, setIsMounted] = useState(false);
   const [jwtInput, setJwtInput] = useState(DEMO_JWT);
   
-  // Decoded States
   const [header, setHeader] = useState("");
   const [payload, setPayload] = useState("");
   const [signature, setSignature] = useState("");
   
-  // Analysis States
   const [error, setError] = useState(null);
   const [securityAlert, setSecurityAlert] = useState(null);
   const [timeStatus, setTimeStatus] = useState(null);
   
-  const [showSettings, setShowSettings] = useState(true);
+  const [showSettings, setShowSettings] = useState(false); // Default hidden on mobile for clean start
   const [copiedSection, setCopiedSection] = useState(null);
 
   useEffect(() => {
@@ -78,28 +75,23 @@ export default function JwtDecoder() {
     }
 
     try {
-      // Decode Header
       const decodedHeader = decodeBase64Url(parts[0]);
       const parsedHeader = JSON.parse(decodedHeader);
       setHeader(JSON.stringify(parsedHeader, null, 2));
 
-      // Security Check: alg=none
       if (parsedHeader.alg && parsedHeader.alg.toLowerCase() === "none") {
          setSecurityAlert("CRITICAL: Token uses 'none' algorithm. This is a severe security vulnerability!");
       } else {
          setSecurityAlert(null);
       }
 
-      // Decode Payload
       const decodedPayload = decodeBase64Url(parts[1]);
       const parsedPayload = JSON.parse(decodedPayload);
       setPayload(JSON.stringify(parsedPayload, null, 2));
 
-      // Analyze Timestamps
       const tStatus = analyzeTime(parsedPayload);
       setTimeStatus(tStatus);
 
-      // Signature (Cannot decode easily without secret, so we display the hex/base64url)
       setSignature(parts[2]);
       setError(null);
 
@@ -123,151 +115,175 @@ export default function JwtDecoder() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border">
       
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Key className="w-6 h-6 text-fuchsia-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">JWT Decoder & Analyzer</h2>
-          <span className="bg-fuchsia-50 dark:bg-fuchsia-900/30 text-fuchsia-600 dark:text-fuchsia-400 text-xs font-bold px-3 py-1 rounded-full uppercase hidden sm:block">Pro Utility</span>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-2 text-sm font-semibold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-fuchsia-500 hover:text-fuchsia-600 transition-all">
-            <Settings2 className="w-4 h-4" /> {showSettings ? "Hide Analysis" : "Show Analysis"}
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,auto] gap-6 items-start">
+      {/* HEADER BAR */}
+      <div className="bg-surface border border-line p-4 sm:p-8 rounded-2xl shadow-card space-y-4 sm:space-y-6 w-full box-border">
         
-        <div className="flex flex-col gap-6 flex-grow">
-          
-          {/* Input Section */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden flex flex-col shadow-sm">
-            <div className="bg-slate-50 dark:bg-slate-800 px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                 <Code className="w-4 h-4 text-slate-500"/> Encoded JWT
-              </label>
-              {error ? (
-                <span className="text-xs text-red-600 font-bold flex items-center gap-1 bg-red-50 px-2 py-1 rounded-md border border-red-200"><AlertTriangle className="w-3.5 h-3.5" /> Invalid</span>
-              ) : payload ? (
-                <span className="text-xs text-emerald-600 font-bold flex items-center gap-1 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200"><CheckCircle2 className="w-3.5 h-3.5" /> Valid Token</span>
-              ) : null}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-line pb-4 sm:pb-5 w-full">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-lg sm:text-xl font-black shrink-0">
+              <Key className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <textarea
-              value={jwtInput}
-              onChange={(e) => setJwtInput(e.target.value)}
-              placeholder="Paste your JWT here (eyJ...)"
-              className="w-full h-40 p-4 bg-transparent text-sm font-mono text-slate-800 dark:text-slate-200 resize-none focus:outline-none focus:ring-2 focus:ring-fuchsia-500 break-all"
-              spellCheck="false"
-            />
+
+            <div className="min-w-0">
+              <div className="text-[9px] sm:text-[10px] font-black tracking-widest text-brand uppercase mb-0.5 sm:mb-1">
+                WEB SECURITY UTILITY
+              </div>
+              <h2 className="text-lg sm:text-2xl font-bold text-ink tracking-tight truncate">
+                JWT Decoder & Analyzer
+              </h2>
+              <p className="text-[10px] sm:text-[11px] font-bold text-muted mt-0.5 truncate">
+                Decode, analyze, and inspect JSON Web Tokens locally in your browser.
+              </p>
+            </div>
           </div>
-          
-          {/* Decoded Sections */}
-          {!error && payload && (
-            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
-              
-              {/* Header (Red/Pink) */}
-              <div className="bg-white dark:bg-slate-900 border border-pink-200 dark:border-pink-900/50 rounded-xl overflow-hidden shadow-sm">
-                <div className="bg-pink-50 dark:bg-pink-900/20 px-4 py-2 flex items-center justify-between border-b border-pink-200 dark:border-pink-900/50">
-                  <span className="text-xs font-bold text-pink-700 dark:text-pink-400 uppercase tracking-widest">Header (Algorithm & Type)</span>
-                  <button onClick={() => handleCopy(header, 'header')} className="text-pink-500 hover:text-pink-700 p-1">
-                    {copiedSection === 'header' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                </div>
-                <pre className="p-4 text-sm font-mono text-pink-700 dark:text-pink-300 overflow-x-auto">
-                  {header}
-                </pre>
-              </div>
 
-              {/* Payload (Purple) */}
-              <div className="bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900/50 rounded-xl overflow-hidden shadow-sm">
-                <div className="bg-purple-50 dark:bg-purple-900/20 px-4 py-2 flex items-center justify-between border-b border-purple-200 dark:border-purple-900/50">
-                  <span className="text-xs font-bold text-purple-700 dark:text-purple-400 uppercase tracking-widest">Payload (Data)</span>
-                  <button onClick={() => handleCopy(payload, 'payload')} className="text-purple-500 hover:text-purple-700 p-1">
-                    {copiedSection === 'payload' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                </div>
-                <pre className="p-4 text-sm font-mono text-purple-700 dark:text-purple-300 overflow-x-auto">
-                  {payload}
-                </pre>
-              </div>
-
-              {/* Signature (Teal) */}
-              <div className="bg-white dark:bg-slate-900 border border-teal-200 dark:border-teal-900/50 rounded-xl overflow-hidden shadow-sm">
-                <div className="bg-teal-50 dark:bg-teal-900/20 px-4 py-2 flex items-center justify-between border-b border-teal-200 dark:border-teal-900/50">
-                  <span className="text-xs font-bold text-teal-700 dark:text-teal-400 uppercase tracking-widest">Verify Signature</span>
-                </div>
-                <div className="p-4 text-sm font-mono text-teal-700 dark:text-teal-300 break-all">
-                  {signature}
-                </div>
-              </div>
-
-            </div>
-          )}
+          <div className="flex items-center gap-2 shrink-0">
+            <button 
+              type="button"
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-line bg-paper text-ink hover:border-brand text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shrink-0"
+            >
+              <Settings2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand" /> {showSettings ? "Hide Analysis" : "Analysis"}
+            </button>
+          </div>
         </div>
 
-        {/* Right Side Panel */}
-        {showSettings && (
-          <div className="space-y-6 lg:w-80 lg:max-w-80 flex flex-col h-full">
+        {/* WORK AREA GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 sm:gap-6 items-start w-full">
+          
+          <div className="flex flex-col gap-4 sm:gap-6 flex-grow min-w-0">
+            
+            {/* Input Section */}
+            <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col shadow-sm w-full">
+              <div className="bg-surface px-4 py-3 border-b border-line flex items-center justify-between w-full">
+                <label className="text-[11px] sm:text-xs font-black text-ink uppercase tracking-wider flex items-center gap-2">
+                   <Code className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand"/> Encoded JWT
+                </label>
+                <div>
+                  {error ? (
+                    <span className="text-[10px] text-[#fb7185] font-black uppercase tracking-wider flex items-center gap-1 bg-[#fb7185]/10 px-2.5 py-1 rounded-xl border border-[#fb7185]/30"><AlertTriangle className="w-3.5 h-3.5" /> Invalid</span>
+                  ) : payload ? (
+                    <span className="text-[10px] text-emerald-500 font-black uppercase tracking-wider flex items-center gap-1 bg-emerald-500/10 px-2.5 py-1 rounded-xl border border-emerald-500/30"><CheckCircle2 className="w-3.5 h-3.5" /> Valid Token</span>
+                  ) : null}
+                </div>
+              </div>
+              <textarea
+                value={jwtInput}
+                onChange={(e) => setJwtInput(e.target.value)}
+                placeholder="Paste your JWT here (eyJ...)"
+                className="w-full h-36 sm:h-40 p-4 sm:p-5 bg-surface border-0 text-xs sm:text-sm font-mono text-ink outline-none resize-none break-all tabular-nums"
+                spellCheck="false"
+              />
+            </div>
+            
+            {/* Decoded Sections */}
+            {!error && payload && (
+              <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 w-full">
+                
+                {/* Header Section */}
+                <div className="bg-paper border border-line rounded-2xl overflow-hidden shadow-sm w-full">
+                  <div className="bg-surface px-4 py-3 flex items-center justify-between border-b border-line">
+                    <span className="text-[10px] sm:text-xs font-black text-brand uppercase tracking-wider">Header (Algorithm & Type)</span>
+                    <button type="button" onClick={() => handleCopy(header, 'header')} className="text-muted hover:text-ink p-1 rounded-lg transition-colors">
+                      {copiedSection === 'header' ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  <pre className="p-4 sm:p-5 text-xs sm:text-sm font-mono text-ink overflow-x-auto bg-surface">
+                    {header}
+                  </pre>
+                </div>
+
+                {/* Payload Section */}
+                <div className="bg-paper border border-line rounded-2xl overflow-hidden shadow-sm w-full">
+                  <div className="bg-surface px-4 py-3 flex items-center justify-between border-b border-line">
+                    <span className="text-[10px] sm:text-xs font-black text-brand uppercase tracking-wider">Payload (Data)</span>
+                    <button type="button" onClick={() => handleCopy(payload, 'payload')} className="text-muted hover:text-ink p-1 rounded-lg transition-colors">
+                      {copiedSection === 'payload' ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  <pre className="p-4 sm:p-5 text-xs sm:text-sm font-mono text-ink overflow-x-auto bg-surface">
+                    {payload}
+                  </pre>
+                </div>
+
+                {/* Signature Section */}
+                <div className="bg-paper border border-line rounded-2xl overflow-hidden shadow-sm w-full">
+                  <div className="bg-surface px-4 py-3 flex items-center justify-between border-b border-line">
+                    <span className="text-[10px] sm:text-xs font-black text-brand uppercase tracking-wider">Verify Signature</span>
+                  </div>
+                  <div className="p-4 sm:p-5 text-xs sm:text-sm font-mono text-muted break-all bg-surface">
+                    {signature}
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+          </div>
+
+          {/* RIGHT SIDE PANEL */}
+          <div className={`space-y-4 sm:space-y-6 w-full ${showSettings ? "block" : "hidden lg:block"}`}>
             
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 p-4 rounded-xl shadow-sm text-red-600 dark:text-red-400 text-sm font-medium">
+              <div className="bg-[#fb7185]/10 border border-[#fb7185]/30 p-4 rounded-2xl shadow-sm text-[#fb7185] text-xs font-bold leading-relaxed">
                 <AlertTriangle className="w-5 h-5 mb-2" />
                 {error}
               </div>
             )}
 
             {!error && securityAlert && (
-              <div className="bg-red-50 border border-red-300 p-5 rounded-xl shadow-sm space-y-2">
-                <div className="flex items-center gap-2 text-red-600 font-bold">
-                  <ShieldAlert className="w-5 h-5" />
+              <div className="bg-[#fb7185]/10 border border-[#fb7185]/30 p-4 sm:p-5 rounded-2xl shadow-sm space-y-2">
+                <div className="flex items-center gap-2 text-[#fb7185] font-black text-xs uppercase tracking-wider">
+                  <ShieldAlert className="w-4 h-4" />
                   Security Warning
                 </div>
-                <p className="text-xs text-red-700 font-medium leading-relaxed">{securityAlert}</p>
+                <p className="text-[11px] text-[#fb7185] font-medium leading-relaxed">{securityAlert}</p>
               </div>
             )}
 
             {!error && timeStatus && (timeStatus.expReadable || timeStatus.iatReadable) && (
-              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-                <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                  <Clock className="w-5 h-5 text-sky-500" />
-                  <h3 className="font-semibold text-slate-800 dark:text-slate-200">Token Timeline</h3>
+              <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl space-y-4 w-full box-border">
+                <div className="flex items-center gap-2 border-b border-line pb-3">
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-brand" />
+                  <h3 className="text-xs font-black text-ink uppercase tracking-wider">Token Timeline</h3>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {timeStatus.expReadable && (
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700">
-                      <span className="block text-[10px] font-bold text-slate-400 uppercase mb-1">Expiration (exp)</span>
-                      <span className="block text-sm font-mono text-slate-800 dark:text-slate-200 mb-1">{timeStatus.expReadable}</span>
-                      <span className={`inline-block px-2 py-1 rounded text-[10px] font-bold ${timeStatus.isExpired ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'}`}>
+                    <div className="p-3 bg-surface rounded-xl border border-line">
+                      <span className="block text-[9px] font-black text-muted uppercase tracking-wider mb-1">Expiration (exp)</span>
+                      <span className="block text-xs font-mono text-ink mb-1.5 tabular-nums">{timeStatus.expReadable}</span>
+                      <span className={`inline-block px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${timeStatus.isExpired ? 'bg-[#fb7185]/10 text-[#fb7185] border border-[#fb7185]/30' : 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/30'}`}>
                         {timeStatus.message}
                       </span>
                     </div>
                   )}
 
                   {timeStatus.iatReadable && (
-                    <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700">
-                      <span className="block text-[10px] font-bold text-slate-400 uppercase mb-1">Issued At (iat)</span>
-                      <span className="block text-sm font-mono text-slate-800 dark:text-slate-200">{timeStatus.iatReadable}</span>
+                    <div className="p-3 bg-surface rounded-xl border border-line">
+                      <span className="block text-[9px] font-black text-muted uppercase tracking-wider mb-1">Issued At (iat)</span>
+                      <span className="block text-xs font-mono text-ink tabular-nums">{timeStatus.iatReadable}</span>
                     </div>
                   )}
                 </div>
               </div>
             )}
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <ShieldCheck className="w-5 h-5 text-emerald-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Local Security</h3>
+            <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl space-y-3 w-full box-border">
+              <div className="flex items-center gap-2 border-b border-line pb-3">
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" />
+                <h3 className="text-xs font-black text-ink uppercase tracking-wider">Local Security</h3>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              <p className="text-[11px] text-muted font-medium leading-relaxed">
                 Tokens are decoded entirely in your browser using native JavaScript. We do not send your JWT to any server, ensuring 100% data privacy.
               </p>
             </div>
 
           </div>
-        )}
+
+        </div>
 
       </div>
     </div>

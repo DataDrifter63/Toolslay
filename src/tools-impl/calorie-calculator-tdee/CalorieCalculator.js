@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Flame, Activity, Scale, CalendarDays, Zap, PieChart, Plus, Minus } from "lucide-react";
+import { 
+  Flame, Activity, Scale, CalendarDays, 
+  Zap, PieChart, Plus, Minus, Copy, Check 
+} from "lucide-react";
 
-// ✅ PRO CUSTOM STEPPER (Fixes all input & up/down arrow issues)
 const PremiumStepper = ({ value, min, max, onChange, unit }) => {
   const handleDec = () => {
     let val = Number(value);
@@ -24,28 +26,36 @@ const PremiumStepper = ({ value, min, max, onChange, unit }) => {
   };
 
   return (
-    <div className="flex items-center bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-orange-500 transition-shadow">
-      <button onClick={handleDec} className="p-4 text-slate-500 hover:text-orange-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:bg-slate-300">
-        <Minus className="w-5 h-5" />
+    <div className="flex items-center bg-surface border border-line rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-brand/20 focus-within:border-brand transition-all h-12 md:h-14 min-w-0">
+      <button 
+        type="button" 
+        onClick={handleDec} 
+        className="w-12 h-full flex items-center justify-center text-muted hover:text-brand hover:bg-paper transition-colors text-lg shrink-0"
+      >
+        <Minus className="w-4 h-4" />
       </button>
       <input 
         type="number" 
         value={value} 
         onChange={handleChange}
-        className="w-full text-center text-xl font-bold bg-transparent focus:outline-none text-slate-800 dark:text-slate-100 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+        className="w-full text-center text-base md:text-lg font-bold bg-transparent focus:outline-none text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0" 
       />
-      <button onClick={handleInc} className="p-4 text-slate-500 hover:text-orange-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:bg-slate-300">
-        <Plus className="w-5 h-5" />
+      <button 
+        type="button" 
+        onClick={handleInc} 
+        className="w-12 h-full flex items-center justify-center text-muted hover:text-brand hover:bg-paper transition-colors text-lg shrink-0"
+      >
+        <Plus className="w-4 h-4" />
       </button>
-      {unit && <span className="pr-4 font-black text-slate-400 select-none uppercase text-xs tracking-widest">{unit}</span>}
+      {unit && <span className="pr-4 font-bold text-muted select-none uppercase text-xs tracking-widest shrink-0">{unit}</span>}
     </div>
   );
 };
 
 const CalorieCalculator = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const [copied, setCopied] = useState(false);
   
-  // ✅ Fixed Default Values (Using Numbers instead of Strings)
   const [system, setSystem] = useState("metric"); 
   const [gender, setGender] = useState("male");
   const [age, setAge] = useState(25);
@@ -53,8 +63,7 @@ const CalorieCalculator = () => {
   const [cm, setCm] = useState(175);
   const [kg, setKg] = useState(75);
   
-  // Single Imperial Height State
-  const [totalInches, setTotalInches] = useState(69); // 5 ft 9 in
+  const [totalInches, setTotalInches] = useState(69); 
   const [lbs, setLbs] = useState(165);
   
   const [activity, setActivity] = useState("1.55"); 
@@ -129,13 +138,13 @@ const CalorieCalculator = () => {
     const highCals = targetCals * 1.15;
     
     const zigZagSchedule = [
-      { day: "Monday", type: "Low", cals: lowCals, color: "text-sky-500", bg: "bg-sky-50 dark:bg-sky-900/20" },
-      { day: "Tuesday", type: "Low", cals: lowCals, color: "text-sky-500", bg: "bg-sky-50 dark:bg-sky-900/20" },
-      { day: "Wednesday", type: "High", cals: highCals, color: "text-rose-500", bg: "bg-rose-50 dark:bg-rose-900/20" },
-      { day: "Thursday", type: "Normal", cals: targetCals, color: "text-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-900/20" },
-      { day: "Friday", type: "Normal", cals: targetCals, color: "text-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-900/20" },
-      { day: "Saturday", type: "High", cals: highCals, color: "text-rose-500", bg: "bg-rose-50 dark:bg-rose-900/20" },
-      { day: "Sunday", type: "Normal", cals: targetCals, color: "text-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-900/20" },
+      { day: "Monday", type: "Low", cals: lowCals, color: "text-[#38bdf8]", bg: "bg-[#38bdf8]/10" },
+      { day: "Tuesday", type: "Low", cals: lowCals, color: "text-[#38bdf8]", bg: "bg-[#38bdf8]/10" },
+      { day: "Wednesday", type: "High", cals: highCals, color: "text-[#fb7185]", bg: "bg-[#fb7185]/10" },
+      { day: "Thursday", type: "Normal", cals: targetCals, color: "text-teal", bg: "bg-teal/10" },
+      { day: "Friday", type: "Normal", cals: targetCals, color: "text-teal", bg: "bg-teal/10" },
+      { day: "Saturday", type: "High", cals: highCals, color: "text-[#fb7185]", bg: "bg-[#fb7185]/10" },
+      { day: "Sunday", type: "Normal", cals: targetCals, color: "text-teal", bg: "bg-teal/10" },
     ];
 
     setResults({
@@ -155,6 +164,28 @@ const CalorieCalculator = () => {
     calculateCalories();
   }, [calculateCalories]);
 
+  const copyResult = async () => {
+    if (results.targetCalories <= 0) return;
+    const text = 
+      `TDEE & Macro Summary (${goal.toUpperCase()} Goal)\n` +
+      `Daily Target Calories: ${results.targetCalories} kcal\n` +
+      `Maintenance TDEE: ${results.tdee} kcal\n\n` +
+      `Recommended Macros:\n` +
+      `- Protein: ${results.macros.protein}g\n` +
+      `- Carbs: ${results.macros.carbs}g\n` +
+      `- Fats: ${results.macros.fats}g`;
+
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      }
+    } catch (error) {
+      setCopied(false);
+    }
+  };
+
   const displayImperialHeight = () => {
     const total = Number(totalInches) || 0;
     const ft = Math.floor(total / 12);
@@ -163,156 +194,218 @@ const CalorieCalculator = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
       
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Flame className="w-6 h-6 text-orange-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">TDEE & Macro Engine</h2>
-        </div>
-        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
-          <button onClick={() => handleSystemSwitch("metric")} className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${system === 'metric' ? 'bg-white dark:bg-slate-700 text-orange-600 shadow-sm' : 'text-slate-500'}`}>Metric</button>
-          <button onClick={() => handleSystemSwitch("imperial")} className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${system === 'imperial' ? 'bg-white dark:bg-slate-700 text-orange-600 shadow-sm' : 'text-slate-500'}`}>Imperial</button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
+      {/* MAIN WRAPPER SHELL */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 min-w-0">
         
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 md:p-8 rounded-xl shadow-sm space-y-8">
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Gender</label>
-              <div className="flex gap-2 h-[60px]">
-                <button onClick={() => setGender("male")} className={`flex-1 rounded-lg font-bold border transition-all ${gender === 'male' ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-400' : 'bg-slate-50 border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700 hover:border-blue-200'}`}>Male</button>
-                <button onClick={() => setGender("female")} className={`flex-1 rounded-lg font-bold border transition-all ${gender === 'female' ? 'bg-pink-50 border-pink-200 text-pink-700 dark:bg-pink-900/20 dark:border-pink-800 dark:text-pink-400' : 'bg-slate-50 border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700 hover:border-pink-200'}`}>Female</button>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Age</label>
-              <PremiumStepper value={age} min={15} max={100} onChange={setAge} unit="Yrs" />
-            </div>
+        {/* HEADER BAR */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Flame className="w-6 h-6 md:w-7 md:h-7 text-brand shrink-0" />
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-ink truncate">
+              TDEE & Macro Engine
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-slate-100 dark:border-slate-800">
-            <div className="space-y-3">
-              <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500"><Scale className="w-4 h-4 text-orange-500"/> Weight</label>
-              {system === 'metric' ? (
-                <PremiumStepper value={kg} min={20} max={300} onChange={setKg} unit="kg" />
-              ) : (
-                <PremiumStepper value={lbs} min={40} max={600} onChange={setLbs} unit="lbs" />
-              )}
-            </div>
-
-            <div className="space-y-3">
-              <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500"><Activity className="w-4 h-4 text-orange-500"/> Height</label>
-              {system === 'metric' ? (
-                <PremiumStepper value={cm} min={100} max={250} onChange={setCm} unit="cm" />
-              ) : (
-                <div className="flex flex-col gap-2">
-                  <PremiumStepper value={totalInches} min={36} max={96} onChange={setTotalInches} unit="inches" />
-                  <div className="text-center text-[11px] font-black uppercase tracking-widest text-orange-500 bg-orange-50 dark:bg-orange-900/20 py-1.5 rounded-md border border-orange-100 dark:border-orange-800/50">
-                    Equals: {displayImperialHeight()}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-6">
-            <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Activity Level</label>
-              <select value={activity} onChange={(e) => setActivity(e.target.value)} className="w-full text-sm font-bold p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-orange-500 text-slate-800 dark:text-slate-100 cursor-pointer">
-                <option value="1.2">Sedentary (Office job, no exercise)</option>
-                <option value="1.375">Lightly Active (Exercise 1-3 days/week)</option>
-                <option value="1.55">Moderately Active (Exercise 3-5 days/week)</option>
-                <option value="1.725">Very Active (Hard exercise 6-7 days/week)</option>
-                <option value="1.9">Extra Active (Physical job + Hard exercise)</option>
-              </select>
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Primary Goal</label>
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { id: 'lose', label: 'Cut', desc: 'Lose Fat' },
-                  { id: 'maintain', label: 'Maintain', desc: 'Stay Same' },
-                  { id: 'gain', label: 'Bulk', desc: 'Build Muscle' }
-                ].map((g) => (
-                  <button 
-                    key={g.id}
-                    onClick={() => setGoal(g.id)}
-                    className={`flex flex-col items-center justify-center p-3 rounded-lg border transition-all ${goal === g.id ? 'bg-orange-100 border-orange-300 text-orange-700 dark:bg-orange-900/30 dark:border-orange-700 dark:text-orange-400 scale-[1.02] shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700 hover:border-orange-200'}`}
-                  >
-                    <span className="font-black text-sm">{g.label}</span>
-                    <span className="text-[10px] uppercase font-bold opacity-70 mt-1">{g.desc}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="flex bg-paper border border-line p-1 rounded-lg shrink-0">
+            <button 
+              type="button" 
+              onClick={() => handleSystemSwitch("metric")} 
+              className={`px-4 py-2 text-xs md:text-sm font-bold rounded-md transition-all ${system === 'metric' ? 'bg-surface text-brand shadow-sm border border-line' : 'text-muted'}`}
+            >
+              Metric
+            </button>
+            <button 
+              type="button" 
+              onClick={() => handleSystemSwitch("imperial")} 
+              className={`px-4 py-2 text-xs md:text-sm font-bold rounded-md transition-all ${system === 'imperial' ? 'bg-surface text-brand shadow-sm border border-line' : 'text-muted'}`}
+            >
+              Imperial
+            </button>
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 h-full sticky top-6">
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl shadow-sm text-center relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-4 opacity-10"><Zap className="w-24 h-24 text-orange-500"/></div>
-             
-             <div className="z-10 relative">
-               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Daily Target Calories</h3>
-               <div className="text-6xl md:text-7xl font-black tracking-tighter text-white mb-2">
-                 {isMounted && results.targetCalories > 0 ? results.targetCalories : "0"}
-               </div>
-               <div className="text-sm font-semibold text-orange-500 flex items-center justify-center gap-2">
-                 <Flame className="w-4 h-4"/> Maintenance (TDEE): {isMounted ? results.tdee : 0} kcal
-               </div>
-             </div>
-
-             {results.targetCalories > 0 && (
-               <div className="mt-8 pt-6 border-t border-slate-800">
-                 <div className="flex items-center gap-2 mb-4 justify-center">
-                     <PieChart className="w-4 h-4 text-slate-400"/>
-                     <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Recommended Macros</h4>
-                 </div>
-                 <div className="grid grid-cols-3 gap-2">
-                     <div className="bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg text-center">
-                         <span className="block text-2xl font-black text-rose-400">{results.macros.protein}g</span>
-                         <span className="text-[10px] font-bold text-rose-500/70 uppercase">Protein</span>
-                     </div>
-                     <div className="bg-sky-500/10 border border-sky-500/20 p-3 rounded-lg text-center">
-                         <span className="block text-2xl font-black text-sky-400">{results.macros.carbs}g</span>
-                         <span className="text-[10px] font-bold text-sky-500/70 uppercase">Carbs</span>
-                     </div>
-                     <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg text-center">
-                         <span className="block text-2xl font-black text-amber-400">{results.macros.fats}g</span>
-                         <span className="text-[10px] font-bold text-amber-500/70 uppercase">Fats</span>
-                     </div>
-                 </div>
-               </div>
-             )}
-          </div>
-
-          {results.targetCalories > 0 && (
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
-                <CalendarDays className="w-5 h-5 text-indigo-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Zig-Zag Calorie Cycle</h3>
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,1fr] items-start gap-6 md:gap-8 min-w-0">
+          
+          {/* INPUT FORM PANEL */}
+          <div className="flex flex-col gap-6 md:gap-8 min-w-0">
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 min-w-0">
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Gender</label>
+                <div className="flex gap-2.5 h-12 md:h-14">
+                  <button 
+                    type="button" 
+                    onClick={() => setGender("male")} 
+                    className={`flex-1 rounded-lg font-bold border transition-all text-sm md:text-base ${gender === 'male' ? 'bg-brand/10 border-brand/30 text-brand shadow-sm' : 'bg-surface border-line text-muted hover:text-ink'}`}
+                  >
+                    Male
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => setGender("female")} 
+                    className={`flex-1 rounded-lg font-bold border transition-all text-sm md:text-base ${gender === 'female' ? 'bg-brand/10 border-brand/30 text-brand shadow-sm' : 'bg-surface border-line text-muted hover:text-ink'}`}
+                  >
+                    Female
+                  </button>
+                </div>
               </div>
-              <p className="text-xs text-slate-500 mb-4 font-medium leading-relaxed">
-                Break metabolism plateaus by cycling calories. This 7-day schedule averages exactly to your {results.targetCalories} daily target.
-              </p>
-              
-              <div className="space-y-2">
-                {results.zigZag.map((day, idx) => (
-                  <div key={idx} className={`flex justify-between items-center p-2.5 rounded-lg border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors ${day.bg}`}>
-                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 w-20">{day.day}</span>
-                    <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${day.color} bg-white/50 dark:bg-black/20`}>{day.type}</span>
-                    <span className="text-sm font-black text-slate-800 dark:text-slate-100">{Math.round(day.cals)} <span className="text-[10px] text-slate-400 font-medium">kcal</span></span>
-                  </div>
-                ))}
+
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Age</label>
+                <PremiumStepper value={age} min={15} max={100} onChange={setAge} unit="Yrs" />
               </div>
             </div>
-          )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 pt-6 border-t border-line min-w-0">
+              <div className="space-y-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+                  <Scale className="w-4 h-4 md:w-5 md:h-5 text-brand"/> Weight
+                </label>
+                {system === 'metric' ? (
+                  <PremiumStepper value={kg} min={20} max={300} onChange={setKg} unit="kg" />
+                ) : (
+                  <PremiumStepper value={lbs} min={40} max={600} onChange={setLbs} unit="lbs" />
+                )}
+              </div>
+
+              <div className="space-y-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+                  <Activity className="w-4 h-4 md:w-5 md:h-5 text-brand"/> Height
+                </label>
+                {system === 'metric' ? (
+                  <PremiumStepper value={cm} min={100} max={250} onChange={setCm} unit="cm" />
+                ) : (
+                  <div className="flex flex-col gap-2 min-w-0">
+                    <PremiumStepper value={totalInches} min={36} max={96} onChange={setTotalInches} unit="in" />
+                    <div className="text-center text-xs font-bold text-brand bg-brand/10 py-2 rounded-lg border border-brand/20">
+                      Equals: {displayImperialHeight()}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-line space-y-6 min-w-0">
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Activity Level</label>
+                <select 
+                  value={activity} 
+                  onChange={(e) => setActivity(e.target.value)} 
+                  className="w-full text-sm md:text-base font-semibold px-4 py-3.5 bg-surface border border-line rounded-lg outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand text-ink cursor-pointer"
+                >
+                  <option value="1.2">Sedentary (Office job, no exercise)</option>
+                  <option value="1.375">Lightly Active (Exercise 1-3 days/week)</option>
+                  <option value="1.55">Moderately Active (Exercise 3-5 days/week)</option>
+                  <option value="1.725">Very Active (Hard exercise 6-7 days/week)</option>
+                  <option value="1.9">Extra Active (Physical job + Hard exercise)</option>
+                </select>
+              </div>
+
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Primary Goal</label>
+                <div className="grid grid-cols-3 gap-2.5 min-w-0">
+                  {[
+                    { id: 'lose', label: 'Cut', desc: 'Lose Fat' },
+                    { id: 'maintain', label: 'Maintain', desc: 'Stay Same' },
+                    { id: 'gain', label: 'Bulk', desc: 'Build Muscle' }
+                  ].map((g) => {
+                    const isActive = goal === g.id;
+                    return (
+                      <button 
+                        key={g.id}
+                        type="button"
+                        onClick={() => setGoal(g.id)}
+                        className={`flex flex-col items-center justify-center p-3 md:p-3.5 rounded-lg border transition-all ${
+                          isActive 
+                            ? 'bg-brand/10 border-brand/30 text-brand shadow-sm' 
+                            : 'bg-surface border-line text-muted hover:text-ink hover:border-brand/30'
+                        }`}
+                      >
+                        <span className="font-bold text-sm md:text-base">{g.label}</span>
+                        <span className="text-[10px] md:text-xs uppercase font-semibold opacity-80 mt-0.5">{g.desc}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* RESULT SIDEBAR PANEL */}
+          <div className="flex flex-col gap-6 h-full min-w-0">
+            <div className="bg-paper border border-line p-5 md:p-6 rounded-xl shadow-card text-center relative overflow-hidden min-w-0">
+               
+               <div className="flex items-center justify-between border-b border-line pb-4 mb-5 min-w-0">
+                 <h3 className="text-base md:text-lg font-bold text-ink truncate">Calorie Target</h3>
+                 <button
+                   type="button"
+                   onClick={copyResult}
+                   className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-line bg-surface hover:bg-line text-ink text-xs font-semibold transition-colors shrink-0"
+                 >
+                   {copied ? <><Check className="w-3.5 h-3.5 text-teal" /> Copied</> : <><Copy className="w-3.5 h-3.5 text-muted" /> Copy</>}
+                 </button>
+               </div>
+               
+               <div className="z-10 relative my-4 min-w-0">
+                 <div className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-ink mb-2 truncate">
+                   {isMounted && results.targetCalories > 0 ? results.targetCalories : "0"} <span className="text-lg md:text-xl font-sans font-semibold text-muted">kcal</span>
+                 </div>
+                 <div className="text-xs md:text-sm font-semibold text-brand flex items-center justify-center gap-1.5 truncate">
+                   <Flame className="w-4 h-4 shrink-0"/> Maintenance (TDEE): {isMounted ? results.tdee : 0} kcal
+                 </div>
+               </div>
+
+               {results.targetCalories > 0 && (
+                 <div className="mt-6 pt-5 border-t border-line min-w-0">
+                   <div className="flex items-center gap-1.5 mb-3.5 justify-center">
+                       <PieChart className="w-4 h-4 text-muted shrink-0"/>
+                       <h4 className="text-xs font-bold text-muted uppercase tracking-widest">Recommended Macros</h4>
+                   </div>
+                   <div className="grid grid-cols-3 gap-2 min-w-0">
+                       <div className="bg-[#fb7185]/10 border border-[#fb7185]/20 p-2.5 md:p-3 rounded-lg text-center min-w-0">
+                           <span className="block text-xl md:text-2xl font-black text-[#e11d48] truncate">{results.macros.protein}g</span>
+                           <span className="text-[10px] font-bold text-muted uppercase">Protein</span>
+                       </div>
+                       <div className="bg-[#38bdf8]/10 border border-[#38bdf8]/20 p-2.5 md:p-3 rounded-lg text-center min-w-0">
+                           <span className="block text-xl md:text-2xl font-black text-[#0284c7] truncate">{results.macros.carbs}g</span>
+                           <span className="text-[10px] font-bold text-muted uppercase">Carbs</span>
+                       </div>
+                       <div className="bg-amber-500/10 border border-amber-500/20 p-2.5 md:p-3 rounded-lg text-center min-w-0">
+                           <span className="block text-xl md:text-2xl font-black text-amber-600 truncate">{results.macros.fats}g</span>
+                           <span className="text-[10px] font-bold text-muted uppercase">Fats</span>
+                       </div>
+                   </div>
+                 </div>
+               )}
+            </div>
+
+            {results.targetCalories > 0 && (
+              <div className="bg-paper border border-line p-5 md:p-6 rounded-xl shadow-card min-w-0">
+                <div className="flex items-center gap-2 border-b border-line pb-3.5 mb-4 min-w-0">
+                  <CalendarDays className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0" />
+                  <h3 className="text-sm md:text-base font-bold text-ink truncate">Zig-Zag Calorie Cycle</h3>
+                </div>
+                <p className="text-xs text-muted mb-4 font-medium leading-relaxed">
+                  Break metabolism plateaus by cycling calories. This 7-day schedule averages exactly to your {results.targetCalories} daily target.
+                </p>
+                
+                <div className="space-y-2 min-w-0">
+                  {results.zigZag.map((day, idx) => (
+                    <div key={idx} className={`flex justify-between items-center p-2.5 rounded-lg border border-line/50 hover:border-brand/30 transition-colors ${day.bg} min-w-0`}>
+                      <span className="text-xs md:text-sm font-bold text-ink shrink-0 pr-2">{day.day}</span>
+                      <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${day.color} bg-surface shrink-0`}>{day.type}</span>
+                      <span className="text-xs md:text-sm font-black text-ink shrink-0 pl-2">{Math.round(day.cals)} <span className="text-[10px] text-muted font-normal">kcal</span></span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
         </div>
       </div>
     </div>

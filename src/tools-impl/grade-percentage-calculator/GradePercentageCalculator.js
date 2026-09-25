@@ -2,31 +2,30 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import {
-  Percent, Plus, Trash2, Award, Target, 
-  TrendingUp, BookOpen, AlertCircle, CheckCircle2,
-  BarChart
+  Percent, Plus, Trash2, Target, 
+  BookOpen, BarChart
 } from "lucide-react";
 
 // Standard US/Global Grading Scale
 const GRADING_SCALE = [
-  { min: 97, grade: "A+", gpa: "4.0", color: "text-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-900/20", border: "border-emerald-200 dark:border-emerald-800", msg: "Outstanding" },
-  { min: 93, grade: "A", gpa: "4.0", color: "text-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-900/20", border: "border-emerald-200 dark:border-emerald-800", msg: "Excellent" },
-  { min: 90, grade: "A-", gpa: "3.7", color: "text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-900/20", border: "border-emerald-200 dark:border-emerald-800", msg: "Great" },
-  { min: 87, grade: "B+", gpa: "3.3", color: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-900/20", border: "border-blue-200 dark:border-blue-800", msg: "Very Good" },
-  { min: 83, grade: "B", gpa: "3.0", color: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-900/20", border: "border-blue-200 dark:border-blue-800", msg: "Good" },
-  { min: 80, grade: "B-", gpa: "2.7", color: "text-blue-400", bg: "bg-blue-50 dark:bg-blue-900/20", border: "border-blue-200 dark:border-blue-800", msg: "Above Average" },
-  { min: 77, grade: "C+", gpa: "2.3", color: "text-amber-500", bg: "bg-amber-50 dark:bg-amber-900/20", border: "border-amber-200 dark:border-amber-800", msg: "Average" },
-  { min: 73, grade: "C", gpa: "2.0", color: "text-amber-500", bg: "bg-amber-50 dark:bg-amber-900/20", border: "border-amber-200 dark:border-amber-800", msg: "Satisfactory" },
-  { min: 70, grade: "C-", gpa: "1.7", color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-900/20", border: "border-amber-200 dark:border-amber-800", msg: "Barely Satisfactory" },
-  { min: 67, grade: "D+", gpa: "1.3", color: "text-orange-500", bg: "bg-orange-50 dark:bg-orange-900/20", border: "border-orange-200 dark:border-orange-800", msg: "Poor" },
-  { min: 60, grade: "D", gpa: "1.0", color: "text-orange-500", bg: "bg-orange-50 dark:bg-orange-900/20", border: "border-orange-200 dark:border-orange-800", msg: "Very Poor" },
-  { min: 0,  grade: "F", gpa: "0.0", color: "text-rose-500", bg: "bg-rose-50 dark:bg-rose-900/20", border: "border-rose-200 dark:border-rose-800", msg: "Fail" }
+  { min: 97, grade: "A+", gpa: "4.0", color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", msg: "Outstanding" },
+  { min: 93, grade: "A", gpa: "4.0", color: "text-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/20", msg: "Excellent" },
+  { min: 90, grade: "A-", gpa: "3.7", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", msg: "Great" },
+  { min: 87, grade: "B+", gpa: "3.3", color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", msg: "Very Good" },
+  { min: 83, grade: "B", gpa: "3.0", color: "text-blue-500", bg: "bg-blue-500/10", border: "border-blue-500/20", msg: "Good" },
+  { min: 80, grade: "B-", gpa: "2.7", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20", msg: "Above Average" },
+  { min: 77, grade: "C+", gpa: "2.3", color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", msg: "Average" },
+  { min: 73, grade: "C", gpa: "2.0", color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20", msg: "Satisfactory" },
+  { min: 70, grade: "C-", gpa: "1.7", color: "text-amber-600", bg: "bg-amber-500/10", border: "border-amber-500/20", msg: "Barely Satisfactory" },
+  { min: 67, grade: "D+", gpa: "1.3", color: "text-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/20", msg: "Poor" },
+  { min: 60, grade: "D", gpa: "1.0", color: "text-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/20", msg: "Very Poor" },
+  { min: 0,  grade: "F", gpa: "0.0", color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20", msg: "Fail" }
 ];
 
 export default function GradePercentageCalculator() {
   const [isMounted, setIsMounted] = useState(false);
   
-  // Dynamic Subjects List (Defaults to 1 item for quick calculation)
+  // Dynamic Subjects List
   const [subjects, setSubjects] = useState([
     { id: 1, name: "Assessment 1", obtained: "", total: "" }
   ]);
@@ -39,7 +38,6 @@ export default function GradePercentageCalculator() {
     setIsMounted(true);
   }, []);
 
-  // Handlers for dynamic list
   const addSubject = () => {
     setSubjects([...subjects, { id: Date.now(), name: `Assessment ${subjects.length + 1}`, obtained: "", total: "" }]);
   };
@@ -63,7 +61,6 @@ export default function GradePercentageCalculator() {
     subjects.forEach(sub => {
       const obt = parseFloat(sub.obtained) || 0;
       const tot = parseFloat(sub.total) || 0;
-      // Prevent obtained being strictly greater than total visually, but allow math to run
       totalObtained += obt;
       totalMax += tot;
     });
@@ -73,15 +70,11 @@ export default function GradePercentageCalculator() {
       percentage = (totalObtained / totalMax) * 100;
     }
 
-    // Find Grade based on percentage
     const currentGrade = GRADING_SCALE.find(g => percentage >= g.min) || GRADING_SCALE[GRADING_SCALE.length - 1];
 
-    // Predictor Math: How many marks needed in next exam to hit target %?
-    // Formula: (Current Obtained + Needed) / (Current Total + Future Total) = Target % / 100
-    // Needed = ((Target / 100) * (Current Total + Future Total)) - Current Obtained
     let neededMarks = 0;
     let predictorMsg = null;
-    let predictorStatus = "neutral"; // neutral, optimal, warning, danger
+    let predictorStatus = "neutral";
 
     if (totalMax > 0 && futureTotalMarks > 0) {
       const requiredTotalSum = (targetPercentage / 100) * (totalMax + (parseFloat(futureTotalMarks) || 0));
@@ -117,20 +110,20 @@ export default function GradePercentageCalculator() {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
       
       {/* Premium Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-5 rounded-xl shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-50 dark:bg-fuchsia-900/10 rounded-bl-full -z-10"></div>
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/10 rounded-bl-full -z-10"></div>
         <div className="flex items-center gap-4">
-          <div className="bg-fuchsia-100 dark:bg-fuchsia-900/50 p-3 rounded-xl shadow-inner">
-            <Percent className="w-7 h-7 text-fuchsia-600 dark:text-fuchsia-400" />
+          <div className="bg-paper p-3 rounded-xl border border-line shrink-0">
+            <Percent className="w-6 h-6 text-fuchsia-500" />
           </div>
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-200 tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-black text-ink tracking-tight">
               Grade Percentage Calculator
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
+            <p className="text-[10px] font-black text-brand uppercase tracking-widest mt-1">
               Marks, GPA & Target Grade Predictor
             </p>
           </div>
@@ -140,76 +133,80 @@ export default function GradePercentageCalculator() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
         
         {/* ================= LEFT: INPUT PANEL ================= */}
-        <div className="space-y-6">
+        <div className="space-y-6 min-w-0">
           
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm space-y-6">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6">
             
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <h3 className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5">
                 <BookOpen className="w-4 h-4 text-fuchsia-500" /> Academic Scores
               </h3>
-              <span className="text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-slate-500">
+              <span className="text-[9px] bg-surface border border-line px-2 py-0.5 rounded-lg text-muted font-black">
                 {subjects.length} Entry(s)
               </span>
             </div>
 
             {/* Dynamic Subjects List */}
-            <div className="space-y-4">
+            <div className="space-y-3">
               {subjects.map((sub, index) => (
-                <div key={sub.id} className="grid grid-cols-[1fr,120px,120px,auto] gap-3 items-end p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700 transition-colors hover:border-fuchsia-200 dark:hover:border-fuchsia-900/50">
+                <div key={sub.id} className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end p-3.5 bg-surface rounded-xl border border-line transition-colors">
                   
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Name / Subject</label>
+                  <div className="flex-1 space-y-1.5">
+                    <label className="text-[10px] font-black text-muted uppercase tracking-wider">Name / Subject</label>
                     <input
                       type="text"
                       value={sub.name}
                       onChange={(e) => setSubjects(subjects.map(s => s.id === sub.id ? { ...s, name: e.target.value } : s))}
                       placeholder="e.g. Midterm"
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-200 outline-none focus:border-fuchsia-500"
+                      className="w-full bg-paper border border-line rounded-xl px-3 py-2.5 text-xs font-bold text-ink outline-none focus:border-brand"
                     />
                   </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Obtained</label>
-                    <input
-                      type="number"
-                      min="0"
-                      value={sub.obtained}
-                      onChange={(e) => updateSubject(sub.id, "obtained", e.target.value)}
-                      placeholder="Marks"
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm font-black text-slate-800 dark:text-slate-200 outline-none focus:border-fuchsia-500"
-                    />
-                  </div>
+                  <div className="flex gap-2 sm:contents">
+                    <div className="w-full sm:w-28 space-y-1.5">
+                      <label className="text-[10px] font-black text-muted uppercase tracking-wider">Obtained</label>
+                      <input
+                        type="number"
+                        min="0"
+                        value={sub.obtained}
+                        onChange={(e) => updateSubject(sub.id, "obtained", e.target.value)}
+                        placeholder="Marks"
+                        className="w-full bg-paper border border-line rounded-xl px-3 py-2.5 text-xs font-black text-ink outline-none focus:border-brand"
+                      />
+                    </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Total</label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={sub.total}
-                      onChange={(e) => updateSubject(sub.id, "total", e.target.value)}
-                      placeholder="Max"
-                      className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm font-black text-slate-800 dark:text-slate-200 outline-none focus:border-fuchsia-500"
-                    />
+                    <div className="w-full sm:w-28 space-y-1.5">
+                      <label className="text-[10px] font-black text-muted uppercase tracking-wider">Total</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={sub.total}
+                        onChange={(e) => updateSubject(sub.id, "total", e.target.value)}
+                        placeholder="Max"
+                        className="w-full bg-paper border border-line rounded-xl px-3 py-2.5 text-xs font-black text-ink outline-none focus:border-brand"
+                      />
+                    </div>
                   </div>
 
                   {subjects.length > 1 ? (
                     <button 
+                      type="button"
                       onClick={() => removeSubject(sub.id)}
-                      className="p-2.5 mb-[1px] bg-slate-200 hover:bg-rose-100 text-slate-500 hover:text-rose-600 dark:bg-slate-800 dark:hover:bg-rose-900/30 rounded-lg transition-colors"
+                      className="self-end sm:self-auto p-2.5 bg-surface border border-line hover:border-rose-500/50 text-muted hover:text-rose-500 rounded-xl transition-colors cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   ) : (
-                    <div className="w-[36px]"></div> // Spacer for alignment
+                    <div className="hidden sm:block w-[38px]"></div>
                   )}
                 </div>
               ))}
             </div>
 
             <button
+              type="button"
               onClick={addSubject}
-              className="w-full py-3.5 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-fuchsia-400 dark:hover:border-fuchsia-600 text-slate-500 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 text-xs font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-xl border border-dashed border-line hover:border-brand text-muted hover:text-brand text-xs font-black uppercase tracking-wider transition-colors flex items-center justify-center gap-2 cursor-pointer bg-surface"
             >
               <Plus className="w-4 h-4" /> Add Another Subject
             </button>
@@ -218,36 +215,25 @@ export default function GradePercentageCalculator() {
         </div>
 
         {/* ================= RIGHT: RESULT DASHBOARD ================= */}
-        <div className="space-y-6 sticky top-6">
+        <div className="space-y-6 lg:sticky lg:top-6 min-w-0">
           
           {/* Main Percentage Result */}
-          <div className="bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-700 p-8 rounded-2xl shadow-inner text-center relative overflow-hidden">
-            <div className={`absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-fuchsia-400 to-indigo-500`}></div>
+          <div className="bg-surface border border-line p-6 sm:p-8 rounded-2xl shadow-sm text-center relative overflow-hidden space-y-5">
+            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-fuchsia-400 to-indigo-500"></div>
             
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-black uppercase tracking-widest text-slate-500 mb-6 shadow-sm">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-paper border border-line text-[10px] font-black uppercase tracking-wider text-muted shadow-sm">
               <BarChart className="w-3.5 h-3.5 text-fuchsia-500" /> Overall Performance
             </div>
             
             {/* The Big Percentage */}
-            <div className="flex flex-col items-center justify-center mb-8 relative">
-              {/* Circular aesthetic ring */}
-              <div className="absolute inset-0 m-auto w-40 h-40 rounded-full border-[12px] border-slate-100 dark:border-slate-800 opacity-50"></div>
-              <div 
-                className="absolute inset-0 m-auto w-40 h-40 rounded-full border-[12px] border-transparent"
-                style={{
-                  borderTopColor: calculations.totalMax > 0 ? (calculations.percentage >= 50 ? '#10b981' : '#f43f5e') : 'transparent',
-                  borderRightColor: calculations.totalMax > 0 && calculations.percentage >= 25 ? (calculations.percentage >= 50 ? '#10b981' : '#f43f5e') : 'transparent',
-                  borderBottomColor: calculations.totalMax > 0 && calculations.percentage >= 50 ? '#10b981' : 'transparent',
-                  borderLeftColor: calculations.totalMax > 0 && calculations.percentage >= 75 ? '#10b981' : 'transparent',
-                  transform: 'rotate(-45deg)'
-                }}
-              ></div>
+            <div className="flex flex-col items-center justify-center py-2 relative">
+              <div className="absolute inset-0 m-auto w-36 h-36 rounded-full border-8 border-line opacity-40"></div>
 
-              <div className="relative z-10 flex flex-col items-center justify-center w-40 h-40">
-                <span className="text-4xl font-black text-slate-800 dark:text-slate-100 tracking-tighter">
-                  {calculations.percentage}<span className="text-2xl text-slate-400">%</span>
+              <div className="relative z-10 flex flex-col items-center justify-center w-36 h-36">
+                <span className="text-3xl sm:text-4xl font-black text-ink tracking-tighter font-mono">
+                  {calculations.percentage}<span className="text-xl text-muted">%</span>
                 </span>
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
+                <span className="text-[10px] font-black text-muted uppercase tracking-wider mt-1 font-mono">
                   {calculations.totalObtained} / {calculations.totalMax}
                 </span>
               </div>
@@ -255,75 +241,71 @@ export default function GradePercentageCalculator() {
 
             {/* Grades Grid */}
             {calculations.totalMax > 0 && (
-              <div className="grid grid-cols-2 gap-3 pt-6 border-t border-slate-200 dark:border-slate-800">
-                <div className={`p-4 rounded-xl border flex flex-col items-center justify-center shadow-sm ${calculations.gradeInfo.bg} ${calculations.gradeInfo.border}`}>
-                  <span className={`text-2xl font-black ${calculations.gradeInfo.color}`}>{calculations.gradeInfo.grade}</span>
-                  <span className="text-[9px] font-bold uppercase tracking-widest opacity-70 mt-1">Letter Grade</span>
+              <div className="grid grid-cols-2 gap-3 pt-4 border-t border-line">
+                <div className={`p-3.5 rounded-xl border flex flex-col items-center justify-center shadow-sm ${calculations.gradeInfo.bg} ${calculations.gradeInfo.border}`}>
+                  <span className={`text-2xl font-black font-mono ${calculations.gradeInfo.color}`}>{calculations.gradeInfo.grade}</span>
+                  <span className="text-[9px] font-black uppercase tracking-wider text-muted mt-1">Letter Grade</span>
                 </div>
-                <div className={`p-4 rounded-xl border flex flex-col items-center justify-center shadow-sm ${calculations.gradeInfo.bg} ${calculations.gradeInfo.border}`}>
-                  <span className={`text-2xl font-black ${calculations.gradeInfo.color}`}>{calculations.gradeInfo.gpa}</span>
-                  <span className="text-[9px] font-bold uppercase tracking-widest opacity-70 mt-1">US GPA (4.0)</span>
+                <div className={`p-3.5 rounded-xl border flex flex-col items-center justify-center shadow-sm ${calculations.gradeInfo.bg} ${calculations.gradeInfo.border}`}>
+                  <span className={`text-2xl font-black font-mono ${calculations.gradeInfo.color}`}>{calculations.gradeInfo.gpa}</span>
+                  <span className="text-[9px] font-black uppercase tracking-wider text-muted mt-1">US GPA (4.0)</span>
                 </div>
               </div>
             )}
             
             {calculations.totalMax > 0 && (
-              <div className="mt-3 text-center">
-                <span className="text-xs font-bold text-slate-500">Remark: <span className={calculations.gradeInfo.color}>{calculations.gradeInfo.msg}</span></span>
+              <div className="text-center pt-1">
+                <span className="text-xs font-bold text-muted">Remark: <span className={`font-black ${calculations.gradeInfo.color}`}>{calculations.gradeInfo.msg}</span></span>
               </div>
             )}
           </div>
 
           {/* Target Grade Predictor (What-if Mode) */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm animate-in fade-in slide-in-from-bottom-4">
-            <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+          <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+            <h3 className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5 border-b border-line pb-3">
               <Target className="w-4 h-4 text-indigo-500" /> Target Grade Predictor
             </h3>
             
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-4 leading-relaxed">
+            <p className="text-xs font-bold text-muted leading-relaxed">
               Find out how many marks you need in your <b>next exam</b> to achieve your desired overall percentage.
             </p>
 
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Target %</label>
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider">Target %</label>
                 <input
                   type="number"
                   min="1"
                   max="100"
                   value={targetPercentage}
                   onChange={(e) => setTargetPercentage(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
-                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm font-black text-indigo-600 dark:text-indigo-400 outline-none focus:border-indigo-500"
+                  className="w-full bg-surface border border-line rounded-xl px-3 py-2.5 text-xs font-black text-indigo-500 outline-none focus:border-brand font-mono"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Next Exam Total</label>
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider">Next Exam Total</label>
                 <input
                   type="number"
                   min="1"
                   value={futureTotalMarks}
                   onChange={(e) => setFutureTotalMarks(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm font-black text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500"
+                  className="w-full bg-surface border border-line rounded-xl px-3 py-2.5 text-xs font-black text-ink outline-none focus:border-brand font-mono"
                 />
               </div>
             </div>
 
             {calculations.totalMax > 0 && futureTotalMarks > 0 && (
               <div className={`p-4 rounded-xl border flex items-center justify-between shadow-sm transition-colors ${
-                calculations.predictorStatus === 'danger' ? 'bg-rose-50 border-rose-200 dark:bg-rose-900/20 dark:border-rose-800' :
-                calculations.predictorStatus === 'warning' ? 'bg-amber-50 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800' :
-                'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800'
+                calculations.predictorStatus === 'danger' ? 'bg-rose-500/10 border-rose-500/20 text-rose-600 dark:text-rose-400' :
+                calculations.predictorStatus === 'warning' ? 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400' :
+                'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400'
               }`}>
                 <div>
-                  <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">Required Marks</span>
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{calculations.predictorMsg}</span>
+                  <span className="block text-[9px] font-black uppercase tracking-wider opacity-80 mb-0.5">Required Marks</span>
+                  <span className="text-[11px] font-bold leading-tight block">{calculations.predictorMsg}</span>
                 </div>
-                <div className="text-right shrink-0">
-                  <span className={`text-2xl font-black ${
-                    calculations.predictorStatus === 'danger' ? 'text-rose-600 dark:text-rose-400' :
-                    calculations.predictorStatus === 'warning' ? 'text-amber-600 dark:text-amber-400' :
-                    'text-emerald-600 dark:text-emerald-400'
-                  }`}>
+                <div className="text-right shrink-0 pl-2">
+                  <span className="text-2xl font-black font-mono">
                     {calculations.neededMarks}
                   </span>
                 </div>

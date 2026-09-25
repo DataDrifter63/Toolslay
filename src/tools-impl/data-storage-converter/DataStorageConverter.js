@@ -38,7 +38,6 @@ const TRANSFER_SPEEDS = {
 export default function DataStorageConverter() {
   const [isMounted, setIsMounted] = useState(false);
 
-  // States
   const [inputValue, setInputValue] = useState("1");
   const [inputUnit, setInputUnit] = useState("T"); // Default 1 TB
   const [calculationMode, setCalculationMode] = useState("binary"); // 'decimal' (Base-10) or 'binary' (Base-2)
@@ -57,12 +56,10 @@ export default function DataStorageConverter() {
     }
   };
 
-  // --- CORE DATA ENGINE ---
   const results = useMemo(() => {
     const val = parseFloat(inputValue) || 0;
     const baseMultiplier = calculationMode === "decimal" ? 1000 : 1024;
     
-    // 1. Convert everything to Base Bytes first
     let bytes = 0;
     const unitIndex = UNITS.findIndex(u => u.id === inputUnit);
     
@@ -71,11 +68,9 @@ export default function DataStorageConverter() {
     } else if (inputUnit === "B") {
       bytes = val;
     } else {
-      // Multiply by base (1000 or 1024) to the power of index - 1 (since index 1 is Byte)
       bytes = val * Math.pow(baseMultiplier, unitIndex - 1);
     }
 
-    // 2. Generate Grid Conversions
     const grid = UNITS.map((unit, idx) => {
       let converted = 0;
       if (unit.id === "b") {
@@ -86,10 +81,9 @@ export default function DataStorageConverter() {
         converted = bytes / Math.pow(baseMultiplier, idx - 1);
       }
       
-      // Dynamic formatting to avoid scientific notation for normal numbers and remove trailing zeros
       const formatted = converted > 0 && converted < 0.0001 
         ? converted.toExponential(4) 
-        : parseFloat(converted.toPrecision(10)).toString(); // Max 10 sig figs
+        : parseFloat(converted.toPrecision(10)).toString();
 
       return {
         ...unit,
@@ -98,7 +92,6 @@ export default function DataStorageConverter() {
       };
     });
 
-    // 3. Media Context Estimator
     const media = {
       photos: Math.floor(bytes / MEDIA_SIZES.photo),
       songs: Math.floor(bytes / MEDIA_SIZES.song),
@@ -107,7 +100,6 @@ export default function DataStorageConverter() {
       games: Math.floor(bytes / MEDIA_SIZES.game),
     };
 
-    // 4. Transfer Time Estimator Helper
     const formatTime = (seconds) => {
       if (seconds === 0) return "Instant";
       if (seconds < 1) return "< 1 sec";
@@ -130,107 +122,102 @@ export default function DataStorageConverter() {
 
   if (!isMounted) return null;
 
-  // Premium Theme (Cyan & Violet for Tech Vibe)
-  const theme = {
-    gradient: "from-cyan-100 via-violet-50 to-transparent dark:from-cyan-900/30 dark:via-violet-900/10",
-    bgIcon: "bg-gradient-to-br from-cyan-500 to-violet-600",
-    textPri: "text-cyan-600 dark:text-cyan-400",
-    textSec: "text-violet-600 dark:text-violet-400",
-    borderLight: "border-cyan-200 dark:border-cyan-800",
-    bgLight: "bg-cyan-50 dark:bg-cyan-900/20"
-  };
-
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-sans">
       
-      {/* Premium Header */}
-      <div className={`flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden transition-colors duration-500`}>
-        <div className={`absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl ${theme.gradient} rounded-bl-full -z-10 opacity-70`}></div>
-        <div className="flex items-center gap-4">
-          <div className={`${theme.bgIcon} p-3.5 rounded-2xl shadow-md`}>
-            <HardDrive className="w-6 h-6 text-white" />
+      {/* HEADER BAR */}
+      <div className="bg-surface border border-line p-4 sm:p-8 rounded-2xl shadow-card space-y-4 sm:space-y-6 w-full box-border relative overflow-hidden">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-lg sm:text-xl font-black shrink-0">
+            <HardDrive className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+
+          <div className="min-w-0">
+            <div className="text-[9px] sm:text-[10px] font-black tracking-widest text-brand uppercase mb-0.5 sm:mb-1">
+              STORAGE & BANDWIDTH UTILITY
+            </div>
+            <h2 className="text-lg sm:text-2xl font-bold text-ink tracking-tight truncate">
               Data & Bandwidth Oracle
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-              Storage Sizing & Transfer Speed Estimator
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted mt-0.5 truncate">
+              Storage sizing & transfer speed estimator with real-world metrics.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,500px] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-4 sm:gap-6 items-start w-full">
         
-        {/* ================= LEFT: CONFIGURATION ENGINE ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8">
+        {/* LEFT: CONFIGURATION ENGINE */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6 w-full box-border">
             
             {/* 1. Base Logic Toggle */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <Cpu className={`w-3.5 h-3.5 ${theme.textPri}`} /> 1. Calculation Engine
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <Cpu className="w-3.5 h-3.5 text-brand" /> 1. Calculation Engine
               </h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button 
+                  type="button"
                   onClick={() => setCalculationMode("binary")}
-                  className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-start gap-1.5 ${calculationMode === "binary" ? `${theme.borderLight}${theme.bgLight}` : "border-slate-200 dark:border-slate-700 hover:border-slate-300 bg-slate-50 dark:bg-slate-800/50"}`}
+                  className={`p-3 sm:p-4 rounded-xl border-2 transition-all flex flex-col items-start gap-1 ${calculationMode === "binary" ? 'border-brand bg-brand/10' : 'border-line hover:border-brand/50 bg-surface'}`}
                 >
                   <div className="flex justify-between w-full items-center">
-                    <span className={`text-xs font-black uppercase tracking-widest ${calculationMode === "binary" ? theme.textSec : "text-slate-600 dark:text-slate-400"}`}>Operating System</span>
-                    {calculationMode === "binary" && <CheckCircle2 className={`w-4 h-4 ${theme.textSec}`} />}
+                    <span className={`text-xs font-black uppercase tracking-wider ${calculationMode === "binary" ? 'text-brand' : 'text-ink'}`}>Operating System</span>
+                    {calculationMode === "binary" && <CheckCircle2 className="w-4 h-4 text-brand shrink-0" />}
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 text-left">Base-2 (1024) • Used by Windows/Mac</span>
+                  <span className="text-[10px] font-bold text-muted text-left">Base-2 (1024) • Used by Windows/Mac</span>
                 </button>
                 
                 <button 
+                  type="button"
                   onClick={() => setCalculationMode("decimal")}
-                  className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-start gap-1.5 ${calculationMode === "decimal" ? `${theme.borderLight}${theme.bgLight}` : "border-slate-200 dark:border-slate-700 hover:border-slate-300 bg-slate-50 dark:bg-slate-800/50"}`}
+                  className={`p-3 sm:p-4 rounded-xl border-2 transition-all flex flex-col items-start gap-1 ${calculationMode === "decimal" ? 'border-brand bg-brand/10' : 'border-line hover:border-brand/50 bg-surface'}`}
                 >
                   <div className="flex justify-between w-full items-center">
-                    <span className={`text-xs font-black uppercase tracking-widest ${calculationMode === "decimal" ? theme.textPri : "text-slate-600 dark:text-slate-400"}`}>Hard Drive Makers</span>
-                    {calculationMode === "decimal" && <CheckCircle2 className={`w-4 h-4 ${theme.textPri}`} />}
+                    <span className={`text-xs font-black uppercase tracking-wider ${calculationMode === "decimal" ? 'text-brand' : 'text-ink'}`}>Hard Drive Makers</span>
+                    {calculationMode === "decimal" && <CheckCircle2 className="w-4 h-4 text-brand shrink-0" />}
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 text-left">Base-10 (1000) • Used on HDD/SSD boxes</span>
+                  <span className="text-[10px] font-bold text-muted text-left">Base-10 (1000) • Used on HDD/SSD boxes</span>
                 </button>
               </div>
 
-              {/* Smart Insight Alert */}
-              <div className="flex items-start gap-2 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-100 dark:border-slate-700/50">
-                <Info className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-                <p className="text-[10px] font-medium text-slate-500 leading-relaxed">
-                  Ever wondered why a "1 TB" drive only shows ~931 GB in Windows? Manufacturers use Base-10 (1TB = 1,000,000,000,000 bytes), but Windows calculates in Base-2 (1TiB = 1,099,511,627,776 bytes). Use the toggle above to see the real difference!
+              <div className="flex items-start gap-2 bg-surface p-3 rounded-xl border border-line">
+                <Info className="w-4 h-4 text-muted shrink-0 mt-0.5" />
+                <p className="text-[10px] font-medium text-muted leading-relaxed">
+                  Ever wondered why a "1 TB" drive only shows ~931 GB in Windows? Manufacturers use Base-10, but Windows calculates in Base-2. Use the toggle above to see the real difference!
                 </p>
               </div>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
             {/* 2. Primary Input */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <ArrowRightLeft className={`w-3.5 h-3.5 ${theme.textPri}`} /> 2. Data Size
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <ArrowRightLeft className="w-3.5 h-3.5 text-brand" /> 2. Data Size
               </h3>
               
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5 block">File / Drive Size</label>
-                  <div className={`relative flex items-center bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-2xl focus-within:border-slate-400 focus-within:ring-4 focus-within:ring-slate-500/10 transition-all overflow-hidden group`}>
-                    <input
-                      type="text" value={inputValue} onChange={(e) => handleNumInput(e.target.value)}
-                      placeholder="e.g. 50"
-                      className="w-full bg-transparent px-5 py-4 text-3xl font-black text-slate-800 dark:text-slate-100 outline-none tabular-nums"
-                    />
-                  </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex-1 min-w-0">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider mb-1.5 block">File / Drive Size</label>
+                  <input
+                    type="text" 
+                    value={inputValue} 
+                    onChange={(e) => handleNumInput(e.target.value)}
+                    placeholder="e.g. 50"
+                    className="w-full h-12 sm:h-14 bg-surface border border-line rounded-xl px-4 text-xl sm:text-2xl font-black text-ink outline-none focus:border-brand tabular-nums"
+                  />
                 </div>
                 
-                <div className="w-full sm:w-32">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5 block">Unit</label>
+                <div className="w-full sm:w-32 shrink-0">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider mb-1.5 block">Unit</label>
                   <select
-                    value={inputUnit} onChange={(e) => setInputUnit(e.target.value)}
-                    className="w-full h-[72px] bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-200 dark:border-slate-700 rounded-2xl px-4 text-base font-black text-slate-800 dark:text-slate-100 outline-none cursor-pointer focus:border-slate-400 tracking-widest"
+                    value={inputUnit} 
+                    onChange={(e) => setInputUnit(e.target.value)}
+                    className="w-full h-12 sm:h-14 bg-surface border border-line rounded-xl px-3 text-xs font-black text-ink outline-none cursor-pointer focus:border-brand uppercase tracking-wider"
                   >
                     {UNITS.map(u => (
                       <option key={u.id} value={u.id}>{calculationMode === 'decimal' ? u.decSymbol : u.binSymbol}</option>
@@ -241,141 +228,131 @@ export default function DataStorageConverter() {
             </div>
 
             {/* Omni Grid Displays */}
-            <div className="space-y-4 animate-in fade-in">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400">All Conversions</h3>
-              <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-3 animate-in fade-in">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted">All Conversions</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {results.grid.filter(u => u.id !== 'b' && u.id !== 'B').map((unit) => (
-                  <div key={unit.id} className={`flex flex-col p-3 rounded-xl border ${inputUnit === unit.id ? `${theme.borderLight}${theme.bgLight}` : "border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50"} transition-colors`}>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{unit.name}</span>
-                    <div className="flex justify-between items-baseline">
-                      <span className={`text-sm font-black tabular-nums truncate pr-2 ${inputUnit === unit.id ? theme.textPri : "text-slate-700 dark:text-slate-200"}`}>
+                  <div key={unit.id} className={`flex flex-col p-3 rounded-xl border ${inputUnit === unit.id ? 'border-brand/50 bg-brand/10' : 'border-line bg-surface'} transition-colors`}>
+                    <span className="text-[9px] font-black text-muted uppercase tracking-wider mb-0.5 truncate">{unit.name}</span>
+                    <div className="flex justify-between items-baseline min-w-0">
+                      <span className={`text-xs sm:text-sm font-black tabular-nums truncate pr-1 ${inputUnit === unit.id ? 'text-brand' : 'text-ink'}`}>
                         {unit.value}
                       </span>
-                      <span className={`text-xs font-bold ${inputUnit === unit.id ? theme.textSec : "text-slate-400"}`}>{unit.symbol}</span>
+                      <span className="text-[10px] font-bold text-muted shrink-0">{unit.symbol}</span>
                     </div>
                   </div>
                 ))}
               </div>
-              {/* Bit / Byte small bar */}
-              <div className="flex gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest justify-center bg-slate-50 dark:bg-slate-800/50 py-2 rounded-lg border border-slate-100 dark:border-slate-800">
-                <span>{results.grid.find(u => u.id === 'B').value} Bytes</span>
+              <div className="flex flex-wrap gap-2 text-[10px] font-black text-muted uppercase tracking-wider justify-center bg-surface py-2.5 px-3 rounded-xl border border-line">
+                <span className="truncate">{results.grid.find(u => u.id === 'B').value} Bytes</span>
                 <span>•</span>
-                <span>{results.grid.find(u => u.id === 'b').value} Bits</span>
+                <span className="truncate">{results.grid.find(u => u.id === 'b').value} Bits</span>
               </div>
             </div>
 
           </div>
         </div>
 
-        {/* ================= RIGHT: THE DASHBOARD / ORACLE ================= */}
-        <div className="space-y-6 sticky top-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col min-h-[640px]">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[22px] p-6 h-full flex flex-col relative overflow-hidden">
-              
-              <div className="flex items-center justify-between mb-6 border-b border-slate-200 dark:border-slate-700 pb-4 shrink-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Activity className={`w-4 h-4 ${theme.textPri}`} /> Contextual Oracle
-                </span>
-                <span className={`text-[9px] font-bold uppercase tracking-widest ${theme.textPri} bg-white dark:bg-slate-800 px-2 py-1 rounded shadow-sm border border-slate-100 dark:border-slate-700`}>
-                  Real-World Metrics
-                </span>
-              </div>
-
-              {/* MEDIA CONTEXT ESTIMATOR */}
-              <div className="mb-6 shrink-0 space-y-4">
-                <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
-                  <HardDrive className="w-3.5 h-3.5" /> What fits in this size?
-                </div>
-                
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex flex-col p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
-                    <ImageIcon className="w-5 h-5 text-emerald-500 mb-2" />
-                    <span className="text-xl font-black text-slate-800 dark:text-slate-100 tabular-nums leading-none mb-1">{results.formatNumber(results.media.photos)}</span>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">High-Res Photos</span>
-                  </div>
-                  
-                  <div className="flex flex-col p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
-                    <Music className="w-5 h-5 text-sky-500 mb-2" />
-                    <span className="text-xl font-black text-slate-800 dark:text-slate-100 tabular-nums leading-none mb-1">{results.formatNumber(results.media.songs)}</span>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">MP3 Songs</span>
-                  </div>
-                  
-                  <div className="flex flex-col p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
-                    <Film className="w-5 h-5 text-indigo-500 mb-2" />
-                    <span className="text-xl font-black text-slate-800 dark:text-slate-100 tabular-nums leading-none mb-1">{results.formatNumber(results.media.movies)}</span>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">HD 1080p Movies</span>
-                  </div>
-
-                  <div className="flex flex-col p-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm">
-                    <Zap className="w-5 h-5 text-rose-500 mb-2" />
-                    <span className="text-xl font-black text-slate-800 dark:text-slate-100 tabular-nums leading-none mb-1">{results.formatNumber(results.media.games)}</span>
-                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">AAA Video Games</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* TRANSFER SPEED ESTIMATOR */}
-              <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-4 shadow-sm relative overflow-hidden mt-auto">
-                
-                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">
-                  <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> Time to Transfer</span>
-                  <span className="text-[8px] bg-slate-50 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">ESTIMATES</span>
-                </div>
-
-                <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-3">
-                  
-                  {/* USB 3.0 */}
-                  <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg"><Usb className="w-4 h-4"/></div>
-                      <div>
-                        <span className="text-xs font-black text-slate-800 dark:text-slate-100 block">USB 3.0 Drive</span>
-                        <span className="text-[9px] font-bold text-slate-400">~400 MB/s Avg</span>
-                      </div>
-                    </div>
-                    <span className="text-sm font-black tabular-nums text-slate-700 dark:text-slate-200">{results.transfers.usb3}</span>
-                  </div>
-
-                  {/* 1 Gbps Ethernet */}
-                  <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg"><Activity className="w-4 h-4"/></div>
-                      <div>
-                        <span className="text-xs font-black text-slate-800 dark:text-slate-100 block">1 Gbps LAN</span>
-                        <span className="text-[9px] font-bold text-slate-400">~115 MB/s Avg</span>
-                      </div>
-                    </div>
-                    <span className="text-sm font-black tabular-nums text-slate-700 dark:text-slate-200">{results.transfers.eth1g}</span>
-                  </div>
-
-                  {/* Wi-Fi 6 */}
-                  <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 rounded-lg"><Wifi className="w-4 h-4"/></div>
-                      <div>
-                        <span className="text-xs font-black text-slate-800 dark:text-slate-100 block">Wi-Fi 6 Network</span>
-                        <span className="text-[9px] font-bold text-slate-400">~150 MB/s Avg</span>
-                      </div>
-                    </div>
-                    <span className="text-sm font-black tabular-nums text-slate-700 dark:text-slate-200">{results.transfers.wifi6}</span>
-                  </div>
-
-                  {/* Older USB 2.0 */}
-                  <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50 opacity-60">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg"><Usb className="w-4 h-4"/></div>
-                      <div>
-                        <span className="text-xs font-black text-slate-800 dark:text-slate-100 block">Old USB 2.0</span>
-                        <span className="text-[9px] font-bold text-slate-400">~40 MB/s Avg</span>
-                      </div>
-                    </div>
-                    <span className="text-sm font-black tabular-nums text-slate-500">{results.transfers.usb2}</span>
-                  </div>
-
-                </div>
-              </div>
-
+        {/* RIGHT: THE DASHBOARD / ORACLE */}
+        <div className="space-y-4 sm:space-y-6 w-full">
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm space-y-5 w-full box-border">
+            
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-ink">
+                <Activity className="w-4 h-4 text-brand" /> Contextual Oracle
+              </span>
+              <span className="text-[9px] font-black uppercase tracking-wider text-brand bg-brand/10 px-2.5 py-1 rounded-xl border border-brand/30">
+                Real-World
+              </span>
             </div>
+
+            {/* MEDIA CONTEXT ESTIMATOR */}
+            <div className="space-y-3">
+              <div className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5">
+                <HardDrive className="w-3.5 h-3.5 text-brand" /> What fits in this size?
+              </div>
+              
+              <div className="grid grid-cols-2 gap-2.5">
+                <div className="flex flex-col p-3 rounded-xl border border-line bg-surface shadow-sm">
+                  <ImageIcon className="w-4 h-4 text-emerald-500 mb-1.5" />
+                  <span className="text-base sm:text-lg font-black text-ink tabular-nums leading-none mb-1 truncate">{results.formatNumber(results.media.photos)}</span>
+                  <span className="text-[9px] font-black text-muted uppercase tracking-wider truncate">High-Res Photos</span>
+                </div>
+                
+                <div className="flex flex-col p-3 rounded-xl border border-line bg-surface shadow-sm">
+                  <Music className="w-4 h-4 text-sky-500 mb-1.5" />
+                  <span className="text-base sm:text-lg font-black text-ink tabular-nums leading-none mb-1 truncate">{results.formatNumber(results.media.songs)}</span>
+                  <span className="text-[9px] font-black text-muted uppercase tracking-wider truncate">MP3 Songs</span>
+                </div>
+                
+                <div className="flex flex-col p-3 rounded-xl border border-line bg-surface shadow-sm">
+                  <Film className="w-4 h-4 text-indigo-500 mb-1.5" />
+                  <span className="text-base sm:text-lg font-black text-ink tabular-nums leading-none mb-1 truncate">{results.formatNumber(results.media.movies)}</span>
+                  <span className="text-[9px] font-black text-muted uppercase tracking-wider truncate">HD 1080p Movies</span>
+                </div>
+
+                <div className="flex flex-col p-3 rounded-xl border border-line bg-surface shadow-sm">
+                  <Zap className="w-4 h-4 text-[#fb7185] mb-1.5" />
+                  <span className="text-base sm:text-lg font-black text-ink tabular-nums leading-none mb-1 truncate">{results.formatNumber(results.media.games)}</span>
+                  <span className="text-[9px] font-black text-muted uppercase tracking-wider truncate">AAA Video Games</span>
+                </div>
+              </div>
+            </div>
+
+            {/* TRANSFER SPEED ESTIMATOR */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-muted border-b border-line pb-2">
+                <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-brand" /> Transfer Time</span>
+                <span className="text-[9px] font-black uppercase tracking-wider text-muted">Estimates</span>
+              </div>
+
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between p-3 bg-surface rounded-xl border border-line">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2 bg-blue-500/10 text-blue-500 rounded-lg shrink-0"><Usb className="w-4 h-4"/></div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-black text-ink uppercase tracking-wider block truncate">USB 3.0 Drive</span>
+                      <span className="text-[9px] font-medium text-muted block truncate">~400 MB/s Avg</span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-black tabular-nums text-ink shrink-0 ml-2">{results.transfers.usb3}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 bg-surface rounded-xl border border-line">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg shrink-0"><Activity className="w-4 h-4"/></div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-black text-ink uppercase tracking-wider block truncate">1 Gbps LAN</span>
+                      <span className="text-[9px] font-medium text-muted block truncate">~115 MB/s Avg</span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-black tabular-nums text-ink shrink-0 ml-2">{results.transfers.eth1g}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 bg-surface rounded-xl border border-line">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2 bg-violet-500/10 text-violet-500 rounded-lg shrink-0"><Wifi className="w-4 h-4"/></div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-black text-ink uppercase tracking-wider block truncate">Wi-Fi 6 Network</span>
+                      <span className="text-[9px] font-medium text-muted block truncate">~150 MB/s Avg</span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-black tabular-nums text-ink shrink-0 ml-2">{results.transfers.wifi6}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3 bg-surface rounded-xl border border-line opacity-60">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="p-2 bg-surface text-muted rounded-lg shrink-0"><Usb className="w-4 h-4"/></div>
+                    <div className="min-w-0">
+                      <span className="text-xs font-black text-ink uppercase tracking-wider block truncate">Old USB 2.0</span>
+                      <span className="text-[9px] font-medium text-muted block truncate">~40 MB/s Avg</span>
+                    </div>
+                  </div>
+                  <span className="text-xs font-black tabular-nums text-muted shrink-0 ml-2">{results.transfers.usb2}</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import {
-  GraduationCap, Calendar, Clock, BookOpen, Plus, 
+  GraduationCap, Clock, BookOpen, Plus, 
   Trash2, AlertTriangle, CheckCircle2, Target,
   Zap, CalendarClock, ShieldAlert
 } from "lucide-react";
@@ -26,7 +26,6 @@ export default function StudyTimeCalculator() {
 
   useEffect(() => {
     setIsMounted(true);
-    // Set default exam date to 7 days from today
     const futureDate = new Date();
     futureDate.setDate(futureDate.getDate() + 7);
     setExamDate(futureDate.toISOString().split('T')[0]);
@@ -62,18 +61,15 @@ export default function StudyTimeCalculator() {
       daysLeft = Math.ceil((eDate - today) / (1000 * 60 * 60 * 24));
     }
 
-    // Effective days after removing revision buffer
     let effectiveDays = daysLeft;
     if (reserveRevisionDay && daysLeft > 1) {
       effectiveDays = daysLeft - 1;
     }
     
-    // Prevent division by zero if exam is today/tomorrow
     effectiveDays = Math.max(1, effectiveDays);
 
     const requiredDailyHours = totalHours / effectiveDays;
     
-    // Feasibility Logic
     let status = {};
     if (daysLeft < 0) {
       status = { type: "danger", label: "Exam Passed", msg: "The exam date has already passed.", color: "rose" };
@@ -99,20 +95,20 @@ export default function StudyTimeCalculator() {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
       
       {/* Premium Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-5 rounded-xl shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-violet-50 dark:bg-violet-900/10 rounded-bl-full -z-10"></div>
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 rounded-bl-full -z-10"></div>
         <div className="flex items-center gap-4">
-          <div className="bg-violet-100 dark:bg-violet-900/50 p-3 rounded-xl shadow-inner">
-            <GraduationCap className="w-7 h-7 text-violet-600 dark:text-violet-400" />
+          <div className="bg-paper p-3 rounded-xl border border-line shrink-0">
+            <GraduationCap className="w-6 h-6 text-violet-500" />
           </div>
           <div>
-            <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-200 tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-black text-ink tracking-tight">
               Study Time Calculator
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
+            <p className="text-[10px] font-black text-brand uppercase tracking-widest mt-1">
               Smart Exam Prep & Feasibility Planner
             </p>
           </div>
@@ -122,69 +118,69 @@ export default function StudyTimeCalculator() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
         
         {/* ================= LEFT: INPUT PANEL ================= */}
-        <div className="space-y-6">
+        <div className="space-y-6 min-w-0">
           
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm space-y-8">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6">
             
             {/* Exam Details */}
             <div>
-              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+              <h3 className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5 border-b border-line pb-3 mb-4">
                 <Target className="w-4 h-4 text-violet-500" /> Exam Parameters
               </h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Exam Name</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider">Exam Name</label>
                   <input
                     type="text"
                     value={examName}
                     onChange={(e) => setExamName(e.target.value)}
                     placeholder="e.g. Physics Final"
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 transition-colors"
+                    className="w-full bg-surface border border-line rounded-xl px-4 py-3 text-xs font-bold text-ink outline-none focus:border-brand transition-colors"
                   />
                 </div>
                 
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Exam Date</label>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider">Exam Date</label>
                   <input
                     type="date"
                     value={examDate}
                     onChange={(e) => setExamDate(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 transition-colors"
+                    className="w-full bg-surface border border-line rounded-xl px-4 py-3 text-xs font-bold text-ink outline-none focus:border-brand transition-colors"
                   />
                 </div>
               </div>
 
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Daily Study Capacity (Hours)</label>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider">Daily Study Capacity (Hours)</label>
                   <input
                     type="number"
                     min="1"
                     max="16"
                     value={dailyCapacity}
                     onChange={(e) => setDailyCapacity(Math.max(1, parseFloat(e.target.value) || 1))}
-                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500 transition-colors"
+                    className="w-full bg-surface border border-line rounded-xl px-4 py-3 text-xs font-bold text-ink outline-none focus:border-brand transition-colors"
                   />
                 </div>
                 
-                <div className="space-y-1.5 flex flex-col justify-end pb-1">
+                <div className="space-y-2 flex flex-col justify-end">
                   <label 
                     className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
                       reserveRevisionDay 
-                        ? "bg-violet-50 border-violet-500 text-violet-700 dark:bg-violet-900/20 dark:text-violet-300" 
-                        : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400"
+                        ? "bg-violet-500/10 border-violet-500/30 text-violet-600 dark:text-violet-400" 
+                        : "bg-surface border-line text-muted"
                     }`}
                   >
                     <input 
                       type="checkbox" 
                       checked={reserveRevisionDay}
                       onChange={(e) => setReserveRevisionDay(e.target.checked)}
-                      className="w-4 h-4 accent-violet-600"
+                      className="w-4 h-4 accent-violet-500 cursor-pointer shrink-0"
                     />
                     <div>
-                      <span className="block text-xs font-bold">Reserve Revision Day</span>
-                      <span className="block text-[9px] font-medium opacity-80">Keep last day for mock tests</span>
+                      <span className="block text-xs font-black">Reserve Revision Day</span>
+                      <span className="block text-[9px] font-bold opacity-80">Keep last day for mock tests</span>
                     </div>
                   </label>
                 </div>
@@ -192,54 +188,56 @@ export default function StudyTimeCalculator() {
             </div>
 
             {/* Syllabus / Topics Manager */}
-            <div>
-              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-500 flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+            <div className="pt-2">
+              <h3 className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center justify-between border-b border-line pb-3 mb-4">
                 <span className="flex items-center gap-1.5"><BookOpen className="w-4 h-4 text-violet-500" /> Syllabus Topics</span>
-                <span className="text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-slate-500">{topics.length} Items</span>
+                <span className="text-[9px] bg-surface border border-line px-2 py-0.5 rounded-lg text-muted font-black">{topics.length} Items</span>
               </h3>
               
               {/* Add Topic Form */}
-              <form onSubmit={addTopic} className="flex gap-2 mb-4">
+              <form onSubmit={addTopic} className="flex flex-col sm:flex-row gap-2 mb-4">
                 <input
                   type="text"
                   value={newTopicName}
                   onChange={(e) => setNewTopicName(e.target.value)}
                   placeholder="Topic Name..."
-                  className="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500"
+                  className="flex-1 bg-surface border border-line rounded-xl px-4 py-3 text-xs font-bold text-ink outline-none focus:border-brand"
                 />
-                <input
-                  type="number"
-                  min="0.5"
-                  step="0.5"
-                  value={newTopicHours}
-                  onChange={(e) => setNewTopicHours(e.target.value)}
-                  placeholder="Hrs"
-                  className="w-20 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-3 text-sm font-bold text-center text-slate-800 dark:text-slate-200 outline-none focus:border-violet-500"
-                />
-                <button 
-                  type="submit"
-                  disabled={!newTopicName || !newTopicHours}
-                  className="bg-violet-600 hover:bg-violet-700 disabled:bg-slate-300 dark:disabled:bg-slate-700 text-white rounded-xl px-4 transition-colors flex items-center justify-center"
-                >
-                  <Plus className="w-5 h-5" />
-                </button>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    min="0.5"
+                    step="0.5"
+                    value={newTopicHours}
+                    onChange={(e) => setNewTopicHours(e.target.value)}
+                    placeholder="Hrs"
+                    className="w-24 sm:w-20 bg-surface border border-line rounded-xl px-3 py-3 text-xs font-black text-center text-ink outline-none focus:border-brand"
+                  />
+                  <button 
+                    type="submit"
+                    disabled={!newTopicName || !newTopicHours}
+                    className="flex-1 sm:flex-none bg-brand hover:opacity-90 disabled:opacity-50 text-surface rounded-xl px-5 py-3 transition-opacity flex items-center justify-center cursor-pointer"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </button>
+                </div>
               </form>
 
               {/* Topics List */}
               <div className="space-y-2 max-h-[300px] overflow-y-auto custom-scrollbar pr-1">
                 {topics.length === 0 ? (
-                  <div className="text-center p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700">
-                    <p className="text-sm font-bold text-slate-400">No topics added yet.</p>
+                  <div className="text-center p-6 bg-surface rounded-xl border border-dashed border-line">
+                    <p className="text-xs font-bold text-muted">No topics added yet.</p>
                   </div>
                 ) : (
                   topics.map(topic => (
-                    <div key={topic.id} className="flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-violet-300 transition-colors group">
-                      <span className="text-sm font-bold text-slate-700 dark:text-slate-200 truncate pr-4">{topic.name}</span>
+                    <div key={topic.id} className="flex items-center justify-between p-3 rounded-xl border border-line bg-surface hover:border-violet-500/50 transition-colors group">
+                      <span className="text-xs font-bold text-ink truncate pr-4">{topic.name}</span>
                       <div className="flex items-center gap-3 shrink-0">
-                        <span className="text-[10px] font-black font-mono px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-slate-500">
+                        <span className="text-[10px] font-black font-mono px-2 py-1 bg-paper border border-line rounded-lg text-muted">
                           {topic.hours}h
                         </span>
-                        <button onClick={() => removeTopic(topic.id)} className="text-slate-400 hover:text-rose-500 transition-colors">
+                        <button type="button" onClick={() => removeTopic(topic.id)} className="text-muted hover:text-rose-500 transition-colors cursor-pointer">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -253,53 +251,53 @@ export default function StudyTimeCalculator() {
         </div>
 
         {/* ================= RIGHT: RESULT DASHBOARD ================= */}
-        <div className="space-y-6 sticky top-6">
+        <div className="space-y-6 lg:sticky lg:top-6 min-w-0">
           
-          <div className="bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-inner relative overflow-hidden">
-            <div className={`absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-500`}></div>
+          <div className="bg-surface border border-line p-4 sm:p-6 rounded-2xl shadow-sm relative overflow-hidden space-y-5">
+            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-500"></div>
             
-            <h3 className="text-center text-sm font-black text-slate-800 dark:text-slate-100 mb-6 truncate px-4">
+            <h3 className="text-center text-xs font-black text-ink truncate px-4 uppercase tracking-wider">
               {examName || "Your Study Plan"}
             </h3>
             
             {/* Macro Stats */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-paper p-4 rounded-xl border border-line shadow-sm text-center">
                 <CalendarClock className="w-5 h-5 mx-auto text-violet-500 mb-2" />
-                <span className="block text-2xl font-black text-slate-800 dark:text-slate-100">{calculations.daysLeft > 0 ? calculations.daysLeft : 0}</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Days Left</span>
+                <span className="block text-xl sm:text-2xl font-black text-ink font-mono">{calculations.daysLeft > 0 ? calculations.daysLeft : 0}</span>
+                <span className="text-[9px] font-black text-muted uppercase tracking-wider">Days Left</span>
               </div>
-              <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm text-center">
+              <div className="bg-paper p-4 rounded-xl border border-line shadow-sm text-center">
                 <Clock className="w-5 h-5 mx-auto text-fuchsia-500 mb-2" />
-                <span className="block text-2xl font-black text-slate-800 dark:text-slate-100">{calculations.totalHours}</span>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Hrs</span>
+                <span className="block text-xl sm:text-2xl font-black text-ink font-mono">{calculations.totalHours}</span>
+                <span className="text-[9px] font-black text-muted uppercase tracking-wider">Total Hrs</span>
               </div>
             </div>
 
             {/* Daily Target */}
-            <div className="text-center bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Required Daily Study</span>
+            <div className="text-center bg-paper p-5 rounded-xl border border-line shadow-sm">
+              <span className="text-[9px] font-black text-muted uppercase tracking-wider block mb-1">Required Daily Study</span>
               <div className="flex items-baseline justify-center gap-2">
-                <span className={`text-5xl font-black tracking-tighter ${calculations.status.type === 'danger' ? 'text-rose-500' : 'text-slate-800 dark:text-slate-100'}`}>
+                <span className={`text-4xl sm:text-5xl font-black tracking-tighter font-mono ${calculations.status.type === 'danger' ? 'text-rose-500' : 'text-ink'}`}>
                   {calculations.requiredDailyHours > 0 && calculations.daysLeft > 0 ? calculations.requiredDailyHours : "0"}
                 </span>
-                <span className="text-lg font-bold text-slate-400">hrs/day</span>
+                <span className="text-sm font-bold text-muted">hrs/day</span>
               </div>
             </div>
 
             {/* Feasibility Warning */}
             {calculations.daysLeft > 0 && (
-              <div className={`mt-4 p-4 rounded-xl border flex items-start gap-3 shadow-sm ${
-                calculations.status.color === 'emerald' ? 'bg-emerald-50 border-emerald-200 text-emerald-800 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-300' :
-                calculations.status.color === 'amber' ? 'bg-amber-50 border-amber-200 text-amber-800 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-300' :
-                'bg-rose-50 border-rose-200 text-rose-800 dark:bg-rose-900/20 dark:border-rose-800 dark:text-rose-300'
+              <div className={`p-4 rounded-xl border flex items-start gap-3 shadow-sm ${
+                calculations.status.color === 'emerald' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400' :
+                calculations.status.color === 'amber' ? 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400' :
+                'bg-rose-500/10 border-rose-500/20 text-rose-600 dark:text-rose-400'
               }`}>
                 {calculations.status.color === 'emerald' ? <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" /> : 
                  calculations.status.color === 'amber' ? <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" /> : 
                  <ShieldAlert className="w-5 h-5 shrink-0 mt-0.5" />}
                 <div>
-                  <h4 className="text-xs font-black uppercase tracking-widest mb-0.5">{calculations.status.label}</h4>
-                  <p className="text-[11px] font-medium leading-relaxed opacity-90">{calculations.status.msg}</p>
+                  <h4 className="text-[10px] font-black uppercase tracking-wider mb-0.5">{calculations.status.label}</h4>
+                  <p className="text-[11px] font-bold leading-relaxed opacity-90">{calculations.status.msg}</p>
                 </div>
               </div>
             )}
@@ -307,21 +305,20 @@ export default function StudyTimeCalculator() {
 
           {/* Pomodoro Action Plan */}
           {topics.length > 0 && calculations.daysLeft > 0 && (
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm animate-in fade-in slide-in-from-bottom-4">
-              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+            <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-4">
+              <h3 className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5 border-b border-line pb-3">
                 <Zap className="w-4 h-4 text-violet-500" /> Pomodoro Action Plan
               </h3>
               
-              <div className="space-y-3 max-h-[250px] overflow-y-auto custom-scrollbar pr-1">
+              <div className="space-y-2.5 max-h-[220px] overflow-y-auto custom-scrollbar pr-1">
                 {topics.map(topic => {
-                  // 1 hour = 2 Pomodoros (25m study + 5m break)
                   const pomodoros = Math.ceil(topic.hours * 2);
                   return (
-                    <div key={topic.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                      <span className="text-xs font-bold text-slate-600 dark:text-slate-300 truncate pr-2">
+                    <div key={topic.id} className="flex items-center justify-between p-3 rounded-xl bg-surface border border-line">
+                      <span className="text-xs font-bold text-ink truncate pr-2">
                         {topic.name}
                       </span>
-                      <div className="flex items-center gap-1.5 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 px-2 py-1 rounded-md shrink-0">
+                      <div className="flex items-center gap-1.5 bg-violet-500/10 text-violet-600 dark:text-violet-400 px-2.5 py-1 rounded-lg shrink-0 border border-violet-500/20">
                         <Clock className="w-3 h-3" />
                         <span className="text-[10px] font-black tracking-wider">{pomodoros} Sessions</span>
                       </div>
@@ -329,7 +326,7 @@ export default function StudyTimeCalculator() {
                   );
                 })}
               </div>
-              <p className="text-[9px] text-slate-400 mt-4 text-center">1 Session = 25m Focus + 5m Break</p>
+              <p className="text-[9px] font-bold text-muted text-center uppercase tracking-wider">1 Session = 25m Focus + 5m Break</p>
             </div>
           )}
 

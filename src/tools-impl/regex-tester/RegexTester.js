@@ -74,36 +74,49 @@ export default function RegexTester() {
   };
 
   return (
-    <div className="regex-tool">
-      <div className="regex-card">
-        <div className="regex-top">
-          <div>
-            <h2>Regex Tester</h2>
-            <p>Test, debug and analyze regular expressions instantly.</p>
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
+      
+      {/* CARD CONTAINER */}
+      <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
+        
+        {/* TOPBAR */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 min-w-0">
+          <div className="min-w-0">
+            <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
+              Regex Tester
+            </h2>
+            <p className="text-[11px] font-bold text-muted mt-0.5 truncate">
+              Test, debug and analyze regular expressions instantly.
+            </p>
           </div>
 
-          <button onClick={clearAll} className="regex-clear">
+          <button
+            type="button"
+            onClick={clearAll}
+            className="px-4 py-2.5 rounded-xl border border-line bg-paper text-ink text-xs font-black uppercase tracking-wider hover:bg-surface transition-all shrink-0"
+          >
             Reset
           </button>
         </div>
 
-        <div className="regex-grid">
-          <div className="regex-panel">
-            <label>Regular Expression</label>
+        {/* GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start min-w-0">
+          
+          {/* LEFT PANEL: INPUTS */}
+          <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+            <label className="text-[10px] font-black text-muted uppercase tracking-widest block truncate">Regular Expression</label>
 
-            <div className="regex-input-row">
-              <span>/</span>
-
+            <div className="flex items-center bg-surface border border-line rounded-xl overflow-hidden focus-within:border-brand min-w-0">
+              <span className="px-3.5 text-muted font-mono font-bold shrink-0">/</span>
               <input
                 value={pattern}
                 onChange={(e) => setPattern(e.target.value)}
                 placeholder="e.g. ^[A-Za-z0-9._%+-]+$"
+                className="w-full min-w-0 bg-transparent py-3 font-mono text-xs text-ink outline-none"
               />
-
-              <span>/</span>
-
+              <span className="px-3.5 text-muted font-mono font-bold shrink-0">/</span>
               <input
-                className="flags-input"
+                className="max-w-[55px] bg-paper border-l border-line px-2 font-mono text-xs text-ink text-center outline-none shrink-0"
                 value={flags}
                 onChange={(e) =>
                   setFlags(e.target.value.replace(/[^dgimsuvy]/g, ""))
@@ -112,7 +125,8 @@ export default function RegexTester() {
               />
             </div>
 
-            <div className="regex-flags">
+            {/* FLAGS */}
+            <div className="flex flex-wrap gap-2 min-w-0">
               {[
                 ["g", "Global"],
                 ["i", "Ignore Case"],
@@ -122,6 +136,7 @@ export default function RegexTester() {
                 ["y", "Sticky"],
               ].map(([flag, label]) => (
                 <button
+                  type="button"
                   key={flag}
                   onClick={() => {
                     setFlags((current) =>
@@ -130,66 +145,70 @@ export default function RegexTester() {
                         : current + flag
                     );
                   }}
-                  className={flags.includes(flag) ? "active" : ""}
+                  className={`px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-all shrink-0 ${flags.includes(flag) ? "border-brand bg-brand text-surface shadow-sm" : "border-line bg-surface text-muted hover:text-ink"}`}
                 >
-                  {flag} <small>{label}</small>
+                  {flag} <small className="opacity-75 font-bold">({label})</small>
                 </button>
               ))}
             </div>
 
-            <label>Test String</label>
+            <label className="text-[10px] font-black text-muted uppercase tracking-widest block pt-2 truncate">Test String</label>
 
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Paste the text you want to test here..."
-              rows={12}
+              rows={10}
+              className="w-full min-w-0 bg-surface border border-line rounded-xl p-4 font-mono text-xs text-ink outline-none focus:border-brand resize-y leading-relaxed"
             />
 
             {result.error && (
-              <div className="regex-error">
-                <strong>Invalid Regex</strong>
-                <span>{result.error}</span>
+              <div className="p-3.5 rounded-xl bg-[#fb7185]/10 border border-[#fb7185]/30 text-[#fb7185] space-y-1 min-w-0">
+                <strong className="text-xs font-black block truncate">Invalid Regex</strong>
+                <span className="text-[11px] font-medium block truncate">{result.error}</span>
               </div>
             )}
           </div>
 
-          <div className="regex-panel">
-            <div className="result-header">
-              <div>
-                <label>Live Results</label>
-                <div className="match-count">
+          {/* RIGHT PANEL: RESULTS */}
+          <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0 flex flex-col min-h-[460px]">
+            <div className="flex items-center justify-between gap-4 border-b border-line pb-3 min-w-0">
+              <div className="min-w-0 truncate">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest block truncate">Live Results</label>
+                <div className="text-xs font-black text-ink mt-0.5 truncate">
                   {result.count} match{result.count !== 1 ? "es" : ""}
                 </div>
               </div>
 
               <button
+                type="button"
                 onClick={copyMatches}
                 disabled={!result.matches.length}
-                className="copy-btn"
+                className="px-3.5 py-2 rounded-xl border border-line bg-surface text-ink text-[10px] font-black uppercase tracking-wider hover:bg-paper transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
               >
                 Copy Matches
               </button>
             </div>
 
-            <div className="matches-box">
+            <div className="flex-1 overflow-y-auto max-h-[450px] space-y-2.5 min-w-0">
               {!result.matches.length ? (
-                <div className="empty-result">
-                  <div className="empty-icon">⌁</div>
-                  <strong>No matches yet</strong>
-                  <span>
+                <div className="h-full min-h-[300px] flex flex-col justify-center items-center text-center p-6 text-muted min-w-0">
+                  <div className="text-3xl mb-2 font-black text-brand/40">⌁</div>
+                  <strong className="text-xs font-black text-ink mb-1 truncate">No matches yet</strong>
+                  <span className="text-[11px] font-medium max-w-[240px] leading-relaxed">
                     Enter a regular expression and test text to see results.
                   </span>
                 </div>
               ) : (
                 result.matches.map((match, index) => (
-                  <div className="match-item" key={`${match.index}-${index}`}>
-                    <div className="match-number">{index + 1}</div>
+                  <div className="flex gap-3 p-3.5 rounded-xl bg-surface border border-line min-w-0" key={`${match.index}-${index}`}>
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center bg-brand/15 text-brand text-xs font-black shrink-0">
+                      {index + 1}
+                    </div>
 
-                    <div className="match-content">
-                      <strong>{match.value}</strong>
-
-                      <span>
+                    <div className="min-w-0 truncate">
+                      <strong className="text-xs font-mono font-bold text-ink block truncate">{match.value}</strong>
+                      <span className="text-[10px] font-medium text-muted block mt-0.5 truncate">
                         Position: {match.index}
                         {match.groups?.length
                           ? ` • Groups: ${match.groups.join(", ")}`
@@ -201,255 +220,10 @@ export default function RegexTester() {
               )}
             </div>
           </div>
+
         </div>
+
       </div>
-
-      <style jsx>{`
-        .regex-tool {
-          width: 100%;
-          max-width: 1180px;
-          margin: 0 auto;
-          padding: 24px;
-        }
-
-        .regex-card {
-          border: 1px solid rgba(127, 127, 127, 0.2);
-          border-radius: 22px;
-          padding: 28px;
-          background: var(--background, #fff);
-          color: var(--foreground, #111);
-        }
-
-        .regex-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 20px;
-          margin-bottom: 25px;
-        }
-
-        .regex-top h2 {
-          margin: 0 0 6px;
-          font-size: 24px;
-        }
-
-        .regex-top p {
-          margin: 0;
-          opacity: 0.65;
-          font-size: 14px;
-        }
-
-        .regex-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-        }
-
-        .regex-panel {
-          border: 1px solid rgba(127, 127, 127, 0.2);
-          border-radius: 16px;
-          padding: 20px;
-        }
-
-        label {
-          display: block;
-          font-size: 13px;
-          font-weight: 700;
-          margin-bottom: 9px;
-        }
-
-        .regex-input-row {
-          display: flex;
-          align-items: center;
-          border: 1px solid rgba(127, 127, 127, 0.3);
-          border-radius: 10px;
-          overflow: hidden;
-        }
-
-        .regex-input-row span {
-          padding: 0 10px;
-          opacity: 0.5;
-        }
-
-        input,
-        textarea {
-          width: 100%;
-          border: 0;
-          outline: none;
-          background: transparent;
-          color: inherit;
-          font: inherit;
-        }
-
-        input {
-          height: 44px;
-        }
-
-        textarea {
-          resize: vertical;
-          min-height: 250px;
-          border: 1px solid rgba(127, 127, 127, 0.3);
-          border-radius: 10px;
-          padding: 14px;
-        }
-
-        .flags-input {
-          max-width: 55px;
-        }
-
-        .regex-flags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 7px;
-          margin: 12px 0 22px;
-        }
-
-        .regex-flags button,
-        .regex-clear,
-        .copy-btn {
-          border: 1px solid rgba(127, 127, 127, 0.25);
-          background: transparent;
-          color: inherit;
-          border-radius: 8px;
-          padding: 8px 11px;
-          cursor: pointer;
-        }
-
-        .regex-flags button.active {
-          background: #6366f1;
-          color: white;
-          border-color: #6366f1;
-        }
-
-        .regex-flags small {
-          opacity: 0.65;
-        }
-
-        .result-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 15px;
-        }
-
-        .match-count {
-          font-size: 13px;
-          opacity: 0.6;
-        }
-
-        .copy-btn:disabled {
-          opacity: 0.4;
-          cursor: not-allowed;
-        }
-
-        .matches-box {
-          min-height: 330px;
-          max-height: 500px;
-          overflow-y: auto;
-          border-radius: 12px;
-          background: rgba(127, 127, 127, 0.06);
-          padding: 10px;
-        }
-
-        .match-item {
-          display: flex;
-          gap: 12px;
-          padding: 13px;
-          border-bottom: 1px solid rgba(127, 127, 127, 0.15);
-        }
-
-        .match-number {
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          display: grid;
-          place-items: center;
-          background: rgba(99, 102, 241, 0.12);
-          color: #6366f1;
-          font-size: 12px;
-          font-weight: 700;
-          flex-shrink: 0;
-        }
-
-        .match-content {
-          min-width: 0;
-        }
-
-        .match-content strong {
-          display: block;
-          word-break: break-word;
-        }
-
-        .match-content span {
-          display: block;
-          margin-top: 4px;
-          font-size: 12px;
-          opacity: 0.55;
-        }
-
-        .empty-result {
-          min-height: 300px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          opacity: 0.6;
-          gap: 7px;
-        }
-
-        .empty-icon {
-          font-size: 38px;
-          margin-bottom: 5px;
-        }
-
-        .regex-error {
-          margin-top: 12px;
-          padding: 12px;
-          border-radius: 10px;
-          background: rgba(220, 38, 38, 0.08);
-          color: #dc2626;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-
-        .regex-error span {
-          font-size: 13px;
-        }
-
-        @media (max-width: 800px) {
-          .regex-tool {
-            padding: 12px;
-          }
-
-          .regex-card {
-            padding: 16px;
-          }
-
-          .regex-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .regex-top {
-            align-items: flex-start;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .regex-top {
-            flex-direction: column;
-          }
-
-          .regex-clear {
-            width: 100%;
-          }
-
-          .regex-panel {
-            padding: 14px;
-          }
-        }
-      `}</style>
     </div>
   );
 }

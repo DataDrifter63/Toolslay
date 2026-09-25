@@ -4,7 +4,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import {
   Car, Zap, Fuel, BatteryCharging, 
   Home, MapPin, TrendingDown, PiggyBank, 
-  Leaf, Info, BarChart3, Calculator
+  Leaf, BarChart3, Calculator
 } from "lucide-react";
 
 export default function EvVsPetrolCalculator() {
@@ -12,20 +12,20 @@ export default function EvVsPetrolCalculator() {
   
   // States - General Driving
   const [currency, setCurrency] = useState("$");
-  const [annualDistance, setAnnualDistance] = useState(12000); // miles/km
+  const [annualDistance, setAnnualDistance] = useState(12000);
   
   // States - Petrol Vehicle
-  const [petrolPrice, setPetrolPrice] = useState(3.50); // per gallon/liter
-  const [petrolEfficiency, setPetrolEfficiency] = useState(25); // MPG or km/L
+  const [petrolPrice, setPetrolPrice] = useState(3.50);
+  const [petrolEfficiency, setPetrolEfficiency] = useState(25);
   
   // States - EV Vehicle
-  const [evEfficiency, setEvEfficiency] = useState(3.5); // miles/kWh or km/kWh (3.5 is avg)
-  const [homeRate, setHomeRate] = useState(0.15); // per kWh
-  const [publicRate, setPublicRate] = useState(0.45); // per kWh
-  const [homeChargePercent, setHomeChargePercent] = useState(80); // % charged at home
+  const [evEfficiency, setEvEfficiency] = useState(3.5);
+  const [homeRate, setHomeRate] = useState(0.15);
+  const [publicRate, setPublicRate] = useState(0.45);
+  const [homeChargePercent, setHomeChargePercent] = useState(80);
   
   // States - Financial Break-even
-  const [evPricePremium, setEvPricePremium] = useState(5000); // How much more the EV costs upfront
+  const [evPricePremium, setEvPricePremium] = useState(5000);
 
   useEffect(() => {
     setIsMounted(true);
@@ -35,15 +35,13 @@ export default function EvVsPetrolCalculator() {
   const calculations = useMemo(() => {
     const distance = parseFloat(annualDistance) || 0;
     
-    // 1. Petrol Calculations
     const pPrice = parseFloat(petrolPrice) || 0;
-    const pEff = parseFloat(petrolEfficiency) || 1; // Prevent div by zero
+    const pEff = parseFloat(petrolEfficiency) || 1;
     
     const petrolGallons = distance / pEff;
     const petrolAnnualCost = petrolGallons * pPrice;
     const petrolPerMile = distance > 0 ? petrolAnnualCost / distance : 0;
 
-    // 2. EV Calculations
     const eEff = parseFloat(evEfficiency) || 1;
     const hRate = parseFloat(homeRate) || 0;
     const pubRate = parseFloat(publicRate) || 0;
@@ -55,10 +53,8 @@ export default function EvVsPetrolCalculator() {
     const evAnnualCost = (homeKwh * hRate) + (pubKwh * pubRate);
     const evPerMile = distance > 0 ? evAnnualCost / distance : 0;
     
-    // Blended Electricity Rate (just for display)
     const blendedRate = totalKwhNeeded > 0 ? evAnnualCost / totalKwhNeeded : 0;
 
-    // 3. Savings & Break-even
     const annualSavings = petrolAnnualCost - evAnnualCost;
     const premium = parseFloat(evPricePremium) || 0;
     
@@ -75,12 +71,8 @@ export default function EvVsPetrolCalculator() {
       }
     }
 
-    // 4. 5-Year Projection
     const petrol5Yr = petrolAnnualCost * 5;
     const ev5Yr = evAnnualCost * 5;
-
-    // 5. Eco Impact (Approx: 1 gal gas = ~19.6 lbs CO2. EV grid varies, we estimate 60% reduction)
-    // We'll show a simplified "Tailpipe CO2 Eliminated"
     const tailpipeCO2Lbs = petrolGallons * 19.6;
 
     return {
@@ -106,155 +98,141 @@ export default function EvVsPetrolCalculator() {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans">
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
       
-      {/* Premium Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-violet-100 via-transparent to-transparent dark:from-violet-900/20 rounded-bl-full -z-10 opacity-70"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-orange-100 via-transparent to-transparent dark:from-orange-900/10 rounded-tr-full -z-10 opacity-70"></div>
-        <div className="flex items-center gap-4">
-          <div className="bg-slate-100 dark:bg-slate-800 p-3.5 rounded-2xl flex items-center gap-2">
-            <Zap className="w-5 h-5 text-violet-600 dark:text-violet-400" />
-            <span className="text-slate-300 font-black text-xs">VS</span>
-            <Fuel className="w-5 h-5 text-orange-500" />
+      {/* Premium Header - Fixed alignment for mobile */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-row items-center justify-between gap-4 w-full box-border relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-48 h-48 bg-violet-500/10 rounded-bl-full -z-10"></div>
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="bg-paper p-2.5 sm:p-3 rounded-xl border border-line flex items-center gap-1.5 shrink-0">
+            <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-violet-500" />
+            <span className="text-muted font-black text-[10px] sm:text-xs">VS</span>
+            <Fuel className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-2xl font-black text-ink tracking-tight truncate">
               EV vs Petrol Cost Calculator
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
+            <p className="text-[9px] sm:text-[10px] font-black text-brand uppercase tracking-widest mt-0.5 truncate">
               Running Costs, Charging Split & Break-Even Analysis
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,460px] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
         
         {/* ================= LEFT: INPUT PANEL ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8">
+        <div className="space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6">
             
             {/* Common Inputs */}
-            <div className="flex flex-col sm:flex-row gap-6">
-              <div className="flex-1 space-y-3">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-slate-400" /> Annual Distance
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1 space-y-1.5">
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-muted" /> Annual Distance
                 </label>
-                <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus-within:border-slate-400 focus-within:ring-4 focus-within:ring-slate-50 dark:focus-within:ring-slate-900/20 transition-all overflow-hidden">
+                <div className="relative flex items-center bg-surface border border-line rounded-xl overflow-hidden focus-within:border-brand">
                   <input
                     type="number" min="0" step="500" value={annualDistance} onChange={(e) => setAnnualDistance(e.target.value)}
-                    className="w-full bg-transparent px-5 py-3 text-xl font-black text-slate-800 dark:text-slate-100 outline-none"
+                    className="w-full bg-transparent px-3 py-2.5 text-xs sm:text-sm font-black text-ink outline-none font-mono"
                   />
-                  <div className="flex items-center justify-center bg-slate-100 dark:bg-slate-700/50 border-l border-slate-200 dark:border-slate-700 px-4 py-3 h-full shrink-0">
-                    <span className="text-xs font-black uppercase tracking-widest text-slate-500">Miles/Km</span>
+                  <div className="flex items-center justify-center bg-paper border-l border-line px-3 py-2.5 h-full shrink-0">
+                    <span className="text-[9px] font-black uppercase tracking-wider text-muted">Miles/Km</span>
                   </div>
                 </div>
               </div>
 
-              <div className="w-full sm:w-1/3 space-y-3">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                  Currency
-                </label>
-                <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl focus-within:border-slate-400 focus-within:ring-4 focus-within:ring-slate-50 dark:focus-within:ring-slate-900/20 transition-all overflow-hidden">
-                  <input
-                    type="text" maxLength="3" value={currency} onChange={(e) => setCurrency(e.target.value)}
-                    className="w-full bg-transparent px-5 py-3 text-xl font-black text-center text-slate-800 dark:text-slate-100 outline-none"
-                  />
-                </div>
+              <div className="w-full sm:w-28 space-y-1.5">
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider">Currency</label>
+                <input
+                  type="text" maxLength="3" value={currency} onChange={(e) => setCurrency(e.target.value)}
+                  className="w-full bg-surface border border-line rounded-xl px-3 py-2.5 text-xs font-black text-center text-ink outline-none focus:border-brand"
+                />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-slate-100 dark:border-slate-800">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-line">
               
               {/* PETROL SECTION */}
-              <div className="space-y-6">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-100 dark:border-orange-800/50 text-[10px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-500/10 border border-orange-500/20 text-[10px] font-black uppercase tracking-wider text-orange-600 dark:text-orange-400">
                   <Fuel className="w-3.5 h-3.5" /> Petrol / ICE Car
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Fuel Price (per gal/L)</label>
-                  <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2">
-                    <span className="text-sm font-bold text-slate-400 mr-1">{currency}</span>
-                    <input type="number" min="0" step="0.1" value={petrolPrice} onChange={(e) => setPetrolPrice(e.target.value)} className="w-full bg-transparent text-sm font-black text-slate-800 dark:text-slate-100 outline-none" />
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider">Fuel Price (per gal/L)</label>
+                  <div className="relative flex items-center bg-surface border border-line rounded-xl px-3 py-2">
+                    <span className="text-xs font-bold text-muted mr-1">{currency}</span>
+                    <input type="number" min="0" step="0.1" value={petrolPrice} onChange={(e) => setPetrolPrice(e.target.value)} className="w-full bg-transparent text-xs font-black text-ink outline-none font-mono" />
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Efficiency (MPG or km/L)</label>
-                  <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2">
-                    <input type="number" min="1" step="1" value={petrolEfficiency} onChange={(e) => setPetrolEfficiency(e.target.value)} className="w-full bg-transparent text-sm font-black text-slate-800 dark:text-slate-100 outline-none" />
-                  </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider">Efficiency (MPG / km/L)</label>
+                  <input type="number" min="1" step="1" value={petrolEfficiency} onChange={(e) => setPetrolEfficiency(e.target.value)} className="w-full bg-surface border border-line rounded-xl px-3 py-2 text-xs font-black text-ink outline-none font-mono" />
                 </div>
               </div>
 
               {/* EV SECTION */}
-              <div className="space-y-6">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-50 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/50 text-[10px] font-black uppercase tracking-widest text-violet-600 dark:text-violet-400">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-violet-500/10 border border-violet-500/20 text-[10px] font-black uppercase tracking-wider text-violet-600 dark:text-violet-400">
                   <Zap className="w-3.5 h-3.5" /> Electric Vehicle
                 </div>
 
-                <div className="space-y-3">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">EV Efficiency (mi/kWh)</label>
-                  <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2">
-                    <input type="number" min="0.1" step="0.1" value={evEfficiency} onChange={(e) => setEvEfficiency(e.target.value)} className="w-full bg-transparent text-sm font-black text-slate-800 dark:text-slate-100 outline-none" />
-                    <span className="text-[10px] font-bold text-slate-400 shrink-0">Avg: 3-4</span>
-                  </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-wider">EV Efficiency (mi/kWh)</label>
+                  <input type="number" min="0.1" step="0.1" value={evEfficiency} onChange={(e) => setEvEfficiency(e.target.value)} className="w-full bg-surface border border-line rounded-xl px-3 py-2 text-xs font-black text-ink outline-none font-mono" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1"><Home className="w-3 h-3"/> Home Rate</label>
-                    <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2">
-                      <span className="text-xs font-bold text-slate-400 mr-1">{currency}</span>
-                      <input type="number" min="0" step="0.01" value={homeRate} onChange={(e) => setHomeRate(e.target.value)} className="w-full bg-transparent text-xs font-black text-slate-800 dark:text-slate-100 outline-none" />
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1.5">
+                    <label className="text-[9px] font-black text-muted uppercase tracking-wider flex items-center gap-1"><Home className="w-3 h-3"/> Home Rate</label>
+                    <div className="relative flex items-center bg-surface border border-line rounded-xl px-2 py-2">
+                      <span className="text-[10px] font-bold text-muted mr-0.5">{currency}</span>
+                      <input type="number" min="0" step="0.01" value={homeRate} onChange={(e) => setHomeRate(e.target.value)} className="w-full bg-transparent text-xs font-black text-ink outline-none font-mono" />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1"><BatteryCharging className="w-3 h-3"/> Public Fast Rate</label>
-                    <div className="relative flex items-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2">
-                      <span className="text-xs font-bold text-slate-400 mr-1">{currency}</span>
-                      <input type="number" min="0" step="0.01" value={publicRate} onChange={(e) => setPublicRate(e.target.value)} className="w-full bg-transparent text-xs font-black text-slate-800 dark:text-slate-100 outline-none" />
+                  <div className="space-y-1.5">
+                    <label className="text-[9px] font-black text-muted uppercase tracking-wider flex items-center gap-1"><BatteryCharging className="w-3 h-3"/> Public Rate</label>
+                    <div className="relative flex items-center bg-surface border border-line rounded-xl px-2 py-2">
+                      <span className="text-[10px] font-bold text-muted mr-0.5">{currency}</span>
+                      <input type="number" min="0" step="0.01" value={publicRate} onChange={(e) => setPublicRate(e.target.value)} className="w-full bg-transparent text-xs font-black text-ink outline-none font-mono" />
                     </div>
                   </div>
                 </div>
 
-                {/* Premium Charging Split Slider */}
-                <div className="space-y-3 bg-violet-50/50 dark:bg-violet-900/10 p-4 rounded-xl border border-violet-100 dark:border-violet-800/30">
+                {/* Charging Split Slider */}
+                <div className="space-y-2 bg-surface p-3 rounded-xl border border-line">
                   <div className="flex justify-between items-end">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Charging Split</span>
-                    <span className="text-xs font-black text-violet-600 dark:text-violet-400">
+                    <span className="text-[10px] font-black text-muted uppercase tracking-wider">Charging Split</span>
+                    <span className="text-xs font-black text-violet-500 font-mono">
                       {homeChargePercent}% Home
                     </span>
                   </div>
                   <input
                     type="range" min="0" max="100" step="5"
                     value={homeChargePercent} onChange={(e) => setHomeChargePercent(parseInt(e.target.value))}
-                    className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full appearance-none cursor-pointer accent-violet-500"
+                    className="w-full h-1.5 bg-paper rounded-full appearance-none cursor-pointer accent-violet-500 border border-line"
                   />
-                  <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-                    <span>Public</span>
-                    <span>Home</span>
-                  </div>
                 </div>
 
               </div>
             </div>
 
             {/* Break-Even Config */}
-            <div className="pt-6 border-t border-slate-100 dark:border-slate-800">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-4">
-                <Calculator className="w-4 h-4 text-slate-400" /> Break-Even Analysis (Optional)
+            <div className="pt-4 border-t border-line">
+              <label className="text-[10px] font-black text-muted uppercase tracking-wider flex items-center gap-1.5 mb-3">
+                <Calculator className="w-3.5 h-3.5 text-muted" /> Break-Even Analysis (Optional)
               </label>
-              <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="bg-surface border border-line rounded-xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex-1">
-                  <span className="block text-sm font-black text-slate-800 dark:text-slate-100">EV Upfront Price Premium</span>
-                  <span className="text-[10px] font-medium text-slate-500">How much more does the EV cost vs the Petrol car?</span>
+                  <span className="block text-xs font-black text-ink">EV Upfront Price Premium</span>
+                  <span className="text-[9px] font-bold text-muted">Extra cost of EV vs Petrol car</span>
                 </div>
-                <div className="relative flex items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 w-full sm:w-48 shadow-sm">
-                  <span className="text-sm font-bold text-slate-400 mr-1">{currency}</span>
-                  <input type="number" min="0" step="500" value={evPricePremium} onChange={(e) => setEvPricePremium(e.target.value)} className="w-full bg-transparent text-lg font-black text-slate-800 dark:text-slate-100 outline-none" />
+                <div className="relative flex items-center bg-paper border border-line rounded-xl px-3 py-2 w-full sm:w-40 shadow-sm">
+                  <span className="text-xs font-bold text-muted mr-1">{currency}</span>
+                  <input type="number" min="0" step="500" value={evPricePremium} onChange={(e) => setEvPricePremium(e.target.value)} className="w-full bg-transparent text-sm font-black text-ink outline-none font-mono" />
                 </div>
               </div>
             </div>
@@ -263,119 +241,115 @@ export default function EvVsPetrolCalculator() {
         </div>
 
         {/* ================= RIGHT: FINANCIAL DASHBOARD ================= */}
-        <div className="space-y-6 sticky top-6">
+        <div className="space-y-6 lg:sticky lg:top-6 min-w-0">
           
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative overflow-hidden flex flex-col min-h-[600px]">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[22px] p-6 h-full flex flex-col">
-              
-              <div className="flex items-center justify-between mb-6">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[10px] font-black uppercase tracking-widest text-slate-500 shadow-sm">
-                  <BarChart3 className="w-3.5 h-3.5 text-slate-400" /> Cost Comparison
-                </span>
-              </div>
-              
-              {/* Grand Total Savings */}
-              <div className={`rounded-2xl p-6 text-white shadow-md relative overflow-hidden mb-6 ${calculations.isEvCheaper ? 'bg-gradient-to-br from-violet-500 to-indigo-600' : 'bg-gradient-to-br from-orange-500 to-red-600'}`}>
-                <div className="absolute -right-4 -bottom-4 opacity-10">
-                  <PiggyBank className="w-32 h-32" />
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-widest opacity-80 block mb-1">
-                  {calculations.isEvCheaper ? "EV Annual Fuel Savings" : "Petrol Annual Savings"}
-                </span>
-                <div className="flex items-end gap-1 relative z-10">
-                  <span className="text-5xl font-black tracking-tighter tabular-nums">
-                    {currency}{formatMoney(Math.abs(calculations.annualSavings))}
-                  </span>
-                  <span className="text-sm font-bold opacity-80 mb-2 uppercase tracking-widest">/ yr</span>
-                </div>
-              </div>
-
-              {/* Break Even Banner */}
-              {calculations.hasPremium && calculations.isEvCheaper && (
-                <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl p-4 mb-6 shadow-sm flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center shrink-0">
-                      <TrendingDown className="w-5 h-5 text-emerald-500" />
-                    </div>
-                    <div>
-                      <span className="block text-xs font-black text-slate-800 dark:text-slate-100 uppercase tracking-widest">Payback Period</span>
-                      <span className="block text-[10px] font-medium text-slate-500">To recover EV premium</span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="block text-xl font-black text-emerald-600 dark:text-emerald-400 tabular-nums leading-none">
-                      {calculations.breakEvenYears}y {calculations.breakEvenMonths}m
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Per Mile Cost Reality Check */}
-              <div className="grid grid-cols-2 gap-3 mb-8">
-                <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm text-center">
-                  <span className="block text-2xl font-black text-orange-500 tabular-nums leading-none mb-1">
-                    {currency}{calculations.petrolPerMile.toFixed(2)}
-                  </span>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500">Petrol Per Unit</span>
-                </div>
-                
-                <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm text-center">
-                  <span className="block text-2xl font-black text-violet-500 tabular-nums leading-none mb-1">
-                    {currency}{calculations.evPerMile.toFixed(2)}
-                  </span>
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500">EV Per Unit</span>
-                </div>
-              </div>
-
-              {/* 5-Year Visual Projection */}
-              <div className="flex-1">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-4">5-Year Fuel Cost Projection</h4>
-                
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-xs font-bold mb-1.5">
-                      <span className="text-orange-600 dark:text-orange-400 flex items-center gap-1.5"><Fuel className="w-3.5 h-3.5"/> Petrol</span>
-                      <span className="text-slate-700 dark:text-slate-300 tabular-nums">{currency}{formatMoney(calculations.petrol5Yr)}</span>
-                    </div>
-                    <div className="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-orange-500 transition-all duration-1000"
-                        style={{ width: `${Math.min(100, (calculations.petrol5Yr / Math.max(calculations.petrol5Yr, calculations.ev5Yr)) * 100)}%` }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between text-xs font-bold mb-1.5">
-                      <span className="text-violet-600 dark:text-violet-400 flex items-center gap-1.5"><Zap className="w-3.5 h-3.5"/> Electric</span>
-                      <span className="text-slate-700 dark:text-slate-300 tabular-nums">{currency}{formatMoney(calculations.ev5Yr)}</span>
-                    </div>
-                    <div className="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-violet-500 transition-all duration-1000"
-                        style={{ width: `${Math.min(100, (calculations.ev5Yr / Math.max(calculations.petrol5Yr, calculations.ev5Yr)) * 100)}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Eco Bonus Note */}
-              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
-                <div className="flex items-start gap-2 bg-emerald-50 dark:bg-emerald-900/10 p-3 rounded-xl border border-emerald-100 dark:border-emerald-800/50">
-                  <Leaf className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                  <div>
-                    <span className="block text-[10px] font-black uppercase tracking-widest text-emerald-700 dark:text-emerald-400 mb-0.5">Eco Bonus</span>
-                    <p className="text-[10px] font-medium text-emerald-800/80 dark:text-emerald-300/80 leading-relaxed">
-                      By driving the EV, you eliminate approximately <strong>{calculations.tailpipeCO2Lbs.toLocaleString()} lbs</strong> of direct tailpipe CO₂ emissions annually.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
+          <div className="bg-surface border border-line p-4 sm:p-6 rounded-2xl shadow-sm relative overflow-hidden flex flex-col space-y-5">
+            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-violet-500 to-indigo-500"></div>
+            
+            <div className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-paper border border-line text-[10px] font-black uppercase tracking-wider text-muted shadow-sm">
+                <BarChart3 className="w-3.5 h-3.5 text-violet-500" /> Cost Comparison
+              </span>
             </div>
+            
+            {/* Grand Total Savings */}
+            <div className={`rounded-xl p-5 text-white shadow-sm relative overflow-hidden ${calculations.isEvCheaper ? 'bg-gradient-to-br from-violet-500 to-indigo-600' : 'bg-gradient-to-br from-orange-500 to-red-600'}`}>
+              <div className="absolute -right-4 -bottom-4 opacity-10">
+                <PiggyBank className="w-28 h-28" />
+              </div>
+              <span className="text-[9px] font-black uppercase tracking-wider opacity-80 block mb-1">
+                {calculations.isEvCheaper ? "EV Annual Fuel Savings" : "Petrol Annual Savings"}
+              </span>
+              <div className="flex items-baseline gap-1 relative z-10">
+                <span className="text-3xl sm:text-4xl font-black tracking-tighter tabular-nums font-mono">
+                  {currency}{formatMoney(Math.abs(calculations.annualSavings))}
+                </span>
+                <span className="text-xs font-bold opacity-80 uppercase tracking-wider">/ yr</span>
+              </div>
+            </div>
+
+            {/* Break Even Banner */}
+            {calculations.hasPremium && calculations.isEvCheaper && (
+              <div className="bg-paper border border-line rounded-xl p-3.5 shadow-sm flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                    <TrendingDown className="w-4 h-4 text-emerald-500" />
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-black text-ink uppercase tracking-wider">Payback Period</span>
+                    <span className="text-[9px] font-bold text-muted">To recover EV premium</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-base font-black text-emerald-600 dark:text-emerald-400 tabular-nums font-mono">
+                    {calculations.breakEvenYears}y {calculations.breakEvenMonths}m
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Per Mile Cost Reality Check */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-paper p-3 rounded-xl border border-line text-center shadow-sm">
+                <span className="block text-xl font-black text-orange-500 tabular-nums leading-none mb-1 font-mono">
+                  {currency}{calculations.petrolPerMile.toFixed(2)}
+                </span>
+                <span className="text-[9px] font-black uppercase tracking-wider text-muted">Petrol / Unit</span>
+              </div>
+              <div className="bg-paper p-3 rounded-xl border border-line text-center shadow-sm">
+                <span className="block text-xl font-black text-violet-500 tabular-nums leading-none mb-1 font-mono">
+                  {currency}{calculations.evPerMile.toFixed(2)}
+                </span>
+                <span className="text-[9px] font-black uppercase tracking-wider text-muted">EV / Unit</span>
+              </div>
+            </div>
+
+            {/* 5-Year Visual Projection */}
+            <div className="space-y-3 pt-2">
+              <h4 className="text-[10px] font-black uppercase tracking-wider text-muted">5-Year Fuel Cost Projection</h4>
+              
+              <div className="space-y-3">
+                <div>
+                  <div className="flex justify-between text-xs font-bold mb-1">
+                    <span className="text-orange-500 flex items-center gap-1.5"><Fuel className="w-3.5 h-3.5"/> Petrol</span>
+                    <span className="text-ink tabular-nums font-mono">{currency}{formatMoney(calculations.petrol5Yr)}</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-paper border border-line rounded-full overflow-hidden p-0.5">
+                    <div 
+                      className="h-full bg-orange-500 rounded-full transition-all duration-500"
+                      style={{ width: `${Math.min(100, (calculations.petrol5Yr / Math.max(calculations.petrol5Yr, calculations.ev5Yr)) * 100)}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-xs font-bold mb-1">
+                    <span className="text-violet-500 flex items-center gap-1.5"><Zap className="w-3.5 h-3.5"/> Electric</span>
+                    <span className="text-ink tabular-nums font-mono">{currency}{formatMoney(calculations.ev5Yr)}</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-paper border border-line rounded-full overflow-hidden p-0.5">
+                    <div 
+                      className="h-full bg-violet-500 rounded-full transition-all duration-500"
+                      style={{ width: `${Math.min(100, (calculations.ev5Yr / Math.max(calculations.petrol5Yr, calculations.ev5Yr)) * 100)}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Eco Bonus Note */}
+            <div className="pt-3 border-t border-line mt-auto">
+              <div className="flex items-start gap-2.5 bg-paper p-3 rounded-xl border border-line shadow-sm">
+                <Leaf className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                <p className="text-[10px] font-bold text-muted leading-relaxed">
+                  Driving EV eliminates ~<strong>{calculations.tailpipeCO2Lbs.toLocaleString()} lbs</strong> of tailpipe CO₂ annually.
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
+
       </div>
     </div>
   );

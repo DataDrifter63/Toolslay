@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { 
+  FileImage, Download, Trash2, Sliders, ShieldCheck, 
+  CheckCircle2, AlertCircle, Plus, ArrowUp, ArrowDown, X, Layers
+} from "lucide-react";
 
 function formatBytes(bytes) {
   if (!bytes) return "0 KB";
@@ -173,23 +177,12 @@ export default function ImageToPDFConverter() {
   var [message, setMessage] = useState("");
   var [error, setError] = useState("");
 
-  var [pageFormat, setPageFormat] =
-    useState("a4");
-
-  var [orientation, setOrientation] =
-    useState("auto");
-
-  var [fitMode, setFitMode] =
-    useState("contain");
-
-  var [margin, setMargin] =
-    useState("8");
-
-  var [quality, setQuality] =
-    useState("0.92");
-
-  var [filename, setFilename] =
-    useState("converted-images");
+  var [pageFormat, setPageFormat] = useState("a4");
+  var [orientation, setOrientation] = useState("auto");
+  var [fitMode, setFitMode] = useState("contain");
+  var [margin, setMargin] = useState("8");
+  var [quality, setQuality] = useState("0.92");
+  var [filename, setFilename] = useState("converted-images");
 
   function openFilePicker() {
     if (inputRef.current) {
@@ -347,11 +340,6 @@ export default function ImageToPDFConverter() {
     setMessage("");
 
     try {
-      /*
-       * IMPORTANT:
-       * jsPDF is loaded only in the browser.
-       * This prevents Next.js server-side module issues.
-       */
       var jsPdfModule = await import("jspdf");
 
       var JsPDF =
@@ -366,7 +354,6 @@ export default function ImageToPDFConverter() {
       }
 
       var firstImage = images[0];
-
       var firstOrientation;
 
       if (orientation === "auto") {
@@ -378,8 +365,7 @@ export default function ImageToPDFConverter() {
         firstOrientation = orientation;
       }
 
-      var firstPageSize =
-        getPageSize(pageFormat);
+      var firstPageSize = getPageSize(pageFormat);
 
       var firstPageWidth =
         firstOrientation === "landscape"
@@ -427,84 +413,46 @@ export default function ImageToPDFConverter() {
               ? "landscape"
               : "portrait";
         } else {
-          currentOrientationForPage =
-            orientation;
+          currentOrientationForPage = orientation;
         }
 
-        var basePageSize =
-          getPageSize(pageFormat);
+        var basePageSize = getPageSize(pageFormat);
 
         var pageWidth =
-          currentOrientationForPage ===
-          "landscape"
+          currentOrientationForPage === "landscape"
             ? basePageSize.height
             : basePageSize.width;
 
         var pageHeight =
-          currentOrientationForPage ===
-          "landscape"
+          currentOrientationForPage === "landscape"
             ? basePageSize.width
             : basePageSize.height;
 
-        /*
-         * White page background.
-         */
-        pdf.setFillColor(
-          255,
-          255,
-          255
-        );
+        pdf.setFillColor(255, 255, 255);
+        pdf.rect(0, 0, pageWidth, pageHeight, "F");
 
-        pdf.rect(
-          0,
-          0,
+        var imageBox = calculateImageBox(
+          item.width,
+          item.height,
           pageWidth,
           pageHeight,
-          "F"
+          Number(margin) || 0,
+          fitMode
         );
 
-        var imageBox =
-          calculateImageBox(
-            item.width,
-            item.height,
-            pageWidth,
-            pageHeight,
-            Number(margin) || 0,
-            fitMode
-          );
+        var format = getImageFormat(item.type, item.src);
 
-        var format =
-          getImageFormat(
-            item.type,
-            item.src
-          );
-
-        /*
-         * WEBP can be problematic in some jsPDF
-         * versions. Convert it to JPEG through
-         * a canvas before adding it.
-         */
         var imageSource = item.src;
         var imageFormat = format;
 
-        if (
-          format === "WEBP" ||
-          format === "GIF"
-        ) {
-          imageSource =
-            await convertImageToJpeg(
-              item.src,
-              Number(quality)
-            );
-
+        if (format === "WEBP" || format === "GIF") {
+          imageSource = await convertImageToJpeg(
+            item.src,
+            Number(quality)
+          );
           imageFormat = "JPEG";
         }
 
-        /*
-         * THE IMPORTANT PART:
-         * imageSource is already a loaded Data URL.
-         * jsPDF receives the actual image data.
-         */
         pdf.addImage(
           imageSource,
           imageFormat,
@@ -520,31 +468,18 @@ export default function ImageToPDFConverter() {
       var safeName =
         String(filename || "converted-images")
           .trim()
-          .replace(
-            /[^a-zA-Z0-9-_]+/g,
-            "-"
-          )
-          .replace(
-            /^-+|-+$/g,
-            ""
-          ) || "converted-images";
+          .replace(/[^a-zA-Z0-9-_]+/g, "-")
+          .replace(/^-+|-+$/g, "") || "converted-images";
 
-      pdf.save(
-        safeName + ".pdf"
-      );
+      pdf.save(safeName + ".pdf");
 
       setMessage(
         images.length === 1
           ? "PDF created successfully."
-          : images.length +
-              " images converted into one PDF successfully."
+          : images.length + " images converted into one PDF successfully."
       );
     } catch (err) {
-      console.error(
-        "PDF generation error:",
-        err
-      );
-
+      console.error("PDF generation error:", err);
       setError(
         "PDF could not be generated. Please make sure jsPDF is installed and try again."
       );
@@ -553,65 +488,29 @@ export default function ImageToPDFConverter() {
     }
   }
 
-  async function convertImageToJpeg(
-    source,
-    imageQuality
-  ) {
-    return new Promise(function (
-      resolve,
-      reject
-    ) {
+  async function convertImageToJpeg(source, imageQuality) {
+    return new Promise(function (resolve, reject) {
       var image = new Image();
 
       image.onload = function () {
-        var canvas =
-          document.createElement(
-            "canvas"
-          );
+        var canvas = document.createElement("canvas");
+        canvas.width = image.naturalWidth || image.width;
+        canvas.height = image.naturalHeight || image.height;
 
-        canvas.width =
-          image.naturalWidth ||
-          image.width;
-
-        canvas.height =
-          image.naturalHeight ||
-          image.height;
-
-        var context =
-          canvas.getContext("2d");
+        var context = canvas.getContext("2d");
 
         if (!context) {
-          reject(
-            new Error(
-              "Canvas is not supported."
-            )
-          );
+          reject(new Error("Canvas is not supported."));
           return;
         }
 
         context.fillStyle = "#ffffff";
-
-        context.fillRect(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-
-        context.drawImage(
-          image,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
         try {
           resolve(
-            canvas.toDataURL(
-              "image/jpeg",
-              imageQuality || 0.92
-            )
+            canvas.toDataURL("image/jpeg", imageQuality || 0.92)
           );
         } catch (err) {
           reject(err);
@@ -619,900 +518,312 @@ export default function ImageToPDFConverter() {
       };
 
       image.onerror = function () {
-        reject(
-          new Error(
-            "Could not load image."
-          )
-        );
+        reject(new Error("Could not load image."));
       };
 
       image.src = source;
     });
   }
 
-  var totalSize = images.reduce(
-    function (total, item) {
-      return total + item.size;
-    },
-    0
-  );
-
-  var styles = `
-    .itp-tool {
-      --itp-text: #172033;
-      --itp-muted: #667085;
-      --itp-border: #e4e7ec;
-      --itp-card: #ffffff;
-      --itp-soft: #f7f8fb;
-      --itp-primary: #635bff;
-      --itp-primary-soft: #f0efff;
-      --itp-danger: #d92d20;
-
-      width: 100%;
-      color: var(--itp-text);
-      font-family: inherit;
-      box-sizing: border-box;
-    }
-
-    .itp-tool *,
-    .itp-tool *::before,
-    .itp-tool *::after {
-      box-sizing: border-box;
-    }
-
-    .itp-wrapper {
-      width: 100%;
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-
-    .itp-header {
-      margin-bottom: 22px;
-    }
-
-    .itp-eyebrow {
-      color: var(--itp-primary);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    .itp-header h1 {
-      margin: 6px 0 0;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.05;
-      letter-spacing: -.045em;
-    }
-
-    .itp-header p {
-      max-width: 680px;
-      margin: 10px 0 0;
-      color: var(--itp-muted);
-      font-size: 13px;
-      line-height: 1.65;
-    }
-
-    .itp-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
-      gap: 18px;
-      align-items: start;
-    }
-
-    .itp-panel {
-      border: 1px solid var(--itp-border);
-      border-radius: 17px;
-      background: var(--itp-card);
-      box-shadow: 0 8px 30px rgba(16,24,40,.035);
-    }
-
-    .itp-upload-panel {
-      padding: 18px;
-    }
-
-    .itp-dropzone {
-      min-height: 235px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 25px;
-      border: 1.5px dashed #c9ced8;
-      border-radius: 14px;
-      background: #fbfcfe;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color .2s ease, background .2s ease, transform .2s ease;
-    }
-
-    .itp-dropzone:hover,
-    .itp-dropzone.dragging {
-      border-color: var(--itp-primary);
-      background: var(--itp-primary-soft);
-    }
-
-    .itp-dropzone.dragging {
-      transform: scale(1.005);
-    }
-
-    .itp-upload-icon {
-      width: 54px;
-      height: 54px;
-      margin: 0 auto 13px;
-      display: grid;
-      place-items: center;
-      border-radius: 15px;
-      background: var(--itp-primary-soft);
-      color: var(--itp-primary);
-      font-size: 24px;
-    }
-
-    .itp-dropzone h2 {
-      margin: 0;
-      font-size: 17px;
-      letter-spacing: -.025em;
-    }
-
-    .itp-dropzone p {
-      margin: 7px 0 14px;
-      color: var(--itp-muted);
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .itp-browse {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 38px;
-      padding: 0 15px;
-      border-radius: 9px;
-      background: var(--itp-primary);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 750;
-    }
-
-    .itp-hidden {
-      display: none;
-    }
-
-    .itp-list {
-      display: grid;
-      gap: 9px;
-      margin-top: 14px;
-    }
-
-    .itp-image-item {
-      display: grid;
-      grid-template-columns: 64px minmax(0,1fr) auto;
-      gap: 11px;
-      align-items: center;
-      padding: 9px;
-      border: 1px solid var(--itp-border);
-      border-radius: 11px;
-      background: var(--itp-soft);
-    }
-
-    .itp-thumb {
-      width: 64px;
-      height: 54px;
-      overflow: hidden;
-      border-radius: 7px;
-      background: #fff;
-      border: 1px solid var(--itp-border);
-    }
-
-    .itp-thumb img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    .itp-file-name {
-      min-width: 0;
-      font-size: 11px;
-      font-weight: 750;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .itp-file-meta {
-      margin-top: 4px;
-      color: var(--itp-muted);
-      font-size: 9px;
-    }
-
-    .itp-actions {
-      display: flex;
-      gap: 5px;
-    }
-
-    .itp-small-button {
-      width: 29px;
-      height: 29px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--itp-border);
-      border-radius: 7px;
-      background: #fff;
-      color: var(--itp-text);
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .itp-small-button:hover {
-      border-color: var(--itp-primary);
-      color: var(--itp-primary);
-    }
-
-    .itp-small-button.danger:hover {
-      border-color: #f04438;
-      color: var(--itp-danger);
-    }
-
-    .itp-empty-list {
-      margin-top: 13px;
-      color: var(--itp-muted);
-      text-align: center;
-      font-size: 10px;
-    }
-
-    .itp-settings {
-      padding: 19px;
-    }
-
-    .itp-settings-title {
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: -.025em;
-    }
-
-    .itp-settings-description {
-      margin-top: 5px;
-      color: var(--itp-muted);
-      font-size: 10px;
-      line-height: 1.6;
-    }
-
-    .itp-field {
-      margin-top: 16px;
-    }
-
-    .itp-field label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 10px;
-      font-weight: 750;
-    }
-
-    .itp-select,
-    .itp-text-input {
-      width: 100%;
-      height: 41px;
-      padding: 0 10px;
-      border: 1px solid var(--itp-border);
-      border-radius: 8px;
-      outline: none;
-      background: #fff;
-      color: var(--itp-text);
-      font: inherit;
-      font-size: 11px;
-    }
-
-    .itp-select:focus,
-    .itp-text-input:focus {
-      border-color: var(--itp-primary);
-      box-shadow: 0 0 0 3px rgba(99,91,255,.09);
-    }
-
-    .itp-segmented {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 5px;
-      padding: 4px;
-      border: 1px solid var(--itp-border);
-      border-radius: 9px;
-      background: var(--itp-soft);
-    }
-
-    .itp-segmented button {
-      height: 32px;
-      border: 0;
-      border-radius: 6px;
-      background: transparent;
-      color: var(--itp-muted);
-      cursor: pointer;
-      font: inherit;
-      font-size: 9px;
-      font-weight: 750;
-    }
-
-    .itp-segmented button.active {
-      background: #fff;
-      color: var(--itp-text);
-      box-shadow: 0 1px 4px rgba(16,24,40,.08);
-    }
-
-    .itp-range-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .itp-range {
-      flex: 1;
-      accent-color: var(--itp-primary);
-    }
-
-    .itp-range-value {
-      width: 45px;
-      text-align: right;
-      color: var(--itp-muted);
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .itp-generate {
-      width: 100%;
-      min-height: 46px;
-      margin-top: 20px;
-      border: 0;
-      border-radius: 10px;
-      background: var(--itp-primary);
-      color: #fff;
-      cursor: pointer;
-      font: inherit;
-      font-size: 12px;
-      font-weight: 800;
-      box-shadow: 0 7px 18px rgba(99,91,255,.18);
-    }
-
-    .itp-generate:hover {
-      filter: brightness(.97);
-    }
-
-    .itp-generate:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-
-    .itp-clear {
-      width: 100%;
-      min-height: 38px;
-      margin-top: 8px;
-      border: 1px solid var(--itp-border);
-      border-radius: 9px;
-      background: transparent;
-      color: var(--itp-muted);
-      cursor: pointer;
-      font: inherit;
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .itp-clear:hover {
-      color: var(--itp-danger);
-      border-color: #f04438;
-    }
-
-    .itp-status {
-      margin-top: 11px;
-      padding: 9px 10px;
-      border-radius: 8px;
-      background: #ecfdf3;
-      color: #067647;
-      font-size: 9px;
-      line-height: 1.5;
-    }
-
-    .itp-error {
-      margin-top: 11px;
-      padding: 9px 10px;
-      border-radius: 8px;
-      background: #fff1f3;
-      color: var(--itp-danger);
-      font-size: 9px;
-      line-height: 1.5;
-    }
-
-    .itp-summary {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid var(--itp-border);
-    }
-
-    .itp-summary div {
-      min-width: 0;
-    }
-
-    .itp-summary span {
-      display: block;
-      color: var(--itp-muted);
-      font-size: 8px;
-    }
-
-    .itp-summary strong {
-      display: block;
-      margin-top: 3px;
-      font-size: 14px;
-    }
-
-    .itp-privacy {
-      margin-top: 13px;
-      color: var(--itp-muted);
-      font-size: 8px;
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    @media (max-width: 850px) {
-      .itp-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 550px) {
-      .itp-upload-panel,
-      .itp-settings {
-        padding: 14px;
-      }
-
-      .itp-dropzone {
-        min-height: 210px;
-        padding: 18px;
-      }
-
-      .itp-image-item {
-        grid-template-columns: 54px minmax(0,1fr);
-      }
-
-      .itp-thumb {
-        width: 54px;
-        height: 48px;
-      }
-
-      .itp-actions {
-        grid-column: 2;
-      }
-
-      .itp-actions .itp-small-button {
-        flex: 1;
-      }
-    }
-  `;
+  var totalSize = images.reduce(function (total, item) {
+    return total + item.size;
+  }, 0);
 
   return (
-    <>
-      <div className="itp-tool">
-        <div className="itp-wrapper">
-
-          <div className="itp-header">
-            <div className="itp-eyebrow">
-              DOCUMENT & FILE TOOL
-            </div>
-
-            <h1>
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
+      
+      {/* Header */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border relative overflow-hidden">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="bg-paper p-2.5 sm:p-3.5 rounded-xl border border-line shrink-0">
+            <FileImage className="w-5 h-5 sm:w-6 sm:h-6 text-brand" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-2xl font-black text-ink tracking-tight truncate">
               Image to PDF Converter
-            </h1>
-
-            <p>
-              Convert JPG, PNG and WebP images into a
-              professional PDF. Combine multiple images,
-              reorder pages, choose paper size, orientation,
-              margins and image quality.
+            </h2>
+            <p className="text-[9px] sm:text-[10px] font-black text-brand uppercase tracking-widest mt-0.5 whitespace-normal leading-relaxed">
+              Convert JPG, PNG, and WebP images into a professional PDF locally.
             </p>
           </div>
+        </div>
+        <div className="px-3 py-1.5 rounded-xl bg-surface border border-line text-brand text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1.5 shadow-sm">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> 100% Browser Based
+        </div>
+      </div>
 
-          <div className="itp-layout">
-
-            <div className="itp-panel itp-upload-panel">
-
-              <input
-                ref={inputRef}
-                className="itp-hidden"
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handleInputChange}
-              />
-
-              <div
-                className={
-                  dragging
-                    ? "itp-dropzone dragging"
-                    : "itp-dropzone"
-                }
-                onClick={openFilePicker}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                role="button"
-                tabIndex={0}
-              >
-                <div>
-                  <div className="itp-upload-icon">
-                    ↑
-                  </div>
-
-                  <h2>
-                    Drop your images here
-                  </h2>
-
-                  <p>
-                    Upload one or multiple images.
-                    They will become individual PDF pages.
-                  </p>
-
-                  <span className="itp-browse">
-                    Choose Images
-                  </span>
-                </div>
-              </div>
-
-              {images.length > 0 ? (
-                <div className="itp-list">
-                  {images.map(function (
-                    item,
-                    index
-                  ) {
-                    return (
-                      <div
-                        className="itp-image-item"
-                        key={item.id}
-                      >
-                        <div className="itp-thumb">
-                          <img
-                            src={item.src}
-                            alt={item.name}
-                          />
-                        </div>
-
-                        <div>
-                          <div className="itp-file-name">
-                            {index + 1}. {item.name}
-                          </div>
-
-                          <div className="itp-file-meta">
-                            {item.width} × {item.height}
-                            {" • "}
-                            {formatBytes(item.size)}
-                          </div>
-                        </div>
-
-                        <div className="itp-actions">
-
-                          <button
-                            type="button"
-                            className="itp-small-button"
-                            title="Move up"
-                            onClick={function () {
-                              moveImage(
-                                index,
-                                -1
-                              );
-                            }}
-                            disabled={index === 0}
-                          >
-                            ↑
-                          </button>
-
-                          <button
-                            type="button"
-                            className="itp-small-button"
-                            title="Move down"
-                            onClick={function () {
-                              moveImage(
-                                index,
-                                1
-                              );
-                            }}
-                            disabled={
-                              index ===
-                              images.length - 1
-                            }
-                          >
-                            ↓
-                          </button>
-
-                          <button
-                            type="button"
-                            className="itp-small-button danger"
-                            title="Remove"
-                            onClick={function () {
-                              removeImage(
-                                item.id
-                              );
-                            }}
-                          >
-                            ×
-                          </button>
-
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="itp-empty-list">
-                  No images added yet.
-                </div>
-              )}
-
+      <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-6">
+          
+          {/* UPLOAD & LIST PANEL */}
+          <div className="bg-surface border border-line p-4 sm:p-6 rounded-2xl shadow-inner space-y-4">
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-wider text-ink">
+                Your Images
+              </h3>
+              <p className="text-[10px] text-muted mt-0.5">
+                Upload one or multiple images to convert them into individual PDF pages.
+              </p>
             </div>
 
-            <div className="itp-panel itp-settings">
+            <input
+              ref={inputRef}
+              className="hidden"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleInputChange}
+            />
 
-              <div className="itp-settings-title">
+            <div
+              className={`border-2 border-dashed rounded-2xl p-6 sm:p-8 text-center cursor-pointer transition-all ${
+                dragging ? "border-brand bg-paper" : "border-line bg-paper hover:border-brand"
+              }`}
+              onClick={openFilePicker}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-surface border border-line flex items-center justify-center text-brand shadow-sm">
+                <Plus className="w-6 h-6 shrink-0" />
+              </div>
+              <h4 className="text-xs sm:text-sm font-black text-ink tracking-tight">
+                Drop your images here
+              </h4>
+              <p className="text-[10px] text-muted mt-1">
+                Upload one or multiple images. They will become individual PDF pages.
+              </p>
+              <span className="inline-flex items-center justify-center h-9 px-4 mt-3 rounded-xl bg-brand text-surface text-xs font-black uppercase tracking-wider shadow-sm">
+                Choose Images
+              </span>
+            </div>
+
+            {images.length > 0 ? (
+              <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
+                {images.map(function (item, index) {
+                  return (
+                    <div
+                      className="grid grid-cols-[56px_minmax(0,1fr)_auto] sm:grid-cols-[64px_minmax(0,1fr)_auto] gap-3 items-center p-2.5 border border-line rounded-xl bg-paper shadow-sm"
+                      key={item.id}
+                    >
+                      <div className="w-14 h-12 sm:w-16 sm:h-13 overflow-hidden rounded-lg bg-surface border border-line shrink-0">
+                        <img
+                          src={item.src}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+
+                      <div className="min-w-0">
+                        <div className="text-xs font-black text-ink truncate">
+                          {index + 1}. {item.name}
+                        </div>
+                        <div className="text-[10px] text-muted font-mono mt-0.5">
+                          {item.width} × {item.height} · {formatBytes(item.size)}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          type="button"
+                          className="w-8 h-8 rounded-lg border border-line bg-surface text-ink text-xs font-black hover:border-brand flex items-center justify-center cursor-pointer shadow-sm disabled:opacity-40"
+                          title="Move up"
+                          onClick={() => moveImage(index, -1)}
+                          disabled={index === 0}
+                        >
+                          <ArrowUp className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          className="w-8 h-8 rounded-lg border border-line bg-surface text-ink text-xs font-black hover:border-brand flex items-center justify-center cursor-pointer shadow-sm disabled:opacity-40"
+                          title="Move down"
+                          onClick={() => moveImage(index, 1)}
+                          disabled={index === images.length - 1}
+                        >
+                          <ArrowDown className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          className="w-8 h-8 rounded-lg border border-line bg-surface text-rose-600 dark:text-rose-400 text-xs font-black hover:bg-rose-500/10 flex items-center justify-center cursor-pointer shadow-sm"
+                          title="Remove"
+                          onClick={() => removeImage(item.id)}
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="p-4 text-center text-xs text-muted border border-line rounded-xl bg-paper">
+                No images added yet.
+              </div>
+            )}
+          </div>
+
+          {/* SETTINGS PANEL */}
+          <div className="bg-surface border border-line p-4 sm:p-6 rounded-2xl shadow-inner space-y-4">
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-wider text-ink">
                 PDF Settings
-              </div>
+              </h3>
+              <p className="text-[10px] text-muted mt-0.5">
+                Customize the output before creating your PDF.
+              </p>
+            </div>
 
-              <div className="itp-settings-description">
-                Customize the output before creating
-                your PDF.
-              </div>
-
-              <div className="itp-field">
-                <label>
+            <div className="space-y-3">
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block mb-1">
                   Page size
                 </label>
-
                 <select
-                  className="itp-select"
+                  className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
                   value={pageFormat}
-                  onChange={function (event) {
-                    setPageFormat(
-                      event.target.value
-                    );
-                  }}
+                  onChange={(e) => setPageFormat(e.target.value)}
                 >
-                  <option value="a4">
-                    A4 — 210 × 297 mm
-                  </option>
-
-                  <option value="letter">
-                    Letter — 8.5 × 11 in
-                  </option>
+                  <option value="a4">A4 — 210 × 297 mm</option>
+                  <option value="letter">Letter — 8.5 × 11 in</option>
                 </select>
               </div>
 
-              <div className="itp-field">
-                <label>
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block mb-1">
                   Orientation
                 </label>
-
-                <div className="itp-segmented">
-                  <button
-                    type="button"
-                    className={
-                      orientation === "auto"
-                        ? "active"
-                        : ""
-                    }
-                    onClick={function () {
-                      setOrientation("auto");
-                    }}
-                  >
-                    Auto
-                  </button>
-
-                  <button
-                    type="button"
-                    className={
-                      orientation === "portrait"
-                        ? "active"
-                        : ""
-                    }
-                    onClick={function () {
-                      setOrientation(
-                        "portrait"
-                      );
-                    }}
-                  >
-                    Portrait
-                  </button>
-
-                  <button
-                    type="button"
-                    className={
-                      orientation === "landscape"
-                        ? "active"
-                        : ""
-                    }
-                    onClick={function () {
-                      setOrientation(
-                        "landscape"
-                      );
-                    }}
-                  >
-                    Landscape
-                  </button>
+                <div className="grid grid-cols-3 gap-2">
+                  {["auto", "portrait", "landscape"].map((orient) => (
+                    <button
+                      key={orient}
+                      type="button"
+                      onClick={() => setOrientation(orient)}
+                      className={`h-9 rounded-xl border text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer shadow-sm ${
+                        orientation === orient
+                          ? "border-brand bg-brand text-surface"
+                          : "border-line bg-paper text-ink hover:border-brand"
+                      }`}
+                    >
+                      {orient}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              <div className="itp-field">
-                <label>
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block mb-1">
                   Image fitting
                 </label>
-
                 <select
-                  className="itp-select"
+                  className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
                   value={fitMode}
-                  onChange={function (event) {
-                    setFitMode(
-                      event.target.value
-                    );
-                  }}
+                  onChange={(e) => setFitMode(e.target.value)}
                 >
-                  <option value="contain">
-                    Fit image — no cropping
-                  </option>
-
-                  <option value="fill">
-                    Fill page — may stretch image
-                  </option>
+                  <option value="contain">Fit image — no cropping</option>
+                  <option value="fill">Fill page — may stretch image</option>
                 </select>
               </div>
 
-              <div className="itp-field">
-                <label>
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block mb-1">
                   Page margin
                 </label>
-
                 <select
-                  className="itp-select"
+                  className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
                   value={margin}
-                  onChange={function (event) {
-                    setMargin(
-                      event.target.value
-                    );
-                  }}
+                  onChange={(e) => setMargin(e.target.value)}
                 >
-                  <option value="0">
-                    None — 0 mm
-                  </option>
-
-                  <option value="5">
-                    Small — 5 mm
-                  </option>
-
-                  <option value="8">
-                    Standard — 8 mm
-                  </option>
-
-                  <option value="12">
-                    Large — 12 mm
-                  </option>
+                  <option value="0">None — 0 mm</option>
+                  <option value="5">Small — 5 mm</option>
+                  <option value="8">Standard — 8 mm</option>
+                  <option value="12">Large — 12 mm</option>
                 </select>
               </div>
 
-              <div className="itp-field">
-                <label>
-                  JPEG quality
-                </label>
-
-                <div className="itp-range-wrap">
-                  <input
-                    className="itp-range"
-                    type="range"
-                    min="0.5"
-                    max="1"
-                    step="0.01"
-                    value={quality}
-                    onChange={function (event) {
-                      setQuality(
-                        event.target.value
-                      );
-                    }}
-                  />
-
-                  <div className="itp-range-value">
-                    {Math.round(
-                      Number(quality) * 100
-                    )}
-                    %
-                  </div>
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-[10px] font-black uppercase tracking-wider text-muted">
+                  <span>JPEG quality</span>
+                  <span className="font-mono text-brand">{Math.round(Number(quality) * 100)}%</span>
                 </div>
-              </div>
-
-              <div className="itp-field">
-                <label>
-                  PDF filename
-                </label>
-
                 <input
-                  className="itp-text-input"
-                  type="text"
-                  value={filename}
-                  onChange={function (event) {
-                    setFilename(
-                      event.target.value
-                    );
-                  }}
-                  placeholder="converted-images"
+                  className="w-full h-1.5 bg-paper rounded-lg appearance-none cursor-pointer accent-brand border border-line"
+                  type="range"
+                  min="0.5"
+                  max="1"
+                  step="0.01"
+                  value={quality}
+                  onChange={(e) => setQuality(e.target.value)}
                 />
               </div>
 
+              <div>
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted block mb-1">
+                  PDF filename
+                </label>
+                <input
+                  className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none"
+                  type="text"
+                  value={filename}
+                  onChange={(e) => setFilename(e.target.value)}
+                  placeholder="converted-images"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-2 border-t border-line">
               <button
                 type="button"
-                className="itp-generate"
-                disabled={
-                  !images.length ||
-                  generating
-                }
+                className="w-full h-11 rounded-xl bg-brand text-surface font-black text-xs uppercase tracking-wider shadow-sm hover:opacity-90 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!images.length || generating}
                 onClick={createPDF}
               >
-                {generating
-                  ? "Creating PDF..."
-                  : "Create & Download PDF"}
+                <Download className="w-4 h-4 shrink-0" />
+                {generating ? "Creating PDF..." : "Create & Download PDF"}
               </button>
 
               <button
                 type="button"
-                className="itp-clear"
+                className="w-full h-10 rounded-xl border border-line bg-paper text-rose-600 dark:text-rose-400 font-black text-xs uppercase tracking-wider hover:bg-rose-500/10 cursor-pointer shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!images.length}
                 onClick={clearAll}
               >
-                Clear All Images
+                <Trash2 className="w-4 h-4 shrink-0" /> Clear All Images
               </button>
-
-              {message ? (
-                <div className="itp-status">
-                  ✓ {message}
-                </div>
-              ) : null}
-
-              {error ? (
-                <div className="itp-error">
-                  {error}
-                </div>
-              ) : null}
-
-              <div className="itp-summary">
-                <div>
-                  <span>
-                    IMAGES
-                  </span>
-
-                  <strong>
-                    {images.length}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>
-                    TOTAL SIZE
-                  </span>
-
-                  <strong>
-                    {formatBytes(totalSize)}
-                  </strong>
-                </div>
-              </div>
-
-              <div className="itp-privacy">
-                🔒 Your images are processed locally
-                in your browser. Nothing is uploaded
-                to a server.
-              </div>
-
             </div>
 
+            {message && (
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-2 shadow-sm">
+                <CheckCircle2 className="w-4 h-4 shrink-0" /> <span>{message}</span>
+              </div>
+            )}
+
+            {error && (
+              <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-bold flex items-center gap-2 shadow-sm">
+                <AlertCircle className="w-4 h-4 shrink-0" /> <span>{error}</span>
+              </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-3 pt-3 border-t border-line">
+              <div className="p-3 bg-paper border border-line rounded-xl shadow-inner text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-muted block">Images</span>
+                <strong className="text-base font-black text-ink font-mono mt-0.5 block">{images.length}</strong>
+              </div>
+              <div className="p-3 bg-paper border border-line rounded-xl shadow-inner text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-muted block">Total Size</span>
+                <strong className="text-base font-black text-brand font-mono mt-0.5 block">{formatBytes(totalSize)}</strong>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-paper border border-line text-xs text-muted leading-relaxed flex items-center gap-2.5 shadow-inner">
+              <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
+              <span>
+                Your images are processed locally in your browser. Nothing is uploaded to a server.
+              </span>
+            </div>
           </div>
 
         </div>
       </div>
-
-      <style>
-        {styles}
-      </style>
-    </>
+    </div>
   );
 }

@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { TrendingUp, DollarSign, Percent, Shield, Activity, Wallet, CalendarDays, BarChart3, Minus, Plus } from "lucide-react";
+import { 
+  TrendingUp, DollarSign, Percent, Shield, 
+  Activity, Wallet, CalendarDays, BarChart3, 
+  Minus, Plus, Copy, Check 
+} from "lucide-react";
 
 const CURRENCIES = [
   { code: 'USD', symbol: '$', locale: 'en-US' },
@@ -26,17 +30,18 @@ export default function InvestmentReturnCalculator() {
   const [isMounted, setIsMounted] = useState(false);
   const [currency, setCurrency] = useState(CURRENCIES[0]);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // Core Inputs
   const [initialDeposit, setInitialDeposit] = useState(10000);
   const [contribution, setContribution] = useState(500);
-  const [contributionFreq, setContributionFreq] = useState("monthly"); // monthly, annually
+  const [contributionFreq, setContributionFreq] = useState("monthly"); 
   const [years, setYears] = useState(10);
-  const [interestRate, setInterestRate] = useState(8.0); // %
+  const [interestRate, setInterestRate] = useState(8.0); 
 
   // Advanced / Pro Inputs
-  const [inflationRate, setInflationRate] = useState(3.0); // %
-  const [taxRate, setTaxRate] = useState(15.0); // % Capital Gains Tax
+  const [inflationRate, setInflationRate] = useState(3.0); 
+  const [taxRate, setTaxRate] = useState(15.0); 
 
   const [results, setResults] = useState({
     totalPrincipal: 0,
@@ -44,7 +49,7 @@ export default function InvestmentReturnCalculator() {
     totalInterest: 0,
     taxPaid: 0,
     netFutureValue: 0,
-    realFutureValue: 0, // Inflation adjusted
+    realFutureValue: 0, 
     purchasingPowerLost: 0,
     yearlyData: []
   });
@@ -71,12 +76,10 @@ export default function InvestmentReturnCalculator() {
     let totalInvested = p;
     let schedule = [];
 
-    // Compound Interest Calculation Loop
     for (let i = 1; i <= totalPeriods; i++) {
       currentBalance = currentBalance * (1 + periodRate) + c;
       totalInvested += c;
 
-      // Record yearly snapshot
       if (i % periodsPerYear === 0) {
         schedule.push({
           year: i / periodsPerYear,
@@ -90,11 +93,9 @@ export default function InvestmentReturnCalculator() {
     const grossFV = currentBalance;
     const grossGains = Math.max(0, grossFV - totalInvested);
     
-    // Deferred Tax Calculation
     const taxPaid = grossGains * (tax / 100);
     const netFV = grossFV - taxPaid;
 
-    // Inflation / Real Value Calculation
     const realFV = netFV / Math.pow(1 + (inf / 100), y);
     const purchasingPowerLost = netFV - realFV;
 
@@ -115,7 +116,28 @@ export default function InvestmentReturnCalculator() {
     calculateInvestment();
   }, [calculateInvestment]);
 
-  // Internal Helper Function to prevent Webpack Export Object bugs
+  const copyResult = async () => {
+    if (results.netFutureValue <= 0) return;
+    const text = 
+      `Wealth Builder Summary (${years} Years @ ${interestRate}% APR)\n` +
+      `Net Future Value: ${formatCurrency(results.netFutureValue, currency.code, currency.locale)}\n` +
+      `Total Principal Invested: ${formatCurrency(results.totalPrincipal, currency.code, currency.locale)}\n` +
+      `Net Return / Profit: ${formatCurrency(results.totalInterest - results.taxPaid, currency.code, currency.locale)}\n` +
+      `Tax Paid: ${formatCurrency(results.taxPaid, currency.code, currency.locale)}\n\n` +
+      `True Purchasing Power (${inflationRate}% inflation): ${formatCurrency(results.realFutureValue, currency.code, currency.locale)}\n` +
+      `Lost to Inflation: ${formatCurrency(results.purchasingPowerLost, currency.code, currency.locale)}`;
+
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      }
+    } catch (error) {
+      setCopied(false);
+    }
+  };
+
   const renderStepper = (value, min, max, onChange, unit, step = 1) => {
     const handleDec = () => {
       let val = Number(value);
@@ -134,198 +156,261 @@ export default function InvestmentReturnCalculator() {
     };
 
     return (
-      <div className="flex items-center bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-violet-500 transition-shadow">
-        <button onClick={handleDec} className="p-4 text-slate-500 hover:text-violet-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:bg-slate-300">
+      <div className="flex items-center bg-surface border border-line rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-brand/25 transition-all h-12 md:h-14 min-w-0">
+        <button 
+          type="button" 
+          onClick={handleDec} 
+          className="w-12 h-full flex items-center justify-center text-muted hover:text-ink hover:bg-paper transition-colors text-lg shrink-0"
+        >
           <Minus className="w-4 h-4" />
         </button>
         <input 
           type="number" 
           value={value} 
           onChange={handleChange}
-          className="w-full text-center text-xl font-bold bg-transparent focus:outline-none text-slate-800 dark:text-slate-100 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+          className="w-full text-center text-base md:text-lg font-bold bg-transparent focus:outline-none text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0" 
         />
-        <button onClick={handleInc} className="p-4 text-slate-500 hover:text-violet-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:bg-slate-300">
+        <button 
+          type="button" 
+          onClick={handleInc} 
+          className="w-12 h-full flex items-center justify-center text-muted hover:text-ink hover:bg-paper transition-colors text-lg shrink-0"
+        >
           <Plus className="w-4 h-4" />
         </button>
-        {unit && <span className="pr-4 font-black text-slate-400 select-none uppercase text-xs tracking-widest">{unit}</span>}
+        {unit && <span className="pr-4 font-bold text-muted select-none uppercase text-xs tracking-widest shrink-0">{unit}</span>}
       </div>
     );
   };
+
+  const baseInputStyle = "w-full min-w-0 h-11 md:h-12 px-3 sm:px-4 bg-surface border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
+  const baseCurrencyInputStyle = "w-full min-w-0 h-11 md:h-12 pl-8 pr-3 bg-surface border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
 
   const principalPct = results.netFutureValue > 0 ? (results.totalPrincipal / results.netFutureValue) * 100 : 0;
   const interestPct = results.netFutureValue > 0 ? ((results.totalInterest - results.taxPaid) / results.netFutureValue) * 100 : 0;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
       
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <TrendingUp className="w-6 h-6 text-violet-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Pro Wealth Builder</h2>
-        </div>
-        <div className="flex items-center gap-2">
-          <select 
-            value={currency.code}
-            onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
-            className="text-sm font-semibold bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-violet-500 cursor-pointer"
-          >
-            {CURRENCIES.map(c => (
-              <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
-            ))}
-          </select>
-          <button onClick={() => setShowAdvanced(!showAdvanced)} className="flex items-center gap-2 text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/30 hover:text-violet-600 transition-colors">
-            <Shield className="w-4 h-4" /> {showAdvanced ? "Basic Mode" : "Taxes & Inflation"}
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
+      {/* MAIN WRAPPER SHELL */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 min-w-0">
         
-        <div className="flex flex-col gap-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 md:p-8 rounded-xl shadow-sm space-y-8">
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* HEADER BAR */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <TrendingUp className="w-6 h-6 md:w-7 md:h-7 text-brand shrink-0" />
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-ink truncate">
+              Pro Wealth Builder
+            </h2>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 md:gap-3 shrink-0">
+            <select 
+              value={currency.code}
+              onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
+              className="h-10 md:h-11 pl-3 md:pl-4 pr-8 bg-surface border border-line rounded-lg text-ink text-xs md:text-sm font-semibold focus:outline-none focus:border-brand cursor-pointer"
+            >
+              {CURRENCIES.map(c => (
+                <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
+              ))}
+            </select>
+            <button 
+              type="button" 
+              onClick={() => setShowAdvanced(!showAdvanced)} 
+              className="flex items-center gap-2 text-xs md:text-sm font-semibold bg-paper border border-line text-ink px-3.5 py-2.5 rounded-lg hover:bg-brand/10 hover:border-brand/30 transition-colors whitespace-nowrap"
+            >
+              <Shield className="w-4 h-4 text-brand shrink-0" /> {showAdvanced ? "Basic Mode" : "Taxes & Inflation"}
+            </button>
+          </div>
+        </div>
+
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,1fr] items-start gap-6 md:gap-8 min-w-0">
+          
+          {/* INPUT FORM PANEL */}
+          <div className="flex flex-col gap-6 md:gap-8 min-w-0">
+            <div className="bg-surface border border-line p-5 md:p-7 rounded-xl space-y-6 md:space-y-8 min-w-0">
               
-              <div className="space-y-2 md:col-span-2">
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                  <Wallet className="w-4 h-4 text-violet-500"/> Starting Amount
-                </label>
-                <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-violet-500 transition-colors">{currency.symbol}</span>
-                  <input type="number" min="0" value={initialDeposit} onChange={(e) => setInitialDeposit(e.target.value)} className="w-full text-3xl font-black pl-10 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-slate-800 dark:text-slate-100 transition-shadow" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 min-w-0">
+                <div className="space-y-2 sm:col-span-2 min-w-0">
+                  <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+                    <Wallet className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0"/> Starting Amount
+                  </label>
+                  <div className="relative group">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                    <input 
+                      type="number" 
+                      min="0" 
+                      value={initialDeposit} 
+                      onChange={(e) => setInitialDeposit(e.target.value)} 
+                      className={`${baseCurrencyInputStyle} text-xl md:text-2xl font-black`} 
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <div className="flex justify-between items-center mb-1">
-                    <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                    <DollarSign className="w-4 h-4 text-emerald-500"/> Contribution
+                <div className="space-y-2 min-w-0">
+                  <div className="flex justify-between items-center min-w-0">
+                    <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted truncate">
+                      <DollarSign className="w-4 h-4 md:w-5 md:h-5 text-teal shrink-0"/> Contribution
                     </label>
-                    <select value={contributionFreq} onChange={(e) => setContributionFreq(e.target.value)} className="text-[10px] uppercase font-bold bg-transparent text-emerald-600 dark:text-emerald-400 outline-none cursor-pointer">
-                        <option value="monthly">/ Month</option>
-                        <option value="annually">/ Year</option>
+                    <select 
+                      value={contributionFreq} 
+                      onChange={(e) => setContributionFreq(e.target.value)} 
+                      className="text-[10px] uppercase font-bold bg-transparent text-teal outline-none cursor-pointer shrink-0"
+                    >
+                      <option value="monthly">/ Month</option>
+                      <option value="annually">/ Year</option>
                     </select>
+                  </div>
+                  <div className="relative group">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                    <input 
+                      type="number" 
+                      min="0" 
+                      value={contribution} 
+                      onChange={(e) => setContribution(e.target.value)} 
+                      className={baseCurrencyInputStyle} 
+                    />
+                  </div>
                 </div>
-                <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-emerald-500 transition-colors">{currency.symbol}</span>
-                  <input type="number" min="0" value={contribution} onChange={(e) => setContribution(e.target.value)} className="w-full text-xl font-bold pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100 transition-shadow" />
+
+                <div className="space-y-2 min-w-0">
+                  <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted truncate">
+                    <Percent className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0"/> Expected Return
+                  </label>
+                  <div className="relative group">
+                    <input 
+                      type="number" 
+                      step="0.1" 
+                      min="0" 
+                      value={interestRate} 
+                      onChange={(e) => setInterestRate(e.target.value)} 
+                      className={`${baseInputStyle} pr-8`} 
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-bold text-muted pointer-events-none">%</span>
+                  </div>
+                </div>
+
+                <div className="space-y-2 sm:col-span-2 pt-2 min-w-0">
+                  <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+                    <CalendarDays className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0"/> Investment Timeline
+                  </label>
+                  {renderStepper(years, 1, 100, setYears, "Yrs")}
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
-                  <Percent className="w-4 h-4 text-sky-500"/> Expected Return
-                </label>
-                <div className="relative group">
-                  <input type="number" step="0.1" min="0" value={interestRate} onChange={(e) => setInterestRate(e.target.value)} className="w-full text-xl font-bold pl-4 pr-10 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-slate-800 dark:text-slate-100 transition-shadow" />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-sky-500 transition-colors">%</span>
+              {showAdvanced && (
+                <div className="pt-6 border-t border-line space-y-6 animate-in fade-in slide-in-from-top-2 min-w-0">
+                  <div className="flex items-center justify-between min-w-0">
+                     <h3 className="text-xs font-black text-muted uppercase tracking-widest flex items-center gap-1.5 truncate">
+                       <Activity className="w-4 h-4 text-brand shrink-0"/> Economic Drag Factors
+                     </h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 min-w-0">
+                    <div className="space-y-2 min-w-0">
+                      <label className="text-[10px] md:text-xs font-bold uppercase tracking-wide text-[#e11d48] block truncate">Capital Gains Tax</label>
+                      {renderStepper(taxRate, 0, 50, setTaxRate, "%", 1)}
+                      <p className="text-[10px] text-muted truncate">Deducted from total profit at end of term.</p>
+                    </div>
+                    <div className="space-y-2 min-w-0">
+                      <label className="text-[10px] md:text-xs font-bold uppercase tracking-wide text-amber-600 block truncate">Inflation Rate</label>
+                      {renderStepper(inflationRate, 0, 20, setInflationRate, "%", 0.5)}
+                      <p className="text-[10px] text-muted truncate">Reduces future purchasing power.</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div className="space-y-3 md:col-span-2 pt-2">
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500"><CalendarDays className="w-4 h-4 text-violet-500"/> Investment Timeline</label>
-                {renderStepper(years, 1, 100, setYears, "Years")}
-              </div>
+            </div>
+          </div>
+
+          {/* OUTPUT DASHBOARD PANEL */}
+          <div className="flex flex-col gap-6 h-full min-w-0">
+            
+            <div className="bg-paper border border-line p-5 md:p-6 rounded-xl shadow-card text-center relative overflow-hidden min-w-0">
+               <div className="flex items-center justify-between border-b border-line pb-4 mb-5 min-w-0">
+                 <h3 className="text-base md:text-lg font-bold text-ink truncate">Wealth Projection</h3>
+                 <button
+                   type="button"
+                   onClick={copyResult}
+                   className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-line bg-surface hover:bg-line text-ink text-xs font-semibold transition-colors shrink-0"
+                 >
+                   {copied ? <><Check className="w-3.5 h-3.5 text-teal" /> Copied</> : <><Copy className="w-3.5 h-3.5 text-muted" /> Copy</>}
+                 </button>
+               </div>
+               
+               <div className="z-10 relative my-3 min-w-0">
+                 <h4 className="text-xs font-bold text-muted uppercase tracking-widest mb-1.5 truncate">Net Future Value</h4>
+                 <div className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-ink mb-3 truncate">
+                   {isMounted ? formatCurrency(results.netFutureValue, currency.code, currency.locale) : `${currency.symbol}0`}
+                 </div>
+                 
+                 {Number(taxRate) > 0 && (
+                     <div className="text-[10px] font-bold text-[#e11d48] bg-[#fb7185]/10 border border-[#fb7185]/20 py-1.5 px-3 rounded-full inline-flex items-center gap-1">
+                       After {isMounted ? formatCurrency(results.taxPaid, currency.code, currency.locale) : "$0"} Tax Deduction
+                     </div>
+                 )}
+               </div>
+
+               <div className="mt-8 mb-2 max-w-2xl mx-auto space-y-2 min-w-0">
+                 <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                   <span className="text-brand">Total Invested</span>
+                   <span className="text-teal">Net Return</span>
+                 </div>
+                 <div className="h-4 w-full bg-line rounded-full flex overflow-hidden border border-line/50">
+                   <div className="h-full bg-brand transition-all duration-700 ease-out" style={{ width: `${principalPct}%` }}></div>
+                   <div className="h-full bg-teal transition-all duration-700 ease-out" style={{ width: `${interestPct}%` }}></div>
+                 </div>
+                 <div className="flex justify-between text-xs font-bold text-ink pt-1 truncate">
+                   <span>{isMounted ? formatCurrency(results.totalPrincipal, currency.code, currency.locale) : "$0"}</span>
+                   <span className="text-teal">+{isMounted ? formatCurrency(results.totalInterest - results.taxPaid, currency.code, currency.locale) : "$0"}</span>
+                 </div>
+               </div>
             </div>
 
-            {showAdvanced && (
-              <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-6 animate-in fade-in slide-in-from-top-2">
-                <div className="flex items-center justify-between">
-                   <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2"><Activity className="w-4 h-4"/> Economic Drag Factors</h3>
+            {showAdvanced && Number(inflationRate) > 0 && (
+              <div className="bg-amber-500/10 border border-amber-500/20 p-5 md:p-6 rounded-xl shadow-card animate-in fade-in zoom-in-95 min-w-0">
+                <div className="flex items-center gap-2 border-b border-amber-500/20 pb-3 mb-4 min-w-0">
+                    <Shield className="w-5 h-5 text-amber-600 shrink-0" />
+                    <h3 className="base font-bold text-ink truncate">True Purchasing Power</h3>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-rose-500">Capital Gains Tax</label>
-                    {renderStepper(taxRate, 0, 50, setTaxRate, "%", 1)}
-                    <p className="text-[10px] text-slate-500">Deducted from total profit at the end of the term.</p>
-                  </div>
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-amber-500">Inflation Rate</label>
-                    {renderStepper(inflationRate, 0, 20, setInflationRate, "%", 0.5)}
-                    <p className="text-[10px] text-slate-500">Reduces future purchasing power.</p>
-                  </div>
+                <div className="text-center mb-5 min-w-0">
+                    <span className="block text-3xl sm:text-4xl font-black text-amber-600 tracking-tight truncate">
+                      {isMounted ? formatCurrency(results.realFutureValue, currency.code, currency.locale) : "$0"}
+                    </span>
+                    <span className="text-[10px] font-bold text-muted uppercase tracking-widest mt-1 block truncate">Value in today's money</span>
+                </div>
+
+                <div className="flex justify-between items-center p-2.5 rounded-lg bg-surface border border-line min-w-0">
+                   <span className="text-xs font-bold text-muted truncate">Lost to Inflation</span>
+                   <span className="font-bold text-[#e11d48] font-mono text-xs sm:text-sm shrink-0 pl-2">-{isMounted ? formatCurrency(results.purchasingPowerLost, currency.code, currency.locale) : "$0"}</span>
                 </div>
               </div>
             )}
 
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-6 h-full sticky top-6">
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl shadow-sm text-center relative overflow-hidden">
-             
-             <div className="z-10 relative">
-               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Net Future Value</h3>
-               <div className="text-5xl md:text-6xl font-black tracking-tighter text-white mb-2">
-                 {isMounted ? formatCurrency(results.netFutureValue, currency.code, currency.locale) : `${currency.symbol}0`}
-               </div>
-               
-               {Number(taxRate) > 0 && (
-                   <div className="text-[10px] font-bold text-rose-400 bg-rose-400/10 border border-rose-400/20 py-1 px-3 rounded-full inline-flex items-center gap-1 mt-1">
-                     After {isMounted ? formatCurrency(results.taxPaid, currency.code, currency.locale) : "$0"} Tax Deduction
-                   </div>
-               )}
-             </div>
-
-             <div className="mt-8 mb-4 max-w-2xl mx-auto space-y-2">
-               <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
-                 <span className="text-violet-400">Total Invested</span>
-                 <span className="text-emerald-400">Net Return</span>
-               </div>
-               <div className="h-4 w-full bg-slate-800 rounded-full flex overflow-hidden border border-slate-700">
-                 <div className="h-full bg-violet-500 transition-all duration-1000 ease-out" style={{ width: `${principalPct}%` }}></div>
-                 <div className="h-full bg-emerald-500 transition-all duration-1000 ease-out" style={{ width: `${interestPct}%` }}></div>
-               </div>
-               <div className="flex justify-between text-xs font-black text-white font-mono pt-1">
-                 <span>{isMounted ? formatCurrency(results.totalPrincipal, currency.code, currency.locale) : "$0"}</span>
-                 <span>+{isMounted ? formatCurrency(results.totalInterest - results.taxPaid, currency.code, currency.locale) : "$0"}</span>
-               </div>
-             </div>
-          </div>
-
-          {showAdvanced && Number(inflationRate) > 0 && (
-            <div className="bg-gradient-to-br from-amber-900/40 to-slate-900 border border-amber-800/50 p-6 rounded-xl shadow-sm animate-in fade-in zoom-in-95">
-              <div className="flex items-center gap-2 border-b border-amber-800/50 pb-3 mb-4">
-                  <Shield className="w-5 h-5 text-amber-500" />
-                  <h3 className="font-semibold text-white">True Purchasing Power</h3>
+            <div className="bg-paper border border-line p-5 md:p-6 rounded-xl shadow-card min-w-0">
+              <div className="flex items-center gap-2 border-b border-line pb-3.5 mb-4 min-w-0">
+                  <BarChart3 className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0" />
+                  <h3 className="text-sm md:text-base font-bold text-ink truncate">Growth Timeline</h3>
               </div>
               
-              <div className="text-center mb-6">
-                  <span className="block text-4xl font-black text-amber-500 tracking-tighter">
-                    {isMounted ? formatCurrency(results.realFutureValue, currency.code, currency.locale) : "$0"}
-                  </span>
-                  <span className="text-[10px] font-bold text-amber-500/70 uppercase tracking-widest mt-1 block">Value in today's money</span>
+              <div className="space-y-2 max-h-[220px] overflow-y-auto custom-scrollbar pr-1 min-w-0">
+                  {results.yearlyData.map((data, idx) => {
+                    if (years > 15 && data.year % 5 !== 0 && data.year !== years) return null;
+                    
+                    return (
+                      <div key={data.year} className="flex justify-between items-center p-2.5 rounded-lg bg-surface border border-line text-xs min-w-0">
+                          <span className="font-bold text-ink shrink-0 pr-2">Year {data.year}</span>
+                          <div className="flex flex-col text-right truncate">
+                              <span className="font-black text-ink truncate">{formatCurrency(data.balance, currency.code, currency.locale)}</span>
+                              <span className="text-[10px] font-bold text-teal truncate">+{formatCurrency(data.interest, currency.code, currency.locale)}</span>
+                          </div>
+                      </div>
+                    )
+                  })}
               </div>
+            </div>
 
-              <div className="flex justify-between items-center p-3 rounded-lg bg-slate-900/50 border border-slate-700/50">
-                 <span className="text-xs font-bold text-slate-400">Lost to Inflation</span>
-                 <span className="font-bold text-rose-400 font-mono">-{isMounted ? formatCurrency(results.purchasingPowerLost, currency.code, currency.locale) : "$0"}</span>
-              </div>
-            </div>
-          )}
-
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm">
-            <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-4 mb-4">
-                <BarChart3 className="w-5 h-5 text-sky-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Growth Timeline</h3>
-            </div>
-            
-            <div className="space-y-2 max-h-[250px] overflow-y-auto custom-scrollbar pr-2">
-                {results.yearlyData.map((data, idx) => {
-                  if (years > 15 && data.year % 5 !== 0 && data.year !== years) return null;
-                  
-                  return (
-                    <div key={data.year} className="flex justify-between items-center p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
-                        <span className="text-xs font-bold text-slate-700 dark:text-slate-300 w-16">Year {data.year}</span>
-                        <div className="flex flex-col text-right">
-                            <span className="text-xs font-black text-slate-800 dark:text-slate-100">{formatCurrency(data.balance, currency.code, currency.locale)}</span>
-                            <span className="text-[10px] font-bold text-emerald-500">+{formatCurrency(data.interest, currency.code, currency.locale)}</span>
-                        </div>
-                    </div>
-                  )
-                })}
-            </div>
           </div>
 
         </div>

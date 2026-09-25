@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Utensils, Activity, Scale, Target, PieChart, Beef, Wheat, Droplet, Calculator, Minus, Plus } from "lucide-react";
+import { 
+  Utensils, Activity, Scale, Target, Beef, 
+  Wheat, Droplet, Calculator, Minus, Plus, 
+  Copy, Check 
+} from "lucide-react";
 
-// ✅ PRO CUSTOM STEPPER (Flawless input handling)
 const PremiumStepper = ({ value, min, max, onChange, unit, step = 1 }) => {
   const handleDec = () => {
     let val = Number(value);
@@ -24,26 +27,35 @@ const PremiumStepper = ({ value, min, max, onChange, unit, step = 1 }) => {
   };
 
   return (
-    <div className="flex items-center bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-rose-500 transition-shadow">
-      <button onClick={handleDec} className="p-4 text-slate-500 hover:text-rose-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:bg-slate-300">
-        <Minus className="w-5 h-5" />
+    <div className="flex items-center bg-surface border border-line rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-brand/20 focus-within:border-brand transition-all h-12 md:h-14 min-w-0">
+      <button 
+        type="button" 
+        onClick={handleDec} 
+        className="w-12 h-full flex items-center justify-center text-muted hover:text-brand hover:bg-paper transition-colors text-lg shrink-0"
+      >
+        <Minus className="w-4 h-4" />
       </button>
       <input 
         type="number" 
         value={value} 
         onChange={handleChange}
-        className="w-full text-center text-xl font-bold bg-transparent focus:outline-none text-slate-800 dark:text-slate-100 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+        className="w-full text-center text-base md:text-lg font-bold bg-transparent focus:outline-none text-ink [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none min-w-0" 
       />
-      <button onClick={handleInc} className="p-4 text-slate-500 hover:text-rose-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:bg-slate-300">
-        <Plus className="w-5 h-5" />
+      <button 
+        type="button" 
+        onClick={handleInc} 
+        className="w-12 h-full flex items-center justify-center text-muted hover:text-brand hover:bg-paper transition-colors text-lg shrink-0"
+      >
+        <Plus className="w-4 h-4" />
       </button>
-      {unit && <span className="pr-4 font-black text-slate-400 select-none uppercase text-xs tracking-widest">{unit}</span>}
+      {unit && <span className="pr-4 font-bold text-muted select-none uppercase text-xs tracking-widest shrink-0">{unit}</span>}
     </div>
   );
 };
 
 const MacroCalculator = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const [copied, setCopied] = useState(false);
   
   // States
   const [system, setSystem] = useState("metric"); 
@@ -52,21 +64,21 @@ const MacroCalculator = () => {
   
   const [cm, setCm] = useState(175);
   const [kg, setKg] = useState(75);
-  const [totalInches, setTotalInches] = useState(69); // 5'9"
+  const [totalInches, setTotalInches] = useState(69); 
   const [lbs, setLbs] = useState(165);
   
   // Advanced Features
-  const [formula, setFormula] = useState("mifflin"); // mifflin or katch
+  const [formula, setFormula] = useState("mifflin"); 
   const [bodyFat, setBodyFat] = useState(15);
   const [activity, setActivity] = useState("1.55"); 
-  const [goal, setGoal] = useState("maintain"); // lose, maintain, gain
-  const [dietType, setDietType] = useState("balanced"); // balanced, lowcarb, keto, highprotein
+  const [goal, setGoal] = useState("maintain"); 
+  const [dietType, setDietType] = useState("balanced"); 
   const [mealsPerDay, setMealsPerDay] = useState(4);
 
   const [results, setResults] = useState({
     tdee: 0,
     targetCalories: 0,
-    macros: { p: 0, c: 0, f: 0, pCals: 0, cCals: 0, fCals: 0 },
+    macros: { p: 0, c: 0, f: 0, pCals: 0, cCals: 0, fCals: 0, pctP: 30, pctC: 40, pctF: 30 },
     perMeal: { cals: 0, p: 0, c: 0, f: 0 }
   });
 
@@ -96,11 +108,9 @@ const MacroCalculator = () => {
 
     let bmr = 0;
     if (formula === "katch" && bf > 0) {
-      // Katch-McArdle Formula (Requires Body Fat %)
       const leanBodyMass = weightInKg * (1 - (bf / 100));
       bmr = 370 + (21.6 * leanBodyMass);
     } else {
-      // Mifflin-St Jeor
       bmr = (10 * weightInKg) + (6.25 * heightInCm) - (5 * currentAge);
       bmr = gender === "male" ? bmr + 5 : bmr - 161;
     }
@@ -108,21 +118,17 @@ const MacroCalculator = () => {
     const tdee = bmr * parseFloat(activity);
     let targetCals = tdee;
 
-    // Adjust Calories based on Goal
     if (goal === "lose") targetCals -= 500;
     else if (goal === "gain") targetCals += 500;
 
-    // Minimum safe calories
     const minSafe = gender === "male" ? 1500 : 1200;
     if (targetCals < minSafe) targetCals = minSafe;
 
-    // Macro Ratios Setup
-    let split = { p: 0.3, c: 0.4, f: 0.3 }; // Balanced default
+    let split = { p: 0.3, c: 0.4, f: 0.3 };
     if (dietType === "lowcarb") split = { p: 0.4, c: 0.2, f: 0.4 };
     else if (dietType === "keto") split = { p: 0.25, c: 0.05, f: 0.7 };
     else if (dietType === "highprotein") split = { p: 0.4, c: 0.35, f: 0.25 };
 
-    // Calculate Grams (P: 4cals, C: 4cals, F: 9cals)
     const pCals = targetCals * split.p;
     const cCals = targetCals * split.c;
     const fCals = targetCals * split.f;
@@ -154,51 +160,107 @@ const MacroCalculator = () => {
     calculateMacros();
   }, [calculateMacros]);
 
+  const copyResult = async () => {
+    if (results.targetCalories <= 0) return;
+    const text = 
+      `Macro Split & Target Summary (${goal.toUpperCase()} Goal, ${dietType.toUpperCase()})\n` +
+      `Daily Target Calories: ${results.targetCalories} kcal (Maintenance TDEE: ${results.tdee} kcal)\n\n` +
+      `Macros:\n` +
+      `- Protein: ${results.macros.p}g (${results.macros.pctP}%)\n` +
+      `- Carbs: ${results.macros.c}g (${results.macros.pctC}%)\n` +
+      `- Fats: ${results.macros.f}g (${results.macros.pctF}%)\n\n` +
+      `Per-Meal Breakdown (${mealsPerDay} meals/day):\n` +
+      `- Calories: ${results.perMeal.cals} kcal\n` +
+      `- Protein: ${results.perMeal.p}g | Carbs: ${results.perMeal.c}g | Fats: ${results.perMeal.f}g`;
+
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      }
+    } catch (error) {
+      setCopied(false);
+    }
+  };
+
   const displayImperialHeight = () => {
     const total = Number(totalInches) || 0;
     return `${Math.floor(total / 12)} ft ${total % 12} in`;
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
       
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Utensils className="w-6 h-6 text-rose-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Pro Macro Architect</h2>
-        </div>
-        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-lg">
-          <button onClick={() => handleSystemSwitch("metric")} className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${system === 'metric' ? 'bg-white dark:bg-slate-700 text-rose-600 shadow-sm' : 'text-slate-500'}`}>Metric</button>
-          <button onClick={() => handleSystemSwitch("imperial")} className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${system === 'imperial' ? 'bg-white dark:bg-slate-700 text-rose-600 shadow-sm' : 'text-slate-500'}`}>Imperial</button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
+      {/* MAIN WRAPPER SHELL */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 min-w-0">
         
-        {/* Input Column */}
-        <div className="flex flex-col gap-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 md:p-8 rounded-xl shadow-sm space-y-8">
+        {/* HEADER BAR */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Utensils className="w-6 h-6 md:w-7 md:h-7 text-brand shrink-0" />
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-ink truncate">
+              Pro Macro Architect
+            </h2>
+          </div>
+
+          <div className="flex bg-paper border border-line p-1 rounded-lg shrink-0">
+            <button 
+              type="button" 
+              onClick={() => handleSystemSwitch("metric")} 
+              className={`px-4 py-2 text-xs md:text-sm font-bold rounded-md transition-all ${system === 'metric' ? 'bg-surface text-brand shadow-sm border border-line' : 'text-muted'}`}
+            >
+              Metric
+            </button>
+            <button 
+              type="button" 
+              onClick={() => handleSystemSwitch("imperial")} 
+              className={`px-4 py-2 text-xs md:text-sm font-bold rounded-md transition-all ${system === 'imperial' ? 'bg-surface text-brand shadow-sm border border-line' : 'text-muted'}`}
+            >
+              Imperial
+            </button>
+          </div>
+        </div>
+
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,1fr] items-start gap-6 md:gap-8 min-w-0">
+          
+          {/* INPUT FORM PANEL */}
+          <div className="flex flex-col gap-6 md:gap-8 min-w-0">
             
             {/* Bio Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Gender</label>
-                <div className="flex gap-2 h-[60px]">
-                  <button onClick={() => setGender("male")} className={`flex-1 rounded-lg font-bold border transition-all ${gender === 'male' ? 'bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-900/20 dark:border-rose-800 dark:text-rose-400' : 'bg-slate-50 border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700'}`}>Male</button>
-                  <button onClick={() => setGender("female")} className={`flex-1 rounded-lg font-bold border transition-all ${gender === 'female' ? 'bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-900/20 dark:border-rose-800 dark:text-rose-400' : 'bg-slate-50 border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700'}`}>Female</button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 min-w-0">
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Gender</label>
+                <div className="flex gap-2.5 h-12 md:h-14">
+                  <button 
+                    type="button" 
+                    onClick={() => setGender("male")} 
+                    className={`flex-1 rounded-lg font-bold border transition-all text-sm md:text-base ${gender === 'male' ? 'bg-brand/10 border-brand/30 text-brand shadow-sm' : 'bg-surface border-line text-muted hover:text-ink'}`}
+                  >
+                    Male
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => setGender("female")} 
+                    className={`flex-1 rounded-lg font-bold border transition-all text-sm md:text-base ${gender === 'female' ? 'bg-brand/10 border-brand/30 text-brand shadow-sm' : 'bg-surface border-line text-muted hover:text-ink'}`}
+                  >
+                    Female
+                  </button>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Age</label>
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Age</label>
                 <PremiumStepper value={age} min={15} max={100} onChange={setAge} unit="Yrs" />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-slate-100 dark:border-slate-800">
-              <div className="space-y-3">
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500"><Scale className="w-4 h-4 text-rose-500"/> Weight</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 pt-6 border-t border-line min-w-0">
+              <div className="space-y-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+                  <Scale className="w-4 h-4 md:w-5 md:h-5 text-brand"/> Weight
+                </label>
                 {system === 'metric' ? (
                   <PremiumStepper value={kg} min={20} max={300} onChange={setKg} unit="kg" />
                 ) : (
@@ -206,14 +268,16 @@ const MacroCalculator = () => {
                 )}
               </div>
 
-              <div className="space-y-3">
-                <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500"><Activity className="w-4 h-4 text-rose-500"/> Height</label>
+              <div className="space-y-2 min-w-0">
+                <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+                  <Activity className="w-4 h-4 md:w-5 md:h-5 text-brand"/> Height
+                </label>
                 {system === 'metric' ? (
                   <PremiumStepper value={cm} min={100} max={250} onChange={setCm} unit="cm" />
                 ) : (
-                  <div className="flex flex-col gap-2">
-                    <PremiumStepper value={totalInches} min={36} max={96} onChange={setTotalInches} unit="inches" />
-                    <div className="text-center text-[11px] font-black uppercase tracking-widest text-rose-500 bg-rose-50 dark:bg-rose-900/20 py-1.5 rounded-md border border-rose-100 dark:border-rose-800/50">
+                  <div className="flex flex-col gap-2 min-w-0">
+                    <PremiumStepper value={totalInches} min={36} max={96} onChange={setTotalInches} unit="in" />
+                    <div className="text-center text-xs font-bold text-brand bg-brand/10 py-2 rounded-lg border border-brand/20">
                       Equals: {displayImperialHeight()}
                     </div>
                   </div>
@@ -222,28 +286,44 @@ const MacroCalculator = () => {
             </div>
 
             {/* Advanced Pro Algorithm Selector */}
-            <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-6">
-              <div className="space-y-3">
-                <label className="flex justify-between text-xs font-bold uppercase tracking-widest text-slate-500">
+            <div className="pt-6 border-t border-line space-y-6 min-w-0">
+              <div className="space-y-2 min-w-0">
+                <label className="flex justify-between text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
                   <span>Calculation Algorithm</span>
-                  <span className="text-[10px] text-rose-500 bg-rose-50 dark:bg-rose-900/20 px-2 py-0.5 rounded">PRO</span>
+                  <span className="text-[10px] text-brand bg-brand/10 px-2 py-0.5 rounded font-extrabold">PRO</span>
                 </label>
-                <div className="flex gap-2 bg-slate-50 dark:bg-slate-800 p-1 rounded-lg">
-                  <button onClick={() => setFormula("mifflin")} className={`flex-1 py-2 text-xs font-bold rounded-md transition-all ${formula === 'mifflin' ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm' : 'text-slate-500'}`}>Mifflin-St Jeor (Standard)</button>
-                  <button onClick={() => setFormula("katch")} className={`flex-1 py-2 text-xs font-bold rounded-md transition-all ${formula === 'katch' ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm' : 'text-slate-500'}`}>Katch-McArdle (LBM)</button>
+                <div className="flex gap-2 bg-paper p-1 rounded-lg border border-line">
+                  <button 
+                    type="button" 
+                    onClick={() => setFormula("mifflin")} 
+                    className={`flex-1 py-2 text-xs md:text-sm font-bold rounded-md transition-all ${formula === 'mifflin' ? 'bg-surface text-ink shadow-sm border border-line' : 'text-muted'}`}
+                  >
+                    Mifflin-St Jeor
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => setFormula("katch")} 
+                    className={`flex-1 py-2 text-xs md:text-sm font-bold rounded-md transition-all ${formula === 'katch' ? 'bg-surface text-ink shadow-sm border border-line' : 'text-muted'}`}
+                  >
+                    Katch-McArdle
+                  </button>
                 </div>
               </div>
 
               {formula === "katch" && (
-                <div className="space-y-3 animate-in fade-in slide-in-from-top-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Body Fat Percentage</label>
+                <div className="space-y-2 min-w-0 animate-in fade-in slide-in-from-top-2">
+                  <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Body Fat Percentage</label>
                   <PremiumStepper value={bodyFat} min={1} max={60} onChange={setBodyFat} unit="%" />
                 </div>
               )}
 
-              <div className="space-y-3">
-                <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Activity Level</label>
-                <select value={activity} onChange={(e) => setActivity(e.target.value)} className="w-full text-sm font-bold p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-rose-500 text-slate-800 dark:text-slate-100 cursor-pointer appearance-none">
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Activity Level</label>
+                <select 
+                  value={activity} 
+                  onChange={(e) => setActivity(e.target.value)} 
+                  className="w-full text-sm md:text-base font-semibold px-4 py-3.5 bg-surface border border-line rounded-lg outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand text-ink cursor-pointer"
+                >
                   <option value="1.2">Sedentary (Office job, no exercise)</option>
                   <option value="1.375">Lightly Active (Exercise 1-3 days/week)</option>
                   <option value="1.55">Moderately Active (Exercise 3-5 days/week)</option>
@@ -254,26 +334,42 @@ const MacroCalculator = () => {
             </div>
 
             {/* Goals & Diet Prefs */}
-            <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-6">
-              <div className="space-y-3">
-                <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Fitness Goal</label>
-                <div className="grid grid-cols-3 gap-2">
+            <div className="pt-6 border-t border-line space-y-6 min-w-0">
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Fitness Goal</label>
+                <div className="grid grid-cols-3 gap-2.5 min-w-0">
                   {[
                     { id: 'lose', label: 'Cut', desc: 'Lose Fat' },
                     { id: 'maintain', label: 'Maintain', desc: 'Stay Same' },
                     { id: 'gain', label: 'Bulk', desc: 'Build Muscle' }
-                  ].map((g) => (
-                    <button key={g.id} onClick={() => setGoal(g.id)} className={`flex flex-col items-center justify-center p-3 rounded-lg border transition-all ${goal === g.id ? 'bg-rose-100 border-rose-300 text-rose-700 dark:bg-rose-900/30 dark:border-rose-700 dark:text-rose-400 scale-[1.02] shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700 hover:border-rose-200'}`}>
-                      <span className="font-black text-sm">{g.label}</span>
-                      <span className="text-[10px] uppercase font-bold opacity-70 mt-1">{g.desc}</span>
-                    </button>
-                  ))}
+                  ].map((g) => {
+                    const isActive = goal === g.id;
+                    return (
+                      <button 
+                        key={g.id} 
+                        type="button" 
+                        onClick={() => setGoal(g.id)} 
+                        className={`flex flex-col items-center justify-center p-3 md:p-3.5 rounded-lg border transition-all ${
+                          isActive 
+                            ? 'bg-brand/10 border-brand/30 text-brand shadow-sm' 
+                            : 'bg-surface border-line text-muted hover:text-ink hover:border-brand/30'
+                        }`}
+                      >
+                        <span className="font-bold text-sm md:text-base">{g.label}</span>
+                        <span className="text-[10px] md:text-xs uppercase font-semibold opacity-80 mt-0.5">{g.desc}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <label className="text-xs font-bold uppercase tracking-widest text-slate-500">Diet Type (Macro Split)</label>
-                <select value={dietType} onChange={(e) => setDietType(e.target.value)} className="w-full text-sm font-bold p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-rose-500 text-slate-800 dark:text-slate-100 cursor-pointer appearance-none">
+              <div className="space-y-2 min-w-0">
+                <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block">Diet Type (Macro Split)</label>
+                <select 
+                  value={dietType} 
+                  onChange={(e) => setDietType(e.target.value)} 
+                  className="w-full text-sm md:text-base font-semibold px-4 py-3.5 bg-surface border border-line rounded-lg outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand text-ink cursor-pointer"
+                >
                   <option value="balanced">Balanced (30% P / 40% C / 30% F)</option>
                   <option value="lowcarb">Low Carb (40% P / 20% C / 40% F)</option>
                   <option value="keto">Keto (25% P / 5% C / 70% F)</option>
@@ -283,96 +379,120 @@ const MacroCalculator = () => {
             </div>
 
           </div>
-        </div>
 
-        {/* Output Dashboard */}
-        <div className="flex flex-col gap-6 h-full sticky top-6">
-          
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl shadow-sm text-center relative overflow-hidden">
-             <div className="z-10 relative">
-               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Daily Target Calories</h3>
-               <div className="text-6xl md:text-7xl font-black tracking-tighter text-white mb-2">
-                 {isMounted && results.targetCalories > 0 ? results.targetCalories : "0"}
+          {/* OUTPUT DASHBOARD PANEL */}
+          <div className="flex flex-col gap-6 h-full min-w-0">
+            
+            <div className="bg-paper border border-line p-5 md:p-6 rounded-xl shadow-card text-center relative overflow-hidden min-w-0">
+               
+               <div className="flex items-center justify-between border-b border-line pb-4 mb-5 min-w-0">
+                 <h3 className="text-base md:text-lg font-bold text-ink truncate">Macro Split Result</h3>
+                 <button
+                   type="button"
+                   onClick={copyResult}
+                   className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-line bg-surface hover:bg-line text-ink text-xs font-semibold transition-colors shrink-0"
+                 >
+                   {copied ? <><Check className="w-3.5 h-3.5 text-teal" /> Copied</> : <><Copy className="w-3.5 h-3.5 text-muted" /> Copy</>}
+                 </button>
                </div>
-               <div className="text-xs font-semibold text-rose-500 flex items-center justify-center gap-1 uppercase tracking-wider">
-                 <Calculator className="w-3.5 h-3.5"/> Maintenance (TDEE): {isMounted ? results.tdee : 0}
-               </div>
-             </div>
 
-             {/* Macro Visual Bar */}
-             {results.targetCalories > 0 && (
-               <div className="mt-8 mb-4 max-w-2xl mx-auto space-y-2">
-                 <div className="h-4 w-full bg-slate-800 rounded-full flex overflow-hidden border border-slate-700">
-                   <div className="h-full bg-indigo-500 transition-all duration-700 ease-out" style={{ width: `${results.macros.pctP}%` }}></div>
-                   <div className="h-full bg-amber-400 transition-all duration-700 ease-out" style={{ width: `${results.macros.pctC}%` }}></div>
-                   <div className="h-full bg-rose-500 transition-all duration-700 ease-out" style={{ width: `${results.macros.pctF}%` }}></div>
+               <div className="z-10 relative my-4 min-w-0">
+                 <h4 className="text-xs font-bold text-muted uppercase tracking-widest mb-1.5">Daily Target Calories</h4>
+                 <div className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-ink mb-2 truncate">
+                   {isMounted && results.targetCalories > 0 ? results.targetCalories : "0"} <span className="text-lg md:text-xl font-sans font-semibold text-muted">kcal</span>
+                 </div>
+                 <div className="text-xs md:text-sm font-semibold text-brand flex items-center justify-center gap-1.5 uppercase tracking-wider truncate">
+                   <Calculator className="w-4 h-4 shrink-0"/> Maintenance (TDEE): {isMounted ? results.tdee : 0} kcal
                  </div>
                </div>
-             )}
 
-             {results.targetCalories > 0 && (
-               <div className="mt-6">
-                 <div className="grid grid-cols-3 gap-2">
-                     <div className="bg-indigo-500/10 border border-indigo-500/20 p-3 rounded-lg text-center flex flex-col items-center">
-                         <Beef className="w-5 h-5 text-indigo-400 mb-1"/>
-                         <span className="block text-2xl font-black text-indigo-400">{results.macros.p}g</span>
-                         <span className="text-[10px] font-bold text-indigo-500/70 uppercase">Protein ({results.macros.pctP}%)</span>
-                     </div>
-                     <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg text-center flex flex-col items-center">
-                         <Wheat className="w-5 h-5 text-amber-400 mb-1"/>
-                         <span className="block text-2xl font-black text-amber-400">{results.macros.c}g</span>
-                         <span className="text-[10px] font-bold text-amber-500/70 uppercase">Carbs ({results.macros.pctC}%)</span>
-                     </div>
-                     <div className="bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg text-center flex flex-col items-center">
-                         <Droplet className="w-5 h-5 text-rose-400 mb-1"/>
-                         <span className="block text-2xl font-black text-rose-400">{results.macros.f}g</span>
-                         <span className="text-[10px] font-bold text-rose-500/70 uppercase">Fats ({results.macros.pctF}%)</span>
-                     </div>
+               {/* Macro Visual Bar */}
+               {results.targetCalories > 0 && (
+                 <div className="my-5 max-w-2xl mx-auto space-y-2 min-w-0">
+                   <div className="h-3 w-full bg-line rounded-full flex overflow-hidden">
+                     <div className="h-full bg-brand transition-all duration-700 ease-out" style={{ width: `${results.macros.pctP}%` }}></div>
+                     <div className="h-full bg-amber-400 transition-all duration-700 ease-out" style={{ width: `${results.macros.pctC}%` }}></div>
+                     <div className="h-full bg-[#fb7185] transition-all duration-700 ease-out" style={{ width: `${results.macros.pctF}%` }}></div>
+                   </div>
                  </div>
-               </div>
-             )}
+               )}
+
+               {results.targetCalories > 0 && (
+                 <div className="mt-5 min-w-0">
+                   <div className="grid grid-cols-3 gap-2 min-w-0">
+                       <div className="bg-surface border border-line p-2.5 md:p-3 rounded-lg text-center flex flex-col items-center min-w-0">
+                           <Beef className="w-4 h-4 md:w-5 md:h-5 text-brand mb-1 shrink-0"/>
+                           <span className="block text-xl md:text-2xl font-black text-ink truncate">{results.macros.p}g</span>
+                           <span className="text-[10px] font-bold text-muted uppercase truncate">Protein ({results.macros.pctP}%)</span>
+                       </div>
+                       <div className="bg-surface border border-line p-2.5 md:p-3 rounded-lg text-center flex flex-col items-center min-w-0">
+                           <Wheat className="w-4 h-4 md:w-5 md:h-5 text-amber-500 mb-1 shrink-0"/>
+                           <span className="block text-xl md:text-2xl font-black text-ink truncate">{results.macros.c}g</span>
+                           <span className="text-[10px] font-bold text-muted uppercase truncate">Carbs ({results.macros.pctC}%)</span>
+                       </div>
+                       <div className="bg-surface border border-line p-2.5 md:p-3 rounded-lg text-center flex flex-col items-center min-w-0">
+                           <Droplet className="w-4 h-4 md:w-5 md:h-5 text-[#fb7185] mb-1 shrink-0"/>
+                           <span className="block text-xl md:text-2xl font-black text-ink truncate">{results.macros.f}g</span>
+                           <span className="text-[10px] font-bold text-muted uppercase truncate">Fats ({results.macros.pctF}%)</span>
+                       </div>
+                   </div>
+                 </div>
+               )}
+            </div>
+
+            {/* Meal Breakdown Pro Feature */}
+            {results.targetCalories > 0 && (
+              <div className="bg-paper border border-line p-5 md:p-6 rounded-xl shadow-card min-w-0">
+                <div className="flex items-center justify-between border-b border-line pb-3.5 mb-4 min-w-0">
+                  <div className="flex items-center gap-2 min-w-0">
+                      <Target className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0" />
+                      <h3 className="text-sm md:text-base font-bold text-ink truncate">Per-Meal Breakdown</h3>
+                  </div>
+                  <div className="flex items-center gap-1.5 bg-surface border border-line rounded-lg p-1 shrink-0">
+                      <button 
+                        type="button" 
+                        onClick={() => setMealsPerDay(Math.max(1, mealsPerDay - 1))} 
+                        className="w-7 h-7 bg-paper border border-line rounded flex items-center justify-center font-bold text-muted hover:text-ink transition-colors"
+                      >
+                        -
+                      </button>
+                      <span className="text-xs font-black px-2 text-ink whitespace-nowrap">{mealsPerDay} Meals</span>
+                      <button 
+                        type="button" 
+                        onClick={() => setMealsPerDay(Math.min(8, mealsPerDay + 1))} 
+                        className="w-7 h-7 bg-paper border border-line rounded flex items-center justify-center font-bold text-muted hover:text-ink transition-colors"
+                      >
+                        +
+                      </button>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3 min-w-0">
+                   <div className="p-3 bg-surface border border-line rounded-lg flex flex-col min-w-0">
+                       <span className="text-[10px] font-bold uppercase text-muted tracking-wider">Calories / Meal</span>
+                       <span className="text-lg md:text-xl font-black text-ink truncate">{results.perMeal.cals} <span className="text-xs font-normal text-muted">kcal</span></span>
+                   </div>
+                   <div className="p-3 bg-surface border border-line rounded-lg flex flex-col min-w-0">
+                       <span className="text-[10px] font-bold uppercase text-brand tracking-wider">Protein / Meal</span>
+                       <span className="text-lg md:text-xl font-black text-ink truncate">{results.perMeal.p} <span className="text-xs font-normal text-muted">g</span></span>
+                   </div>
+                   <div className="p-3 bg-surface border border-line rounded-lg flex flex-col min-w-0">
+                       <span className="text-[10px] font-bold uppercase text-amber-500 tracking-wider">Carbs / Meal</span>
+                       <span className="text-lg md:text-xl font-black text-ink truncate">{results.perMeal.c} <span className="text-xs font-normal text-muted">g</span></span>
+                   </div>
+                   <div className="p-3 bg-surface border border-line rounded-lg flex flex-col min-w-0">
+                       <span className="text-[10px] font-bold uppercase text-[#fb7185] tracking-wider">Fats / Meal</span>
+                       <span className="text-lg md:text-xl font-black text-ink truncate">{results.perMeal.f} <span className="text-xs font-normal text-muted">g</span></span>
+                   </div>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Meal Breakdown Pro Feature */}
-          {results.targetCalories > 0 && (
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-4">
-                <div className="flex items-center gap-2">
-                    <Target className="w-5 h-5 text-indigo-500" />
-                    <h3 className="font-semibold text-slate-800 dark:text-slate-200">Per-Meal Breakdown</h3>
-                </div>
-                <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
-                    <button onClick={() => setMealsPerDay(Math.max(1, mealsPerDay - 1))} className="px-2 py-1 bg-white dark:bg-slate-700 rounded shadow-sm font-bold text-slate-500 hover:text-indigo-600">-</button>
-                    <span className="text-xs font-black px-2">{mealsPerDay} Meals</span>
-                    <button onClick={() => setMealsPerDay(Math.min(8, mealsPerDay + 1))} className="px-2 py-1 bg-white dark:bg-slate-700 rounded shadow-sm font-bold text-slate-500 hover:text-indigo-600">+</button>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-2 gap-3">
-                 <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700/50 flex flex-col">
-                     <span className="text-[10px] font-bold uppercase text-slate-500">Calories / Meal</span>
-                     <span className="text-xl font-black text-slate-800 dark:text-slate-100">{results.perMeal.cals} <span className="text-xs font-medium text-slate-400">kcal</span></span>
-                 </div>
-                 <div className="p-3 bg-indigo-50 dark:bg-indigo-900/10 rounded-lg border border-indigo-100 dark:border-indigo-900/50 flex flex-col">
-                     <span className="text-[10px] font-bold uppercase text-indigo-500">Protein / Meal</span>
-                     <span className="text-xl font-black text-indigo-700 dark:text-indigo-400">{results.perMeal.p} <span className="text-xs font-medium opacity-60">g</span></span>
-                 </div>
-                 <div className="p-3 bg-amber-50 dark:bg-amber-900/10 rounded-lg border border-amber-100 dark:border-amber-900/50 flex flex-col">
-                     <span className="text-[10px] font-bold uppercase text-amber-600">Carbs / Meal</span>
-                     <span className="text-xl font-black text-amber-700 dark:text-amber-400">{results.perMeal.c} <span className="text-xs font-medium opacity-60">g</span></span>
-                 </div>
-                 <div className="p-3 bg-rose-50 dark:bg-rose-900/10 rounded-lg border border-rose-100 dark:border-rose-900/50 flex flex-col">
-                     <span className="text-[10px] font-bold uppercase text-rose-500">Fats / Meal</span>
-                     <span className="text-xl font-black text-rose-700 dark:text-rose-400">{results.perMeal.f} <span className="text-xs font-medium opacity-60">g</span></span>
-                 </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>
   );
 };
 
-// ✅ BULLETPROOF ARROW EXPORT
 export default MacroCalculator;

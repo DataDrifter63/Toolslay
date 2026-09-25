@@ -198,6 +198,13 @@ export default function FancyTextGenerator() {
   const [copiedKey, setCopiedKey] = useState(null);
   const [zalgoIntensity, setZalgoIntensity] = useState(2);
   const [zalgoSeed, setZalgoSeed] = useState(0);
+  // Zalgo uses Math.random(), which produces a different result on the server
+  // than on the client — rendering it unconditionally causes a real hydration
+  // mismatch. Only show the randomized version after the component has
+  // mounted in the browser; server and the pre-mount client render both show
+  // the same plain `source` text, so they match exactly during hydration.
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => setIsMounted(true), []);
 
   useEffect(() => {
     try {
@@ -256,26 +263,26 @@ export default function FancyTextGenerator() {
   const showZalgoCard = !search.trim() || "glitch zalgo creepy".includes(search.trim().toLowerCase());
 
   return (
-    <div>
+    <div className="w-full min-w-0 overflow-x-hidden">
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Type your text here — try a name, a bio, or a caption..."
         aria-label="Text to style"
         rows={3}
-        className="w-full resize-none rounded-lg border border-line bg-paper p-3 text-sm text-ink placeholder:text-muted focus:border-brand focus:outline-none"
+        className="w-full min-w-0 resize-none rounded-lg border border-line bg-paper p-3 text-sm text-ink placeholder:text-muted focus:border-brand focus:outline-none"
       />
 
-      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="flex flex-1 items-center gap-2 rounded-lg border border-line bg-surface px-3 py-2">
-          <Search size={15} className="text-muted" aria-hidden="true" />
+      <div className="mt-4 flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex min-w-0 flex-1 items-center gap-2 rounded-lg border border-line bg-surface px-3 py-2">
+          <Search size={15} className="shrink-0 text-muted" aria-hidden="true" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search styles..."
             aria-label="Search styles"
-            className="w-full bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
+            className="w-full min-w-0 bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
           />
         </div>
 
@@ -283,7 +290,7 @@ export default function FancyTextGenerator() {
           value={decoration}
           onChange={(e) => setDecoration(e.target.value)}
           aria-label="Decorative border"
-          className="rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none"
+          className="w-full min-w-0 rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none sm:w-56 sm:shrink-0"
         >
           {DECORATIONS.map((d) => (
             <option key={d.key} value={d.key}>
@@ -301,10 +308,10 @@ export default function FancyTextGenerator() {
 
       {/* Zalgo — special card with its own intensity control and regenerate button */}
       {showZalgoCard && (
-        <div className="mt-6 rounded-lg border border-line bg-surface p-4">
-          <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="mt-6 w-full min-w-0 rounded-lg border border-line bg-surface p-4">
+          <div className="flex w-full min-w-0 flex-wrap items-center justify-between gap-2">
             <span className="text-sm font-medium text-ink">Glitch / Zalgo</span>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <label className="flex items-center gap-2 text-xs text-muted">
                 Intensity
                 <input
@@ -336,7 +343,7 @@ export default function FancyTextGenerator() {
             </div>
           </div>
           <p className="mt-3 break-all text-lg leading-loose text-ink">
-            {decorationConfig.left + zalgoResult + decorationConfig.right}
+            {isMounted ? decorationConfig.left + zalgoResult + decorationConfig.right : source}
           </p>
         </div>
       )}

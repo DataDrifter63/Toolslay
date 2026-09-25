@@ -30,7 +30,7 @@ const formatCurrency = (val, currencyCode, locale) => {
 const InvoiceGenerator = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [currency, setCurrency] = useState(CURRENCIES[0]);
-  const [theme, setTheme] = useState(THEMES[1]);
+  const [theme, setTheme] = useState(THEMES);
 
   const [invoiceNo, setInvoiceNo] = useState("INV-2026-001");
   const [issueDate, setIssueDate] = useState("");
@@ -117,7 +117,6 @@ const InvoiceGenerator = () => {
     window.print();
   };
 
-  // ✅ PRO CSV EXPORT
   const handleExportCSV = () => {
     const escape = (str) => `"${(str || '').toString().replace(/"/g, '""')}"`;
     let csvData = [];
@@ -178,100 +177,76 @@ const InvoiceGenerator = () => {
     }
   };
 
+  const baseInputStyle = "w-full min-w-0 h-11 px-3.5 bg-paper border border-line rounded-lg text-ink text-sm focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
+  const baseSelectStyle = "w-full min-w-0 h-11 pl-3.5 pr-8 bg-paper border border-line rounded-lg text-ink text-sm focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold cursor-pointer";
+
   return (
-    <div className="max-w-[1400px] mx-auto space-y-6 relative">
+    <div className="mx-auto w-full max-w-[1400px] space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
       
-      {/* ⚠️ BULLETPROOF PRINT OVERRIDE (Fixes blank page & extra pages) */}
       <style dangerouslySetInnerHTML={{__html: `
         @media print {
-          /* 1. Hide the entire UI (Forms, Header, Sidebar) */
-          .no-print { 
-            display: none !important; 
-          }
-          
-          /* 2. Strip background styling from the body */
-          body, html {
-            background-color: white !important;
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-          
-          /* 3. Flatten layout wrappers so they don't force grid/flex alignment */
+          .no-print { display: none !important; }
+          body, html { background-color: white !important; margin: 0 !important; padding: 0 !important; }
           .grid { display: block !important; }
           .sticky { position: relative !important; top: 0 !important; }
-          
-          /* 4. Make ONLY the invoice preview render properly */
-          #invoice-live-preview {
-            box-shadow: none !important;
-            border: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            height: auto !important;
-            background: white !important;
-          }
-          
-          /* 5. Force browsers to print background colors (like your theme ribbon) */
-          * {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
+          #invoice-live-preview { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; background: white !important; }
+          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
       `}} />
 
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm no-print">
-        <div className="flex items-center gap-3">
-          <Receipt className="w-6 h-6 text-indigo-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Pro Billing Studio</h2>
+      {/* TOP HEADER - Mobile Stacked / Responsive */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-surface border border-line px-4 sm:px-6 py-4 rounded-xl shadow-card no-print min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <Receipt className="w-5 h-5 sm:w-6 sm:h-6 text-brand shrink-0" />
+          <h2 className="text-base sm:text-xl font-bold text-ink truncate">Pro Billing Studio</h2>
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={handleExportCSV} className="flex items-center gap-2 text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors shadow-sm border border-slate-200 dark:border-slate-700">
-            <Download className="w-4 h-4" /> Export Data (CSV)
+        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto shrink-0">
+          <button type="button" onClick={handleExportCSV} className="flex items-center justify-center gap-1.5 text-xs font-semibold bg-paper border border-line text-ink px-3 py-2 rounded-lg hover:bg-brand/10 hover:border-brand/35 transition-colors">
+            <Download className="w-3.5 h-3.5 text-muted shrink-0" /> Export CSV
           </button>
-          
-          <button onClick={handlePrint} className="flex items-center gap-2 text-sm font-bold bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">
-            <Printer className="w-4 h-4" /> Save PDF / Print
+          <button type="button" onClick={handlePrint} className="flex items-center justify-center gap-1.5 text-xs font-bold bg-brand text-white px-3 py-2 rounded-lg hover:opacity-95 transition-opacity shadow-sm">
+            <Printer className="w-3.5 h-3.5 shrink-0" /> Save PDF
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-[450px,1fr] gap-8 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-[440px,1fr] gap-6 md:gap-8 items-start min-w-0">
         
         {/* ================= INPUT FORM COLUMN ================= */}
-        <div className="flex flex-col gap-6 no-print h-full max-h-[80vh] overflow-y-auto custom-scrollbar pr-2 pb-10">
+        <div className="flex flex-col gap-5 no-print xl:h-[82vh] xl:overflow-y-auto custom-scrollbar xl:pr-1 xl:pb-10 min-w-0">
           
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-5">
-            <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <Palette className="w-4 h-4 text-slate-500" />
-                <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">Invoice Settings</h3>
+          {/* Invoice Settings */}
+          <div className="bg-surface border border-line p-4 sm:p-5 rounded-xl shadow-card space-y-4 min-w-0">
+            <div className="flex items-center gap-2 border-b border-line pb-2.5 min-w-0">
+                <Palette className="w-4 h-4 text-brand shrink-0" />
+                <h3 className="font-bold text-ink text-xs sm:text-sm truncate">Invoice Settings</h3>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Currency</label>
-                <select value={currency.code} onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100 cursor-pointer">
+            <div className="grid grid-cols-2 gap-3 min-w-0">
+              <div className="space-y-1 min-w-0">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted block truncate">Currency</label>
+                <select value={currency.code} onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))} className={baseSelectStyle}>
                   {CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>)}
                 </select>
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Brand Color</label>
-                <div className="flex items-center gap-2 pt-1">
+              <div className="space-y-1 min-w-0">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted block truncate">Brand Color</label>
+                <div className="flex items-center gap-2 pt-1.5">
                   {THEMES.map(t => (
-                    <button key={t.id} onClick={() => setTheme(t)} className={`w-8 h-8 rounded-full ${t.color} border-2 transition-all ${theme.id === t.id ? 'border-slate-400 scale-110 shadow-md' : 'border-transparent'}`} />
+                    <button key={t.id} type="button" onClick={() => setTheme(t)} className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full ${t.color} border-2 transition-all shrink-0 ${theme.id === t.id ? 'border-ink scale-110 shadow-sm' : 'border-transparent'}`} />
                   ))}
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Invoice #</label>
-                <input type="text" value={invoiceNo} onChange={(e) => setInvoiceNo(e.target.value)} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
+            <div className="grid grid-cols-2 gap-3 min-w-0">
+              <div className="space-y-1 min-w-0">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted block truncate">Invoice #</label>
+                <input type="text" value={invoiceNo} onChange={(e) => setInvoiceNo(e.target.value)} className={baseInputStyle} />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Net Terms</label>
-                <select value={terms} onChange={(e) => setTerms(e.target.value)} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100 cursor-pointer">
+              <div className="space-y-1 min-w-0">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted block truncate">Net Terms</label>
+                <select value={terms} onChange={(e) => setTerms(e.target.value)} className={baseSelectStyle}>
                   <option value="0">Due on Receipt</option>
                   <option value="7">Net 7</option>
                   <option value="15">Net 15</option>
@@ -281,208 +256,215 @@ const InvoiceGenerator = () => {
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Issue Date</label>
-                <input type="date" value={issueDate} onChange={(e) => setIssueDate(e.target.value)} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
+            <div className="grid grid-cols-2 gap-3 min-w-0">
+              <div className="space-y-1 min-w-0">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted block truncate">Issue Date</label>
+                <input type="date" value={issueDate} onChange={(e) => setIssueDate(e.target.value)} className={baseInputStyle} />
               </div>
-              <div className={`space-y-1.5 ${terms === '0' ? 'opacity-50' : ''}`}>
-                <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Due Date</label>
+              <div className={`space-y-1 min-w-0 ${terms === '0' ? 'opacity-50' : ''}`}>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-muted block truncate">Due Date</label>
                 {terms === '0' ? (
-                  <input type="text" value="Upon Receipt" readOnly className="w-full text-sm font-bold p-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-500 dark:text-slate-400 cursor-not-allowed" />
+                  <input type="text" value="Upon Receipt" readOnly className={`${baseInputStyle} bg-line/30 text-muted cursor-not-allowed`} />
                 ) : (
-                  <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
+                  <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className={baseInputStyle} />
                 )}
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <Building2 className="w-4 h-4 text-slate-500" />
-                <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">Your Details (From)</h3>
+          {/* Sender Details */}
+          <div className="bg-surface border border-line p-4 sm:p-5 rounded-xl shadow-card space-y-3.5 min-w-0">
+            <div className="flex items-center gap-2 border-b border-line pb-2.5 min-w-0">
+                <Building2 className="w-4 h-4 text-brand shrink-0" />
+                <h3 className="font-bold text-ink text-xs sm:text-sm truncate">Your Details (From)</h3>
             </div>
-            <input type="text" placeholder="Your Business Name" value={fromDetails.name} onChange={(e) => handleDetailChange('from', 'name', e.target.value)} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-800 dark:text-slate-100" />
-            <input type="text" placeholder="Email Address" value={fromDetails.email} onChange={(e) => handleDetailChange('from', 'email', e.target.value)} className="w-full text-sm p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-800 dark:text-slate-100" />
-            <textarea placeholder="Address" value={fromDetails.address} onChange={(e) => handleDetailChange('from', 'address', e.target.value)} className="w-full text-sm p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-800 dark:text-slate-100 h-20 resize-none"></textarea>
-            <input type="text" placeholder="Tax ID / VAT (Optional)" value={fromDetails.taxId} onChange={(e) => handleDetailChange('from', 'taxId', e.target.value)} className="w-full text-sm p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-800 dark:text-slate-100" />
+            <input type="text" placeholder="Your Business Name" value={fromDetails.name} onChange={(e) => handleDetailChange('from', 'name', e.target.value)} className={baseInputStyle} />
+            <input type="text" placeholder="Email Address" value={fromDetails.email} onChange={(e) => handleDetailChange('from', 'email', e.target.value)} className={baseInputStyle} />
+            <textarea placeholder="Address" value={fromDetails.address} onChange={(e) => handleDetailChange('from', 'address', e.target.value)} className="w-full text-sm p-3 bg-paper border border-line rounded-lg text-ink focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 h-16 sm:h-20 resize-none font-semibold"></textarea>
+            <input type="text" placeholder="Tax ID / VAT (Optional)" value={fromDetails.taxId} onChange={(e) => handleDetailChange('from', 'taxId', e.target.value)} className={baseInputStyle} />
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <User className="w-4 h-4 text-slate-500" />
-                <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">Client Details (To)</h3>
+          {/* Client Details */}
+          <div className="bg-surface border border-line p-4 sm:p-5 rounded-xl shadow-card space-y-3.5 min-w-0">
+            <div className="flex items-center gap-2 border-b border-line pb-2.5 min-w-0">
+                <User className="w-4 h-4 text-brand shrink-0" />
+                <h3 className="font-bold text-ink text-xs sm:text-sm truncate">Client Details (To)</h3>
             </div>
-            <input type="text" placeholder="Client Business Name" value={toDetails.name} onChange={(e) => handleDetailChange('to', 'name', e.target.value)} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-800 dark:text-slate-100" />
-            <input type="text" placeholder="Client Email" value={toDetails.email} onChange={(e) => handleDetailChange('to', 'email', e.target.value)} className="w-full text-sm p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-800 dark:text-slate-100" />
-            <textarea placeholder="Client Address" value={toDetails.address} onChange={(e) => handleDetailChange('to', 'address', e.target.value)} className="w-full text-sm p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-800 dark:text-slate-100 h-20 resize-none"></textarea>
-            <input type="text" placeholder="Client Tax ID (Optional)" value={toDetails.taxId} onChange={(e) => handleDetailChange('to', 'taxId', e.target.value)} className="w-full text-sm p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none text-slate-800 dark:text-slate-100" />
+            <input type="text" placeholder="Client Business Name" value={toDetails.name} onChange={(e) => handleDetailChange('to', 'name', e.target.value)} className={baseInputStyle} />
+            <input type="text" placeholder="Client Email" value={toDetails.email} onChange={(e) => handleDetailChange('to', 'email', e.target.value)} className={baseInputStyle} />
+            <textarea placeholder="Client Address" value={toDetails.address} onChange={(e) => handleDetailChange('to', 'address', e.target.value)} className="w-full text-sm p-3 bg-paper border border-line rounded-lg text-ink focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 h-16 sm:h-20 resize-none font-semibold"></textarea>
+            <input type="text" placeholder="Client Tax ID (Optional)" value={toDetails.taxId} onChange={(e) => handleDetailChange('to', 'taxId', e.target.value)} className={baseInputStyle} />
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                <div className="flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-slate-500" />
-                    <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">Line Items</h3>
+          {/* Line Items */}
+          <div className="bg-surface border border-line p-4 sm:p-5 rounded-xl shadow-card space-y-3.5 min-w-0">
+            <div className="flex items-center justify-between border-b border-line pb-2.5 min-w-0">
+                <div className="flex items-center gap-2 min-w-0">
+                    <Briefcase className="w-4 h-4 text-brand shrink-0" />
+                    <h3 className="font-bold text-ink text-xs sm:text-sm truncate">Line Items</h3>
                 </div>
             </div>
             
-            {items.map((item, index) => (
-              <div key={item.id} className="flex flex-col gap-2 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-700/50 relative group">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-[10px] font-black uppercase text-slate-400">Item {index + 1}</span>
-                  {items.length > 1 && (
-                    <button onClick={() => handleRemoveItem(item.id)} className="text-rose-400 hover:text-rose-600 transition-colors">
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  )}
+            <div className="space-y-3 min-w-0">
+              {items.map((item, index) => (
+                <div key={item.id} className="flex flex-col gap-2 p-3 bg-paper rounded-lg border border-line min-w-0">
+                  <div className="flex justify-between items-center mb-0.5 min-w-0">
+                    <span className="text-[10px] font-black uppercase text-muted tracking-wider">Item {index + 1}</span>
+                    {items.length > 1 && (
+                      <button type="button" onClick={() => handleRemoveItem(item.id)} className="text-[#fb7185] hover:text-[#e11d48] transition-colors p-1">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                  <input type="text" placeholder="Description of service/product" value={item.desc} onChange={(e) => handleItemChange(item.id, 'desc', e.target.value)} className="w-full text-xs sm:text-sm font-bold p-2 bg-surface border border-line rounded text-ink focus:outline-none focus:border-brand" />
+                  <div className="grid grid-cols-2 gap-2 mt-1 min-w-0">
+                     <div className="space-y-1 min-w-0">
+                       <label className="text-[9px] font-bold uppercase text-muted block truncate">Qty</label>
+                       <input type="number" min="1" value={item.qty} onChange={(e) => handleItemChange(item.id, 'qty', e.target.value)} className="w-full text-xs sm:text-sm font-semibold p-2 bg-surface border border-line rounded text-ink focus:outline-none focus:border-brand" />
+                     </div>
+                     <div className="space-y-1 min-w-0">
+                       <label className="text-[9px] font-bold uppercase text-muted block truncate">Rate</label>
+                       <input type="number" min="0" value={item.rate} onChange={(e) => handleItemChange(item.id, 'rate', e.target.value)} className="w-full text-xs sm:text-sm font-semibold p-2 bg-surface border border-line rounded text-ink focus:outline-none focus:border-brand" />
+                     </div>
+                  </div>
                 </div>
-                <input type="text" placeholder="Description of service/product" value={item.desc} onChange={(e) => handleItemChange(item.id, 'desc', e.target.value)} className="w-full text-sm font-bold p-2 border-b border-slate-200 dark:border-slate-700 bg-transparent outline-none focus:border-indigo-500 text-slate-800 dark:text-slate-100" />
-                <div className="grid grid-cols-2 gap-4 mt-2">
-                   <div className="space-y-1">
-                     <label className="text-[10px] font-bold uppercase text-slate-500">Qty</label>
-                     <input type="number" min="1" value={item.qty} onChange={(e) => handleItemChange(item.id, 'qty', e.target.value)} className="w-full text-sm p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded outline-none text-slate-800 dark:text-slate-100" />
-                   </div>
-                   <div className="space-y-1">
-                     <label className="text-[10px] font-bold uppercase text-slate-500">Rate</label>
-                     <input type="number" min="0" value={item.rate} onChange={(e) => handleItemChange(item.id, 'rate', e.target.value)} className="w-full text-sm p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded outline-none text-slate-800 dark:text-slate-100" />
-                   </div>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
             
-            <button onClick={handleAddItem} className="w-full flex items-center justify-center gap-2 py-3 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg text-sm font-bold text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:border-indigo-300 transition-all">
-               <Plus className="w-4 h-4" /> Add Line Item
+            <button type="button" onClick={handleAddItem} className="w-full flex items-center justify-center gap-1.5 py-2.5 border-2 border-dashed border-line rounded-lg text-xs sm:text-sm font-bold text-brand hover:bg-brand/10 hover:border-brand/35 transition-all">
+               <Plus className="w-4 h-4 shrink-0" /> Add Line Item
             </button>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                <div className="flex items-center gap-2">
-                    <Calculator className="w-4 h-4 text-slate-500" />
-                    <h3 className="font-bold text-slate-800 dark:text-slate-200 text-sm">Totals & Taxes</h3>
-                </div>
+          {/* Totals & Taxes */}
+          <div className="bg-surface border border-line p-4 sm:p-5 rounded-xl shadow-card space-y-3.5 min-w-0">
+            <div className="flex items-center gap-2 border-b border-line pb-2.5 min-w-0">
+                <Calculator className="w-4 h-4 text-brand shrink-0" />
+                <h3 className="font-bold text-ink text-xs sm:text-sm truncate">Totals & Taxes</h3>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Tax Rate (%)</label>
-                  <input type="number" min="0" step="0.1" value={taxRate} onChange={(e) => setTaxRate(e.target.value)} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
+            <div className="grid grid-cols-2 gap-3 min-w-0">
+                <div className="space-y-1 min-w-0">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted block truncate">Tax Rate (%)</label>
+                  <input type="number" min="0" step="0.1" value={taxRate} onChange={(e) => setTaxRate(e.target.value)} className={baseInputStyle} />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Discount ({currency.symbol})</label>
-                  <input type="number" min="0" value={discount} onChange={(e) => setDiscount(e.target.value)} className="w-full text-sm font-bold p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100" />
+                <div className="space-y-1 min-w-0">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-muted block truncate">Discount ({currency.symbol})</label>
+                  <input type="number" min="0" value={discount} onChange={(e) => setDiscount(e.target.value)} className={baseInputStyle} />
                 </div>
             </div>
           </div>
 
         </div>
 
-        {/* ================= LIVE A4 PREVIEW COLUMN ================= */}
-        <div className="sticky top-6 flex justify-center z-10">
-           <div id="invoice-live-preview" className="w-full max-w-[800px] bg-white border border-slate-200 shadow-2xl overflow-hidden flex flex-col text-slate-800 relative">
-              
-              <div className={`h-3 w-full ${theme.color}`}></div>
+        {/* ================= LIVE A4 PREVIEW COLUMN (Responsive Scaling) ================= */}
+        <div className="sticky top-4 flex justify-center z-10 w-full min-w-0">
+           <div id="invoice-live-preview" className="w-full max-w-[800px] bg-white border border-slate-200 shadow-xl sm:shadow-2xl overflow-hidden flex flex-col text-slate-800 relative">
+             
+             <div className={`h-2 sm:h-3 w-full ${theme.color}`}></div>
 
-              <div className="p-10 flex-grow flex flex-col print:p-0 print:pt-4">
-                  <div className="flex justify-between items-start border-b-2 border-slate-100 pb-8 mb-8">
-                     <div className="space-y-1">
-                        <h1 className={`text-4xl font-black tracking-tighter uppercase ${theme.text}`}>INVOICE</h1>
-                        <p className="text-sm font-bold text-slate-500 tracking-widest">{invoiceNo || "INV-000"}</p>
-                     </div>
-                     <div className="text-right space-y-1">
-                        <h2 className="text-lg font-bold text-slate-800">{fromDetails.name || "Your Business"}</h2>
-                        <p className="text-xs text-slate-500 whitespace-pre-line leading-relaxed">{fromDetails.address}</p>
-                        {fromDetails.email && <p className="text-xs text-slate-500">{fromDetails.email}</p>}
-                        {fromDetails.taxId && <p className="text-xs text-slate-400 mt-1">Tax ID: {fromDetails.taxId}</p>}
-                     </div>
-                  </div>
+             <div className="p-5 sm:p-10 flex-grow flex flex-col print:p-0 print:pt-4 min-w-0">
+                 
+                 {/* Top Header Section */}
+                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b-2 border-slate-100 pb-5 mb-5 min-w-0">
+                    <div className="space-y-0.5 min-w-0">
+                       <h1 className={`text-2xl sm:text-4xl font-black tracking-tight uppercase ${theme.text}`}>INVOICE</h1>
+                       <p className="text-xs sm:text-sm font-bold text-slate-500 tracking-wider truncate">{invoiceNo || "INV-000"}</p>
+                    </div>
+                    <div className="text-left sm:text-right space-y-0.5 min-w-0 w-full sm:w-auto">
+                       <h2 className="text-sm sm:text-lg font-bold text-slate-800 truncate">{fromDetails.name || "Your Business"}</h2>
+                       <p className="text-[11px] sm:text-xs text-slate-500 whitespace-pre-line leading-relaxed">{fromDetails.address}</p>
+                       {fromDetails.email && <p className="text-[11px] sm:text-xs text-slate-500 truncate">{fromDetails.email}</p>}
+                       {fromDetails.taxId && <p className="text-[11px] sm:text-xs text-slate-400 truncate">Tax ID: {fromDetails.taxId}</p>}
+                    </div>
+                 </div>
 
-                  <div className="flex justify-between items-start mb-10">
-                     <div className="space-y-4">
-                        <div>
-                           <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Billed To</h3>
-                           <h2 className="text-sm font-bold text-slate-800">{toDetails.name || "Client Name"}</h2>
-                           <p className="text-xs text-slate-500 whitespace-pre-line leading-relaxed max-w-[250px]">{toDetails.address}</p>
-                           {toDetails.email && <p className="text-xs text-slate-500">{toDetails.email}</p>}
-                           {toDetails.taxId && <p className="text-xs text-slate-400 mt-1">Tax ID: {toDetails.taxId}</p>}
-                        </div>
-                     </div>
-                     
-                     <div className="flex gap-12 text-right">
-                        <div className="space-y-1">
-                           <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Date Issued</h3>
-                           <p className="text-sm font-bold text-slate-800">{issueDate || "—"}</p>
-                        </div>
-                        
-                        {terms !== "0" && (
-                          <div className="space-y-1">
-                             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Date Due</h3>
-                             <p className={`text-sm font-bold ${theme.text}`}>{dueDate || "—"}</p>
-                          </div>
-                        )}
-                     </div>
-                  </div>
+                 {/* Billed To & Dates */}
+                 <div className="flex flex-col sm:flex-row justify-between items-start gap-5 mb-6 min-w-0">
+                    <div className="space-y-1 min-w-0">
+                        <h3 className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Billed To</h3>
+                        <h2 className="text-xs sm:text-sm font-bold text-slate-800 truncate">{toDetails.name || "Client Name"}</h2>
+                        <p className="text-[11px] sm:text-xs text-slate-500 whitespace-pre-line leading-relaxed max-w-[250px]">{toDetails.address}</p>
+                        {toDetails.email && <p className="text-[11px] sm:text-xs text-slate-500 truncate">{toDetails.email}</p>}
+                        {toDetails.taxId && <p className="text-[11px] sm:text-xs text-slate-400 truncate">Tax ID: {toDetails.taxId}</p>}
+                    </div>
+                    
+                    <div className="flex sm:gap-10 gap-6 text-left sm:text-right w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
+                       <div className="space-y-0.5">
+                          <h3 className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest">Date Issued</h3>
+                          <p className="text-xs sm:text-sm font-bold text-slate-800">{issueDate || "—"}</p>
+                       </div>
+                       
+                       {terms !== "0" && (
+                         <div className="space-y-0.5">
+                            <h3 className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest">Date Due</h3>
+                            <p className={`text-xs sm:text-sm font-bold ${theme.text}`}>{dueDate || "—"}</p>
+                         </div>
+                       )}
+                    </div>
+                 </div>
 
-                  <div className="w-full mb-8">
-                     <div className={`grid grid-cols-[1fr,60px,100px,100px] gap-4 border-b-2 ${theme.border} pb-2 mb-4`}>
-                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Description</div>
-                        <div className="text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Qty</div>
-                        <div className="text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Rate</div>
-                        <div className="text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Amount</div>
-                     </div>
-                     
-                     <div className="space-y-4">
-                        {items.map((item, i) => {
-                          const amount = (Number(item.qty) || 0) * (Number(item.rate) || 0);
-                          return (
-                            <div key={item.id} className="grid grid-cols-[1fr,60px,100px,100px] gap-4 items-start border-b border-slate-100 pb-4">
-                                <div className="text-sm font-semibold text-slate-800 pr-2 whitespace-pre-wrap break-words">{item.desc || `Item ${i+1}`}</div>
-                                <div className="text-center text-sm text-slate-600">{item.qty}</div>
-                                <div className="text-right text-sm text-slate-600">{formatCurrency(item.rate, currency.code, currency.locale)}</div>
-                                <div className="text-right text-sm font-bold text-slate-800">{formatCurrency(amount, currency.code, currency.locale)}</div>
-                            </div>
-                          )
-                        })}
-                     </div>
-                  </div>
+                 {/* Line Items Table (Mobile-friendly horizontal scroll safety or clean stacked grid) */}
+                 <div className="w-full mb-5 min-w-0">
+                    <div className={`grid grid-cols-[1fr,40px,70px,75px] sm:grid-cols-[1fr,50px,90px,90px] gap-2 sm:gap-4 border-b-2 ${theme.border} pb-2 mb-3 min-w-0`}>
+                       <div className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider">Description</div>
+                       <div className="text-center text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider">Qty</div>
+                       <div className="text-right text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider">Rate</div>
+                       <div className="text-right text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-wider">Amount</div>
+                    </div>
+                    
+                    <div className="space-y-2.5 min-w-0">
+                       {items.map((item, i) => {
+                         const amount = (Number(item.qty) || 0) * (Number(item.rate) || 0);
+                         return (
+                           <div key={item.id} className="grid grid-cols-[1fr,40px,70px,75px] sm:grid-cols-[1fr,50px,90px,90px] gap-2 sm:gap-4 items-start border-b border-slate-100 pb-2.5">
+                              <div className="text-xs sm:text-sm font-semibold text-slate-800 pr-1 whitespace-pre-wrap break-words">{item.desc || `Item ${i+1}`}</div>
+                              <div className="text-center text-xs sm:text-sm text-slate-600">{item.qty}</div>
+                              <div className="text-right text-xs sm:text-sm text-slate-600 truncate">{formatCurrency(item.rate, currency.code, currency.locale)}</div>
+                              <div className="text-right text-xs sm:text-sm font-bold text-slate-800 truncate">{formatCurrency(amount, currency.code, currency.locale)}</div>
+                           </div>
+                         )
+                       })}
+                    </div>
+                 </div>
 
-                  <div className="flex justify-end mt-auto pt-8">
-                     <div className="w-80 space-y-3">
-                        <div className="flex justify-between text-sm">
-                           <span className="text-slate-500 font-medium">Subtotal</span>
-                           <span className="text-slate-800 font-bold">{isMounted ? formatCurrency(totals.subTotal, currency.code, currency.locale) : "0"}</span>
-                        </div>
-                        
-                        {Number(taxRate) > 0 && (
-                          <div className="flex justify-between text-sm">
-                             <span className="text-slate-500 font-medium">Tax ({taxRate}%)</span>
-                             <span className="text-slate-800 font-bold">+{isMounted ? formatCurrency(totals.taxAmount, currency.code, currency.locale) : "0"}</span>
-                          </div>
-                        )}
-                        
-                        {Number(discount) > 0 && (
-                          <div className="flex justify-between text-sm">
-                             <span className="text-slate-500 font-medium">Discount</span>
-                             <span className="text-rose-500 font-bold">-{isMounted ? formatCurrency(discount, currency.code, currency.locale) : "0"}</span>
-                          </div>
-                        )}
-                        
-                        <div className={`flex justify-between items-center border-t-2 ${theme.border} pt-3 mt-3`}>
-                           <span className="text-sm font-black uppercase tracking-widest text-slate-800">Total Due</span>
-                           <span className={`text-2xl font-black ${theme.text}`}>
-                             {isMounted ? formatCurrency(totals.total, currency.code, currency.locale) : "0"}
-                           </span>
-                        </div>
-                     </div>
-                  </div>
-                  
-                  <div className="mt-16 text-center text-[10px] text-slate-400 font-medium pb-4">
-                     {terms === "0" 
-                        ? "Thank you for your business. Payment is due upon receipt of this invoice."
-                        : `Thank you for your business. Please remit payment within ${terms} days of the issue date.`
-                     }
-                  </div>
-              </div>
+                 {/* Summary / Totals */}
+                 <div className="flex justify-end mt-auto pt-4 min-w-0">
+                    <div className="w-full sm:w-80 space-y-2">
+                       <div className="flex justify-between text-xs sm:text-sm">
+                          <span className="text-slate-500 font-medium">Subtotal</span>
+                          <span className="text-slate-800 font-bold">{isMounted ? formatCurrency(totals.subTotal, currency.code, currency.locale) : "0"}</span>
+                       </div>
+                       
+                       {Number(taxRate) > 0 && (
+                         <div className="flex justify-between text-xs sm:text-sm">
+                            <span className="text-slate-500 font-medium">Tax ({taxRate}%)</span>
+                            <span className="text-slate-800 font-bold">+{isMounted ? formatCurrency(totals.taxAmount, currency.code, currency.locale) : "0"}</span>
+                         </div>
+                       )}
+                       
+                       {Number(discount) > 0 && (
+                         <div className="flex justify-between text-xs sm:text-sm">
+                            <span className="text-slate-500 font-medium">Discount</span>
+                            <span className="text-rose-500 font-bold">-{isMounted ? formatCurrency(discount, currency.code, currency.locale) : "0"}</span>
+                         </div>
+                       )}
+                       
+                       <div className={`flex justify-between items-center border-t-2 ${theme.border} pt-2.5 mt-2`}>
+                            <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-800">Total Due</span>
+                            <span className={`text-lg sm:text-2xl font-black ${theme.text}`}>
+                              {isMounted ? formatCurrency(totals.total, currency.code, currency.locale) : "0"}
+                            </span>
+                       </div>
+                    </div>
+                 </div>
+                 
+                 <div className="mt-8 sm:mt-12 text-center text-[9px] sm:text-[10px] text-slate-400 font-medium pb-2">
+                    {terms === "0" 
+                       ? "Thank you for your business. Payment is due upon receipt of this invoice."
+                       : `Thank you for your business. Please remit payment within ${terms} days of the issue date.`
+                    }
+                 </div>
+             </div>
            </div>
         </div>
       </div>

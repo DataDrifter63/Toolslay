@@ -205,11 +205,6 @@ class HexRgbConverter extends React.Component {
 
     if (!rgb) return "#000000";
 
-    const factor =
-      percent >= 0
-        ? 1 + percent / 100
-        : 1 + percent / 100;
-
     const adjust = (value) => {
       if (percent >= 0) {
         return Math.round(
@@ -220,7 +215,7 @@ class HexRgbConverter extends React.Component {
       }
 
       return Math.round(
-        value * factor
+        value * (1 + percent / 100)
       );
     };
 
@@ -403,7 +398,7 @@ class HexRgbConverter extends React.Component {
     return (
       <button
         type="button"
-        className="hex-copy-mini"
+        className="absolute top-2.5 right-2.5 px-2 py-1 border border-line rounded-md bg-surface text-muted hover:text-brand cursor-pointer text-[9px] font-bold uppercase transition-colors"
         onClick={() =>
           this.copyText(value, label)
         }
@@ -416,616 +411,38 @@ class HexRgbConverter extends React.Component {
   render() {
     const data = this.componentData();
 
-    const styleText = `
-      .hexrgb-tool {
-        --hr-text: #172033;
-        --hr-muted: #667085;
-        --hr-border: #e4e7ec;
-        --hr-card: #ffffff;
-        --hr-soft: #f7f8fb;
-        --hr-primary: #635bff;
-        --hr-input: #ffffff;
-
-        width: 100%;
-        color: var(--hr-text);
-        font-family: inherit;
-        box-sizing: border-box;
-      }
-
-      .hexrgb-tool *,
-      .hexrgb-tool *::before,
-      .hexrgb-tool *::after {
-        box-sizing: border-box;
-      }
-
-      .hexrgb-wrapper {
-        width: 100%;
-        max-width: 1180px;
-        margin: 0 auto;
-      }
-
-      .hexrgb-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        gap: 20px;
-        margin-bottom: 22px;
-      }
-
-      .hexrgb-eyebrow {
-        color: var(--hr-primary);
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: .15em;
-      }
-
-      .hexrgb-header h1 {
-        margin: 6px 0 0;
-        font-size: clamp(28px, 4vw, 42px);
-        line-height: 1.05;
-        letter-spacing: -.05em;
-      }
-
-      .hexrgb-header p {
-        max-width: 680px;
-        margin: 9px 0 0;
-        color: var(--hr-muted);
-        font-size: 13px;
-        line-height: 1.65;
-      }
-
-      .hexrgb-actions {
-        display: flex;
-        gap: 8px;
-      }
-
-      .hexrgb-button {
-        height: 40px;
-        padding: 0 14px;
-        border: 1px solid var(--hr-border);
-        border-radius: 9px;
-        background: var(--hr-card);
-        color: var(--hr-text);
-        cursor: pointer;
-        font: inherit;
-        font-size: 11px;
-        font-weight: 750;
-      }
-
-      .hexrgb-button.primary {
-        border-color: var(--hr-primary);
-        background: var(--hr-primary);
-        color: #ffffff;
-      }
-
-      .hexrgb-main {
-        display: grid;
-        grid-template-columns: minmax(0,.78fr) minmax(0,1.22fr);
-        gap: 18px;
-      }
-
-      .hexrgb-card {
-        border: 1px solid var(--hr-border);
-        border-radius: 17px;
-        background: var(--hr-card);
-        box-shadow: 0 8px 30px rgba(16,24,40,.035);
-      }
-
-      .hexrgb-input-card {
-        padding: 22px;
-      }
-
-      .hexrgb-card-title {
-        font-size: 17px;
-        font-weight: 800;
-        letter-spacing: -.025em;
-      }
-
-      .hexrgb-card-subtitle {
-        margin-top: 5px;
-        color: var(--hr-muted);
-        font-size: 11px;
-        line-height: 1.6;
-      }
-
-      .hexrgb-picker-wrap {
-        position: relative;
-        overflow: hidden;
-        height: 145px;
-        margin-top: 18px;
-        border-radius: 13px;
-        border: 1px solid var(--hr-border);
-      }
-
-      .hexrgb-color-picker {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        border: 0;
-        cursor: pointer;
-        background: transparent;
-      }
-
-      .hexrgb-picker-overlay {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background:
-          linear-gradient(
-            135deg,
-            rgba(255,255,255,.14),
-            transparent 45%
-          );
-      }
-
-      .hexrgb-label {
-        display: block;
-        margin: 17px 0 7px;
-        font-size: 11px;
-        font-weight: 800;
-      }
-
-      .hexrgb-input-row {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 8px;
-      }
-
-      .hexrgb-input {
-        width: 100%;
-        height: 45px;
-        padding: 0 12px;
-        border: 1px solid var(--hr-border);
-        border-radius: 9px;
-        outline: none;
-        background: var(--hr-input);
-        color: var(--hr-text);
-        font: inherit;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: .04em;
-      }
-
-      .hexrgb-input:focus {
-        border-color: var(--hr-primary);
-        box-shadow: 0 0 0 3px rgba(99,91,255,.10);
-      }
-
-      .hexrgb-color-preview {
-        width: 45px;
-        height: 45px;
-        border-radius: 9px;
-        border: 1px solid rgba(0,0,0,.1);
-      }
-
-      .hexrgb-alpha-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 18px;
-      }
-
-      .hexrgb-alpha-head label {
-        font-size: 11px;
-        font-weight: 800;
-      }
-
-      .hexrgb-alpha-value {
-        color: var(--hr-primary);
-        font-size: 11px;
-        font-weight: 800;
-      }
-
-      .hexrgb-range {
-        width: 100%;
-        margin-top: 10px;
-        accent-color: var(--hr-primary);
-        cursor: pointer;
-      }
-
-      .hexrgb-presets-title {
-        margin-top: 20px;
-        font-size: 10px;
-        font-weight: 800;
-        color: var(--hr-muted);
-        text-transform: uppercase;
-        letter-spacing: .1em;
-      }
-
-      .hexrgb-presets {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 7px;
-        margin-top: 9px;
-      }
-
-      .hexrgb-preset {
-        width: 28px;
-        height: 28px;
-        border: 2px solid var(--hr-card);
-        outline: 1px solid var(--hr-border);
-        border-radius: 7px;
-        cursor: pointer;
-      }
-
-      .hexrgb-result-card {
-        overflow: hidden;
-      }
-
-      .hexrgb-big-preview {
-        position: relative;
-        min-height: 190px;
-        padding: 25px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 20px;
-      }
-
-      .hexrgb-preview-content {
-        position: relative;
-        z-index: 1;
-      }
-
-      .hexrgb-preview-label {
-        display: block;
-        margin-bottom: 6px;
-        font-size: 9px;
-        font-weight: 800;
-        letter-spacing: .13em;
-        opacity: .75;
-      }
-
-      .hexrgb-preview-hex {
-        font-size: clamp(30px, 5vw, 48px);
-        font-weight: 900;
-        letter-spacing: -.06em;
-      }
-
-      .hexrgb-preview-meta {
-        margin-top: 7px;
-        font-size: 11px;
-        opacity: .78;
-      }
-
-      .hexrgb-preview-chip {
-        position: relative;
-        z-index: 1;
-        width: 60px;
-        height: 60px;
-        border-radius: 14px;
-        border: 1px solid rgba(255,255,255,.4);
-        box-shadow: 0 12px 30px rgba(0,0,0,.12);
-      }
-
-      .hexrgb-values {
-        padding: 18px;
-      }
-
-      .hexrgb-value-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 9px;
-      }
-
-      .hexrgb-value {
-        position: relative;
-        padding: 13px;
-        border: 1px solid var(--hr-border);
-        border-radius: 11px;
-        background: var(--hr-soft);
-      }
-
-      .hexrgb-value-label {
-        display: block;
-        color: var(--hr-muted);
-        font-size: 9px;
-        font-weight: 800;
-        letter-spacing: .08em;
-        text-transform: uppercase;
-      }
-
-      .hexrgb-value-code {
-        display: block;
-        margin-top: 6px;
-        padding-right: 42px;
-        overflow-wrap: anywhere;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 11px;
-        font-weight: 700;
-        line-height: 1.5;
-      }
-
-      .hex-copy-mini {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        height: 25px;
-        padding: 0 7px;
-        border: 1px solid var(--hr-border);
-        border-radius: 6px;
-        background: var(--hr-card);
-        color: var(--hr-muted);
-        cursor: pointer;
-        font: inherit;
-        font-size: 8px;
-        font-weight: 800;
-      }
-
-      .hexrgb-section {
-        margin-top: 18px;
-        padding: 22px;
-        border: 1px solid var(--hr-border);
-        border-radius: 17px;
-        background: var(--hr-card);
-        box-shadow: 0 8px 30px rgba(16,24,40,.035);
-      }
-
-      .hexrgb-section-heading {
-        margin-bottom: 16px;
-      }
-
-      .hexrgb-section-heading h2 {
-        margin: 0;
-        font-size: 17px;
-        letter-spacing: -.025em;
-      }
-
-      .hexrgb-section-heading p {
-        margin: 5px 0 0;
-        color: var(--hr-muted);
-        font-size: 11px;
-      }
-
-      .hexrgb-contrast {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-
-      .hexrgb-contrast-card {
-        overflow: hidden;
-        border: 1px solid var(--hr-border);
-        border-radius: 12px;
-      }
-
-      .hexrgb-contrast-preview {
-        min-height: 92px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 15px;
-        text-align: center;
-        font-size: 16px;
-        font-weight: 800;
-      }
-
-      .hexrgb-contrast-info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-        padding: 11px;
-        background: var(--hr-soft);
-      }
-
-      .hexrgb-contrast-info span {
-        color: var(--hr-muted);
-        font-size: 9px;
-      }
-
-      .hexrgb-contrast-info strong {
-        font-size: 11px;
-      }
-
-      .hexrgb-status {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 7px;
-        border-radius: 5px;
-        background: rgba(18,183,106,.1);
-        color: #12b76a;
-        font-size: 8px;
-        font-weight: 800;
-      }
-
-      .hexrgb-shades {
-        display: grid;
-        grid-template-columns: repeat(9,1fr);
-        overflow: hidden;
-        border-radius: 10px;
-        border: 1px solid var(--hr-border);
-      }
-
-      .hexrgb-shade {
-        min-width: 0;
-        height: 62px;
-        border: 0;
-        cursor: pointer;
-      }
-
-      .hexrgb-shade-label {
-        display: block;
-        margin-top: 7px;
-        color: var(--hr-muted);
-        text-align: center;
-        font-size: 8px;
-        font-weight: 700;
-      }
-
-      .hexrgb-shade-item {
-        min-width: 0;
-        text-align: center;
-      }
-
-      .hexrgb-css-box {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 13px;
-        border: 1px solid var(--hr-border);
-        border-radius: 10px;
-        background: var(--hr-soft);
-      }
-
-      .hexrgb-css-box code {
-        overflow-wrap: anywhere;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        font-size: 10px;
-      }
-
-      .hexrgb-reset {
-        width: 100%;
-        height: 40px;
-        margin-top: 16px;
-        border: 1px solid var(--hr-border);
-        border-radius: 9px;
-        background: transparent;
-        color: var(--hr-muted);
-        cursor: pointer;
-        font: inherit;
-        font-size: 10px;
-        font-weight: 750;
-      }
-
-      .hexrgb-privacy {
-        margin-top: 13px;
-        color: var(--hr-muted);
-        font-size: 9px;
-        line-height: 1.6;
-        text-align: center;
-      }
-
-      @media (max-width: 850px) {
-        .hexrgb-main {
-          grid-template-columns: 1fr;
-        }
-
-        .hexrgb-shades {
-          grid-template-columns: repeat(5,1fr);
-        }
-      }
-
-      @media (max-width: 600px) {
-        .hexrgb-header {
-          flex-direction: column;
-          align-items: stretch;
-        }
-
-        .hexrgb-actions {
-          width: 100%;
-        }
-
-        .hexrgb-button {
-          flex: 1;
-        }
-
-        .hexrgb-input-card,
-        .hexrgb-values,
-        .hexrgb-section {
-          padding: 16px;
-        }
-
-        .hexrgb-value-grid,
-        .hexrgb-contrast {
-          grid-template-columns: 1fr;
-        }
-
-        .hexrgb-big-preview {
-          min-height: 170px;
-          padding: 20px;
-        }
-      }
-
-      @media (max-width: 420px) {
-        .hexrgb-shades {
-          grid-template-columns: repeat(3,1fr);
-        }
-
-        .hexrgb-input-row {
-          grid-template-columns: 1fr;
-        }
-
-        .hexrgb-color-preview {
-          width: 100%;
-        }
-      }
-
-      .dark .hexrgb-tool,
-      body.dark .hexrgb-tool,
-      html.dark .hexrgb-tool {
-        --hr-text: #f2f4f7;
-        --hr-muted: #98a2b3;
-        --hr-border: #2d3442;
-        --hr-card: #151922;
-        --hr-soft: #10141c;
-        --hr-input: #10141c;
-        --hr-primary: #8078ff;
-      }
-    `;
-
     if (!data) {
       return (
-        <>
-          <style>{styleText}</style>
-
-          <div className="hexrgb-tool">
-            <div className="hexrgb-wrapper">
-              <div className="hexrgb-header">
-                <div>
-                  <div className="hexrgb-eyebrow">
-                    COLOR CONVERTER
-                  </div>
-                  <h1>HEX to RGB Converter</h1>
-                  <p>
-                    Convert HEX colors into RGB,
-                    HSL, CMYK and ready-to-use CSS
-                    values with instant visual
-                    feedback.
-                  </p>
-                </div>
-              </div>
-
-              <div className="hexrgb-card hexrgb-input-card">
-                <div className="hexrgb-card-title">
-                  Enter a HEX color
-                </div>
-
-                <div className="hexrgb-card-subtitle">
-                  Use 3-digit or 6-digit HEX
-                  notation.
-                </div>
-
-                <label
-                  className="hexrgb-label"
-                  htmlFor="hexrgb-input"
-                >
-                  HEX COLOR
-                </label>
-
-                <input
-                  id="hexrgb-input"
-                  className="hexrgb-input"
-                  value={this.state.hex}
-                  onChange={this.handleHexChange}
-                  placeholder="#635BFF"
-                  autoComplete="off"
-                />
-
-                <button
-                  type="button"
-                  className="hexrgb-reset"
-                  onClick={this.reset}
-                >
-                  Reset
-                </button>
-              </div>
+        <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border">
+          <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border">
+            <div>
+              <div className="text-[10px] font-black text-brand uppercase tracking-widest mb-1">COLOR CONVERTER</div>
+              <h1 className="text-xl sm:text-2xl font-black text-ink tracking-tight">HEX to RGB Converter</h1>
+              <p className="text-xs font-bold text-muted mt-0.5">Convert HEX colors into RGB, HSL, CMYK and ready-to-use CSS values.</p>
             </div>
           </div>
-        </>
+
+          <div className="bg-paper border border-line p-6 rounded-2xl shadow-sm space-y-4 max-w-md">
+            <div className="text-sm font-black uppercase tracking-wider text-ink">Enter a valid HEX color</div>
+            <div className="text-xs font-bold text-muted">Use 3-digit or 6-digit HEX notation.</div>
+            <label className="text-[10px] font-black text-muted uppercase tracking-wider block" htmlFor="hexrgb-input">HEX COLOR</label>
+            <input
+              id="hexrgb-input"
+              className="w-full h-11 px-3 border border-line rounded-xl bg-surface text-ink text-xs font-black outline-none focus:border-brand font-mono uppercase"
+              value={this.state.hex}
+              onChange={this.handleHexChange}
+              placeholder="#635BFF"
+              autoComplete="off"
+            />
+            <button
+              type="button"
+              className="w-full py-3 rounded-xl bg-surface border border-line text-ink text-xs font-black uppercase tracking-wider hover:border-brand transition-colors"
+              onClick={this.reset}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
       );
     }
 
@@ -1076,515 +493,273 @@ class HexRgbConverter extends React.Component {
       );
 
     const shadeValues = [
-      {
-        label: "100",
-        color: this.shadeColor(hex, 85),
-      },
-      {
-        label: "200",
-        color: this.shadeColor(hex, 70),
-      },
-      {
-        label: "300",
-        color: this.shadeColor(hex, 50),
-      },
-      {
-        label: "400",
-        color: this.shadeColor(hex, 25),
-      },
-      {
-        label: "500",
-        color: hex,
-      },
-      {
-        label: "600",
-        color: this.shadeColor(hex, -15),
-      },
-      {
-        label: "700",
-        color: this.shadeColor(hex, -30),
-      },
-      {
-        label: "800",
-        color: this.shadeColor(hex, -45),
-      },
-      {
-        label: "900",
-        color: this.shadeColor(hex, -60),
-      },
+      { label: "100", color: this.shadeColor(hex, 85) },
+      { label: "200", color: this.shadeColor(hex, 70) },
+      { label: "300", color: this.shadeColor(hex, 50) },
+      { label: "400", color: this.shadeColor(hex, 25) },
+      { label: "500", color: hex },
+      { label: "600", color: this.shadeColor(hex, -15) },
+      { label: "700", color: this.shadeColor(hex, -30) },
+      { label: "800", color: this.shadeColor(hex, -45) },
+      { label: "900", color: this.shadeColor(hex, -60) },
     ];
 
     return (
-      <>
-        <style>{styleText}</style>
+      <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border">
+        
+        {/* COMPACT SLEEK HEADER BAR */}
+        <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border">
+          <div>
+            <div className="text-[10px] font-black text-brand uppercase tracking-widest mb-1">COLOR CONVERTER</div>
+            <h1 className="text-xl sm:text-2xl font-black text-ink tracking-tight">HEX to RGB Converter</h1>
+            <p className="text-xs font-bold text-muted mt-0.5">Convert HEX colors into RGB, HSL, CMYK and production-ready CSS values.</p>
+          </div>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <button
+              type="button"
+              onClick={this.reset}
+              className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-surface border border-line text-ink text-xs font-black uppercase tracking-wider hover:border-brand/50 transition-colors"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              onClick={this.copyAll}
+              className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-brand text-surface text-xs font-black uppercase tracking-wider shadow-sm transition-opacity hover:opacity-90"
+            >
+              {this.state.copied === "all" ? "✓ Copied" : "Copy All"}
+            </button>
+          </div>
+        </div>
 
-        <div className="hexrgb-tool">
-          <div className="hexrgb-wrapper">
-
-            <div className="hexrgb-header">
-              <div>
-                <div className="hexrgb-eyebrow">
-                  COLOR CONVERTER
-                </div>
-
-                <h1>
-                  HEX to RGB Converter
-                </h1>
-
-                <p>
-                  Convert HEX colors into RGB,
-                  HSL, CMYK and production-ready
-                  CSS values. Check contrast,
-                  transparency and generate a
-                  complete shade scale instantly.
-                </p>
-              </div>
-
-              <div className="hexrgb-actions">
-                <button
-                  type="button"
-                  className="hexrgb-button"
-                  onClick={this.reset}
-                >
-                  Reset
-                </button>
-
-                <button
-                  type="button"
-                  className="hexrgb-button primary"
-                  onClick={this.copyAll}
-                >
-                  {this.state.copied === "all"
-                    ? "✓ Copied"
-                    : "Copy All"}
-                </button>
-              </div>
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr,1.2fr] gap-6 items-start">
+          
+          {/* LEFT COLUMN: INPUT CARD */}
+          <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-5">
+            <div>
+              <div className="text-sm font-black uppercase tracking-wider text-ink">Pick your color</div>
+              <div className="text-xs font-bold text-muted mt-0.5">Enter a HEX value or use the native color picker.</div>
             </div>
 
-            <div className="hexrgb-main">
+            <div className="relative overflow-hidden h-36 rounded-xl border border-line">
+              <input
+                type="color"
+                className="absolute inset-0 w-full h-full p-0 border-0 cursor-pointer bg-transparent"
+                value={hex}
+                onChange={this.handleColorChange}
+                aria-label="Choose color"
+              />
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-white/10 to-transparent opacity-40" />
+            </div>
 
-              <div className="hexrgb-card hexrgb-input-card">
+            <label className="text-[10px] font-black text-muted uppercase tracking-wider block" htmlFor="hexrgb-main-input">
+              HEX COLOR
+            </label>
 
-                <div className="hexrgb-card-title">
-                  Pick your color
-                </div>
+            <div className="grid grid-cols-[1fr,45px] gap-2.5 items-center">
+              <input
+                id="hexrgb-main-input"
+                className="w-full h-11 px-3 border border-line rounded-xl bg-surface text-ink text-xs font-black outline-none focus:border-brand font-mono uppercase"
+                value={this.state.hex}
+                onChange={this.handleHexChange}
+                placeholder="#635BFF"
+                autoComplete="off"
+                spellCheck="false"
+              />
+              <div
+                className="w-11 h-11 rounded-xl border border-line shrink-0 shadow-sm"
+                style={{ background: hex }}
+                aria-label="Selected color"
+              />
+            </div>
 
-                <div className="hexrgb-card-subtitle">
-                  Enter a HEX value or use the
-                  native color picker.
-                </div>
-
-                <div className="hexrgb-picker-wrap">
-                  <input
-                    type="color"
-                    className="hexrgb-color-picker"
-                    value={hex}
-                    onChange={this.handleColorChange}
-                    aria-label="Choose color"
-                  />
-
-                  <div className="hexrgb-picker-overlay" />
-                </div>
-
-                <label
-                  className="hexrgb-label"
-                  htmlFor="hexrgb-main-input"
-                >
-                  HEX COLOR
+            <div className="space-y-2 pt-2">
+              <div className="flex items-center justify-between">
+                <label className="text-[10px] font-black text-muted uppercase tracking-wider" htmlFor="hexrgb-alpha">
+                  ALPHA / OPACITY
                 </label>
-
-                <div className="hexrgb-input-row">
-                  <input
-                    id="hexrgb-main-input"
-                    className="hexrgb-input"
-                    value={this.state.hex}
-                    onChange={this.handleHexChange}
-                    placeholder="#635BFF"
-                    autoComplete="off"
-                    spellCheck="false"
-                  />
-
-                  <div
-                    className="hexrgb-color-preview"
-                    style={{
-                      background: hex,
-                    }}
-                    aria-label="Selected color"
-                  />
-                </div>
-
-                <div className="hexrgb-alpha-head">
-                  <label htmlFor="hexrgb-alpha">
-                    ALPHA / OPACITY
-                  </label>
-
-                  <span className="hexrgb-alpha-value">
-                    {this.state.alpha}%
-                  </span>
-                </div>
-
-                <input
-                  id="hexrgb-alpha"
-                  className="hexrgb-range"
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={this.state.alpha}
-                  onChange={this.handleAlphaChange}
-                />
-
-                <div className="hexrgb-presets-title">
-                  Quick colors
-                </div>
-
-                <div className="hexrgb-presets">
-                  {[
-                    "#EF4444",
-                    "#F97316",
-                    "#EAB308",
-                    "#22C55E",
-                    "#06B6D4",
-                    "#3B82F6",
-                    "#6366F1",
-                    "#A855F7",
-                    "#EC4899",
-                    "#111827",
-                  ].map((preset) => (
-                    <button
-                      type="button"
-                      key={preset}
-                      className="hexrgb-preset"
-                      title={preset}
-                      aria-label={
-                        "Use " + preset
-                      }
-                      style={{
-                        background: preset,
-                      }}
-                      onClick={() =>
-                        this.handlePreset(
-                          preset
-                        )
-                      }
-                    />
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  className="hexrgb-reset"
-                  onClick={this.reset}
-                >
-                  Reset Color
-                </button>
+                <span className="text-xs font-black text-brand font-mono">{this.state.alpha}%</span>
               </div>
-
-              <div className="hexrgb-card hexrgb-result-card">
-
-                <div
-                  className="hexrgb-big-preview"
-                  style={{
-                    background: hex,
-                    color: textColor,
-                  }}
-                >
-                  <div className="hexrgb-preview-content">
-                    <span className="hexrgb-preview-label">
-                      SELECTED COLOR
-                    </span>
-
-                    <div className="hexrgb-preview-hex">
-                      {hex}
-                    </div>
-
-                    <div className="hexrgb-preview-meta">
-                      {rgb.r}, {rgb.g}, {rgb.b}
-                    </div>
-                  </div>
-
-                  <div
-                    className="hexrgb-preview-chip"
-                    style={{
-                      background:
-                        `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`,
-                    }}
-                  />
-                </div>
-
-                <div className="hexrgb-values">
-
-                  <div className="hexrgb-value-grid">
-
-                    <div className="hexrgb-value">
-                      <span className="hexrgb-value-label">
-                        HEX
-                      </span>
-
-                      <code className="hexrgb-value-code">
-                        {hex}
-                      </code>
-
-                      {this.renderCopyButton(
-                        hex,
-                        "hex"
-                      )}
-                    </div>
-
-                    <div className="hexrgb-value">
-                      <span className="hexrgb-value-label">
-                        RGB
-                      </span>
-
-                      <code className="hexrgb-value-code">
-                        {rgbValue}
-                      </code>
-
-                      {this.renderCopyButton(
-                        rgbValue,
-                        "rgb"
-                      )}
-                    </div>
-
-                    <div className="hexrgb-value">
-                      <span className="hexrgb-value-label">
-                        RGBA
-                      </span>
-
-                      <code className="hexrgb-value-code">
-                        {rgbaValue}
-                      </code>
-
-                      {this.renderCopyButton(
-                        rgbaValue,
-                        "rgba"
-                      )}
-                    </div>
-
-                    <div className="hexrgb-value">
-                      <span className="hexrgb-value-label">
-                        HSL
-                      </span>
-
-                      <code className="hexrgb-value-code">
-                        {hslValue}
-                      </code>
-
-                      {this.renderCopyButton(
-                        hslValue,
-                        "hsl"
-                      )}
-                    </div>
-
-                    <div className="hexrgb-value">
-                      <span className="hexrgb-value-label">
-                        CMYK
-                      </span>
-
-                      <code className="hexrgb-value-code">
-                        {cmykValue}
-                      </code>
-
-                      {this.renderCopyButton(
-                        cmykValue,
-                        "cmyk"
-                      )}
-                    </div>
-
-                    <div className="hexrgb-value">
-                      <span className="hexrgb-value-label">
-                        CSS VARIABLE
-                      </span>
-
-                      <code className="hexrgb-value-code">
-                        {cssValue}
-                      </code>
-
-                      {this.renderCopyButton(
-                        cssValue,
-                        "css"
-                      )}
-                    </div>
-
-                  </div>
-                </div>
-              </div>
+              <input
+                id="hexrgb-alpha"
+                className="w-full accent-brand cursor-pointer"
+                type="range"
+                min="0"
+                max="100"
+                value={this.state.alpha}
+                onChange={this.handleAlphaChange}
+              />
             </div>
 
-            <div className="hexrgb-section">
-
-              <div className="hexrgb-section-heading">
-                <h2>
-                  Accessibility contrast
-                </h2>
-
-                <p>
-                  Check how readable your color
-                  is against common backgrounds.
-                </p>
-              </div>
-
-              <div className="hexrgb-contrast">
-
-                <div className="hexrgb-contrast-card">
-
-                  <div
-                    className="hexrgb-contrast-preview"
-                    style={{
-                      background: "#FFFFFF",
-                      color: hex,
-                    }}
-                  >
-                    Sample Text
-                  </div>
-
-                  <div className="hexrgb-contrast-info">
-                    <span>
-                      On White
-                    </span>
-
-                    <strong>
-                      {whiteContrast.toFixed(
-                        2
-                      )}
-                      :1
-                    </strong>
-
-                    <span className="hexrgb-status">
-                      {whiteLevel}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="hexrgb-contrast-card">
-
-                  <div
-                    className="hexrgb-contrast-preview"
-                    style={{
-                      background: "#111111",
-                      color: hex,
-                    }}
-                  >
-                    Sample Text
-                  </div>
-
-                  <div className="hexrgb-contrast-info">
-                    <span>
-                      On Black
-                    </span>
-
-                    <strong>
-                      {blackContrast.toFixed(
-                        2
-                      )}
-                      :1
-                    </strong>
-
-                    <span className="hexrgb-status">
-                      {blackLevel}
-                    </span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="hexrgb-section">
-
-              <div className="hexrgb-section-heading">
-                <h2>
-                  Automatic color scale
-                </h2>
-
-                <p>
-                  A quick 100–900 shade scale
-                  generated from your selected
-                  color.
-                </p>
-              </div>
-
-              <div className="hexrgb-shades">
-                {shadeValues.map((item) => (
+            <div className="space-y-2 pt-2">
+              <div className="text-[10px] font-black text-muted uppercase tracking-wider">Quick colors</div>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "#EF4444", "#F97316", "#EAB308", "#22C55E", "#06B6D4",
+                  "#3B82F6", "#6366F1", "#A855F7", "#EC4899", "#111827",
+                ].map((preset) => (
                   <button
-                    key={item.label}
                     type="button"
-                    className="hexrgb-shade"
-                    title={
-                      item.color +
-                      " — click to use"
-                    }
-                    style={{
-                      background:
-                        item.color,
-                    }}
-                    onClick={() =>
-                      this.handlePreset(
-                        item.color
-                      )
-                    }
-                    aria-label={
-                      "Use shade " +
-                      item.label
-                    }
+                    key={preset}
+                    className="w-7 h-7 rounded-lg border border-line cursor-pointer transition-transform hover:scale-110 shadow-sm"
+                    title={preset}
+                    aria-label={"Use " + preset}
+                    style={{ background: preset }}
+                    onClick={() => this.handlePreset(preset)}
                   />
                 ))}
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: PREVIEW & VALUES */}
+          <div className="bg-paper border border-line rounded-2xl shadow-sm overflow-hidden flex flex-col">
+            
+            <div
+              className="relative min-h-[190px] p-6 flex items-end justify-between gap-4 transition-colors"
+              style={{ background: hex, color: textColor }}
+            >
+              <div className="relative z-10">
+                <span className="block text-[9px] font-black uppercase tracking-widest opacity-75 mb-1">SELECTED COLOR</span>
+                <div className="text-3xl sm:text-4xl font-black tracking-tighter font-mono">{hex}</div>
+                <div className="text-xs font-bold opacity-80 mt-1 font-mono">{rgb.r}, {rgb.g}, {rgb.b}</div>
               </div>
 
               <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns:
-                    "repeat(9,1fr)",
-                  gap: "0",
-                  marginTop: "4px",
-                }}
-              >
-                {shadeValues.map((item) => (
-                  <span
-                    key={item.label}
-                    className="hexrgb-shade-label"
-                  >
-                    {item.label}
-                  </span>
-                ))}
-              </div>
-
+                className="relative z-10 w-14 h-14 rounded-2xl border border-white/40 shadow-card shrink-0"
+                style={{ background: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})` }}
+              />
             </div>
 
-            <div className="hexrgb-section">
+            <div className="p-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                
+                <div className="relative p-3.5 border border-line rounded-xl bg-surface">
+                  <span className="block text-muted text-[9px] font-black uppercase tracking-wider">HEX</span>
+                  <code className="block mt-1 font-mono text-xs font-black text-ink">{hex}</code>
+                  {this.renderCopyButton(hex, "hex")}
+                </div>
 
-              <div className="hexrgb-section-heading">
-                <h2>
-                  Developer-ready CSS
-                </h2>
+                <div className="relative p-3.5 border border-line rounded-xl bg-surface">
+                  <span className="block text-muted text-[9px] font-black uppercase tracking-wider">RGB</span>
+                  <code className="block mt-1 font-mono text-xs font-black text-ink">{rgbValue}</code>
+                  {this.renderCopyButton(rgbValue, "rgb")}
+                </div>
 
-                <p>
-                  Copy the color directly into
-                  your stylesheet.
-                </p>
+                <div className="relative p-3.5 border border-line rounded-xl bg-surface">
+                  <span className="block text-muted text-[9px] font-black uppercase tracking-wider">RGBA</span>
+                  <code className="block mt-1 font-mono text-xs font-black text-ink">{rgbaValue}</code>
+                  {this.renderCopyButton(rgbaValue, "rgba")}
+                </div>
+
+                <div className="relative p-3.5 border border-line rounded-xl bg-surface">
+                  <span className="block text-muted text-[9px] font-black uppercase tracking-wider">HSL</span>
+                  <code className="block mt-1 font-mono text-xs font-black text-ink">{hslValue}</code>
+                  {this.renderCopyButton(hslValue, "hsl")}
+                </div>
+
+                <div className="relative p-3.5 border border-line rounded-xl bg-surface">
+                  <span className="block text-muted text-[9px] font-black uppercase tracking-wider">CMYK</span>
+                  <code className="block mt-1 font-mono text-xs font-black text-ink">{cmykValue}</code>
+                  {this.renderCopyButton(cmykValue, "cmyk")}
+                </div>
+
+                <div className="relative p-3.5 border border-line rounded-xl bg-surface">
+                  <span className="block text-muted text-[9px] font-black uppercase tracking-wider">CSS VARIABLE</span>
+                  <code className="block mt-1 font-mono text-xs font-black text-ink truncate pr-12">{cssValue}</code>
+                  {this.renderCopyButton(cssValue, "css")}
+                </div>
+
               </div>
-
-              <div className="hexrgb-css-box">
-                <code>
-                  {cssValue}
-                </code>
-
-                {this.renderCopyButton(
-                  cssValue,
-                  "css-variable"
-                )}
-              </div>
-
-              <div className="hexrgb-privacy">
-                ✓ Everything is calculated locally
-                in your browser. No color data is
-                uploaded or stored.
-              </div>
-
             </div>
 
           </div>
+
         </div>
-      </>
+
+        {/* ACCESSIBILITY CONTRAST & COLOR SCALE ROW */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          
+          {/* ACCESSIBILITY CONTRAST */}
+          <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+            <div>
+              <h2 className="text-sm font-black uppercase tracking-wider text-ink">Accessibility contrast</h2>
+              <p className="text-xs font-bold text-muted mt-0.5">Check how readable your color is against common backgrounds.</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="border border-line rounded-xl overflow-hidden bg-surface">
+                <div className="min-h-[85px] flex items-center justify-center p-3 text-center text-sm font-black" style={{ background: "#FFFFFF", color: hex }}>
+                  Sample Text
+                </div>
+                <div className="flex items-center justify-between p-3 bg-paper border-t border-line text-xs">
+                  <span className="text-[9px] font-bold text-muted uppercase">On White</span>
+                  <strong className="font-mono">{whiteContrast.toFixed(2)}:1</strong>
+                  <span className="px-2 py-0.5 rounded text-[8px] font-black uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">{whiteLevel}</span>
+                </div>
+              </div>
+
+              <div className="border border-line rounded-xl overflow-hidden bg-surface">
+                <div className="min-h-[85px] flex items-center justify-center p-3 text-center text-sm font-black" style={{ background: "#111111", color: hex }}>
+                  Sample Text
+                </div>
+                <div className="flex items-center justify-between p-3 bg-paper border-t border-line text-xs">
+                  <span className="text-[9px] font-bold text-muted uppercase">On Black</span>
+                  <strong className="font-mono">{blackContrast.toFixed(2)}:1</strong>
+                  <span className="px-2 py-0.5 rounded text-[8px] font-black uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">{blackLevel}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* AUTOMATIC COLOR SCALE */}
+          <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+            <div>
+              <h2 className="text-sm font-black uppercase tracking-wider text-ink">Automatic color scale</h2>
+              <p className="text-xs font-bold text-muted mt-0.5">A quick 100–900 shade scale generated from your selected color.</p>
+            </div>
+
+            <div className="grid grid-cols-9 rounded-xl overflow-hidden border border-line">
+              {shadeValues.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  className="h-14 border-0 cursor-pointer transition-transform hover:scale-105"
+                  title={item.color + " — click to use"}
+                  style={{ background: item.color }}
+                  onClick={() => this.handlePreset(item.color)}
+                  aria-label={"Use shade " + item.label}
+                />
+              ))}
+            </div>
+            <div className="grid grid-cols-9 text-center">
+              {shadeValues.map((item) => (
+                <span key={item.label} className="text-[8px] font-black text-muted font-mono">{item.label}</span>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+        {/* DEVELOPER-READY CSS & PRIVACY */}
+        <div className="bg-paper border border-line p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+          <div>
+            <h2 className="text-sm font-black uppercase tracking-wider text-ink">Developer-ready CSS</h2>
+            <p className="text-xs font-bold text-muted mt-0.5">Copy the color directly into your stylesheet.</p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3.5 border border-line rounded-xl bg-surface">
+            <code className="font-mono text-xs font-bold text-ink overflow-x-auto w-full sm:w-auto">{cssValue}</code>
+            {this.renderCopyButton(cssValue, "css-variable")}
+          </div>
+
+          <div className="text-[10px] font-bold text-muted text-center pt-1">
+            ✓ Everything is calculated locally in your browser. No color data is uploaded or stored.
+          </div>
+        </div>
+
+      </div>
     );
   }
 }

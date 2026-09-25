@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Upload, Copy, CheckCircle2, Download, Trash2, 
+  RefreshCw, Globe, Sparkles, ShieldCheck, FileText, Image as ImageIcon
+} from "lucide-react";
 
 const TESSERACT_CDN =
   "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
@@ -98,7 +102,8 @@ function cleanOCRText(text) {
     .trim();
 }
 
-function ScreenshotToText() {
+export default function ScreenshotToText() {
+  const [isMounted, setIsMounted] = useState(false);
   var fileInputRef = useRef(null);
   var workerRef = useRef(null);
   var objectUrlRef = useRef(null);
@@ -116,6 +121,7 @@ function ScreenshotToText() {
   var [error, setError] = useState("");
 
   useEffect(function () {
+    setIsMounted(true);
     return function () {
       if (workerRef.current) {
         workerRef.current.terminate().catch(function () {});
@@ -386,635 +392,258 @@ function ScreenshotToText() {
 
   var characterCount = text ? text.length : 0;
 
-  var styles = {
-    wrapper: {
-      width: "100%",
-      maxWidth: "1050px",
-      margin: "0 auto",
-      fontFamily:
-        "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
-      color: "#111827",
-    },
+  if (!isMounted) return null;
 
-    card: {
-      background: "#ffffff",
-      border: "1px solid #e5e7eb",
-      borderRadius: "24px",
-      padding: "28px",
-      boxShadow: "0 18px 55px rgba(15, 23, 42, 0.08)",
-    },
+  return (
+    <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
+      
+      {/* Header */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border relative overflow-hidden">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="bg-paper p-2.5 sm:p-3.5 rounded-xl border border-line shrink-0">
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-brand" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-2xl font-black text-ink tracking-tight truncate">
+              Screenshot to Text
+            </h2>
+            <p className="text-[9px] sm:text-[10px] font-black text-brand uppercase tracking-widest mt-0.5 truncate">
+              Extract editable text from screenshots and images directly in your browser.
+            </p>
+          </div>
+        </div>
+        <div className="px-3 py-1.5 rounded-xl bg-surface border border-line text-brand text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1.5 shadow-sm">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Private • Browser OCR
+        </div>
+      </div>
 
-    header: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "flex-start",
-      gap: "20px",
-      marginBottom: "24px",
-      flexWrap: "wrap",
-    },
+      <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6">
 
-    title: {
-      margin: 0,
-      fontSize: "28px",
-      lineHeight: 1.2,
-      fontWeight: 800,
-      letterSpacing: "-0.6px",
-    },
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={onFileChange}
+          className="hidden"
+        />
 
-    subtitle: {
-      margin: "8px 0 0",
-      color: "#64748b",
-      fontSize: "14px",
-      lineHeight: 1.6,
-    },
-
-    badge: {
-      padding: "8px 12px",
-      borderRadius: "999px",
-      background: "#eef2ff",
-      color: "#4f46e5",
-      fontSize: "12px",
-      fontWeight: 700,
-      whiteSpace: "nowrap",
-    },
-
-    dropzone: {
-      border: dragActive
-        ? "2px solid #4f46e5"
-        : "2px dashed #cbd5e1",
-      borderRadius: "20px",
-      padding: "42px 24px",
-      textAlign: "center",
-      background: dragActive ? "#eef2ff" : "#f8fafc",
-      cursor: "pointer",
-      transition: "all 0.2s ease",
-    },
-
-    uploadIcon: {
-      width: "54px",
-      height: "54px",
-      margin: "0 auto 14px",
-      borderRadius: "16px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "#eef2ff",
-      color: "#4f46e5",
-      fontSize: "25px",
-      fontWeight: 800,
-    },
-
-    dropTitle: {
-      margin: 0,
-      fontSize: "17px",
-      fontWeight: 750,
-    },
-
-    dropText: {
-      margin: "7px 0 0",
-      fontSize: "13px",
-      color: "#64748b",
-    },
-
-    controls: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr auto",
-      gap: "12px",
-      marginTop: "18px",
-    },
-
-    label: {
-      display: "block",
-      marginBottom: "7px",
-      fontSize: "12px",
-      fontWeight: 700,
-      color: "#475569",
-    },
-
-    select: {
-      width: "100%",
-      height: "44px",
-      padding: "0 12px",
-      borderRadius: "12px",
-      border: "1px solid #dbe1ea",
-      background: "#fff",
-      color: "#111827",
-      outline: "none",
-    },
-
-    button: {
-      height: "44px",
-      padding: "0 18px",
-      border: "0",
-      borderRadius: "12px",
-      background: "#4f46e5",
-      color: "#fff",
-      fontWeight: 750,
-      cursor: "pointer",
-      whiteSpace: "nowrap",
-    },
-
-    secondaryButton: {
-      height: "44px",
-      padding: "0 16px",
-      border: "1px solid #dbe1ea",
-      borderRadius: "12px",
-      background: "#fff",
-      color: "#1e293b",
-      fontWeight: 700,
-      cursor: "pointer",
-      whiteSpace: "nowrap",
-    },
-
-    disabledButton: {
-      opacity: 0.5,
-      cursor: "not-allowed",
-    },
-
-    previewGrid: {
-      display: "grid",
-      gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
-      gap: "18px",
-      marginTop: "20px",
-    },
-
-    panel: {
-      border: "1px solid #e5e7eb",
-      borderRadius: "18px",
-      overflow: "hidden",
-      background: "#fff",
-    },
-
-    panelHeader: {
-      padding: "12px 15px",
-      borderBottom: "1px solid #e5e7eb",
-      display: "flex",
-      justifyContent: "space-between",
-      gap: "10px",
-      alignItems: "center",
-    },
-
-    panelTitle: {
-      fontSize: "12px",
-      fontWeight: 800,
-      textTransform: "uppercase",
-      letterSpacing: "0.5px",
-      color: "#64748b",
-    },
-
-    imageBox: {
-      minHeight: "330px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "15px",
-      background: "#f8fafc",
-    },
-
-    image: {
-      maxWidth: "100%",
-      maxHeight: "430px",
-      objectFit: "contain",
-      borderRadius: "10px",
-    },
-
-    textArea: {
-      width: "100%",
-      minHeight: "330px",
-      resize: "vertical",
-      border: "0",
-      outline: "none",
-      padding: "16px",
-      fontSize: "14px",
-      lineHeight: 1.7,
-      color: "#1e293b",
-      background: "#fff",
-      fontFamily:
-        "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-    },
-
-    stats: {
-      display: "flex",
-      gap: "8px",
-      flexWrap: "wrap",
-    },
-
-    stat: {
-      padding: "5px 9px",
-      borderRadius: "8px",
-      background: "#f1f5f9",
-      color: "#475569",
-      fontSize: "11px",
-      fontWeight: 700,
-    },
-
-    progressWrap: {
-      marginTop: "18px",
-      padding: "14px",
-      borderRadius: "14px",
-      background: "#f8fafc",
-      border: "1px solid #e5e7eb",
-    },
-
-    progressTop: {
-      display: "flex",
-      justifyContent: "space-between",
-      gap: "12px",
-      fontSize: "12px",
-      fontWeight: 700,
-      marginBottom: "9px",
-    },
-
-    progressTrack: {
-      height: "8px",
-      borderRadius: "999px",
-      background: "#e2e8f0",
-      overflow: "hidden",
-    },
-
-    progressBar: {
-      height: "100%",
-      width: progress + "%",
-      background: "#4f46e5",
-      borderRadius: "999px",
-      transition: "width 0.25s ease",
-    },
-
-    actions: {
-      display: "flex",
-      gap: "10px",
-      flexWrap: "wrap",
-      marginTop: "16px",
-    },
-
-    error: {
-      marginTop: "14px",
-      padding: "12px 14px",
-      borderRadius: "12px",
-      background: "#fef2f2",
-      border: "1px solid #fecaca",
-      color: "#b91c1c",
-      fontSize: "13px",
-      lineHeight: 1.5,
-    },
-
-    info: {
-      marginTop: "18px",
-      padding: "14px 16px",
-      borderRadius: "14px",
-      background: "#f8fafc",
-      border: "1px solid #e5e7eb",
-      color: "#64748b",
-      fontSize: "12px",
-      lineHeight: 1.6,
-    },
-
-    checkRow: {
-      display: "flex",
-      alignItems: "center",
-      gap: "8px",
-      height: "44px",
-      padding: "0 12px",
-      border: "1px solid #dbe1ea",
-      borderRadius: "12px",
-      background: "#fff",
-      fontSize: "13px",
-      fontWeight: 650,
-    },
-  };
-
-  return React.createElement(
-    "div",
-    { style: styles.wrapper },
-    React.createElement(
-      "div",
-      { style: styles.card },
-
-      React.createElement(
-        "div",
-        { style: styles.header },
-
-        React.createElement(
-          "div",
-          null,
-          React.createElement(
-            "h2",
-            { style: styles.title },
-            "Screenshot to Text"
-          ),
-          React.createElement(
-            "p",
-            { style: styles.subtitle },
-            "Extract editable text from screenshots and images directly in your browser."
-          )
-        ),
-
-        React.createElement(
-          "div",
-          { style: styles.badge },
-          "Private • Browser OCR"
-        )
-      ),
-
-      React.createElement(
-        "input",
-        {
-          ref: fileInputRef,
-          type: "file",
-          accept: "image/*",
-          onChange: onFileChange,
-          style: { display: "none" },
-        }
-      ),
-
-      React.createElement(
-        "div",
-        {
-          style: styles.dropzone,
-          onClick: function () {
+        {/* Dropzone */}
+        <div
+          onClick={function () {
             if (!isProcessing && fileInputRef.current) {
               fileInputRef.current.click();
             }
-          },
-          onDragOver: function (event) {
+          }}
+          onDragOver={function (event) {
             event.preventDefault();
             event.stopPropagation();
             setDragActive(true);
-          },
-          onDragLeave: function (event) {
+          }}
+          onDragLeave={function (event) {
             event.preventDefault();
             event.stopPropagation();
             setDragActive(false);
-          },
-          onDrop: onDrop,
-          role: "button",
-          tabIndex: 0,
-        },
+          }}
+          onDrop={onDrop}
+          role="button"
+          tabIndex={0}
+          className={`border-2 border-dashed rounded-2xl p-6 sm:p-10 text-center cursor-pointer transition-all ${
+            dragActive ? "border-brand bg-surface" : "border-line bg-surface hover:border-brand"
+          }`}
+        >
+          <div className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-3 rounded-xl bg-paper border border-line flex items-center justify-center text-brand text-xl font-black shadow-sm">
+            {file ? <CheckCircle2 className="w-6 h-6 text-emerald-500 shrink-0" /> : <Upload className="w-6 h-6 shrink-0" />}
+          </div>
 
-        React.createElement(
-          "div",
-          { style: styles.uploadIcon },
-          file ? "✓" : "↑"
-        ),
+          <p className="text-sm sm:text-base font-black text-ink tracking-tight">
+            {file ? "Screenshot selected" : "Drop screenshot here"}
+          </p>
 
-        React.createElement(
-          "p",
-          { style: styles.dropTitle },
-          file ? "Screenshot selected" : "Drop screenshot here"
-        ),
+          <p className="text-xs text-muted mt-1 truncate px-2">
+            {file
+              ? file.name + " • " + formatBytes(file.size)
+              : "or click to browse • You can also paste an image with Ctrl + V"}
+          </p>
+        </div>
 
-        React.createElement(
-          "p",
-          { style: styles.dropText },
-          file
-            ? file.name + " • " + formatBytes(file.size)
-            : "or click to browse • You can also paste an image with Ctrl + V"
-        )
-      ),
-
-      React.createElement(
-        "div",
-        { style: styles.controls },
-
-        React.createElement(
-          "div",
-          null,
-          React.createElement("label", { style: styles.label }, "OCR Language"),
-          React.createElement(
-            "select",
-            {
-              value: language,
-              onChange: function (event) {
+        {/* Controls */}
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto] gap-4 items-end">
+          
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5 text-brand shrink-0" /> OCR Language
+            </label>
+            <select
+              value={language}
+              onChange={function (event) {
                 setLanguage(event.target.value);
                 setText("");
                 setProgress(0);
                 setStatus("Language changed");
-              },
-              disabled: isProcessing,
-              style: styles.select,
-            },
-            LANGUAGES.map(function (item) {
-              return React.createElement(
-                "option",
-                { key: item.value, value: item.value },
-                item.label
-              );
-            })
-          )
-        ),
+              }}
+              disabled={isProcessing}
+              className="w-full h-11 px-3 rounded-xl border border-line bg-surface text-ink text-xs font-bold outline-none focus:border-brand cursor-pointer shadow-inner"
+            >
+              {LANGUAGES.map(function (item) {
+                return (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
 
-        React.createElement(
-          "div",
-          null,
-          React.createElement("label", { style: styles.label }, "Text Cleanup"),
-          React.createElement(
-            "label",
-            { style: styles.checkRow },
-            React.createElement("input", {
-              type: "checkbox",
-              checked: autoClean,
-              onChange: function (event) {
-                setAutoClean(event.target.checked);
-              },
-            }),
-            "Clean spacing & empty lines"
-          )
-        ),
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-black uppercase tracking-wider text-muted block">Text Cleanup</label>
+            <label className="flex items-center gap-2.5 h-11 px-3 border border-line rounded-xl bg-surface text-xs font-bold text-ink cursor-pointer shadow-inner">
+              <input 
+                type="checkbox"
+                checked={autoClean}
+                onChange={function (event) {
+                  setAutoClean(event.target.checked);
+                }}
+                className="w-4 h-4 accent-brand rounded border-line cursor-pointer shrink-0"
+              />
+              <span className="truncate">Clean spacing & empty lines</span>
+            </label>
+          </div>
 
-        React.createElement(
-          "div",
-          null,
-          React.createElement("label", { style: styles.label }, "Action"),
-          React.createElement(
-            "button",
-            {
-              type: "button",
-              onClick: extractText,
-              disabled: !file || isProcessing,
-              style: Object.assign(
-                {},
-                styles.button,
-                !file || isProcessing ? styles.disabledButton : {}
-              ),
-            },
-            isProcessing ? "Extracting..." : "Extract Text"
-          )
-        )
-      ),
+          <div>
+            <button
+              type="button"
+              onClick={extractText}
+              disabled={!file || isProcessing}
+              className={`w-full sm:w-auto h-11 px-6 border-0 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm ${
+                !file || isProcessing
+                  ? "bg-surface text-muted border border-line cursor-not-allowed opacity-50"
+                  : "bg-brand text-surface hover:opacity-90 cursor-pointer"
+              }`}
+            >
+              {isProcessing ? <RefreshCw className="w-4 h-4 animate-spin shrink-0" /> : <Sparkles className="w-4 h-4 shrink-0" />}
+              {isProcessing ? "Extracting..." : "Extract Text"}
+            </button>
+          </div>
+        </div>
 
-      isProcessing &&
-        React.createElement(
-          "div",
-          { style: styles.progressWrap },
+        {/* Progress Bar */}
+        {isProcessing && (
+          <div className="p-4 rounded-xl bg-surface border border-line space-y-2 shadow-inner">
+            <div className="flex justify-between items-center text-xs font-black uppercase tracking-wider text-muted">
+              <span className="truncate">{status}</span>
+              <span className="font-mono text-brand font-black">{progress}%</span>
+            </div>
+            <div className="h-2 rounded-full bg-paper border border-line overflow-hidden">
+              <div
+                className="h-full bg-brand rounded-full transition-all duration-250"
+                style={{ width: progress + "%" }}
+              ></div>
+            </div>
+          </div>
+        )}
 
-          React.createElement(
-            "div",
-            { style: styles.progressTop },
+        {/* Error Message */}
+        {error && (
+          <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-bold leading-relaxed shadow-sm">
+            {error}
+          </div>
+        )}
 
-            React.createElement("span", null, status),
+        {/* Preview & Results Grid */}
+        {file && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+            
+            {/* Screenshot Panel */}
+            <div className="border border-line rounded-2xl overflow-hidden bg-surface shadow-sm flex flex-col">
+              <div className="p-3.5 border-b border-line flex justify-between items-center gap-2 bg-paper">
+                <span className="text-xs font-black uppercase tracking-wider text-ink flex items-center gap-1.5 truncate">
+                  <ImageIcon className="w-4 h-4 text-brand shrink-0" /> Screenshot
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-wider bg-surface px-2 py-0.5 rounded border border-line text-muted font-mono shrink-0">
+                  {formatBytes(file.size)}
+                </span>
+              </div>
+              <div className="min-h-[330px] flex items-center justify-center p-4 bg-paper/50">
+                <img
+                  src={preview}
+                  alt="Selected screenshot preview"
+                  className="max-w-full max-h-[430px] object-contain rounded-xl shadow-sm border border-line"
+                />
+              </div>
+            </div>
 
-            React.createElement("span", null, progress + "%")
-          ),
+            {/* Extracted Text Panel */}
+            <div className="border border-line rounded-2xl overflow-hidden bg-surface shadow-sm flex flex-col">
+              <div className="p-3.5 border-b border-line flex justify-between items-center gap-2 bg-paper">
+                <span className="text-xs font-black uppercase tracking-wider text-ink flex items-center gap-1.5 truncate">
+                  <FileText className="w-4 h-4 text-brand shrink-0" /> Extracted Text
+                </span>
+                <div className="flex gap-2 shrink-0">
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-surface px-2 py-0.5 rounded border border-line text-muted font-mono">
+                    {wordCount} words
+                  </span>
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-surface px-2 py-0.5 rounded border border-line text-muted font-mono">
+                    {characterCount} chars
+                  </span>
+                </div>
+              </div>
+              <textarea
+                value={text}
+                onChange={function (event) {
+                  setText(event.target.value);
+                }}
+                placeholder="Extracted text will appear here after you click Extract Text..."
+                className="w-full min-h-[330px] resize-vertical border-0 outline-none p-4 text-xs sm:text-sm leading-relaxed text-ink bg-surface font-mono shadow-inner"
+              ></textarea>
+            </div>
 
-          React.createElement(
-            "div",
-            { style: styles.progressTrack },
+          </div>
+        )}
 
-            React.createElement("div", {
-              style: styles.progressBar,
-            })
-          )
-        ),
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-3 pt-2">
+          <button
+            type="button"
+            onClick={copyText}
+            disabled={!text}
+            className={`flex-1 min-w-[120px] h-11 px-4 border border-line rounded-xl bg-surface font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm ${
+              !text ? "opacity-50 cursor-not-allowed text-muted" : "text-ink hover:border-brand cursor-pointer"
+            }`}
+          >
+            {copied ? <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" /> : <Copy className="w-4 h-4 shrink-0" />}
+            {copied ? "Copied" : "Copy Text"}
+          </button>
 
-      error &&
-        React.createElement(
-          "div",
-          { style: styles.error },
-          error
-        ),
+          <button
+            type="button"
+            onClick={downloadText}
+            disabled={!text}
+            className={`flex-1 min-w-[120px] h-11 px-4 border border-line rounded-xl bg-surface font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm ${
+              !text ? "opacity-50 cursor-not-allowed text-muted" : "text-ink hover:border-brand cursor-pointer"
+            }`}
+          >
+            <Download className="w-4 h-4 shrink-0" /> Download TXT
+          </button>
 
-      file &&
-        React.createElement(
-          "div",
-          { style: styles.previewGrid },
+          <button
+            type="button"
+            onClick={clearAll}
+            disabled={isProcessing && !file}
+            className="h-11 px-6 border border-line rounded-xl bg-surface text-rose-600 dark:text-rose-400 font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm hover:bg-rose-500/10 cursor-pointer"
+          >
+            <Trash2 className="w-4 h-4 shrink-0" /> Clear
+          </button>
+        </div>
 
-          React.createElement(
-            "div",
-            { style: styles.panel },
+        {/* Privacy Note */}
+        <div className="p-4 rounded-xl bg-surface border border-line text-xs text-muted leading-relaxed flex items-start gap-2.5 shadow-inner">
+          <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+          <span>
+            Privacy-first OCR: the screenshot is processed in your browser. The tool does not upload your image to any external server. Tesseract.js runs the OCR engine through a browser worker.
+          </span>
+        </div>
 
-            React.createElement(
-              "div",
-              { style: styles.panelHeader },
-
-              React.createElement(
-                "span",
-                { style: styles.panelTitle },
-                "Screenshot"
-              ),
-
-              React.createElement(
-                "span",
-                { style: styles.stat },
-                formatBytes(file.size)
-              )
-            ),
-
-            React.createElement(
-              "div",
-              { style: styles.imageBox },
-
-              React.createElement("img", {
-                src: preview,
-                alt: "Selected screenshot preview",
-                style: styles.image,
-              })
-            )
-          ),
-
-          React.createElement(
-            "div",
-            { style: styles.panel },
-
-            React.createElement(
-              "div",
-              { style: styles.panelHeader },
-
-              React.createElement(
-                "span",
-                { style: styles.panelTitle },
-                "Extracted Text"
-              ),
-
-              React.createElement(
-                "div",
-                { style: styles.stats },
-
-                React.createElement(
-                  "span",
-                  { style: styles.stat },
-                  wordCount + " words"
-                ),
-
-                React.createElement(
-                  "span",
-                  { style: styles.stat },
-                  characterCount + " chars"
-                )
-              )
-            ),
-
-            React.createElement("textarea", {
-              value: text,
-              onChange: function (event) {
-                setText(event.target.value);
-              },
-              placeholder:
-                "Extracted text will appear here after you click Extract Text...",
-              style: styles.textArea,
-            })
-          )
-        ),
-
-      React.createElement(
-        "div",
-        { style: styles.actions },
-
-        React.createElement(
-          "button",
-          {
-            type: "button",
-            onClick: copyText,
-            disabled: !text,
-            style: Object.assign(
-              {},
-              styles.secondaryButton,
-              !text ? styles.disabledButton : {}
-            ),
-          },
-          copied ? "✓ Copied" : "Copy Text"
-        ),
-
-        React.createElement(
-          "button",
-          {
-            type: "button",
-            onClick: downloadText,
-            disabled: !text,
-            style: Object.assign(
-              {},
-              styles.secondaryButton,
-              !text ? styles.disabledButton : {}
-            ),
-          },
-          "Download TXT"
-        ),
-
-        React.createElement(
-          "button",
-          {
-            type: "button",
-            onClick: clearAll,
-            disabled: isProcessing && !file,
-            style: styles.secondaryButton,
-          },
-          "Clear"
-        )
-      ),
-
-      React.createElement(
-        "div",
-        { style: styles.info },
-        "Privacy-first OCR: the screenshot is processed in your browser. The tool does not upload your image to your own server. Tesseract.js runs the OCR engine through a browser worker."
-      )
-    )
+      </div>
+    </div>
   );
 }
-
-/*
- * IMPORTANT:
- * This MUST remain a default export.
- * Do not change it to:
- * export { ScreenshotToText }
- * and do not export an object.
- */
-export default ScreenshotToText;

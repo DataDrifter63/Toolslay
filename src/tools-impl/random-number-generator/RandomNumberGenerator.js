@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
+import { 
+  Hash, Copy, CheckCircle2, Trash2, 
+  Sliders, ArrowUpDown, Zap, RefreshCw 
+} from "lucide-react";
 
 function randomInt(min, max) {
-  var low = Math.ceil(min);
-  var high = Math.floor(max);
-
-  return Math.floor(
-    Math.random() * (high - low + 1)
-  ) + low;
+  const low = Math.ceil(min);
+  const high = Math.floor(max);
+  return Math.floor(Math.random() * (high - low + 1)) + low;
 }
 
 function formatNumber(value) {
@@ -16,187 +17,112 @@ function formatNumber(value) {
 }
 
 export default function RandomNumberGenerator() {
-  var [min, setMin] = useState("1");
-  var [max, setMax] = useState("100");
-  var [count, setCount] = useState("1");
-  var [unique, setUnique] = useState(true);
-  var [sortResults, setSortResults] =
-    useState(false);
-  var [allowDuplicates, setAllowDuplicates] =
-    useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
-  var [numbers, setNumbers] =
-    useState([]);
+  const [min, setMin] = useState("1");
+  const [max, setMax] = useState("100");
+  const [count, setCount] = useState("1");
+  const [unique, setUnique] = useState(true);
+  const [sortResults, setSortResults] = useState(false);
+  const [allowDuplicates, setAllowDuplicates] = useState(false);
 
-  var [copied, setCopied] =
-    useState(false);
+  const [numbers, setNumbers] = useState([]);
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState("");
 
-  var [error, setError] =
-    useState("");
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-  var numericInfo = useMemo(
-    function () {
-      var minValue = Number(min);
-      var maxValue = Number(max);
-      var countValue = Number(count);
+  const numericInfo = useMemo(() => {
+    return {
+      min: Number(min),
+      max: Number(max),
+      count: Number(count),
+    };
+  }, [min, max, count]);
 
-      return {
-        min: minValue,
-        max: maxValue,
-        count: countValue,
-      };
-    },
-    [min, max, count]
-  );
-
-  function generateNumbers() {
+  const generateNumbers = useCallback(() => {
     setCopied(false);
     setError("");
 
-    var low = numericInfo.min;
-    var high = numericInfo.max;
-    var amount = numericInfo.count;
+    const low = numericInfo.min;
+    const high = numericInfo.max;
+    const amount = numericInfo.count;
 
-    if (
-      !Number.isFinite(low) ||
-      !Number.isFinite(high)
-    ) {
-      setError(
-        "Please enter valid minimum and maximum numbers."
-      );
+    if (!Number.isFinite(low) || !Number.isFinite(high)) {
+      setError("Please enter valid minimum and maximum numbers.");
       return;
     }
 
     if (low > high) {
-      setError(
-        "Minimum value cannot be greater than maximum value."
-      );
+      setError("Minimum value cannot be greater than maximum value.");
       return;
     }
 
-    if (
-      !Number.isInteger(low) ||
-      !Number.isInteger(high)
-    ) {
-      setError(
-        "Minimum and maximum values must be whole numbers."
-      );
+    if (!Number.isInteger(low) || !Number.isInteger(high)) {
+      setError("Minimum and maximum values must be whole numbers.");
       return;
     }
 
-    if (
-      !Number.isInteger(amount) ||
-      amount < 1 ||
-      amount > 1000
-    ) {
-      setError(
-        "Number of results must be between 1 and 1000."
-      );
+    if (!Number.isInteger(amount) || amount < 1 || amount > 1000) {
+      setError("Number of results must be between 1 and 1000.");
       return;
     }
 
-    var available =
-      high - low + 1;
+    const available = high - low + 1;
 
-    if (
-      unique &&
-      !allowDuplicates &&
-      amount > available
-    ) {
-      setError(
-        "There are not enough unique numbers in this range."
-      );
+    if (unique && !allowDuplicates && amount > available) {
+      setError("There are not enough unique numbers in this range.");
       return;
     }
 
-    var generated = [];
+    let generated = [];
 
-    if (
-      unique &&
-      !allowDuplicates
-    ) {
-      var pool = [];
-
-      for (
-        var i = low;
-        i <= high;
-        i += 1
-      ) {
+    if (unique && !allowDuplicates) {
+      const pool = [];
+      for (let i = low; i <= high; i += 1) {
         pool.push(i);
       }
 
-      for (
-        var j = pool.length - 1;
-        j > 0;
-        j -= 1
-      ) {
-        var randomIndex =
-          Math.floor(
-            Math.random() * (j + 1)
-          );
-
-        var temp =
-          pool[j];
-
-        pool[j] =
-          pool[randomIndex];
-
-        pool[randomIndex] =
-          temp;
+      for (let j = pool.length - 1; j > 0; j -= 1) {
+        const randomIndex = Math.floor(Math.random() * (j + 1));
+        const temp = pool[j];
+        pool[j] = pool[randomIndex];
+        pool[randomIndex] = temp;
       }
 
-      generated =
-        pool.slice(0, amount);
+      generated = pool.slice(0, amount);
     } else {
-      for (
-        var k = 0;
-        k < amount;
-        k += 1
-      ) {
-        generated.push(
-          randomInt(low, high)
-        );
+      for (let k = 0; k < amount; k += 1) {
+        generated.push(randomInt(low, high));
       }
     }
 
     if (sortResults) {
-      generated.sort(
-        function (a, b) {
-          return a - b;
-        }
-      );
+      generated.sort((a, b) => a - b);
     }
 
     setNumbers(generated);
-  }
+  }, [numericInfo, unique, allowDuplicates, sortResults]);
+
+  useEffect(() => {
+    if (isMounted) {
+      generateNumbers();
+    }
+  }, [isMounted, generateNumbers]);
 
   async function copyNumbers() {
-    if (!numbers.length) {
-      return;
-    }
-
-    var text =
-      numbers.join("\n");
+    if (!numbers.length) return;
+    const text = numbers.join("\n");
 
     try {
-      if (
-        navigator.clipboard &&
-        navigator.clipboard.writeText
-      ) {
-        await navigator.clipboard.writeText(
-          text
-        );
-
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
         setCopied(true);
-
-        setTimeout(
-          function () {
-            setCopied(false);
-          },
-          1500
-        );
+        setTimeout(() => setCopied(false), 1500);
       }
-    } catch (e) {
+    } catch {
       setCopied(false);
     }
   }
@@ -207,690 +133,249 @@ export default function RandomNumberGenerator() {
     setCopied(false);
   }
 
-  function setPreset(
-    presetMin,
-    presetMax
-  ) {
+  function setPreset(presetMin, presetMax) {
     setMin(String(presetMin));
     setMax(String(presetMax));
     setError("");
   }
 
+  if (!isMounted) return null;
+
   return (
-    <>
-      <style>{`
-        .rng-tool {
-          width: 100%;
-          max-width: 1180px;
-          margin: 0 auto;
-          color: #172033;
-          font-family: inherit;
-        }
-
-        .rng-tool *,
-        .rng-tool *::before,
-        .rng-tool *::after {
-          box-sizing: border-box;
-        }
-
-        .rng-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          gap: 20px;
-          margin-bottom: 22px;
-        }
-
-        .rng-eyebrow {
-          font-size: 10px;
-          font-weight: 800;
-          letter-spacing: .14em;
-          color: #635bff;
-        }
-
-        .rng-title {
-          margin: 6px 0 0;
-          font-size: clamp(28px, 4vw, 42px);
-          line-height: 1;
-          letter-spacing: -.05em;
-        }
-
-        .rng-description {
-          max-width: 650px;
-          margin: 10px 0 0;
-          color: #667085;
-          font-size: 13px;
-          line-height: 1.7;
-        }
-
-        .rng-grid {
-          display: grid;
-          grid-template-columns: 380px minmax(0, 1fr);
-          gap: 18px;
-        }
-
-        .rng-card {
-          border: 1px solid #e4e7ec;
-          border-radius: 16px;
-          background: #fff;
-          box-shadow: 0 8px 30px rgba(16,24,40,.035);
-        }
-
-        .rng-controls {
-          padding: 22px;
-        }
-
-        .rng-card-title {
-          font-size: 17px;
-          font-weight: 750;
-          letter-spacing: -.025em;
-        }
-
-        .rng-card-text {
-          margin-top: 5px;
-          color: #667085;
-          font-size: 11px;
-          line-height: 1.6;
-        }
-
-        .rng-label {
-          display: block;
-          margin: 17px 0 7px;
-          font-size: 11px;
-          font-weight: 750;
-        }
-
-        .rng-input {
-          width: 100%;
-          height: 44px;
-          padding: 0 12px;
-          border: 1px solid #e4e7ec;
-          border-radius: 9px;
-          background: #fff;
-          color: #172033;
-          outline: none;
-          font: inherit;
-          font-size: 12px;
-        }
-
-        .rng-input:focus {
-          border-color: #635bff;
-          box-shadow: 0 0 0 3px rgba(99,91,255,.10);
-        }
-
-        .rng-two {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 10px;
-        }
-
-        .rng-presets {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 7px;
-          margin-top: 10px;
-        }
-
-        .rng-preset {
-          padding: 7px 9px;
-          border: 1px solid #e4e7ec;
-          border-radius: 7px;
-          background: #f7f8fb;
-          color: #344054;
-          cursor: pointer;
-          font: inherit;
-          font-size: 9px;
-          font-weight: 700;
-        }
-
-        .rng-options {
-          display: grid;
-          gap: 9px;
-          margin-top: 19px;
-        }
-
-        .rng-check {
-          display: flex;
-          align-items: center;
-          gap: 9px;
-          color: #344054;
-          font-size: 11px;
-          cursor: pointer;
-        }
-
-        .rng-check input {
-          width: 15px;
-          height: 15px;
-          accent-color: #635bff;
-        }
-
-        .rng-generate {
-          width: 100%;
-          height: 45px;
-          margin-top: 20px;
-          border: 0;
-          border-radius: 9px;
-          background: #172033;
-          color: #fff;
-          cursor: pointer;
-          font: inherit;
-          font-size: 11px;
-          font-weight: 800;
-        }
-
-        .rng-generate:hover {
-          opacity: .92;
-        }
-
-        .rng-error {
-          margin-top: 10px;
-          padding: 10px;
-          border-radius: 8px;
-          background: #fff1f3;
-          color: #c01048;
-          font-size: 10px;
-          line-height: 1.5;
-        }
-
-        .rng-output {
-          min-height: 500px;
-          padding: 22px;
-          display: flex;
-          flex-direction: column;
-          background:
-            radial-gradient(
-              circle at 100% 0%,
-              rgba(99,91,255,.09),
-              transparent 40%
-            ),
-            #fff;
-        }
-
-        .rng-output-head {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 10px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid #e4e7ec;
-        }
-
-        .rng-output-title {
-          font-size: 15px;
-          font-weight: 750;
-        }
-
-        .rng-count {
-          color: #667085;
-          font-size: 9px;
-        }
-
-        .rng-actions {
-          display: flex;
-          gap: 7px;
-        }
-
-        .rng-action {
-          min-height: 34px;
-          padding: 0 11px;
-          border: 1px solid #e4e7ec;
-          border-radius: 8px;
-          background: #fff;
-          color: #344054;
-          cursor: pointer;
-          font: inherit;
-          font-size: 9px;
-          font-weight: 750;
-        }
-
-        .rng-results {
-          display: grid;
-          grid-template-columns: repeat(
-            auto-fill,
-            minmax(105px, 1fr)
-          );
-          gap: 8px;
-          margin-top: 18px;
-          max-height: 410px;
-          overflow-y: auto;
-          padding-right: 3px;
-        }
-
-        .rng-number {
-          min-height: 58px;
-          padding: 10px;
-          border: 1px solid #e4e7ec;
-          border-radius: 9px;
-          background: #f7f8fb;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          font-size: 18px;
-          font-weight: 750;
-          letter-spacing: -.04em;
-        }
-
-        .rng-empty {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          padding: 50px 20px;
-        }
-
-        .rng-empty-icon {
-          display: grid;
-          place-items: center;
-          width: 55px;
-          height: 55px;
-          border-radius: 15px;
-          background: rgba(99,91,255,.10);
-          color: #635bff;
-          font-size: 23px;
-          margin-bottom: 15px;
-        }
-
-        .rng-empty h2 {
-          margin: 0;
-          font-size: 20px;
-        }
-
-        .rng-empty p {
-          max-width: 330px;
-          margin: 8px auto 0;
-          color: #667085;
-          font-size: 11px;
-          line-height: 1.7;
-        }
-
-        .rng-info {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
-          margin-top: auto;
-          padding-top: 18px;
-        }
-
-        .rng-info-item {
-          padding: 11px;
-          border: 1px solid #e4e7ec;
-          border-radius: 9px;
-          background: #f7f8fb;
-        }
-
-        .rng-info-item span {
-          display: block;
-          color: #667085;
-          font-size: 8px;
-        }
-
-        .rng-info-item strong {
-          display: block;
-          margin-top: 4px;
-          font-size: 12px;
-        }
-
-        .rng-footer {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          margin-top: 13px;
-          color: #667085;
-          font-size: 9px;
-        }
-
-        .rng-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #12b76a;
-        }
-
-        @media (max-width: 850px) {
-          .rng-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        @media (max-width: 550px) {
-          .rng-header {
-            align-items: stretch;
-          }
-
-          .rng-two {
-            grid-template-columns: 1fr;
-          }
-
-          .rng-controls,
-          .rng-output {
-            padding: 16px;
-          }
-
-          .rng-output-head {
-            align-items: flex-start;
-            flex-direction: column;
-          }
-
-          .rng-info {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
-
-      <div className="rng-tool">
-        <div className="rng-header">
-          <div>
-            <div className="rng-eyebrow">
-              UTILITY & RANDOMNESS
-            </div>
-
-            <h1 className="rng-title">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
+      
+      {/* COMPACT SLEEK HEADER BAR */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex items-center justify-between gap-3 w-full box-border font-sans">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand shrink-0">
+            <Hash className="w-5 h-5" />
+          </div>
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
               Random Number Generator
-            </h1>
-
-            <p className="rng-description">
-              Generate random numbers instantly with
-              unique-number mode, bulk generation,
-              sorting and one-click copying.
+            </h2>
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted truncate">
+              Generate random numbers instantly with unique mode, bulk options, and sorting.
             </p>
           </div>
         </div>
+      </div>
 
-        <div className="rng-grid">
-          <div className="rng-card rng-controls">
-            <div className="rng-card-title">
-              Generation settings
+      <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-4 sm:gap-6 items-start w-full">
+        
+        {/* LEFT: SETTINGS PANEL */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-5 w-full box-border font-sans">
+            
+            <div className="border-b border-line pb-2">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5">
+                <Sliders className="w-3.5 h-3.5 text-brand" /> 1. Range Settings
+              </h3>
             </div>
 
-            <div className="rng-card-text">
-              Define your range and choose how many
-              random numbers you need.
-            </div>
-
-            <div className="rng-two">
-              <div>
-                <label
-                  className="rng-label"
-                  htmlFor="rng-min"
-                >
+            <div className="grid grid-cols-2 gap-2.5">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted" htmlFor="rng-min">
                   Minimum
                 </label>
-
                 <input
                   id="rng-min"
-                  className="rng-input"
+                  className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none focus:border-brand tabular-nums"
                   type="number"
                   value={min}
-                  onChange={function (event) {
-                    setMin(event.target.value);
-                  }}
+                  onChange={(event) => setMin(event.target.value)}
                 />
               </div>
 
-              <div>
-                <label
-                  className="rng-label"
-                  htmlFor="rng-max"
-                >
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black uppercase tracking-wider text-muted" htmlFor="rng-max">
                   Maximum
                 </label>
-
                 <input
                   id="rng-max"
-                  className="rng-input"
+                  className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none focus:border-brand tabular-nums"
                   type="number"
                   value={max}
-                  onChange={function (event) {
-                    setMax(event.target.value);
-                  }}
+                  onChange={(event) => setMax(event.target.value)}
                 />
               </div>
             </div>
 
-            <div className="rng-presets">
-              <button
-                type="button"
-                className="rng-preset"
-                onClick={function () {
-                  setPreset(1, 10);
-                }}
-              >
+            <div className="grid grid-cols-4 gap-1.5 pt-1">
+              <button type="button" onClick={() => setPreset(1, 10)} className="p-2 text-[10px] font-black uppercase tracking-wider rounded-xl border border-line bg-surface text-muted hover:text-ink transition-all">
                 1–10
               </button>
-
-              <button
-                type="button"
-                className="rng-preset"
-                onClick={function () {
-                  setPreset(1, 100);
-                }}
-              >
+              <button type="button" onClick={() => setPreset(1, 100)} className="p-2 text-[10px] font-black uppercase tracking-wider rounded-xl border border-line bg-surface text-muted hover:text-ink transition-all">
                 1–100
               </button>
-
-              <button
-                type="button"
-                className="rng-preset"
-                onClick={function () {
-                  setPreset(1, 1000);
-                }}
-              >
-                1–1,000
+              <button type="button" onClick={() => setPreset(1, 1000)} className="p-2 text-[10px] font-black uppercase tracking-wider rounded-xl border border-line bg-surface text-muted hover:text-ink transition-all">
+                1–1K
               </button>
-
-              <button
-                type="button"
-                className="rng-preset"
-                onClick={function () {
-                  setPreset(1, 1000000);
-                }}
-              >
+              <button type="button" onClick={() => setPreset(1, 1000000)} className="p-2 text-[10px] font-black uppercase tracking-wider rounded-xl border border-line bg-surface text-muted hover:text-ink transition-all">
                 1–1M
               </button>
             </div>
 
-            <label
-              className="rng-label"
-              htmlFor="rng-count"
-            >
-              Number of results
-            </label>
+            <hr className="border-line" />
 
-            <input
-              id="rng-count"
-              className="rng-input"
-              type="number"
-              min="1"
-              max="1000"
-              value={count}
-              onChange={function (event) {
-                setCount(event.target.value);
-              }}
-            />
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black uppercase tracking-wider text-muted" htmlFor="rng-count">
+                Number of Results (1 – 1000)
+              </label>
+              <input
+                id="rng-count"
+                className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none focus:border-brand tabular-nums"
+                type="number"
+                min="1"
+                max="1000"
+                value={count}
+                onChange={(event) => setCount(event.target.value)}
+              />
+            </div>
 
-            <div className="rng-options">
-              <label className="rng-check">
+            <hr className="border-line" />
+
+            <div className="space-y-2.5">
+              <label className="flex items-center gap-2.5 p-3 bg-surface rounded-xl border border-line cursor-pointer hover:border-brand/50 transition-colors select-none">
                 <input
                   type="checkbox"
                   checked={unique}
-                  onChange={function (event) {
-                    setUnique(
-                      event.target.checked
-                    );
-                  }}
+                  onChange={(event) => setUnique(event.target.checked)}
+                  className="w-4 h-4 accent-brand rounded cursor-pointer"
                 />
-                Unique numbers only
+                <span className="text-xs font-black text-ink uppercase tracking-wider">Unique Numbers Only</span>
               </label>
 
-              <label className="rng-check">
+              <label className="flex items-center gap-2.5 p-3 bg-surface rounded-xl border border-line cursor-pointer hover:border-brand/50 transition-colors select-none">
                 <input
                   type="checkbox"
                   checked={sortResults}
-                  onChange={function (event) {
-                    setSortResults(
-                      event.target.checked
-                    );
-                  }}
+                  onChange={(event) => setSortResults(event.target.checked)}
+                  className="w-4 h-4 accent-brand rounded cursor-pointer"
                 />
-                Sort results from low to high
+                <span className="text-xs font-black text-ink uppercase tracking-wider">Sort Low to High</span>
               </label>
 
-              <label className="rng-check">
+              <label className="flex items-center gap-2.5 p-3 bg-surface rounded-xl border border-line cursor-pointer hover:border-brand/50 transition-colors select-none">
                 <input
                   type="checkbox"
                   checked={allowDuplicates}
-                  onChange={function (event) {
-                    setAllowDuplicates(
-                      event.target.checked
-                    );
-                  }}
+                  onChange={(event) => setAllowDuplicates(event.target.checked)}
+                  className="w-4 h-4 accent-brand rounded cursor-pointer"
                 />
-                Allow duplicates
+                <span className="text-xs font-black text-ink uppercase tracking-wider">Allow Duplicates</span>
               </label>
             </div>
 
+            {error && (
+              <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-xs font-bold text-rose-500 leading-relaxed">
+                {error}
+              </div>
+            )}
+
             <button
               type="button"
-              className="rng-generate"
+              className="w-full py-3 px-4 bg-brand text-surface rounded-xl text-xs font-black uppercase tracking-wider transition-opacity hover:opacity-90 shadow-sm"
               onClick={generateNumbers}
             >
               Generate Numbers
             </button>
 
-            {error ? (
-              <div className="rng-error">
-                {error}
-              </div>
-            ) : null}
-          </div>
-
-          <div className="rng-card rng-output">
-            <div className="rng-output-head">
-              <div>
-                <div className="rng-output-title">
-                  Generated results
-                </div>
-
-                <div className="rng-count">
-                  {numbers.length
-                    ? numbers.length +
-                      " number" +
-                      (numbers.length === 1
-                        ? ""
-                        : "s") +
-                      " generated"
-                    : "Ready to generate"}
-                </div>
-              </div>
-
-              {numbers.length ? (
-                <div className="rng-actions">
-                  <button
-                    type="button"
-                    className="rng-action"
-                    onClick={copyNumbers}
-                  >
-                    {copied
-                      ? "✓ Copied"
-                      : "Copy all"}
-                  </button>
-
-                  <button
-                    type="button"
-                    className="rng-action"
-                    onClick={clearResults}
-                  >
-                    Clear
-                  </button>
-                </div>
-              ) : null}
-            </div>
-
-            {numbers.length ? (
-              <div className="rng-results">
-                {numbers.map(
-                  function (number, index) {
-                    return (
-                      <div
-                        className="rng-number"
-                        key={
-                          String(number) +
-                          "-" +
-                          String(index)
-                        }
-                      >
-                        {formatNumber(number)}
-                      </div>
-                    );
-                  }
-                )}
-              </div>
-            ) : (
-              <div className="rng-empty">
-                <div className="rng-empty-icon">
-                  ⤨
-                </div>
-
-                <h2>
-                  Your numbers will appear here
-                </h2>
-
-                <p>
-                  Set your range, choose the number
-                  of results and click Generate
-                  Numbers.
-                </p>
-              </div>
-            )}
-
-            <div className="rng-info">
-              <div className="rng-info-item">
-                <span>MINIMUM</span>
-                <strong>
-                  {formatNumber(
-                    Number.isFinite(
-                      numericInfo.min
-                    )
-                      ? numericInfo.min
-                      : 0
-                  )}
-                </strong>
-              </div>
-
-              <div className="rng-info-item">
-                <span>MAXIMUM</span>
-                <strong>
-                  {formatNumber(
-                    Number.isFinite(
-                      numericInfo.max
-                    )
-                      ? numericInfo.max
-                      : 0
-                  )}
-                </strong>
-              </div>
-
-              <div className="rng-info-item">
-                <span>MODE</span>
-                <strong>
-                  {unique &&
-                  !allowDuplicates
-                    ? "Unique"
-                    : "Standard"}
-                </strong>
-              </div>
-            </div>
-
-            <div className="rng-footer">
-              <span className="rng-dot" />
-              Generation happens locally in your browser.
-            </div>
           </div>
         </div>
+
+        {/* RIGHT: RESULTS & METRICS OUTPUT */}
+        <div className="space-y-4 sm:space-y-6 w-full">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm flex flex-col min-h-[500px] w-full box-border font-sans">
+            
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <div>
+                <h3 className="text-xs font-black uppercase tracking-wider text-ink flex items-center gap-1.5">
+                  <Zap className="w-4 h-4 text-brand" /> Generated Results
+                </h3>
+                <span className="text-[10px] font-black uppercase tracking-wider text-muted mt-0.5 block tabular-nums">
+                  {numbers.length ? `${numbers.length} number${numbers.length === 1 ? "" : "s"} generated` : "Ready to generate"}
+                </span>
+              </div>
+
+              {numbers.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={copyNumbers}
+                    className={`py-2 px-3 rounded-xl text-[10px] font-black uppercase tracking-wider transition-colors flex items-center gap-1.5 ${
+                      copied ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/30" : "bg-surface border border-line text-ink hover:border-brand"
+                    }`}
+                  >
+                    {copied ? <><CheckCircle2 className="w-3.5 h-3.5"/> Copied</> : <><Copy className="w-3.5 h-3.5"/> Copy All</>}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={clearResults}
+                    className="py-2 px-3 bg-surface border border-line text-muted hover:text-rose-500 rounded-xl text-[10px] font-black uppercase tracking-wider transition-colors flex items-center gap-1"
+                  >
+                    <Trash2 className="w-3.5 h-3.5"/> Clear
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex-1 py-4">
+              {numbers.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 max-h-[410px] overflow-y-auto pr-1">
+                  {numbers.map((number, index) => (
+                    <div
+                      key={String(number) + "-" + index}
+                      className="p-3 bg-surface border border-line rounded-xl flex items-center justify-center text-center font-mono text-base font-black text-ink tabular-nums shadow-sm min-h-[52px]"
+                    >
+                      {formatNumber(number)}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center text-center py-16 px-4 my-auto">
+                  <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold text-xl mb-3">
+                    #
+                  </div>
+                  <strong className="text-sm font-bold text-ink block">Your numbers will appear here</strong>
+                  <span className="text-[11px] text-muted block max-w-[260px] mt-1">
+                    Set your custom range and criteria on the left, then generate.
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* METRICS FOOTER */}
+            <div className="grid grid-cols-3 gap-2.5 pt-4 border-t border-line mt-auto">
+              <div className="p-3 bg-surface border border-line rounded-xl text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-muted block">Minimum</span>
+                <strong className="text-xs font-black text-ink mt-1 block tabular-nums">
+                  {formatNumber(Number.isFinite(numericInfo.min) ? numericInfo.min : 0)}
+                </strong>
+              </div>
+              <div className="p-3 bg-surface border border-line rounded-xl text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-muted block">Maximum</span>
+                <strong className="text-xs font-black text-ink mt-1 block tabular-nums">
+                  {formatNumber(Number.isFinite(numericInfo.max) ? numericInfo.max : 0)}
+                </strong>
+              </div>
+              <div className="p-3 bg-surface border border-line rounded-xl text-center">
+                <span className="text-[9px] font-black uppercase tracking-wider text-muted block">Mode</span>
+                <strong className="text-xs font-black text-ink mt-1 block">
+                  {unique && !allowDuplicates ? "Unique" : "Standard"}
+                </strong>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 mt-3 text-[10px] text-muted font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              <span>Generated locally in your browser.</span>
+            </div>
+
+          </div>
+        </div>
+
       </div>
-    </>
+    </div>
   );
 }

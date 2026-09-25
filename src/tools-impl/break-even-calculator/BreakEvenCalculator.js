@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Target, DollarSign, Package, TrendingUp, AlertTriangle, Briefcase, Activity, PieChart, ArrowUpRight } from "lucide-react";
+import { 
+  Target, DollarSign, Package, TrendingUp, 
+  AlertTriangle, Briefcase, Activity, PieChart, 
+  ArrowUpRight, Copy, Check 
+} from "lucide-react";
 
 const CURRENCIES = [
   { code: 'USD', symbol: '$', locale: 'en-US' },
@@ -22,15 +26,15 @@ const formatCurrency = (val, currencyCode, locale) => {
   }).format(val || 0);
 };
 
-// ✅ BULLETPROOF EXPORT FUNCTION (Fixes HMR Object Error)
 export default function BreakEvenCalculator() {
   const [isMounted, setIsMounted] = useState(false);
   const [currency, setCurrency] = useState(CURRENCIES[0]);
   const [showAdvanced, setShowAdvanced] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   // Core Inputs
-  const [fixedCosts, setFixedCosts] = useState("5000"); // Rent, Salaries, Insurance
-  const [variableCost, setVariableCost] = useState("20"); // Materials, Direct Labor per unit
+  const [fixedCosts, setFixedCosts] = useState("5000"); 
+  const [variableCost, setVariableCost] = useState("20"); 
   const [pricePerUnit, setPricePerUnit] = useState("50"); 
   
   // Advanced Pro Inputs
@@ -60,7 +64,6 @@ export default function BreakEvenCalculator() {
 
     const contributionMargin = price - vc;
     
-    // Impossible Scenario: Price is less than or equal to Variable Cost
     if (price <= 0 || contributionMargin <= 0) {
         setResults({
             contributionMargin,
@@ -101,184 +104,245 @@ export default function BreakEvenCalculator() {
     calculateBreakEven();
   }, [calculateBreakEven]);
 
+  const copyResult = async () => {
+    if (results.isImpossible || results.breakEvenUnits <= 0) return;
+    const text = 
+      `Break-Even & Unit Economics Summary\n` +
+      `Break-Even Point: ${results.breakEvenUnits.toLocaleString()} units (${formatCurrency(results.breakEvenRevenue, currency.code, currency.locale)})\n` +
+      (showAdvanced && Number(targetProfit) > 0 ? `Target Profit Goal (${formatCurrency(targetProfit, currency.code, currency.locale)}): ${results.targetUnits.toLocaleString()} units (${formatCurrency(results.targetRevenue, currency.code, currency.locale)})\n\n` : '\n') +
+      `Unit Economics:\n` +
+      `- Contribution Margin: ${formatCurrency(results.contributionMargin, currency.code, currency.locale)}/unit\n` +
+      `- Gross Margin: ${results.grossMarginPct.toFixed(1)}%\n` +
+      `- Markup: ${results.markupPct.toFixed(1)}%`;
+
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      }
+    } catch (error) {
+      setCopied(false);
+    }
+  };
+
   const handleInputChange = (setter) => (e) => {
     setter(e.target.value);
   };
 
-  return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <Activity className="w-6 h-6 text-violet-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">Pro Break-Even Engine</h2>
-        </div>
-        <div className="flex items-center gap-2">
-          <select 
-            value={currency.code}
-            onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
-            className="text-sm font-semibold bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-violet-500 cursor-pointer"
-          >
-            {CURRENCIES.map(c => (
-              <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
-            ))}
-          </select>
-          <button onClick={() => setShowAdvanced(!showAdvanced)} className="flex items-center gap-2 text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-4 py-2 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/30 hover:text-violet-600 transition-colors">
-            <Target className="w-4 h-4" /> {showAdvanced ? "Basic Mode" : "Target Goals"}
-          </button>
-        </div>
-      </div>
+  const baseInputStyle = "w-full min-w-0 h-11 md:h-12 px-3 sm:px-4 bg-surface border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
+  const baseCurrencyInputStyle = "w-full min-w-0 h-11 md:h-12 pl-8 pr-3 bg-surface border border-line rounded-lg text-ink text-sm md:text-base focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
 
-      {results.isImpossible && (
-        <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 p-4 rounded-xl flex items-start md:items-center gap-3 animate-in fade-in">
-          <AlertTriangle className="w-6 h-6 text-rose-500 flex-shrink-0" />
-          <div className="flex flex-col">
-            <h4 className="text-sm font-bold text-rose-700 dark:text-rose-400">Critical Pricing Error Detected</h4>
-            <p className="text-xs font-medium text-rose-600 dark:text-rose-300">
-              Your Variable Cost per unit is higher than or equal to your Selling Price. You lose money on every sale. Break-even is mathematically impossible until you raise the price or lower costs.
-            </p>
+  return (
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
+      
+      {/* MAIN WRAPPER SHELL */}
+      <div className="rounded-xl border border-line bg-surface shadow-card p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 min-w-0">
+        
+        {/* HEADER BAR */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Activity className="w-6 h-6 md:w-7 md:h-7 text-brand shrink-0" />
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-ink truncate">
+              Pro Break-Even Engine
+            </h2>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 md:gap-3 shrink-0">
+            <select 
+              value={currency.code}
+              onChange={(e) => setCurrency(CURRENCIES.find(c => c.code === e.target.value))}
+              className="h-10 md:h-11 pl-3 md:pl-4 pr-8 bg-surface border border-line rounded-lg text-ink text-xs md:text-sm font-semibold focus:outline-none focus:border-brand cursor-pointer"
+            >
+              {CURRENCIES.map(c => (
+                <option key={c.code} value={c.code}>{c.code} ({c.symbol})</option>
+              ))}
+            </select>
+            <button 
+              type="button" 
+              onClick={() => setShowAdvanced(!showAdvanced)} 
+              className="flex items-center gap-2 text-xs md:text-sm font-semibold bg-paper border border-line text-ink px-3.5 py-2.5 rounded-lg hover:bg-brand/10 hover:border-brand/30 transition-colors whitespace-nowrap"
+            >
+              <Target className="w-4 h-4 text-brand shrink-0" /> {showAdvanced ? "Basic Mode" : "Target Goals"}
+            </button>
           </div>
         </div>
-      )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
-        
-        {/* Input Column */}
-        <div className="flex flex-col gap-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 md:p-8 rounded-xl shadow-sm space-y-8">
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {results.isImpossible && (
+          <div className="bg-[#fb7185]/10 border border-[#fb7185]/30 p-4 rounded-xl flex items-start gap-3 animate-in fade-in min-w-0">
+            <AlertTriangle className="w-5 h-5 text-[#e11d48] shrink-0 mt-0.5" />
+            <div className="flex flex-col min-w-0">
+              <h4 className="text-sm font-bold text-[#e11d48] truncate">Critical Pricing Error Detected</h4>
+              <p className="text-xs font-medium text-muted leading-relaxed">
+                Your Variable Cost per unit is higher than or equal to your Selling Price. You lose money on every sale. Break-even is mathematically impossible until you raise the price or lower costs.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* MAIN GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,1fr] items-start gap-6 md:gap-8 min-w-0">
+          
+          {/* INPUT FORM PANEL */}
+          <div className="flex flex-col gap-6 md:gap-8 min-w-0">
+            <div className="bg-surface border border-line p-5 md:p-7 rounded-xl space-y-6 md:space-y-8 min-w-0">
               
-              <div className="space-y-3 md:col-span-2">
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                  <Briefcase className="w-4 h-4 text-violet-500"/> Total Fixed Costs
-                </label>
-                <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-violet-500 transition-colors">{currency.symbol}</span>
-                  <input type="number" min="0" value={fixedCosts} onChange={handleInputChange(setFixedCosts)} className="w-full text-3xl font-black pl-10 pr-4 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-slate-800 dark:text-slate-100 transition-shadow" placeholder="e.g. Rent, Salaries" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 min-w-0">
+                <div className="space-y-2 sm:col-span-2 min-w-0">
+                  <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted">
+                    <Briefcase className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0"/> Total Fixed Costs
+                  </label>
+                  <div className="relative group">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                    <input 
+                      type="number" 
+                      min="0" 
+                      value={fixedCosts} 
+                      onChange={handleInputChange(setFixedCosts)} 
+                      className={`${baseCurrencyInputStyle} text-xl md:text-2xl font-black`} 
+                      placeholder="Rent, Salaries" 
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2 min-w-0">
+                  <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted truncate">
+                    <DollarSign className="w-4 h-4 md:w-5 md:h-5 text-teal shrink-0"/> Sell Price (Per Unit)
+                  </label>
+                  <div className="relative group">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                    <input type="number" min="0" value={pricePerUnit} onChange={handleInputChange(setPricePerUnit)} className={baseCurrencyInputStyle} />
+                  </div>
+                </div>
+
+                <div className="space-y-2 min-w-0">
+                  <label className="flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wide text-muted truncate">
+                    <Package className="w-4 h-4 md:w-5 md:h-5 text-[#fb7185] shrink-0"/> Variable Cost (Per Unit)
+                  </label>
+                  <div className="relative group">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                    <input 
+                      type="number" 
+                      min="0" 
+                      value={variableCost} 
+                      onChange={handleInputChange(setVariableCost)} 
+                      className={`${baseCurrencyInputStyle} ${results.isImpossible ? 'border-[#fb7185] text-[#e11d48]' : ''}`} 
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <label className="flex items-center justify-between text-sm font-bold text-slate-700 dark:text-slate-200">
-                   <span className="flex items-center gap-2"><DollarSign className="w-4 h-4 text-emerald-500"/> Sell Price (Per Unit)</span>
-                </label>
-                <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-emerald-500 transition-colors">{currency.symbol}</span>
-                  <input type="number" min="0" value={pricePerUnit} onChange={handleInputChange(setPricePerUnit)} className="w-full text-xl font-bold pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-800 dark:text-slate-100 transition-shadow" />
+              {showAdvanced && (
+                <div className="pt-6 border-t border-line space-y-4 animate-in fade-in slide-in-from-top-2 min-w-0">
+                  <div className="flex items-center justify-between min-w-0">
+                     <h3 className="text-xs font-black text-muted uppercase tracking-widest flex items-center gap-1.5 truncate">
+                       <Target className="w-4 h-4 text-brand shrink-0"/> Pro Goal Modeling
+                     </h3>
+                     <span className="text-[10px] text-brand bg-brand/10 px-2 py-0.5 rounded font-bold uppercase tracking-wider shrink-0">Scaling</span>
+                  </div>
+                  
+                  <div className="space-y-2 min-w-0">
+                    <label className="text-xs sm:text-sm font-bold uppercase tracking-wide text-muted block truncate">Desired Target Profit</label>
+                    <div className="relative group">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-muted pointer-events-none">{currency.symbol}</span>
+                      <input type="number" min="0" value={targetProfit} onChange={handleInputChange(setTargetProfit)} className={baseCurrencyInputStyle} placeholder="10000" />
+                    </div>
+                    <p className="text-[10px] text-muted font-medium leading-relaxed">Find out exactly how many units you need to sell to hit this profit target after covering all fixed costs.</p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="space-y-3">
-                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
-                  <Package className="w-4 h-4 text-rose-500"/> Variable Cost (Per Unit)
-                </label>
-                <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-rose-500 transition-colors">{currency.symbol}</span>
-                  <input type="number" min="0" value={variableCost} onChange={handleInputChange(setVariableCost)} className={`w-full text-xl font-bold pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border rounded-lg focus:outline-none focus:ring-2 transition-shadow ${results.isImpossible ? 'border-rose-300 focus:ring-rose-500 text-rose-700' : 'border-slate-200 dark:border-slate-700 focus:ring-rose-500 text-slate-800 dark:text-slate-100'}`} />
-                </div>
-              </div>
+              )}
 
             </div>
+          </div>
 
-            {showAdvanced && (
-              <div className="pt-6 border-t border-slate-100 dark:border-slate-800 space-y-4 animate-in fade-in slide-in-from-top-2">
-                <div className="flex items-center justify-between">
-                   <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2"><Target className="w-4 h-4 text-indigo-500"/> Pro Goal Modeling</h3>
-                   <span className="text-[10px] text-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Business Scaling</span>
+          {/* OUTPUT DASHBOARD PANEL */}
+          <div className="flex flex-col gap-6 h-full min-w-0">
+            
+            <div className="bg-paper border border-line p-5 md:p-6 rounded-xl shadow-card text-center relative overflow-hidden min-w-0">
+               <div className="flex items-center justify-between border-b border-line pb-4 mb-5 min-w-0">
+                 <h3 className="text-base md:text-lg font-bold text-ink truncate">Break-Even Point</h3>
+                 <button
+                   type="button"
+                   onClick={copyResult}
+                   className="inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-line bg-surface hover:bg-line text-ink text-xs font-semibold transition-colors shrink-0"
+                 >
+                   {copied ? <><Check className="w-3.5 h-3.5 text-teal" /> Copied</> : <><Copy className="w-3.5 h-3.5 text-muted" /> Copy</>}
+                 </button>
+               </div>
+               
+               <div className="z-10 relative my-3 min-w-0">
+                 <h4 className="text-xs font-bold text-muted uppercase tracking-widest mb-1.5 truncate">Zero Profit Point</h4>
+                 <div className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-ink mb-2 truncate">
+                   {isMounted ? results.breakEvenUnits.toLocaleString() : "0"}
+                 </div>
+                 <div className="text-xs font-semibold text-brand uppercase tracking-wider truncate">
+                   Units to Sell
+                 </div>
+               </div>
+
+               <div className="mt-6 mb-2 p-3 bg-surface border border-line rounded-lg flex justify-between items-center min-w-0">
+                   <span className="text-xs font-bold text-muted truncate">Revenue Required</span>
+                   <span className="text-base sm:text-lg font-black text-teal shrink-0 pl-2">{isMounted ? formatCurrency(results.breakEvenRevenue, currency.code, currency.locale) : "$0"}</span>
+               </div>
+            </div>
+
+            {showAdvanced && Number(targetProfit) > 0 && !results.isImpossible && (
+              <div className="bg-brand/10 border border-brand/20 p-5 md:p-6 rounded-xl shadow-card animate-in fade-in zoom-in-95 min-w-0">
+                <div className="flex items-center gap-2 border-b border-brand/20 pb-3 mb-4 min-w-0">
+                    <TrendingUp className="w-5 h-5 text-brand shrink-0" />
+                    <h3 className="base font-bold text-ink truncate">To Hit Target Profit</h3>
                 </div>
                 
-                <div className="space-y-3">
-                  <label className="text-[11px] font-bold uppercase tracking-widest text-slate-500">Desired Target Profit</label>
-                  <div className="relative group">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400 group-focus-within:text-indigo-500 transition-colors">{currency.symbol}</span>
-                    <input type="number" min="0" value={targetProfit} onChange={handleInputChange(setTargetProfit)} className="w-full text-xl font-bold pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800 dark:text-slate-100 transition-shadow" placeholder="E.g. 10000" />
-                  </div>
-                  <p className="text-[10px] text-slate-500 font-medium">Find out exactly how many units you need to sell to hit this profit target after covering all fixed costs.</p>
+                <div className="flex justify-between items-end min-w-0">
+                    <div className="flex flex-col min-w-0 pr-2">
+                        <span className="text-[10px] font-bold text-muted uppercase tracking-widest mb-1 truncate">Target Units</span>
+                        <span className="text-3xl sm:text-4xl font-black text-brand tracking-tight truncate">
+                          {isMounted ? results.targetUnits.toLocaleString() : "0"}
+                        </span>
+                    </div>
+                    <div className="flex flex-col text-right min-w-0">
+                        <span className="text-[10px] font-bold text-teal uppercase tracking-widest mb-1 truncate">Target Revenue</span>
+                        <span className="text-xl sm:text-2xl font-black text-teal truncate">
+                          {isMounted ? formatCurrency(results.targetRevenue, currency.code, currency.locale) : "$0"}
+                        </span>
+                    </div>
                 </div>
               </div>
             )}
 
-          </div>
-        </div>
-
-        {/* Output Dashboard */}
-        <div className="flex flex-col gap-6 h-full sticky top-6">
-          
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl shadow-sm text-center relative overflow-hidden">
-             <div className="z-10 relative">
-               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Break-Even Point (Zero Profit)</h3>
-               <div className="text-6xl md:text-7xl font-black tracking-tighter text-white mb-2">
-                 {isMounted ? results.breakEvenUnits.toLocaleString() : "0"}
-               </div>
-               <div className="text-sm font-semibold text-violet-400 uppercase tracking-widest">
-                 Units to Sell
-               </div>
-             </div>
-
-             <div className="mt-8 mb-2 p-3 bg-slate-800/50 border border-slate-700/50 rounded-lg flex justify-between items-center">
-                 <span className="text-xs font-bold text-slate-300 uppercase">Revenue Required</span>
-                 <span className="text-xl font-black text-emerald-400">{isMounted ? formatCurrency(results.breakEvenRevenue, currency.code, currency.locale) : "$0"}</span>
-             </div>
-          </div>
-
-          {showAdvanced && Number(targetProfit) > 0 && !results.isImpossible && (
-            <div className="bg-gradient-to-br from-indigo-900 to-slate-900 border border-indigo-800/50 p-6 rounded-xl shadow-sm animate-in fade-in zoom-in-95">
-              <div className="flex items-center gap-2 border-b border-indigo-800/50 pb-3 mb-4">
-                  <TrendingUp className="w-5 h-5 text-indigo-400" />
-                  <h3 className="font-semibold text-white">To Hit Target Profit</h3>
+            <div className="bg-paper border border-line p-5 md:p-6 rounded-xl shadow-card min-w-0">
+              <div className="flex items-center gap-2 border-b border-line pb-3.5 mb-4 min-w-0">
+                  <PieChart className="w-4 h-4 md:w-5 md:h-5 text-brand shrink-0" />
+                  <h3 className="text-sm md:text-base font-bold text-ink truncate">Unit Economics & Margins</h3>
               </div>
               
-              <div className="flex justify-between items-end mb-4">
-                  <div className="flex flex-col">
-                      <span className="text-[10px] font-bold text-indigo-400/70 uppercase tracking-widest mb-1">Target Units</span>
-                      <span className="text-4xl font-black text-indigo-400 tracking-tighter">
-                        {isMounted ? results.targetUnits.toLocaleString() : "0"}
-                      </span>
-                  </div>
-                  <div className="flex flex-col text-right">
-                      <span className="text-[10px] font-bold text-emerald-400/70 uppercase tracking-widest mb-1">Target Revenue</span>
-                      <span className="text-2xl font-black text-emerald-400">
-                        {isMounted ? formatCurrency(results.targetRevenue, currency.code, currency.locale) : "$0"}
-                      </span>
-                  </div>
+              <div className="space-y-3 min-w-0">
+                 <div className="flex justify-between items-center p-3 rounded-lg bg-surface border border-line min-w-0">
+                     <div className="flex flex-col min-w-0 pr-2">
+                         <span className="text-xs font-black text-ink uppercase truncate">Contribution Margin</span>
+                         <span className="text-[10px] font-bold text-muted mt-0.5 truncate">Profit per unit before fixed costs</span>
+                     </div>
+                     <span className="text-base sm:text-lg font-black text-teal shrink-0">
+                        {isMounted ? formatCurrency(results.contributionMargin, currency.code, currency.locale) : "$0"}
+                     </span>
+                 </div>
+                 
+                 <div className="grid grid-cols-2 gap-3 min-w-0">
+                     <div className="flex flex-col items-center p-3 rounded-lg bg-surface border border-line min-w-0">
+                         <span className="text-[10px] font-bold uppercase text-muted mb-1 truncate">Gross Margin</span>
+                         <span className="text-lg sm:text-xl font-black text-ink truncate">
+                            {isMounted ? results.grossMarginPct.toFixed(1) : "0"}%
+                         </span>
+                     </div>
+                     <div className="flex flex-col items-center p-3 rounded-lg bg-surface border border-line min-w-0">
+                         <span className="text-[10px] font-bold uppercase text-muted mb-1 truncate">Markup</span>
+                         <span className="text-lg sm:text-xl font-black text-ink flex items-center justify-center gap-1 truncate">
+                            {isMounted ? results.markupPct.toFixed(1) : "0"}% <ArrowUpRight className="w-3.5 h-3.5 text-teal shrink-0"/>
+                         </span>
+                     </div>
+                 </div>
               </div>
             </div>
-          )}
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-6 rounded-xl shadow-sm">
-            <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-4 mb-4">
-                <PieChart className="w-5 h-5 text-sky-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Unit Economics & Margins</h3>
-            </div>
-            
-            <div className="space-y-3">
-               <div className="flex justify-between items-center p-3 rounded-lg bg-sky-50 dark:bg-sky-900/10 border border-sky-100 dark:border-sky-900/30">
-                   <div className="flex flex-col">
-                       <span className="text-xs font-black text-sky-700 dark:text-sky-400 uppercase">Contribution Margin</span>
-                       <span className="text-[10px] font-bold text-slate-400 mt-0.5">Profit per unit before fixed costs</span>
-                   </div>
-                   <span className="text-lg font-black text-sky-600 dark:text-sky-300">
-                      {isMounted ? formatCurrency(results.contributionMargin, currency.code, currency.locale) : "$0"}
-                   </span>
-               </div>
-               
-               <div className="grid grid-cols-2 gap-3">
-                   <div className="flex flex-col items-center p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
-                       <span className="text-[10px] font-bold uppercase text-slate-500 mb-1">Gross Margin</span>
-                       <span className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-1">
-                          {isMounted ? results.grossMarginPct.toFixed(1) : "0"}%
-                       </span>
-                   </div>
-                   <div className="flex flex-col items-center p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
-                       <span className="text-[10px] font-bold uppercase text-slate-500 mb-1">Markup</span>
-                       <span className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-1">
-                          {isMounted ? results.markupPct.toFixed(1) : "0"}% <ArrowUpRight className="w-4 h-4 text-emerald-500"/>
-                       </span>
-                   </div>
-               </div>
-            </div>
           </div>
 
         </div>

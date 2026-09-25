@@ -10,40 +10,32 @@ import {
 export default function CssClampCalculator() {
   const [isMounted, setIsMounted] = useState(false);
 
-  // Core Math States (in Pixels)
-  const [minWidth, setMinWidth] = useState(320); // Mobile
-  const [maxWidth, setMaxWidth] = useState(1280); // Desktop
-  const [minSize, setMinSize] = useState(16); // Font/Space min
-  const [maxSize, setMaxSize] = useState(48); // Font/Space max
+  const [minWidth, setMinWidth] = useState(320);
+  const [maxWidth, setMaxWidth] = useState(1280);
+  const [minSize, setMinSize] = useState(16);
+  const [maxSize, setMaxSize] = useState(48);
   
-  // Advanced States
-  const [rootSize, setRootSize] = useState(16); // Standard Browser Default
-  const [propCategory, setPropCategory] = useState("font-size"); // 'font-size', 'padding', 'margin'
+  const [rootSize, setRootSize] = useState(16);
+  const [propCategory, setPropCategory] = useState("font-size");
 
-  // Live Demo State
-  const [previewWidth, setPreviewWidth] = useState(768); // Starts at iPad size
+  const [previewWidth, setPreviewWidth] = useState(768);
   const [copiedType, setCopiedType] = useState(null);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // --- CORE CLAMP MATH ENGINE ---
   const results = useMemo(() => {
-    // Avoid division by zero
     if (minWidth >= maxWidth) return { error: "Max viewport must be greater than Min viewport." };
 
-    // Convert everything to REM based on Root Size
     const minWRem = minWidth / rootSize;
     const maxWRem = maxWidth / rootSize;
     const minSRem = minSize / rootSize;
     const maxSRem = maxSize / rootSize;
 
-    // The Math: y = mx + c
     const slope = (maxSRem - minSRem) / (maxWRem - minWRem);
     const intersection = -minWRem * slope + minSRem;
 
-    // Formatting values to look clean (max 4 decimal places)
     const formatNum = (num) => Number(num.toFixed(4));
     
     const slopeVw = formatNum(slope * 100);
@@ -51,7 +43,6 @@ export default function CssClampCalculator() {
     const finalMinRem = formatNum(minSRem);
     const finalMaxRem = formatNum(maxSRem);
 
-    // Build the preferred value string
     let preferredVal = "";
     if (intersectRem === 0) {
       preferredVal = `${slopeVw}vw`;
@@ -63,10 +54,8 @@ export default function CssClampCalculator() {
 
     const clampString = `clamp(${finalMinRem}rem, ${preferredVal}, ${finalMaxRem}rem)`;
     
-    // Output Formats
     const rawCSS = `${propCategory}: ${clampString};`;
     
-    // Map property to Tailwind prefix
     let twPrefix = "text";
     if (propCategory === "padding") twPrefix = "p";
     if (propCategory === "margin") twPrefix = "m";
@@ -78,7 +67,6 @@ export default function CssClampCalculator() {
     return { error: null, clampString, rawCSS, tailwindCSS, finalMinRem, finalMaxRem, slopeVw, intersectRem };
   }, [minWidth, maxWidth, minSize, maxSize, rootSize, propCategory]);
 
-  // Live Preview Math Calculation
   const livePreviewPx = useMemo(() => {
     if (previewWidth <= minWidth) return minSize;
     if (previewWidth >= maxWidth) return maxSize;
@@ -95,120 +83,109 @@ export default function CssClampCalculator() {
 
   if (!isMounted) return null;
 
-  // Premium Rose/Violet Theme
-  const theme = {
-    gradient: "from-rose-200 via-violet-100 to-transparent dark:from-rose-900/30 dark:via-violet-900/20",
-    bgIcon: "bg-gradient-to-br from-rose-500 to-violet-600",
-    textPri: "text-rose-600 dark:text-rose-400",
-    textSec: "text-violet-600 dark:text-violet-400",
-    borderLight: "border-rose-200 dark:border-rose-800/50",
-    bgLight: "bg-rose-50 dark:bg-rose-900/20"
-  };
-
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-mono">
+    <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
       
-      {/* Premium Header */}
-      <div className={`flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden transition-colors duration-500 font-sans`}>
-        <div className={`absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl ${theme.gradient} rounded-bl-full -z-10 opacity-70`}></div>
-        <div className="flex items-center gap-4">
-          <div className={`${theme.bgIcon} p-3.5 rounded-2xl shadow-md`}>
-            <Scaling className="w-6 h-6 text-white" />
+      {/* COMPACT SLEEK HEADER BAR */}
+      <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex items-center justify-between gap-3 w-full box-border font-sans">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-brand/10 text-brand shrink-0">
+            <Scaling className="w-5 h-5" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-ink tracking-tight truncate">
               Fluid Clamp Engine
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
-              Responsive Typography & Spacing Math
+            <p className="text-[10px] sm:text-[11px] font-bold text-muted truncate">
+              Responsive typography & spacing math calculator.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,1.1fr] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-4 sm:gap-6 items-start w-full">
         
-        {/* ================= LEFT: MATH CONFIGURATION ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8 font-sans">
+        {/* LEFT: MATH CONFIGURATION */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          <div className="bg-paper border border-line p-4 sm:p-6 rounded-2xl shadow-sm space-y-6 w-full box-border font-sans">
             
             {/* 1. Viewport Bounds */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <Monitor className={`w-3.5 h-3.5 ${theme.textPri}`} /> 1. Viewport Boundaries
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <Monitor className="w-3.5 h-3.5 text-brand" /> 1. Viewport Boundaries
               </h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5"><Smartphone className="w-3.5 h-3.5"/> Min Width (Mobile)</label>
-                  <div className="relative flex items-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus-within:border-rose-500 transition-all overflow-hidden">
-                    <input type="number" value={minWidth} onChange={(e) => setMinWidth(Number(e.target.value))} className="w-full bg-transparent px-4 py-3 text-lg font-bold text-slate-800 dark:text-slate-100 outline-none tabular-nums" />
-                    <span className="pr-4 text-xs font-black text-slate-400">px</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5"><Smartphone className="w-3.5 h-3.5"/> Min Width (Mobile)</label>
+                  <div className="relative flex items-center bg-surface border border-line rounded-xl focus-within:border-brand transition-all overflow-hidden">
+                    <input type="number" value={minWidth} onChange={(e) => setMinWidth(Number(e.target.value))} className="w-full bg-surface px-3.5 py-2.5 text-base font-bold text-ink outline-none tabular-nums" />
+                    <span className="pr-3.5 text-xs font-black text-muted">px</span>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-1.5"><Monitor className="w-3.5 h-3.5"/> Max Width (Desktop)</label>
-                  <div className="relative flex items-center bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus-within:border-rose-500 transition-all overflow-hidden">
-                    <input type="number" value={maxWidth} onChange={(e) => setMaxWidth(Number(e.target.value))} className="w-full bg-transparent px-4 py-3 text-lg font-bold text-slate-800 dark:text-slate-100 outline-none tabular-nums" />
-                    <span className="pr-4 text-xs font-black text-slate-400">px</span>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-muted flex items-center gap-1.5"><Monitor className="w-3.5 h-3.5"/> Max Width (Desktop)</label>
+                  <div className="relative flex items-center bg-surface border border-line rounded-xl focus-within:border-brand transition-all overflow-hidden">
+                    <input type="number" value={maxWidth} onChange={(e) => setMaxWidth(Number(e.target.value))} className="w-full bg-surface px-3.5 py-2.5 text-base font-bold text-ink outline-none tabular-nums" />
+                    <span className="pr-3.5 text-xs font-black text-muted">px</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
             {/* 2. Target Sizes */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <Ruler className={`w-3.5 h-3.5 ${theme.textPri}`} /> 2. Element Sizes
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <Ruler className="w-3.5 h-3.5 text-brand" /> 2. Element Sizes
               </h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Min Size (@ Mobile)</label>
-                  <div className="relative flex items-center bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-200 dark:border-indigo-800/50 rounded-xl focus-within:border-indigo-500 transition-all overflow-hidden">
-                    <input type="number" value={minSize} onChange={(e) => setMinSize(Number(e.target.value))} className="w-full bg-transparent px-4 py-3 text-lg font-bold text-indigo-700 dark:text-indigo-400 outline-none tabular-nums" />
-                    <span className="pr-4 text-xs font-black text-indigo-400 dark:text-indigo-600">px</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-muted">Min Size (@ Mobile)</label>
+                  <div className="relative flex items-center bg-surface border border-line rounded-xl focus-within:border-brand transition-all overflow-hidden">
+                    <input type="number" value={minSize} onChange={(e) => setMinSize(Number(e.target.value))} className="w-full bg-surface px-3.5 py-2.5 text-base font-bold text-ink outline-none tabular-nums" />
+                    <span className="pr-3.5 text-xs font-black text-muted">px</span>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Max Size (@ Desktop)</label>
-                  <div className="relative flex items-center bg-rose-50/50 dark:bg-rose-900/10 border border-rose-200 dark:border-rose-800/50 rounded-xl focus-within:border-rose-500 transition-all overflow-hidden">
-                    <input type="number" value={maxSize} onChange={(e) => setMaxSize(Number(e.target.value))} className="w-full bg-transparent px-4 py-3 text-lg font-bold text-rose-700 dark:text-rose-400 outline-none tabular-nums" />
-                    <span className="pr-4 text-xs font-black text-rose-400 dark:text-rose-600">px</span>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-muted">Max Size (@ Desktop)</label>
+                  <div className="relative flex items-center bg-surface border border-line rounded-xl focus-within:border-brand transition-all overflow-hidden">
+                    <input type="number" value={maxSize} onChange={(e) => setMaxSize(Number(e.target.value))} className="w-full bg-surface px-3.5 py-2.5 text-base font-bold text-ink outline-none tabular-nums" />
+                    <span className="pr-3.5 text-xs font-black text-muted">px</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
             {/* 3. Advanced Context */}
-            <div className="space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 flex items-center gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
-                <Settings2 className={`w-3.5 h-3.5 ${theme.textPri}`} /> 3. Context Settings
+            <div className="space-y-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest text-muted flex items-center gap-1.5 border-b border-line pb-2">
+                <Settings2 className="w-3.5 h-3.5 text-brand" /> 3. Context Settings
               </h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Root Font Size (REM Base)</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-muted">Root Font Size (REM Base)</label>
                   <select 
                     value={rootSize} 
                     onChange={(e) => setRootSize(Number(e.target.value))}
-                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none appearance-none cursor-pointer"
+                    className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none appearance-none cursor-pointer"
                   >
                     <option value="16">16px (Standard Default)</option>
                     <option value="10">10px (62.5% Trick)</option>
                     <option value="14">14px (Tailwind Config)</option>
                   </select>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">CSS Property Type</label>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black uppercase tracking-wider text-muted">CSS Property Type</label>
                   <select 
                     value={propCategory} 
                     onChange={(e) => setPropCategory(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none appearance-none cursor-pointer"
+                    className="w-full bg-surface border border-line rounded-xl px-3.5 py-2.5 text-xs font-bold text-ink outline-none appearance-none cursor-pointer"
                   >
                     <option value="font-size">Font Size (Typography)</option>
                     <option value="padding">Padding (Spacing)</option>
@@ -223,114 +200,106 @@ export default function CssClampCalculator() {
           </div>
         </div>
 
-        {/* ================= RIGHT: PREVIEW & CODE EXPORT ================= */}
-        <div className="space-y-6 sticky top-6">
+        {/* RIGHT: PREVIEW & CODE EXPORT */}
+        <div className="space-y-4 sm:space-y-6 w-full">
           
           {/* THE LIVE INTERACTIVE PREVIEW */}
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col font-sans">
-            <div className="bg-slate-50 dark:bg-[#161b22] rounded-[22px] p-6 h-64 flex flex-col relative overflow-hidden transition-colors duration-500">
-              
-              <div className="flex items-center justify-between mb-4 border-b border-slate-200 dark:border-slate-700/50 pb-3 shrink-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Zap className={`w-4 h-4 ${theme.textPri}`} /> Live Emulator
-                </span>
-                <span className={`text-[9px] font-bold uppercase tracking-widest ${theme.textPri} bg-white dark:bg-[#0d1117] px-2 py-1 rounded shadow-sm border border-slate-100 dark:border-slate-700`}>
-                  Test Scalability
-                </span>
-              </div>
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm space-y-4 w-full box-border font-sans">
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-ink">
+                <Zap className="w-4 h-4 text-brand" /> Live Emulator
+              </span>
+              <span className="text-[9px] font-black uppercase tracking-wider text-brand bg-brand/10 px-2.5 py-1 rounded-xl border border-brand/30">
+                Test Scalability
+              </span>
+            </div>
 
-              {/* Slider for Emulator */}
-              <div className="space-y-2 shrink-0 z-10 relative bg-white dark:bg-[#0d1117] p-3 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-500">
-                  <span>Simulated Screen: <span className="text-rose-500">{previewWidth}px</span></span>
-                  <span>Size: <span className="text-violet-500">{livePreviewPx.toFixed(1)}px</span></span>
-                </div>
-                <input 
-                  type="range" min="200" max="2000" 
-                  value={previewWidth} 
-                  onChange={(e) => setPreviewWidth(Number(e.target.value))} 
-                  className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500" 
-                />
+            <div className="space-y-2 bg-surface p-3.5 rounded-xl border border-line">
+              <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-wider text-muted">
+                <span>Simulated Screen: <span className="text-brand">{previewWidth}px</span></span>
+                <span>Size: <span className="text-ink">{livePreviewPx.toFixed(1)}px</span></span>
               </div>
+              <input 
+                type="range" min="200" max="2000" 
+                value={previewWidth} 
+                onChange={(e) => setPreviewWidth(Number(e.target.value))} 
+                className="w-full h-2 bg-line rounded-lg appearance-none cursor-pointer accent-brand" 
+              />
+            </div>
 
-              {/* Simulated Output Area */}
-              <div className="flex-1 flex items-center justify-center mt-4 relative w-full overflow-hidden">
-                <div 
-                  className="bg-indigo-100 dark:bg-indigo-900/30 border-2 border-indigo-200 dark:border-indigo-700/50 rounded-2xl flex items-center justify-center transition-all shadow-inner overflow-hidden whitespace-nowrap"
-                  style={{
-                    width: propCategory === 'width' ? `${livePreviewPx}px` : '100%',
-                    padding: propCategory === 'padding' ? `${livePreviewPx}px` : '16px',
+            <div className="h-40 sm:h-48 flex items-center justify-center relative w-full overflow-hidden bg-surface rounded-xl border border-line p-4">
+              <div 
+                className="bg-brand/10 border border-brand/30 rounded-xl flex items-center justify-center transition-all shadow-sm overflow-hidden whitespace-nowrap"
+                style={{
+                  width: propCategory === 'width' ? `${Math.min(livePreviewPx, 300)}px` : '100%',
+                  padding: propCategory === 'padding' ? `${Math.min(livePreviewPx, 24)}px` : '12px',
+                }}
+              >
+                <span 
+                  className="font-black text-ink"
+                  style={{ 
+                    fontSize: propCategory === 'font-size' ? `${Math.min(livePreviewPx, 36)}px` : '16px',
+                    letterSpacing: '-0.02em'
                   }}
                 >
-                  <span 
-                    className="font-black text-indigo-900 dark:text-indigo-200"
-                    style={{ 
-                      fontSize: propCategory === 'font-size' ? `${livePreviewPx}px` : '20px',
-                      letterSpacing: '-0.02em'
-                    }}
-                  >
-                    Fluid Text
-                  </span>
-                </div>
+                  Fluid Text
+                </span>
               </div>
-
             </div>
           </div>
 
           {/* CODE EXPORT DASHBOARD */}
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col font-sans">
-            <div className="bg-white dark:bg-[#161b22] rounded-[22px] p-5 relative overflow-hidden">
-              <div className="flex items-center justify-between mb-4 border-b border-slate-200 dark:border-slate-700/50 pb-3 shrink-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Code2 className={`w-4 h-4 ${theme.textPri}`} /> Generated CSS Code
-                </span>
-              </div>
-
-              {results.error ? (
-                <div className="p-4 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 text-sm font-bold rounded-xl border border-rose-200 dark:border-rose-800">
-                  Error: {results.error}
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {/* Tailwind Arbitrary */}
-                  <div className="flex flex-col bg-rose-50 dark:bg-rose-900/10 border border-rose-200 dark:border-rose-800/50 rounded-xl overflow-hidden shadow-sm">
-                    <div className="flex justify-between items-center px-4 py-2.5 bg-rose-100/50 dark:bg-rose-900/30 border-b border-rose-200 dark:border-rose-800/50">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-400 flex items-center gap-1.5"><Scaling className="w-3 h-3"/> Tailwind JIT Class</span>
-                      <button onClick={() => handleCopy(results.tailwindCSS, 'tailwind')} className="text-rose-400 hover:text-rose-600 dark:hover:text-rose-300 transition-colors">
-                        {copiedType === 'tailwind' ? <CheckCircle2 className="w-4 h-4"/> : <Copy className="w-4 h-4"/>}
-                      </button>
-                    </div>
-                    <div className="p-3">
-                      <pre className="text-xs break-all text-rose-900 dark:text-rose-200 leading-relaxed font-mono m-0 whitespace-pre-wrap">
-                        <code>{results.tailwindCSS}</code>
-                      </pre>
-                    </div>
-                  </div>
-
-                  {/* Standard CSS */}
-                  <div className="flex flex-col bg-slate-50 dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-                    <div className="flex justify-between items-center px-4 py-2.5 bg-slate-100/50 dark:bg-[#1f2937]/50 border-b border-slate-200 dark:border-slate-800">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Standard CSS Value</span>
-                      <button onClick={() => handleCopy(results.rawCSS, 'css')} className="text-slate-400 hover:text-rose-500 transition-colors">
-                        {copiedType === 'css' ? <CheckCircle2 className="w-4 h-4 text-rose-500"/> : <Copy className="w-4 h-4"/>}
-                      </button>
-                    </div>
-                    <div className="p-3">
-                      <pre className="text-xs break-all text-slate-800 dark:text-slate-300 leading-relaxed font-mono m-0 whitespace-pre-wrap">
-                        <code>{results.rawCSS}</code>
-                      </pre>
-                    </div>
-                  </div>
-                  
-                  {/* Math Insight */}
-                  <div className="flex items-center justify-between px-3 py-2 bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 rounded-lg text-[9px] font-black uppercase tracking-widest text-slate-400">
-                     <span>Slope: <span className="text-slate-600 dark:text-slate-300">{results.slopeVw}vw</span></span>
-                     <span>Intersect: <span className="text-slate-600 dark:text-slate-300">{results.intersectRem}rem</span></span>
-                  </div>
-                </div>
-              )}
-
+          <div className="bg-paper border border-line p-4 sm:p-5 rounded-2xl shadow-sm space-y-4 w-full box-border font-sans">
+            <div className="flex items-center justify-between border-b border-line pb-3">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-ink">
+                <Code2 className="w-4 h-4 text-brand" /> Generated CSS Code
+              </span>
             </div>
+
+            {results.error ? (
+              <div className="p-3.5 bg-[#fb7185]/10 text-[#fb7185] text-xs font-bold rounded-xl border border-[#fb7185]/30">
+                Error: {results.error}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {/* Tailwind Arbitrary */}
+                <div className="flex flex-col bg-brand/10 border border-brand/30 rounded-xl overflow-hidden shadow-sm">
+                  <div className="flex justify-between items-center px-3.5 py-2.5 bg-brand/10 border-b border-brand/30">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-brand flex items-center gap-1.5"><Scaling className="w-3 h-3"/> Tailwind JIT Class</span>
+                    <button type="button" onClick={() => handleCopy(results.tailwindCSS, 'tailwind')} className="text-brand hover:opacity-80 transition-opacity p-1">
+                      {copiedType === 'tailwind' ? <CheckCircle2 className="w-3.5 h-3.5"/> : <Copy className="w-3.5 h-3.5"/>}
+                    </button>
+                  </div>
+                  <div className="p-3.5">
+                    <pre className="text-xs break-all text-ink leading-relaxed font-mono m-0 whitespace-pre-wrap tabular-nums">
+                      <code>{results.tailwindCSS}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                {/* Standard CSS */}
+                <div className="flex flex-col bg-surface border border-line rounded-xl overflow-hidden shadow-sm">
+                  <div className="flex justify-between items-center px-3.5 py-2.5 bg-surface border-b border-line">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-muted">Standard CSS Value</span>
+                    <button type="button" onClick={() => handleCopy(results.rawCSS, 'css')} className="text-muted hover:text-brand transition-colors p-1">
+                      {copiedType === 'css' ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500"/> : <Copy className="w-3.5 h-3.5"/>}
+                    </button>
+                  </div>
+                  <div className="p-3.5">
+                    <pre className="text-xs break-all text-ink leading-relaxed font-mono m-0 whitespace-pre-wrap tabular-nums">
+                      <code>{results.rawCSS}</code>
+                    </pre>
+                  </div>
+                </div>
+                
+                {/* Math Insight */}
+                <div className="flex items-center justify-between px-3.5 py-2.5 bg-surface border border-line rounded-xl text-[9px] font-black uppercase tracking-wider text-muted">
+                   <span>Slope: <span className="text-ink">{results.slopeVw}vw</span></span>
+                   <span>Intersect: <span className="text-ink">{results.intersectRem}rem</span></span>
+                </div>
+              </div>
+            )}
+
           </div>
 
         </div>

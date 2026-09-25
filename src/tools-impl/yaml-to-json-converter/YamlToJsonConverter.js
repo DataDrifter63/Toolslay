@@ -16,7 +16,7 @@ database:
   nodes:
     - 192.168.1.1
     - 192.168.1.2
-  
+ 
 metrics:
   enabled: false`;
 
@@ -32,7 +32,6 @@ export default function YamlToJsonConverter() {
   const [copiedState, setCopiedState] = useState(false);
   const [showSettings, setShowSettings] = useState(true);
 
-  // Hydration safety
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -46,13 +45,11 @@ export default function YamlToJsonConverter() {
 
     try {
       if (mode === "yaml-to-json") {
-        // Parse YAML, convert to JSON
         const parsedObj = yaml.load(input);
         if (typeof parsedObj !== 'object' || parsedObj === null) {
             throw new Error("Invalid YAML structure (must be an object or array)");
         }
 
-        // Handle Key Sorting manually for JSON if enabled
         let finalObj = parsedObj;
         if (sortKeys) {
             const sortObject = (obj) => {
@@ -68,18 +65,16 @@ export default function YamlToJsonConverter() {
 
         setOutput(JSON.stringify(finalObj, null, indentSize));
       } else {
-        // Parse JSON, convert to YAML
         const parsedObj = JSON.parse(input);
         const yamlStr = yaml.dump(parsedObj, {
             indent: indentSize,
-            sortKeys: sortKeys, // js-yaml handles sorting natively for YAML
-            lineWidth: -1 // Disable line wrapping
+            sortKeys: sortKeys,
+            lineWidth: -1
         });
         setOutput(yamlStr);
       }
       setErrorMsg(null);
     } catch (err) {
-      // Clean error messages for better UI
       const cleanError = err.message.replace(/^YAMLException:\s*/, '');
       setErrorMsg(cleanError);
       setOutput("");
@@ -89,6 +84,12 @@ export default function YamlToJsonConverter() {
   useEffect(() => {
     processData();
   }, [processData]);
+
+  const handleClear = () => {
+    setInput("");
+    setOutput("");
+    setErrorMsg(null);
+  };
 
   const handleCopy = async () => {
     if (!output) return;
@@ -100,7 +101,6 @@ export default function YamlToJsonConverter() {
   };
 
   const handleModeSwitch = () => {
-    // If output is valid, flip the panes for seamless bi-directional editing
     if (!errorMsg && output) {
         setInput(output);
     }
@@ -111,137 +111,173 @@ export default function YamlToJsonConverter() {
   const outputSize = isMounted && output ? new Blob([output]).size : 0;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
       
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">
-        <div className="flex items-center gap-3">
-          <FileJson className="w-6 h-6 text-sky-500" />
-          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-200">YAML ⇄ JSON Converter</h2>
-          <span className="bg-sky-50 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 text-xs font-bold px-3 py-1 rounded-full uppercase hidden sm:block">Pro Utility</span>
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-2 text-sm font-semibold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-sky-500 hover:text-sky-600 transition-all">
-            <Settings2 className="w-4 h-4" /> {showSettings ? "Hide Settings" : "Show Settings"}
-          </button>
-          <button onClick={handleCopy} disabled={!!errorMsg || !output} className="flex items-center gap-2 text-sm font-semibold bg-sky-600 disabled:bg-slate-400 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-sky-700 transition-colors">
-            {copiedState ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />} {copiedState ? "Copied!" : "Copy Output"}
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,auto] gap-6 items-start">
+      {/* HEADER BAR */}
+      <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow min-h-[600px] h-[75vh]">
-          
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden flex flex-col h-full shadow-sm">
-            <div className="bg-slate-50 dark:bg-slate-800 px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">
-                  {mode === "yaml-to-json" ? "Raw YAML Input" : "Raw JSON Input"}
-              </label>
-              <div className="flex gap-1">
-                <button onClick={() => setInput("")} className="p-1.5 text-slate-500 hover:text-red-600 rounded transition-colors" title="Clear Code"><Trash2 className="w-4 h-4"/></button>
-                <button onClick={processData} className="p-1.5 text-slate-500 hover:text-sky-600 rounded transition-colors" title="Process Again"><RotateCcw className="w-4 h-4"/></button>
-              </div>
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 min-w-0">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-brand/10 text-brand text-xl font-black shrink-0">
+              <FileJson className="w-6 h-6" />
             </div>
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={mode === "yaml-to-json" ? "Paste YAML here..." : "Paste JSON here..."}
-              className="w-full h-full flex-grow p-4 bg-transparent text-sm font-mono text-slate-800 dark:text-slate-200 resize-none focus:outline-none focus:ring-2 focus:ring-sky-500"
-              spellCheck="false"
-            />
-          </div>
-          
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden flex flex-col h-full shadow-sm relative">
-            <div className="bg-slate-50 dark:bg-slate-800 px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                {mode === "yaml-to-json" ? "JSON Output" : "YAML Output"}
-              </label>
-              <div className="flex gap-1 pr-1">
-                 {errorMsg && (
-                   <span className="text-xs text-red-600 font-bold flex items-center gap-1 bg-red-50 px-2 py-1 rounded-md border border-red-200"><AlertTriangle className="w-3.5 h-3.5" /> Syntax Error</span>
-                 )}
-              </div>
-            </div>
-            
-            {errorMsg && (
-              <div className="bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-900/50 p-3 text-xs font-mono text-red-700 dark:text-red-400 whitespace-pre-wrap overflow-x-auto">
-                <strong>Error Details:</strong> {errorMsg}
-              </div>
-            )}
 
-            <textarea
-              readOnly
-              value={output}
-              placeholder="Converted result will appear here..."
-              className={`w-full h-full flex-grow p-4 text-sm font-mono resize-none focus:outline-none ${errorMsg ? 'bg-red-50/30 dark:bg-red-900/10 text-red-900 dark:text-red-200' : 'bg-slate-50/50 dark:bg-slate-800/30 text-slate-800 dark:text-slate-200'}`}
-            />
+            <div className="min-w-0">
+              <div className="text-[10px] font-black tracking-widest text-brand uppercase mb-1">
+                WEB DEVELOPMENT UTILITY
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
+                YAML ⇄ JSON Converter
+              </h2>
+              <p className="text-[11px] font-bold text-muted mt-0.5 truncate">
+                Convert back and forth between YAML and JSON formats seamlessly.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <button 
+              type="button"
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-line bg-paper text-ink hover:border-brand text-xs font-black uppercase tracking-wider transition-all"
+            >
+              <Settings2 className="w-4 h-4 text-brand" /> {showSettings ? "Hide Settings" : "Show Settings"}
+            </button>
+            <button 
+              type="button"
+              onClick={handleCopy} 
+              disabled={!!errorMsg || !output}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand disabled:opacity-50 text-surface hover:opacity-95 text-xs font-black uppercase tracking-wider transition-opacity shadow-sm"
+            >
+              {copiedState ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />} {copiedState ? "Copied!" : "Copy Output"}
+            </button>
           </div>
         </div>
 
-        {showSettings && (
-          <div className="space-y-6 lg:w-72 lg:max-w-72 flex flex-col h-full">
+        {/* WORK AREA GRID */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-start min-w-0">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow min-h-[500px] sm:min-h-[600px] h-[75vh] min-w-0">
             
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <ArrowRightLeft className="w-5 h-5 text-sky-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Conversion Mode</h3>
-              </div>
-              
-              <button 
-                onClick={handleModeSwitch}
-                className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 py-2.5 rounded-lg font-bold transition-colors border border-slate-200 dark:border-slate-600 text-sm"
-              >
-                {mode === "yaml-to-json" ? "YAML ➔ JSON" : "JSON ➔ YAML"}
-                <RotateCcw className="w-4 h-4 ml-1 opacity-50" />
-              </button>
-
-              <div className="pt-3">
-                <label className="block text-xs font-semibold text-slate-500 mb-2">Indentation Size</label>
-                <select value={indentSize} onChange={(e) => setIndentSize(Number(e.target.value))} className="w-full text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md py-2 px-3 outline-none focus:ring-1 focus:ring-sky-500">
-                  <option value={2}>2 Spaces</option>
-                  <option value={4}>4 Spaces</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <ListOrdered className="w-5 h-5 text-indigo-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Pro Formatting</h3>
-              </div>
-              
-              <div className="space-y-3">
-                <label className="flex items-center gap-3 cursor-pointer p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                  <input type="checkbox" checked={sortKeys} onChange={(e) => setSortKeys(e.target.checked)} className="w-4 h-4 rounded text-sky-600 focus:ring-sky-500" />
-                  <div className="flex flex-col">
-                    <span className="text-sm font-semibold">Alphabetical Sorting</span>
-                    <span className="text-xs text-slate-400">Sorts object keys alphabetically (A-Z)</span>
-                  </div>
+            {/* Input Panel */}
+            <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col h-full min-w-0">
+              <div className="bg-surface px-4 py-3 border-b border-line flex items-center justify-between min-w-0">
+                <label className="text-xs font-black text-ink uppercase tracking-wider">
+                  {mode === "yaml-to-json" ? "Raw YAML Input" : "Raw JSON Input"}
                 </label>
+                <div className="flex gap-1">
+                  <button type="button" onClick={handleClear} className="p-1.5 text-muted hover:text-[#fb7185] hover:bg-paper rounded-xl transition-colors" title="Clear Code"><Trash2 className="w-4 h-4"/></button>
+                  <button type="button" onClick={processData} className="p-1.5 text-muted hover:text-brand hover:bg-paper rounded-xl transition-colors" title="Process Again"><RotateCcw className="w-4 h-4"/></button>
+                </div>
               </div>
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={mode === "yaml-to-json" ? "Paste YAML here..." : "Paste JSON here..."}
+                className="w-full h-full flex-grow p-4 bg-surface border-0 text-xs sm:text-sm font-mono leading-relaxed text-ink outline-none resize-none tabular-nums"
+                spellCheck="false"
+              />
             </div>
-
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm space-y-4">
-              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                <BarChart3 className="w-5 h-5 text-emerald-500" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-200">Data Statistics</h3>
+            
+            {/* Output Panel */}
+            <div className="bg-paper border border-line rounded-2xl overflow-hidden flex flex-col h-full min-w-0">
+              <div className="bg-surface px-4 py-3 border-b border-line flex items-center justify-between min-w-0">
+                <label className="text-xs font-black text-ink uppercase tracking-wider">
+                  {mode === "yaml-to-json" ? "JSON Output" : "YAML Output"}
+                </label>
+                <div className="flex gap-1 pr-1">
+                   {errorMsg && (
+                     <span className="text-[10px] text-[#fb7185] font-black uppercase tracking-wider flex items-center gap-1 bg-[#fb7185]/10 px-2.5 py-1 rounded-xl border border-[#fb7185]/30"><AlertTriangle className="w-3.5 h-3.5" /> Syntax Error</span>
+                   )}
+                </div>
               </div>
               
-              <div className="flex flex-col gap-3">
-                <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
-                  <span className="text-sm font-medium text-slate-500">Input Size</span>
-                  <span className="font-bold">{(inputSize / 1024).toFixed(2)} KB</span>
+              {errorMsg && (
+                <div className="bg-[#fb7185]/10 border-b border-[#fb7185]/30 p-3 text-xs font-mono text-[#fb7185] whitespace-pre-wrap overflow-x-auto">
+                  <strong>Error Details:</strong> {errorMsg}
                 </div>
-                <div className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
-                  <span className="text-sm font-medium text-slate-500">Output Size</span>
-                  <span className="font-bold">{(outputSize / 1024).toFixed(2)} KB</span>
+              )}
+
+              <textarea
+                readOnly
+                value={output}
+                placeholder="Converted result will appear here..."
+                className={`w-full h-full flex-grow p-4 border-0 text-xs sm:text-sm font-mono leading-relaxed outline-none resize-none tabular-nums ${errorMsg ? 'bg-[#fb7185]/5 text-[#fb7185]' : 'bg-surface text-muted'}`}
+              />
+            </div>
+          </div>
+
+          {/* SIDEBAR SETTINGS & STATS */}
+          {showSettings && (
+            <div className="space-y-6 lg:w-72 lg:max-w-72 flex flex-col h-full min-w-0">
+              
+              <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+                <div className="flex items-center gap-2 border-b border-line pb-3 min-w-0">
+                  <ArrowRightLeft className="w-5 h-5 text-brand" />
+                  <h3 className="text-xs font-black text-ink uppercase tracking-wider">Conversion Mode</h3>
+                </div>
+                
+                <button 
+                  type="button"
+                  onClick={handleModeSwitch}
+                  className="w-full flex items-center justify-center gap-2 bg-surface hover:opacity-90 text-ink py-2.5 rounded-xl font-black uppercase text-xs tracking-wider transition-all border border-line"
+                >
+                  {mode === "yaml-to-json" ? "YAML ➔ JSON" : "JSON ➔ YAML"}
+                  <RotateCcw className="w-3.5 h-3.5 ml-1 text-muted" />
+                </button>
+
+                <div className="pt-2">
+                  <label className="block text-[10px] font-black text-muted uppercase tracking-wider mb-2">Indentation Size</label>
+                  <select 
+                    value={indentSize} 
+                    onChange={(e) => setIndentSize(Number(e.target.value))}
+                    className="w-full h-11 text-xs font-bold bg-surface border border-line rounded-xl px-3 outline-none cursor-pointer text-ink"
+                  >
+                    <option value={2}>2 Spaces</option>
+                    <option value={4}>4 Spaces</option>
+                  </select>
                 </div>
               </div>
-            </div>
 
-          </div>
-        )}
+              <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+                <div className="flex items-center gap-2 border-b border-line pb-3 min-w-0">
+                  <ListOrdered className="w-5 h-5 text-brand" />
+                  <h3 className="text-xs font-black text-ink uppercase tracking-wider">Pro Formatting</h3>
+                </div>
+                
+                <div className="space-y-2.5">
+                  <label className="flex items-center gap-3 cursor-pointer group bg-surface p-3 rounded-xl border border-line hover:border-brand/50 transition-all select-none">
+                    <input type="checkbox" checked={sortKeys} onChange={(e) => setSortKeys(e.target.checked)} className="w-4 h-4 accent-brand rounded border-line" />
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-xs font-black text-ink uppercase tracking-wider truncate">Alphabetical Sorting</span>
+                      <span className="text-[10px] font-medium text-muted mt-0.5 truncate">Sorts object keys alphabetically (A-Z)</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div className="bg-paper border border-line p-5 rounded-2xl space-y-4 min-w-0">
+                <div className="flex items-center gap-2 border-b border-line pb-3 min-w-0">
+                  <BarChart3 className="w-5 h-5 text-emerald-500" />
+                  <h3 className="text-xs font-black text-ink uppercase tracking-wider">Data Statistics</h3>
+                </div>
+                
+                <div className="flex flex-col gap-3">
+                  <div className="flex justify-between items-center p-3 bg-surface border border-line rounded-xl text-xs font-bold">
+                    <span className="text-muted uppercase tracking-wider text-[10px]">Input Size</span>
+                    <span className="font-mono text-ink">{(inputSize / 1024).toFixed(2)} KB</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-surface border border-line rounded-xl text-xs font-bold">
+                    <span className="text-muted uppercase tracking-wider text-[10px]">Output Size</span>
+                    <span className="font-mono text-ink">{(outputSize / 1024).toFixed(2)} KB</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          )}
+
+        </div>
 
       </div>
     </div>

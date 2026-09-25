@@ -8,7 +8,6 @@ import {
   CalendarCheck2, PieChart
 } from "lucide-react";
 
-// Helper for local date string YYYY-MM-DD to prevent timezone shifts
 const getLocalDateString = (date) => {
   const d = new Date(date);
   const year = d.getFullYear();
@@ -30,15 +29,11 @@ const WEEKDAYS = [
 export default function WorkDaysCalculator() {
   const [isMounted, setIsMounted] = useState(false);
   
-  // State
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [includeEndDate, setIncludeEndDate] = useState(true);
-  
-  // Array of day IDs that are considered weekends (default Sat:6, Sun:0)
   const [weekendDays, setWeekendDays] = useState([6, 0]); 
   
-  // Custom Holidays
   const [holidays, setHolidays] = useState([]);
   const [holidayInput, setHolidayInput] = useState("");
 
@@ -61,7 +56,6 @@ export default function WorkDaysCalculator() {
   const addHoliday = () => {
     if (!holidayInput) return;
     if (!holidays.includes(holidayInput)) {
-      // Sort holidays chronologically
       const newHolidays = [...holidays, holidayInput].sort((a, b) => new Date(a) - new Date(b));
       setHolidays(newHolidays);
     }
@@ -72,14 +66,12 @@ export default function WorkDaysCalculator() {
     setHolidays(prev => prev.filter(h => h !== dateStr));
   };
 
-  // --- CORE ENGINE ---
   const calculations = useMemo(() => {
     if (!startDate || !endDate) return null;
 
     const start = new Date(startDate);
     const end = new Date(endDate);
     
-    // Reset times to midnight for accurate counting
     start.setHours(0, 0, 0, 0);
     end.setHours(0, 0, 0, 0);
 
@@ -109,7 +101,7 @@ export default function WorkDaysCalculator() {
         if (isWeekend) {
           weekendCount++;
         } else if (isHoliday) {
-          holidayCount++; // Only count holiday if it's NOT already a weekend
+          holidayCount++;
         } else {
           businessDays++;
         }
@@ -118,7 +110,6 @@ export default function WorkDaysCalculator() {
       }
     }
 
-    // For Progress Bar Visuals
     const pctBusiness = totalDays > 0 ? (businessDays / totalDays) * 100 : 0;
     const pctWeekend = totalDays > 0 ? (weekendCount / totalDays) * 100 : 0;
     const pctHoliday = totalDays > 0 ? (holidayCount / totalDays) * 100 : 0;
@@ -137,89 +128,81 @@ export default function WorkDaysCalculator() {
 
   if (!isMounted) return null;
 
+  const baseInputStyle = "w-full min-w-0 bg-paper border border-line rounded-xl px-4 py-3 text-xs sm:text-sm font-bold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all uppercase tracking-wider";
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
       
-      {/* Premium Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-6 rounded-2xl shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-indigo-100 via-violet-50 to-transparent dark:from-indigo-900/30 dark:via-violet-900/10 rounded-bl-full -z-10 opacity-70"></div>
-        <div className="flex items-center gap-4">
-          <div className="bg-gradient-to-br from-indigo-500 to-violet-600 p-3.5 rounded-2xl shadow-md">
-            <Briefcase className="w-6 h-6 text-white" />
+      {/* Header */}
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-surface border border-line px-5 sm:px-6 py-5 rounded-2xl shadow-card relative overflow-hidden min-w-0">
+        <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
+          <div className="bg-brand/15 text-brand p-3 rounded-xl shrink-0">
+            <Briefcase className="w-6 h-6" />
           </div>
-          <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">
+          <div className="min-w-0">
+            <h2 className="text-xl sm:text-2xl font-bold text-ink tracking-tight truncate">
               Business Days Calculator
             </h2>
-            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">
+            <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-muted mt-0.5 truncate">
               Enterprise-Grade SLA & Payroll Estimator
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-6 items-start min-w-0">
         
-        {/* ================= LEFT: CONFIGURATION ENGINE ================= */}
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm space-y-8">
+        {/* INPUT CONFIGURATION */}
+        <div className="space-y-6 min-w-0">
+          <div className="bg-surface border border-line p-5 sm:p-8 rounded-2xl shadow-card space-y-6 min-w-0">
             
-            {/* 1. Date Inputs */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-2">
-                  <Calendar className="w-3.5 h-3.5 text-indigo-500" /> Start Date
+            {/* Date Inputs */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+              <div className="min-w-0">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest flex items-center gap-1.5 mb-2 truncate">
+                  <Calendar className="w-3.5 h-3.5 text-brand shrink-0" /> Start Date
                 </label>
-                <input
-                  type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-black text-slate-800 dark:text-slate-100 outline-none focus:border-indigo-500 transition-colors uppercase tracking-wider"
-                />
+                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className={baseInputStyle} />
               </div>
-              <div>
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-2">
-                  <CalendarCheck2 className="w-3.5 h-3.5 text-violet-500" /> End Date
+              <div className="min-w-0">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest flex items-center gap-1.5 mb-2 truncate">
+                  <CalendarCheck2 className="w-3.5 h-3.5 text-brand shrink-0" /> End Date
                 </label>
-                <input
-                  type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-black text-slate-800 dark:text-slate-100 outline-none focus:border-violet-500 transition-colors uppercase tracking-wider"
-                />
+                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className={baseInputStyle} />
               </div>
             </div>
 
             {/* End Date Inclusion Toggle */}
-            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <div>
-                <span className="block text-sm font-bold text-slate-800 dark:text-slate-100">Include End Date</span>
-                <span className="text-[10px] font-medium text-slate-500 block mt-0.5">Count the final day as a working day.</span>
+            <div className="p-4 rounded-xl bg-paper border border-line flex items-center justify-between gap-4 min-w-0">
+              <div className="min-w-0">
+                <span className="block text-xs sm:text-sm font-bold text-ink truncate">Include End Date</span>
+                <span className="text-[10px] font-semibold text-muted block mt-0.5 truncate">Count final day as working day.</span>
               </div>
-              <button 
-                onClick={() => setIncludeEndDate(!includeEndDate)}
-                className={`transition-colors ${includeEndDate ? 'text-indigo-500' : 'text-slate-400'}`}
-              >
-                {includeEndDate ? <ToggleRight className="w-8 h-8" /> : <ToggleLeft className="w-8 h-8" />}
+              <button type="button" onClick={() => setIncludeEndDate(!includeEndDate)} className="text-brand shrink-0">
+                {includeEndDate ? <ToggleRight className="w-9 h-9" /> : <ToggleLeft className="w-9 h-9 text-muted" />}
               </button>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
-            {/* 2. Global Weekend Selector */}
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                  <Settings className="w-3.5 h-3.5" /> Define Weekends
+            {/* Global Weekend Selector */}
+            <div className="min-w-0">
+              <div className="flex items-center justify-between mb-3 min-w-0">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest flex items-center gap-1.5 truncate">
+                  <Settings className="w-3.5 h-3.5 shrink-0" /> Define Weekends
                 </label>
-                <span className="text-[9px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">Global Support</span>
+                <span className="text-[9px] font-bold text-muted bg-paper px-2 py-0.5 rounded border border-line shrink-0">Global Support</span>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5 min-w-0">
                 {WEEKDAYS.map(day => {
                   const isWeekend = weekendDays.includes(day.id);
                   return (
                     <button
-                      key={day.id} onClick={() => toggleWeekend(day.id)}
-                      className={`flex-1 min-w-[50px] py-2 text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-lg border transition-all ${
+                      key={day.id} type="button" onClick={() => toggleWeekend(day.id)}
+                      className={`py-2 text-[10px] font-black uppercase tracking-widest rounded-lg border transition-all truncate ${
                         isWeekend 
-                        ? 'bg-rose-50 dark:bg-rose-900/20 text-rose-600 border-rose-200 dark:border-rose-800/50 shadow-sm' 
-                        : 'bg-white dark:bg-slate-900 text-slate-400 border-slate-200 dark:border-slate-700 hover:border-slate-300'
+                          ? 'bg-[#fb7185]/10 text-[#e11d48] border-[#fb7185]/30 shadow-sm' 
+                          : 'bg-paper text-muted border-line hover:border-brand/40'
                       }`}
                     >
                       {day.label}
@@ -229,35 +212,35 @@ export default function WorkDaysCalculator() {
               </div>
             </div>
 
-            <hr className="border-slate-100 dark:border-slate-800" />
+            <hr className="border-line" />
 
-            {/* 3. Custom Holidays Manager */}
-            <div>
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5 mb-3">
-                <CalendarOff className="w-3.5 h-3.5 text-rose-500" /> Exclude Public Holidays
+            {/* Custom Holidays Manager */}
+            <div className="min-w-0">
+              <label className="text-[10px] font-black text-muted uppercase tracking-widest flex items-center gap-1.5 mb-3 truncate">
+                <CalendarOff className="w-3.5 h-3.5 text-[#fb7185] shrink-0" /> Exclude Public Holidays
               </label>
-              <div className="flex gap-2 mb-3">
+              <div className="flex gap-2 mb-3 min-w-0">
                 <input
                   type="date" value={holidayInput} onChange={(e) => setHolidayInput(e.target.value)}
-                  className="flex-1 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-rose-400 uppercase tracking-wider"
+                  className="flex-1 min-w-0 bg-paper border border-line rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-ink outline-none focus:border-brand uppercase tracking-wider"
                 />
                 <button
-                  onClick={addHoliday} disabled={!holidayInput}
-                  className="px-4 py-2 bg-slate-800 dark:bg-slate-100 hover:bg-slate-700 dark:hover:bg-white text-white dark:text-slate-900 rounded-xl font-bold transition-all disabled:opacity-50 flex items-center gap-1"
+                  type="button" onClick={addHoliday} disabled={!holidayInput}
+                  className="px-4 py-2 bg-brand text-white rounded-xl text-xs font-bold transition-all disabled:opacity-50 flex items-center gap-1 shrink-0"
                 >
-                  <Plus className="w-4 h-4" /> Add
+                  <Plus className="w-3.5 h-3.5" /> Add
                 </button>
               </div>
 
               {/* Holiday Tags */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 min-w-0">
                 {holidays.length === 0 ? (
-                  <span className="text-xs font-medium text-slate-400 italic">No custom holidays added.</span>
+                  <span className="text-xs font-medium text-muted italic">No custom holidays added.</span>
                 ) : (
                   holidays.map(h => (
-                    <div key={h} className="flex items-center gap-1.5 bg-white dark:bg-slate-900 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 px-3 py-1.5 rounded-lg text-xs font-black tracking-widest shadow-sm">
+                    <div key={h} className="flex items-center gap-1.5 bg-paper border border-[#fb7185]/30 text-[#e11d48] px-2.5 py-1 rounded-lg text-xs font-black tracking-wider shadow-sm">
                       {new Date(h).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                      <button onClick={() => removeHoliday(h)} className="hover:bg-rose-100 dark:hover:bg-rose-900/50 rounded-full p-0.5 transition-colors">
+                      <button type="button" onClick={() => removeHoliday(h)} className="hover:bg-brand/10 rounded-full p-0.5 transition-colors">
                         <X className="w-3 h-3" />
                       </button>
                     </div>
@@ -269,95 +252,78 @@ export default function WorkDaysCalculator() {
           </div>
         </div>
 
-        {/* ================= RIGHT: THE DASHBOARD RECEIPT ================= */}
-        <div className="space-y-6 sticky top-6">
-          <div className="bg-white dark:bg-[#0d1117] border border-slate-200 dark:border-slate-800 p-1 rounded-3xl shadow-lg relative flex flex-col min-h-[550px]">
-            <div className="bg-slate-50 dark:bg-slate-900/50 rounded-[22px] p-6 h-full flex flex-col relative overflow-hidden">
-              
-              <div className="flex items-center justify-between mb-6 border-b border-slate-200 dark:border-slate-700 pb-4 shrink-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-slate-800 dark:text-slate-100">
-                  <Calculator className="w-4 h-4 text-indigo-500" /> Calculation Results
-                </span>
-              </div>
-
-              {calculations?.isInvalid ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-center opacity-50 p-6">
-                  <AlertCircle className="w-16 h-16 text-rose-500 mb-4" />
-                  <span className="text-sm font-black uppercase tracking-widest text-rose-600">Invalid Date Range</span>
-                  <p className="text-[10px] font-bold text-slate-400 mt-2">End date must be on or after start date.</p>
-                </div>
-              ) : (
-                <div className="animate-in fade-in zoom-in-95 duration-300 h-full flex flex-col">
-                  
-                  {/* Hero Number */}
-                  <div className="text-center bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 py-8 px-4 rounded-2xl shadow-sm mb-6 relative overflow-hidden">
-                    <div className="absolute -right-4 -bottom-4 opacity-5">
-                      <Briefcase className="w-32 h-32 text-indigo-500" />
-                    </div>
-                    
-                    <span className="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Net Business Days</span>
-                    <div className="flex items-end justify-center gap-2">
-                      <span className="text-7xl font-black text-indigo-600 dark:text-indigo-400 tracking-tighter tabular-nums leading-none">
-                        {calculations.businessDays.toLocaleString()}
-                      </span>
-                      <span className="text-xl font-bold text-slate-400 mb-1">Days</span>
-                    </div>
-
-                    {/* Progress Breakdown Bar */}
-                    {calculations.totalDays > 0 && (
-                      <div className="w-4/5 mx-auto mt-8">
-                        <div className="flex h-3 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-                          {calculations.pctBusiness > 0 && <div style={{ width: `${calculations.pctBusiness}%` }} className="bg-indigo-500"></div>}
-                          {calculations.pctWeekend > 0 && <div style={{ width: `${calculations.pctWeekend}%` }} className="bg-slate-300 dark:bg-slate-600"></div>}
-                          {calculations.pctHoliday > 0 && <div style={{ width: `${calculations.pctHoliday}%` }} className="bg-rose-400"></div>}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Detailed Receipt Breakdown */}
-                  <div className="flex-1 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 border-b border-slate-100 dark:border-slate-800 pb-2 flex items-center gap-1.5">
-                      <PieChart className="w-3.5 h-3.5" /> Span Breakdown
-                    </h4>
-                    
-                    <div className="space-y-4">
-                      {/* Total Span */}
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs font-bold text-slate-500 flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-slate-200"></span> Total Span
-                        </span>
-                        <span className="text-sm font-black tabular-nums text-slate-800 dark:text-slate-100">{calculations.totalDays}</span>
-                      </div>
-                      
-                      {/* Weekends Minus */}
-                      <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
-                        <span className="text-xs font-bold flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600"></span> Excluded Weekends
-                        </span>
-                        <span className="text-sm font-black tabular-nums">− {calculations.weekendCount}</span>
-                      </div>
-                      
-                      {/* Holidays Minus */}
-                      <div className="flex justify-between items-center text-rose-500">
-                        <span className="text-xs font-bold flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-rose-400"></span> Public Holidays
-                        </span>
-                        <span className="text-sm font-black tabular-nums">− {calculations.holidayCount}</span>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 pt-4 border-t border-dashed border-slate-200 dark:border-slate-700 flex justify-between items-center">
-                       <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> Working Days
-                       </span>
-                       <span className="text-lg font-black tabular-nums text-indigo-600 dark:text-indigo-400">{calculations.businessDays}</span>
-                    </div>
-                  </div>
-
-                </div>
-              )}
+        {/* DASHBOARD RECEIPT */}
+        <div className="space-y-6 lg:sticky lg:top-6 min-w-0">
+          <div className="bg-surface border border-line p-5 sm:p-6 rounded-2xl shadow-card flex flex-col min-h-[480px] min-w-0">
+            <div className="flex items-center justify-between mb-5 border-b border-line pb-3 shrink-0 min-w-0">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-ink truncate">
+                <Calculator className="w-4 h-4 text-brand shrink-0" /> Calculation Results
+              </span>
             </div>
+
+            {calculations?.isInvalid ? (
+              <div className="flex-1 flex flex-col items-center justify-center text-center opacity-70 p-6">
+                <AlertCircle className="w-12 h-12 text-[#e11d48] mb-3" />
+                <span className="text-xs font-black uppercase tracking-widest text-[#e11d48]">Invalid Date Range</span>
+                <p className="text-[10px] font-bold text-muted mt-1">End date must be on or after start date.</p>
+              </div>
+            ) : (
+              <div className="space-y-5 min-w-0">
+                
+                {/* Hero Number */}
+                <div className="text-center bg-paper border border-line py-6 px-4 rounded-xl shadow-sm relative overflow-hidden min-w-0">
+                  <span className="block text-[10px] font-black uppercase tracking-widest text-muted mb-1 truncate">Net Business Days</span>
+                  <div className="flex items-baseline justify-center gap-1.5 min-w-0">
+                    <span className="text-5xl sm:text-6xl font-black text-brand tracking-tight tabular-nums leading-none">
+                      {calculations.businessDays.toLocaleString()}
+                    </span>
+                    <span className="text-sm font-bold text-muted uppercase">Days</span>
+                  </div>
+
+                  {calculations.totalDays > 0 && (
+                    <div className="w-full px-2 mt-6">
+                      <div className="flex h-2.5 rounded-full overflow-hidden bg-line">
+                        {calculations.pctBusiness > 0 && <div style={{ width: `${calculations.pctBusiness}%` }} className="bg-brand"></div>}
+                        {calculations.pctWeekend > 0 && <div style={{ width: `${calculations.pctWeekend}%` }} className="bg-muted/40"></div>}
+                        {calculations.pctHoliday > 0 && <div style={{ width: `${calculations.pctHoliday}%` }} className="bg-[#fb7185]"></div>}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Detailed Receipt Breakdown */}
+                <div className="bg-paper border border-line rounded-xl p-4 shadow-sm min-w-0">
+                  <h4 className="text-[9px] font-black uppercase tracking-widest text-muted mb-3 border-b border-line pb-2 flex items-center gap-1.5 truncate">
+                    <PieChart className="w-3.5 h-3.5 shrink-0" /> Span Breakdown
+                  </h4>
+                  
+                  <div className="space-y-2.5 text-xs">
+                    <div className="flex justify-between items-center min-w-0">
+                      <span className="font-bold text-muted flex items-center gap-2 truncate"><span className="w-2 h-2 rounded-full bg-muted/60 shrink-0"></span> Total Span</span>
+                      <span className="font-black tabular-nums text-ink shrink-0">{calculations.totalDays}</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center min-w-0">
+                      <span className="font-bold text-muted flex items-center gap-2 truncate"><span className="w-2 h-2 rounded-full bg-muted/30 shrink-0"></span> Excluded Weekends</span>
+                      <span className="font-black tabular-nums text-muted shrink-0">− {calculations.weekendCount}</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center min-w-0">
+                      <span className="font-bold text-[#e11d48] flex items-center gap-2 truncate"><span className="w-2 h-2 rounded-full bg-[#fb7185] shrink-0"></span> Public Holidays</span>
+                      <span className="font-black tabular-nums text-[#e11d48] shrink-0">− {calculations.holidayCount}</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 pt-3 border-t-2 border-line flex justify-between items-center min-w-0">
+                     <span className="text-[10px] font-black uppercase tracking-wider text-brand flex items-center gap-1 truncate">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> Final Working Days
+                     </span>
+                     <span className="text-base font-black tabular-nums text-brand shrink-0">{calculations.businessDays}</span>
+                  </div>
+                </div>
+
+              </div>
+            )}
           </div>
         </div>
 

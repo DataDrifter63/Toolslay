@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import { 
+  ArrowRightLeft, Copy, Check, Trash2, 
+  BookmarkPlus, Settings2, ShieldAlert, History
+} from "lucide-react";
 
 const CATEGORIES = {
   Length: {
@@ -282,22 +286,12 @@ export default function UnitConverter() {
     );
   }, [numericAmount, category, fromUnit, toUnit]);
 
-  const fromSymbol =
-    CATEGORIES[category].units[fromUnit]?.symbol || "";
-
-  const toSymbol =
-    CATEGORIES[category].units[toUnit]?.symbol || "";
-
-  const formattedResult = formatNumber(
-    converted,
-    precision
-  );
+  const fromSymbol = CATEGORIES[category].units[fromUnit]?.symbol || "";
+  const toSymbol = CATEGORIES[category].units[toUnit]?.symbol || "";
+  const formattedResult = formatNumber(converted, precision);
 
   function changeCategory(nextCategory) {
-    const nextUnits = Object.keys(
-      CATEGORIES[nextCategory].units
-    );
-
+    const nextUnits = Object.keys(CATEGORIES[nextCategory].units);
     setCategory(nextCategory);
     setFromUnit(nextUnits[0]);
     setToUnit(nextUnits[1] || nextUnits[0]);
@@ -344,17 +338,14 @@ export default function UnitConverter() {
   async function copyResult() {
     if (!Number.isFinite(converted)) return;
 
-    const text =
-      `${numericAmount} ${fromSymbol} = ` +
-      `${formattedResult} ${toSymbol}`;
+    const text = `${numericAmount} ${fromSymbol} = ${formattedResult} ${toSymbol}`;
 
     try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-
-      window.setTimeout(() => {
-        setCopied(false);
-      }, 1500);
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1500);
+      }
     } catch (error) {
       setCopied(false);
     }
@@ -366,980 +357,283 @@ export default function UnitConverter() {
 
   const presetList = PRESETS[category] || [];
 
+  const baseInputStyle = "w-full min-w-0 h-11 px-3.5 bg-surface border border-line rounded-lg text-ink text-xs focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-mono";
+  const baseSelectStyle = "w-full min-w-0 h-11 pl-3.5 pr-8 bg-surface border border-line rounded-lg text-ink text-xs focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold";
+
   return (
-    <>
-      <style jsx>{`
-        .unit-tool {
-          --uc-text: #172033;
-          --uc-muted: #667085;
-          --uc-border: #e4e7ec;
-          --uc-card: #ffffff;
-          --uc-soft: #f7f8fb;
-          --uc-primary: #635bff;
-          --uc-primary-soft: rgba(99, 91, 255, 0.09);
-
-          width: 100%;
-          color: var(--uc-text);
-          font-family:
-            Inter,
-            ui-sans-serif,
-            system-ui,
-            -apple-system,
-            BlinkMacSystemFont,
-            "Segoe UI",
-            sans-serif;
-        }
-
-        .unit-tool * {
-          box-sizing: border-box;
-        }
-
-        .unit-wrapper {
-          width: 100%;
-          max-width: 1180px;
-          margin: 0 auto;
-        }
-
-        .unit-header {
-          display: flex;
-          align-items: flex-end;
-          justify-content: space-between;
-          gap: 20px;
-          margin-bottom: 22px;
-        }
-
-        .unit-eyebrow {
-          color: var(--uc-primary);
-          font-size: 10px;
-          font-weight: 800;
-          letter-spacing: 0.14em;
-        }
-
-        .unit-header h1 {
-          margin: 6px 0 0;
-          font-size: clamp(28px, 4vw, 40px);
-          line-height: 1.05;
-          letter-spacing: -0.045em;
-        }
-
-        .unit-header p {
-          max-width: 700px;
-          margin: 9px 0 0;
-          color: var(--uc-muted);
-          font-size: 13px;
-          line-height: 1.65;
-        }
-
-        .unit-layout {
-          display: grid;
-          grid-template-columns: 230px minmax(0, 1fr);
-          gap: 18px;
-        }
-
-        .unit-sidebar,
-        .unit-card,
-        .unit-history {
-          border: 1px solid var(--uc-border);
-          border-radius: 16px;
-          background: var(--uc-card);
-          box-shadow: 0 8px 30px rgba(16, 24, 40, 0.035);
-        }
-
-        .unit-sidebar {
-          padding: 10px;
-          height: fit-content;
-        }
-
-        .unit-sidebar-title {
-          padding: 9px 10px 10px;
-          color: var(--uc-muted);
-          font-size: 9px;
-          font-weight: 800;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-        }
-
-        .category-button {
-          display: flex;
-          align-items: center;
-          width: 100%;
-          gap: 10px;
-          padding: 10px;
-          border: 0;
-          border-radius: 9px;
-          background: transparent;
-          color: var(--uc-text);
-          cursor: pointer;
-          font: inherit;
-          font-size: 11px;
-          font-weight: 650;
-          text-align: left;
-          transition:
-            background 0.15s ease,
-            transform 0.15s ease;
-        }
-
-        .category-button:hover {
-          background: var(--uc-soft);
-        }
-
-        .category-button.active {
-          background: var(--uc-primary-soft);
-          color: var(--uc-primary);
-        }
-
-        .category-icon {
-          display: grid;
-          width: 27px;
-          height: 27px;
-          flex: 0 0 27px;
-          place-items: center;
-          border-radius: 7px;
-          background: var(--uc-soft);
-          font-size: 13px;
-        }
-
-        .category-button.active .category-icon {
-          background: var(--uc-primary-soft);
-        }
-
-        .unit-main {
-          min-width: 0;
-        }
-
-        .unit-card {
-          padding: 22px;
-        }
-
-        .unit-card-head {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 15px;
-          margin-bottom: 20px;
-        }
-
-        .unit-card-title {
-          font-size: 17px;
-          font-weight: 750;
-          letter-spacing: -0.025em;
-        }
-
-        .unit-card-subtitle {
-          margin-top: 5px;
-          color: var(--uc-muted);
-          font-size: 11px;
-          line-height: 1.55;
-        }
-
-        .precision-wrap {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          white-space: nowrap;
-        }
-
-        .precision-wrap label {
-          color: var(--uc-muted);
-          font-size: 9px;
-          font-weight: 700;
-        }
-
-        .precision-select {
-          height: 32px;
-          padding: 0 8px;
-          border: 1px solid var(--uc-border);
-          border-radius: 7px;
-          outline: none;
-          background: var(--uc-card);
-          color: var(--uc-text);
-          font: inherit;
-          font-size: 10px;
-        }
-
-        .conversion-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr);
-          align-items: end;
-          gap: 12px;
-        }
-
-        .field-label {
-          display: block;
-          margin-bottom: 7px;
-          color: var(--uc-muted);
-          font-size: 9px;
-          font-weight: 800;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-        }
-
-        .amount-input {
-          width: 100%;
-          height: 48px;
-          padding: 0 13px;
-          border: 1px solid var(--uc-border);
-          border-radius: 9px;
-          outline: none;
-          background: var(--uc-card);
-          color: var(--uc-text);
-          font: inherit;
-          font-size: 15px;
-          font-weight: 650;
-        }
-
-        .amount-input:focus,
-        .unit-select:focus,
-        .precision-select:focus {
-          border-color: var(--uc-primary);
-          box-shadow: 0 0 0 3px var(--uc-primary-soft);
-        }
-
-        .unit-select {
-          width: 100%;
-          height: 42px;
-          margin-top: 7px;
-          padding: 0 10px;
-          border: 1px solid var(--uc-border);
-          border-radius: 8px;
-          outline: none;
-          background: var(--uc-card);
-          color: var(--uc-text);
-          font: inherit;
-          font-size: 11px;
-          font-weight: 600;
-        }
-
-        .swap-button {
-          display: grid;
-          width: 42px;
-          height: 42px;
-          place-items: center;
-          margin-bottom: 0;
-          border: 1px solid var(--uc-border);
-          border-radius: 50%;
-          background: var(--uc-card);
-          color: var(--uc-primary);
-          cursor: pointer;
-          font-size: 17px;
-          transition:
-            transform 0.18s ease,
-            background 0.18s ease;
-        }
-
-        .swap-button:hover {
-          background: var(--uc-soft);
-          transform: rotate(180deg);
-        }
-
-        .result-box {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 15px;
-          margin-top: 20px;
-          padding: 18px;
-          border: 1px solid var(--uc-border);
-          border-radius: 12px;
-          background:
-            radial-gradient(
-              circle at 100% 0%,
-              var(--uc-primary-soft),
-              transparent 45%
-            ),
-            var(--uc-soft);
-        }
-
-        .result-label {
-          color: var(--uc-muted);
-          font-size: 9px;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-        }
-
-        .result-value {
-          margin-top: 5px;
-          overflow-wrap: anywhere;
-          font-size: clamp(25px, 4vw, 37px);
-          font-weight: 800;
-          letter-spacing: -0.045em;
-        }
-
-        .result-unit {
-          margin-left: 7px;
-          color: var(--uc-muted);
-          font-size: 12px;
-          font-weight: 600;
-        }
-
-        .copy-button {
-          min-width: 90px;
-          height: 38px;
-          padding: 0 12px;
-          border: 1px solid var(--uc-border);
-          border-radius: 8px;
-          background: var(--uc-card);
-          color: var(--uc-text);
-          cursor: pointer;
-          font: inherit;
-          font-size: 10px;
-          font-weight: 750;
-        }
-
-        .copy-button:hover {
-          border-color: var(--uc-primary);
-          color: var(--uc-primary);
-        }
-
-        .formula {
-          margin-top: 11px;
-          color: var(--uc-muted);
-          font-size: 10px;
-          line-height: 1.6;
-        }
-
-        .formula strong {
-          color: var(--uc-text);
-        }
-
-        .quick-section {
-          margin-top: 18px;
-        }
-
-        .quick-title {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 9px;
-        }
-
-        .quick-title strong {
-          font-size: 11px;
-        }
-
-        .quick-title span {
-          color: var(--uc-muted);
-          font-size: 9px;
-        }
-
-        .preset-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
-        }
-
-        .preset-button {
-          min-height: 44px;
-          padding: 8px 10px;
-          border: 1px solid var(--uc-border);
-          border-radius: 8px;
-          background: var(--uc-card);
-          color: var(--uc-text);
-          cursor: pointer;
-          font: inherit;
-          font-size: 9px;
-          font-weight: 650;
-          text-align: left;
-        }
-
-        .preset-button:hover {
-          border-color: var(--uc-primary);
-          color: var(--uc-primary);
-          background: var(--uc-primary-soft);
-        }
-
-        .history-card {
-          margin-top: 18px;
-          padding: 18px;
-        }
-
-        .history-head {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-          margin-bottom: 12px;
-        }
-
-        .history-head strong {
-          font-size: 13px;
-        }
-
-        .clear-button {
-          border: 0;
-          background: transparent;
-          color: var(--uc-muted);
-          cursor: pointer;
-          font: inherit;
-          font-size: 9px;
-          font-weight: 700;
-        }
-
-        .history-list {
-          display: grid;
-          gap: 7px;
-        }
-
-        .history-item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          padding: 10px;
-          border: 1px solid var(--uc-border);
-          border-radius: 8px;
-          background: var(--uc-soft);
-        }
-
-        .history-main {
-          min-width: 0;
-          font-size: 10px;
-          font-weight: 700;
-          overflow-wrap: anywhere;
-        }
-
-        .history-main span {
-          color: var(--uc-muted);
-          font-weight: 500;
-        }
-
-        .history-result {
-          flex: 0 0 auto;
-          color: var(--uc-primary);
-          font-size: 10px;
-          font-weight: 800;
-        }
-
-        .save-history {
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 10px;
-        }
-
-        .save-button {
-          height: 34px;
-          padding: 0 12px;
-          border: 1px solid var(--uc-border);
-          border-radius: 8px;
-          background: var(--uc-card);
-          color: var(--uc-text);
-          cursor: pointer;
-          font: inherit;
-          font-size: 9px;
-          font-weight: 750;
-        }
-
-        .save-button:hover {
-          border-color: var(--uc-primary);
-          color: var(--uc-primary);
-        }
-
-        .empty-history {
-          padding: 16px;
-          border: 1px dashed var(--uc-border);
-          border-radius: 8px;
-          color: var(--uc-muted);
-          font-size: 10px;
-          text-align: center;
-        }
-
-        .privacy-note {
-          margin-top: 12px;
-          color: var(--uc-muted);
-          font-size: 9px;
-          line-height: 1.5;
-        }
-
-        .privacy-note b {
-          color: #12b76a;
-        }
-
-        @media (max-width: 900px) {
-          .unit-layout {
-            grid-template-columns: 1fr;
-          }
-
-          .unit-sidebar {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 4px;
-            overflow-x: auto;
-          }
-
-          .unit-sidebar-title {
-            display: none;
-          }
-
-          .category-button {
-            justify-content: center;
-            padding: 8px 5px;
-          }
-
-          .category-button span:last-child {
-            display: none;
-          }
-
-          .category-icon {
-            width: 32px;
-            height: 32px;
-            flex-basis: 32px;
-          }
-        }
-
-        @media (max-width: 650px) {
-          .unit-header {
-            align-items: stretch;
-          }
-
-          .unit-card {
-            padding: 16px;
-          }
-
-          .unit-card-head {
-            flex-direction: column;
-          }
-
-          .precision-wrap {
-            justify-content: space-between;
-          }
-
-          .conversion-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .swap-button {
-            margin: 2px auto;
-          }
-
-          .result-box {
-            align-items: flex-start;
-            flex-direction: column;
-          }
-
-          .copy-button {
-            width: 100%;
-          }
-
-          .preset-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .unit-sidebar {
-            grid-template-columns: repeat(6, minmax(55px, 1fr));
-          }
-        }
-
-        @media (prefers-color-scheme: dark) {
-          .unit-tool {
-            --uc-text: #f2f4f7;
-            --uc-muted: #98a2b3;
-            --uc-border: #2d3442;
-            --uc-card: #151922;
-            --uc-soft: #10141c;
-            --uc-primary: #8078ff;
-            --uc-primary-soft: rgba(128, 120, 255, 0.12);
-          }
-        }
-
-        html.dark .unit-tool,
-        body.dark .unit-tool,
-        .dark .unit-tool {
-          --uc-text: #f2f4f7;
-          --uc-muted: #98a2b3;
-          --uc-border: #2d3442;
-          --uc-card: #151922;
-          --uc-soft: #10141c;
-          --uc-primary: #8078ff;
-          --uc-primary-soft: rgba(128, 120, 255, 0.12);
-        }
-      `}</style>
-
-      <div className="unit-tool">
-        <div className="unit-wrapper">
-
-          <div className="unit-header">
-            <div>
-              <div className="unit-eyebrow">
-                PRECISION CONVERSION TOOL
-              </div>
-
-              <h1>Unit Converter</h1>
-
-              <p>
-                Convert measurements instantly across everyday,
-                technical and digital units with precision controls,
-                smart presets and conversion history.
-              </p>
-            </div>
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink">
+      
+      {/* TWO PANEL MAIN GRID */}
+      <div className="grid grid-cols-1 lg:grid-cols-[240px,minmax(0,1fr)] items-start gap-4 sm:gap-6 min-w-0">
+        
+        {/* SIDEBAR (CATEGORIES) */}
+        <aside className="rounded-xl border border-line bg-surface p-2 sm:p-3 shadow-card min-w-0 flex lg:flex-col gap-1.5 overflow-x-auto hide-scrollbar">
+          <div className="hidden lg:block px-3 pt-2 pb-3 min-w-0">
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-muted block">
+              Categories
+            </span>
           </div>
+          
+          {categories.map((item) => {
+            const isActive = category === item;
+            return (
+              <button
+                key={item}
+                type="button"
+                onClick={() => changeCategory(item)}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold transition-all min-h-[44px] text-left shrink-0 lg:shrink min-w-0 ${
+                  isActive
+                    ? "bg-brand/10 text-brand border border-brand/20 shadow-sm"
+                    : "text-muted hover:text-ink hover:bg-paper border border-transparent"
+                }`}
+              >
+                <span className={`flex items-center justify-center w-7 h-7 rounded-md shrink-0 font-mono text-sm ${isActive ? "bg-surface shadow-sm" : "bg-paper border border-line"}`}>
+                  {CATEGORIES[item].icon}
+                </span>
+                <span className="truncate">{item}</span>
+              </button>
+            );
+          })}
+        </aside>
 
-          <div className="unit-layout">
-
-            <aside className="unit-sidebar">
-              <div className="unit-sidebar-title">
-                Categories
+        {/* MAIN CONVERTER PANEL */}
+        <div className="space-y-4 sm:space-y-6 min-w-0">
+          
+          <section className="rounded-xl border border-line bg-surface p-4 sm:p-6 shadow-card min-w-0 space-y-5">
+            {/* HEADER BAR */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-4 min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <Settings2 className="w-5 h-5 text-brand shrink-0" />
+                <h2 className="text-base sm:text-lg font-display font-bold text-ink truncate">
+                  Convert {category}
+                </h2>
               </div>
 
-              {categories.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  className={
-                    category === item
-                      ? "category-button active"
-                      : "category-button"
-                  }
-                  onClick={() =>
-                    changeCategory(item)
-                  }
+              <div className="flex items-center gap-2 shrink-0">
+                <label htmlFor="uc-precision" className="text-[11px] font-bold text-muted uppercase tracking-wider">
+                  Precision:
+                </label>
+                <select
+                  id="uc-precision"
+                  className="h-9 pl-3 pr-8 bg-surface border border-line rounded-lg text-ink text-xs focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all font-semibold"
+                  value={precision}
+                  onChange={(e) => setPrecision(Number(e.target.value))}
                 >
-                  <span className="category-icon">
-                    {CATEGORIES[item].icon}
+                  <option value="2">2 decimals</option>
+                  <option value="4">4 decimals</option>
+                  <option value="6">6 decimals</option>
+                  <option value="8">8 decimals</option>
+                  <option value="10">10 decimals</option>
+                </select>
+              </div>
+            </div>
+
+            {/* INPUT/OUTPUT FIELDS */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 min-w-0">
+              
+              {/* FROM UNIT */}
+              <div className="w-full flex-1 space-y-2 min-w-0">
+                <label className="block text-[11px] font-extrabold uppercase tracking-widest text-muted" htmlFor="uc-amount">
+                  Amount
+                </label>
+                <input
+                  id="uc-amount"
+                  className={baseInputStyle}
+                  type="number"
+                  inputMode="decimal"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="Enter value"
+                />
+                <select
+                  className={baseSelectStyle}
+                  value={fromUnit}
+                  onChange={(e) => setFromUnit(e.target.value)}
+                  aria-label="From unit"
+                >
+                  {units.map((unit) => (
+                    <option key={unit} value={unit}>
+                      {unit} ({CATEGORIES[category].units[unit].symbol})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* SWAP BUTTON */}
+              <button
+                type="button"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-line bg-surface hover:bg-paper text-brand flex items-center justify-center shrink-0 transition-transform hover:rotate-180 shadow-sm sm:mt-[22px]"
+                onClick={swapUnits}
+                title="Swap units"
+                aria-label="Swap units"
+              >
+                <ArrowRightLeft className="w-4 h-4" />
+              </button>
+
+              {/* TO UNIT */}
+              <div className="w-full flex-1 space-y-2 min-w-0">
+                <label className="block text-[11px] font-extrabold uppercase tracking-widest text-muted" htmlFor="uc-to">
+                  Convert To
+                </label>
+                <div className={`${baseInputStyle} bg-paper flex items-center overflow-hidden`}>
+                  <span className="truncate text-muted">{formattedResult}</span>
+                </div>
+                <select
+                  id="uc-to"
+                  className={baseSelectStyle}
+                  value={toUnit}
+                  onChange={(e) => setToUnit(e.target.value)}
+                  aria-label="To unit"
+                >
+                  {units.map((unit) => (
+                    <option key={unit} value={unit}>
+                      {unit} ({CATEGORIES[category].units[unit].symbol})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* HERO RESULT CARD */}
+            <div className="rounded-xl border border-line bg-paper p-1.5 min-w-0 mt-2">
+              <div className="bg-surface rounded-lg w-full p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative overflow-hidden">
+                <div className="min-w-0 text-center sm:text-left">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand block mb-1">
+                    Converted Result
                   </span>
-
-                  <span>{item}</span>
-                </button>
-              ))}
-            </aside>
-
-            <main className="unit-main">
-
-              <section className="unit-card">
-
-                <div className="unit-card-head">
-                  <div>
-                    <div className="unit-card-title">
-                      Convert {category}
-                    </div>
-
-                    <div className="unit-card-subtitle">
-                      Choose your units and get an instant,
-                      high-precision result.
-                    </div>
-                  </div>
-
-                  <div className="precision-wrap">
-                    <label htmlFor="uc-precision">
-                      Precision
-                    </label>
-
-                    <select
-                      id="uc-precision"
-                      className="precision-select"
-                      value={precision}
-                      onChange={(e) =>
-                        setPrecision(
-                          Number(e.target.value)
-                        )
-                      }
-                    >
-                      <option value="2">
-                        2 decimals
-                      </option>
-                      <option value="4">
-                        4 decimals
-                      </option>
-                      <option value="6">
-                        6 decimals
-                      </option>
-                      <option value="8">
-                        8 decimals
-                      </option>
-                      <option value="10">
-                        10 decimals
-                      </option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="conversion-grid">
-
-                  <div>
-                    <label
-                      className="field-label"
-                      htmlFor="uc-amount"
-                    >
-                      Amount
-                    </label>
-
-                    <input
-                      id="uc-amount"
-                      className="amount-input"
-                      type="number"
-                      inputMode="decimal"
-                      value={amount}
-                      onChange={(e) =>
-                        setAmount(
-                          e.target.value
-                        )
-                      }
-                      placeholder="Enter value"
-                    />
-
-                    <select
-                      className="unit-select"
-                      value={fromUnit}
-                      onChange={(e) =>
-                        setFromUnit(
-                          e.target.value
-                        )
-                      }
-                      aria-label="From unit"
-                    >
-                      {units.map((unit) => (
-                        <option
-                          key={unit}
-                          value={unit}
-                        >
-                          {unit} (
-                          {
-                            CATEGORIES[
-                              category
-                            ].units[unit].symbol
-                          }
-                          )
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="swap-button"
-                    onClick={swapUnits}
-                    title="Swap units"
-                    aria-label="Swap units"
-                  >
-                    ⇄
-                  </button>
-
-                  <div>
-                    <label
-                      className="field-label"
-                      htmlFor="uc-to"
-                    >
-                      Convert to
-                    </label>
-
-                    <div
-                      className="amount-input"
-                      aria-live="polite"
-                    >
-                      {formattedResult}
-                    </div>
-
-                    <select
-                      id="uc-to"
-                      className="unit-select"
-                      value={toUnit}
-                      onChange={(e) =>
-                        setToUnit(
-                          e.target.value
-                        )
-                      }
-                      aria-label="To unit"
-                    >
-                      {units.map((unit) => (
-                        <option
-                          key={unit}
-                          value={unit}
-                        >
-                          {unit} (
-                          {
-                            CATEGORIES[
-                              category
-                            ].units[unit].symbol
-                          }
-                          )
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                </div>
-
-                <div className="result-box">
-
-                  <div>
-                    <div className="result-label">
-                      Converted result
-                    </div>
-
-                    <div className="result-value">
-                      {formattedResult}
-
-                      <span className="result-unit">
-                        {toSymbol}
-                      </span>
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="copy-button"
-                    onClick={copyResult}
-                  >
-                    {copied
-                      ? "✓ Copied"
-                      : "Copy Result"}
-                  </button>
-
-                </div>
-
-                <div className="formula">
-                  <strong>
-                    Conversion:
-                  </strong>{" "}
-                  {numericAmount} {fromSymbol} =
-                  {" "}
-                  {formattedResult} {toSymbol}
-                </div>
-
-                <div className="quick-section">
-
-                  <div className="quick-title">
-                    <strong>
-                      Quick conversions
-                    </strong>
-
-                    <span>
-                      One-click presets
+                  <div className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tighter text-ink font-mono truncate">
+                    {formattedResult}
+                    <span className="text-muted text-xl sm:text-2xl align-baseline ml-2 font-sans font-semibold">
+                      {toSymbol}
                     </span>
                   </div>
-
-                  <div className="preset-grid">
-                    {presetList.map(
-                      (item) => (
-                        <button
-                          key={item[0]}
-                          type="button"
-                          className="preset-button"
-                          onClick={() =>
-                            applyPreset(item)
-                          }
-                        >
-                          {item[0]}
-                        </button>
-                      )
-                    )}
+                  <div className="text-xs text-muted mt-2 font-mono truncate">
+                    <strong className="text-ink font-sans">Formula:</strong> {numericAmount} {fromSymbol} = {formattedResult} {toSymbol}
                   </div>
-
                 </div>
 
-                <div className="save-history">
+                <div className="shrink-0 flex justify-center sm:justify-end">
                   <button
                     type="button"
-                    className="save-button"
-                    onClick={addHistory}
-                    disabled={
-                      !Number.isFinite(
-                        converted
-                      )
-                    }
+                    onClick={copyResult}
+                    className="inline-flex items-center gap-1.5 h-10 px-4 rounded-lg border border-line bg-paper hover:bg-line text-ink text-xs font-bold transition-colors min-h-[40px] shadow-sm w-full sm:w-auto justify-center"
                   >
-                    + Save to history
+                    {copied ? (
+                      <>
+                        <Check className="w-4 h-4 text-teal" /> Copied
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4 text-muted" /> Copy Result
+                      </>
+                    )}
                   </button>
                 </div>
+              </div>
+            </div>
 
-              </section>
-
-              <section className="unit-card history-card">
-
-                <div className="history-head">
-                  <strong>
-                    Recent conversions
-                  </strong>
-
-                  {history.length > 0 && (
+            {/* PRESETS SECTION */}
+            {presetList.length > 0 && (
+              <div className="pt-2 min-w-0">
+                <div className="flex items-center justify-between mb-3 min-w-0">
+                  <strong className="text-xs font-bold text-ink">Quick conversions</strong>
+                  <span className="text-[10px] text-muted">One-click presets</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 min-w-0">
+                  {presetList.map((item) => (
                     <button
+                      key={item[0]}
                       type="button"
-                      className="clear-button"
-                      onClick={clearHistory}
+                      onClick={() => applyPreset(item)}
+                      className="min-h-[44px] px-3.5 rounded-lg border border-line bg-paper hover:bg-brand/10 hover:border-brand/30 hover:text-brand text-ink text-xs font-semibold text-left transition-all truncate min-w-0 shadow-sm"
                     >
-                      Clear history
+                      {item[0]}
                     </button>
-                  )}
+                  ))}
                 </div>
+              </div>
+            )}
 
-                {history.length === 0 ? (
-                  <div className="empty-history">
-                    Your saved conversions will appear
-                    here. Nothing is stored on a server.
-                  </div>
-                ) : (
-                  <div className="history-list">
-                    {history.map(
-                      (item) => (
-                        <button
-                          key={item.id}
-                          type="button"
-                          className="history-item"
-                          onClick={() => {
-                            setCategory(
-                              item.category
-                            );
-                            setAmount(
-                              String(
-                                item.amount
-                              )
-                            );
-                            setFromUnit(
-                              item.from
-                            );
-                            setToUnit(
-                              item.to
-                            );
-                          }}
-                          title="Load conversion"
-                        >
-                          <div className="history-main">
-                            {item.amount}{" "}
-                            {
-                              CATEGORIES[
-                                item.category
-                              ].units[
-                                item.from
-                              ].symbol
-                            }{" "}
-                            <span>
-                              →
-                            </span>{" "}
-                            {
-                              CATEGORIES[
-                                item.category
-                              ].units[
-                                item.to
-                              ].symbol
-                            }
-                          </div>
+            <div className="flex justify-end pt-3 border-t border-line min-w-0">
+              <button
+                type="button"
+                onClick={addHistory}
+                disabled={!Number.isFinite(converted)}
+                className="inline-flex items-center gap-1.5 h-10 px-4 rounded-lg border border-line bg-surface hover:bg-paper disabled:opacity-50 text-ink text-xs font-bold transition-colors min-h-[40px]"
+              >
+                <BookmarkPlus className="w-4 h-4 text-brand" /> Save to history
+              </button>
+            </div>
+          </section>
 
-                          <div className="history-result">
-                            {formatNumber(
-                              item.result,
-                              precision
-                            )}
-                          </div>
-                        </button>
-                      )
-                    )}
-                  </div>
-                )}
+          {/* HISTORY CARD */}
+          <section className="rounded-xl border border-line bg-surface p-4 sm:p-6 shadow-card min-w-0 space-y-4">
+            <div className="flex items-center justify-between border-b border-line pb-3 min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <History className="w-4 h-4 text-brand shrink-0" />
+                <h3 className="text-sm sm:text-base font-display font-bold text-ink truncate">
+                  Recent conversions
+                </h3>
+              </div>
+              
+              {history.length > 0 && (
+                <button
+                  type="button"
+                  onClick={clearHistory}
+                  className="inline-flex items-center gap-1.5 text-[11px] font-bold text-muted hover:text-red-500 transition-colors uppercase tracking-wider"
+                >
+                  <Trash2 className="w-3.5 h-3.5" /> Clear
+                </button>
+              )}
+            </div>
 
-                <div className="privacy-note">
-                  <b>✓</b> All calculations run
-                  locally in your browser. No values
-                  are uploaded or stored.
-                </div>
+            {history.length === 0 ? (
+              <div className="p-6 border border-dashed border-line rounded-xl text-center space-y-1 min-w-0">
+                <p className="text-xs font-semibold text-ink">No history yet</p>
+                <p className="text-[11px] text-muted">Your saved conversions will appear here.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 min-w-0">
+                {history.map((item) => {
+                  const fromSym = CATEGORIES[item.category]?.units[item.from]?.symbol || "";
+                  const toSym = CATEGORIES[item.category]?.units[item.to]?.symbol || "";
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => {
+                        setCategory(item.category);
+                        setAmount(String(item.amount));
+                        setFromUnit(item.from);
+                        setToUnit(item.to);
+                      }}
+                      className="p-3.5 border border-line rounded-xl bg-paper hover:bg-surface hover:border-brand/30 flex items-center justify-between gap-3 text-left transition-colors min-w-0 group"
+                      title="Load conversion"
+                    >
+                      <div className="min-w-0 text-xs font-mono truncate">
+                        <span className="font-bold text-ink">{item.amount}</span>
+                        <span className="text-muted ml-1 mr-2">{fromSym}</span>
+                        <span className="text-muted opacity-50 group-hover:opacity-100 transition-opacity">→</span>
+                        <span className="text-muted ml-2">{toSym}</span>
+                      </div>
+                      <div className="text-xs font-black font-mono text-brand shrink-0">
+                        {formatNumber(item.result, precision)}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
-              </section>
-
-            </main>
-
-          </div>
+            <div className="flex items-center gap-2 pt-2 text-[11px] text-muted min-w-0">
+              <ShieldAlert className="w-3.5 h-3.5 text-teal shrink-0" />
+              <span className="truncate">All calculations run locally in your browser.</span>
+            </div>
+          </section>
 
         </div>
       </div>
-    </>
+
+    </div>
   );
 }
