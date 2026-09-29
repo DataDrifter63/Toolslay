@@ -755,11 +755,10 @@ export default function ImageToPDFConverter() {
                   onChange={(e) => setQuality(e.target.value)}
                 />
               </div>
-
               <div>
                 <label className="text-[10px] font-black uppercase tracking-wider text-muted block mb-1">
                   PDF filename
-                </label>
+                </label>                
                 <input
                   className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none"
                   type="text"
