@@ -115,3 +115,66 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------------------------------------------------------------------
+ * Tool UI font normalization
+ * ---------------------------------------------------------------------
+ * 200 tools were built by different AI sessions, each picking its own
+ * font-family/size/weight for headings and body text. This scopes a fix
+ * to ONLY the tool's own rendered content (see the `.tool-content`
+ * wrapper in ToolPageShell.js) — it never touches the header, footer,
+ * homepage, or any other part of the site.
+ *
+ * !important is intentional and safe here: every tool uses Tailwind
+ * utility classes (not inline styles) for its text sizing, and a
+ * same-origin !important rule always wins over a plain utility class,
+ * regardless of which arbitrary value (text-[27px], etc.) it carries.
+ *
+ * This does NOT touch <div>/<span> elements on purpose — big result
+ * numbers, badges and status chips are legitimately meant to be a
+ * different size than body text, and forcing every element to one size
+ * would break that hierarchy instead of fixing it. It only normalizes
+ * genuine structural text: headings, paragraphs, labels and list items.
+ */
+.tool-content h1 {
+  font-family: var(--font-display), ui-sans-serif, sans-serif !important;
+  font-size: 1.25rem !important; /* 20px */
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+}
+
+.tool-content h2 {
+  font-family: var(--font-display), ui-sans-serif, sans-serif !important;
+  font-size: 0.875rem !important; /* 14px — matches the section-header pattern used across the site */
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+.tool-content h3,
+.tool-content h4 {
+  font-family: var(--font-display), ui-sans-serif, sans-serif !important;
+  font-size: 0.8125rem !important; /* 13px */
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+.tool-content p,
+.tool-content label,
+.tool-content li {
+  font-family: var(--font-body), ui-sans-serif, sans-serif !important;
+  font-size: 0.875rem !important; /* 14px baseline body copy */
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+}
+
+.tool-content button {
+  font-family: var(--font-body), ui-sans-serif, sans-serif !important;
+  font-weight: 500 !important;
+}
+
+.tool-content input,
+.tool-content select,
+.tool-content textarea {
+  font-family: var(--font-body), ui-sans-serif, sans-serif !important;
+  font-size: 0.875rem !important;
+}

@@ -65,7 +65,7 @@ export default function ToolPageShell({ tool, children, about, faq }) {
           </div>
         </div>
 
-        <div className="rounded-card border border-line bg-surface p-5 sm:p-8">{children}</div>
+        <div className="tool-content rounded-card border border-line bg-surface p-5 sm:p-8">{children}</div>
 
         <AdSlot className="mt-10" />
 
