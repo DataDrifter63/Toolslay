@@ -96,9 +96,9 @@ export function getToolContent(tool, category) {
 
   const about = [
     `${name} is a free, browser-based tool built for ${copy.audience}. ${tool.description} There's nothing to install and nothing to configure — open the tool, do the task, and get your result immediately.`,
-    `Like every tool on ToolSlay, it runs entirely client-side: ${copy.privacyNote}. That also means it works the same whether you're on a fast office connection or patchy mobile data, since there's no back-and-forth with a server once the page has loaded.`,
+    `Like every tool on Toolslay, it runs entirely client-side: ${copy.privacyNote}. That also means it works the same whether you're on a fast office connection or patchy mobile data, since there's no back-and-forth with a server once the page has loaded.`,
     `Beyond privacy, running in the browser has a practical upside — ${copy.extraBenefit}. Use it as often as you need, with no sign-up, no watermark, and no forced upgrade prompt.`,
-    `${name} is part of ToolSlay's ${category?.name?.toLowerCase() || "tools"} collection. If this isn't quite the right fit, check the related tools below — several cover adjacent tasks in the same category.`,
+    `${name} is part of Toolslay's ${category?.name?.toLowerCase() || "tools"} collection. If this isn't quite the right fit, check the related tools below — several cover adjacent tasks in the same category.`,
   ];
 
   const faq = [
@@ -116,7 +116,7 @@ export function getToolContent(tool, category) {
     },
     {
       q: "Do I need to create an account?",
-      a: "No sign-up is needed for any tool on ToolSlay. Just open the page and start using it.",
+      a: "No sign-up is needed for any tool on Toolslay. Just open the page and start using it.",
     },
   ];
 
@@ -128,7 +128,7 @@ export function getCategoryContent(category, toolCount) {
   const name = category.name;
 
   const intro = [
-    `${name} on ToolSlay is a collection of ${toolCount} free, browser-based tools to ${copy.verb} the everyday tasks that come up in this category. Every tool here is built for ${copy.audience}, and every one of them runs entirely in your browser — ${copy.privacyNote}.`,
+    `${name} on Toolslay is a collection of ${toolCount} free, browser-based tools to ${copy.verb} the everyday tasks that come up in this category. Every tool here is built for ${copy.audience}, and every one of them runs entirely in your browser — ${copy.privacyNote}.`,
     `None of these tools require sign-up, and there's no daily limit on how many times you can use them. Pick a tool below to get started, or use the search bar at the top of the page if you know what you're looking for.`,
   ];
 
@@ -154,18 +154,18 @@ export function getCategoryContent(category, toolCount) {
 // /tools page — i.e. when no single category is selected.
 export function getAllToolsContent(toolCount) {
   const intro = [
-    `ToolSlay is a growing collection of ${toolCount}+ free, browser-based tools spanning PDFs, images, text, calculators, developer utilities, generators and design — built so you can get a task done in a few seconds without installing anything or creating an account.`,
+    `Toolslay is a growing collection of ${toolCount}+ free, browser-based tools spanning PDFs, images, text, calculators, developer utilities, generators and design — built so you can get a task done in a few seconds without installing anything or creating an account.`,
     `Every tool runs entirely client-side: nothing you type, upload or generate here is sent to a server, which is what makes it fast, private, and just as usable on a phone as on a laptop. Use the category filters above to narrow things down, or search by name if you already know what you're after.`,
   ];
 
   const faq = [
     {
       q: "Are all these tools really free?",
-      a: "Yes — every tool on ToolSlay is free to use, with no hidden paywalls, watermarks, or daily usage limits.",
+      a: "Yes — every tool on Toolslay is free to use, with no hidden paywalls, watermarks, or daily usage limits.",
     },
     {
       q: "Do I need to create an account?",
-      a: "No. None of ToolSlay's tools require sign-up — just open a tool and start using it right away.",
+      a: "No. None of Toolslay's tools require sign-up — just open a tool and start using it right away.",
     },
     {
       q: "Is my data safe?",

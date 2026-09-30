@@ -5,8 +5,8 @@ import { TOOLS } from "@/data/tools";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "All Tools — 40+ Free Online Tools",
-  description: "Browse every ToolSlay tool: PDF, image, text, calculators, developer tools and more. All free, all in your browser.",
+  title: `All Tools — ${TOOLS.length}+ Free Online Tools`,
+  description: "Browse every Toolslay tool: PDF, image, text, calculators, developer tools and more. All free, all in your browser.",
   path: "/tools",
 });
 

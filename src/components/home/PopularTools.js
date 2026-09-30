@@ -2,7 +2,7 @@ import Link from "next/link";
 import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ToolCard from "@/components/tools/ToolCard";
-import { getPopularTools } from "@/data/tools";
+import { getPopularTools, TOOLS } from "@/data/tools";
 
 export default function PopularTools() {
   const tools = getPopularTools(8);
@@ -16,7 +16,7 @@ export default function PopularTools() {
           description="Start with the tools people reach for most, or browse the full library."
           action={
             <Link href="/tools" className="text-sm font-medium text-brand hover:text-brand-dark">
-              Browse all 40 tools →
+              Browse all {TOOLS.length} tools →
             </Link>
           }
         />

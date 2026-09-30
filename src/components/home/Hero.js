@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Search } from "lucide-react";
 import WordCounter from "@/tools-impl/word-counter/WordCounter";
+import { TOOLS } from "@/data/tools";
 
 export default function Hero() {
   return (
@@ -8,7 +9,7 @@ export default function Hero() {
       <div className="mx-auto grid max-w-container grid-cols-1 items-center gap-10 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:py-20 lg:px-8">
         <div>
           <span className="inline-block rounded-md bg-brand-light px-3 py-1 text-xs font-semibold text-brand">
-            40+ browser tools · no sign-up
+            {TOOLS.length}+ browser tools · no sign-up
           </span>
           <h1 className="mt-4 font-display text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-[2.75rem]">
             Every tool your day needs. Nothing to install.

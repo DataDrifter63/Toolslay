@@ -43,7 +43,7 @@ const parseMarkdown = (md) => {
   );
   html = html.replace(
     /^# (.*$)/gim,
-    '<h1 style="font-size:1.875rem; font-weight:900; margin-top:2rem; margin-bottom:1.5rem; border-bottom:2px solid #6366f1; padding-bottom:0.5rem; color:#0f172a;">$1</h1>'
+    '<h2 style="font-size:1.875rem; font-weight:900; margin-top:2rem; margin-bottom:1.5rem; border-bottom:2px solid #6366f1; padding-bottom:0.5rem; color:#0f172a;">$1</h2>'
   );
   html = html.replace(
     /^\> (.*$)/gim,

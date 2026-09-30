@@ -7,7 +7,7 @@ import { SITE } from "@/lib/constants";
 
 export const metadata = buildMetadata({
   title: "Contact Us",
-  description: "Get in touch with the ToolSlay team — report a bug or suggest a new tool.",
+  description: "Get in touch with the Toolslay team — report a bug or suggest a new tool.",
   path: "/contact",
 });
 

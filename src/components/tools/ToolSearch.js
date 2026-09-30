@@ -9,6 +9,7 @@ import AboutSection from "@/components/ui/AboutSection";
 import FaqAccordion from "@/components/ui/FaqAccordion";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { CATEGORIES } from "@/data/categories";
+import { TOOLS } from "@/data/tools";
 import { getCategoryContent, getAllToolsContent } from "@/lib/toolContent";
 
 export default function ToolSearch({ tools }) {
@@ -62,7 +63,7 @@ export default function ToolSearch({ tools }) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search 40+ tools..."
+            placeholder={`Search ${TOOLS.length}+ tools...`}
             aria-label="Search tools"
             className="w-full bg-transparent text-sm text-ink placeholder:text-muted focus:outline-none"
           />
@@ -120,7 +121,7 @@ export default function ToolSearch({ tools }) {
       <AdSlot className="mt-10" />
 
       <AboutSection
-        title={activeCategoryObj ? `About ${activeCategoryObj.name}` : "About ToolSlay's tools"}
+        title={activeCategoryObj ? `About ${activeCategoryObj.name}` : "About Toolslay's tools"}
         lead={content.intro[0]}
         paragraphs={content.intro.slice(1)}
         accent={activeCategoryObj?.accent}

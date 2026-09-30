@@ -835,7 +835,7 @@ export default function ImageConverter() {
       <div className="ic-wrap">
         <div className="ic-card">
           <div className="ic-header">
-            <h1 className="ic-title">Image Converter</h1>
+            <h2 className="ic-title">Image Converter</h2>
             <p className="ic-subtitle">
               Convert, resize and optimize images directly in your browser.
               Your files stay on your device.

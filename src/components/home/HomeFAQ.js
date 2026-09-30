@@ -4,7 +4,7 @@ import FaqAccordion from "@/components/ui/FaqAccordion";
 
 const FAQ = [
   {
-    q: "Are ToolSlay's tools really free?",
+    q: "Are Toolslay's tools really free?",
     a: "Yes — every tool is free to use, with no usage limits, no watermark on your results, and no account required.",
   },
   {
@@ -16,7 +16,7 @@ const FAQ = [
     a: "Yes. Files, text and images are processed locally in your browser and are never uploaded to a server, so nothing you work with ever leaves your device.",
   },
   {
-    q: "Can I use ToolSlay on my phone?",
+    q: "Can I use Toolslay on my phone?",
     a: "Yes, every tool works on mobile browsers as well as desktop — there's no separate app needed.",
   },
   {
@@ -34,7 +34,7 @@ export default function HomeFAQ() {
         <SectionHeading
           eyebrow="FAQ"
           title="Common questions"
-          description="Quick answers about how ToolSlay works."
+          description="Quick answers about how Toolslay works."
         />
         <FaqAccordion items={FAQ} />
       </Container>

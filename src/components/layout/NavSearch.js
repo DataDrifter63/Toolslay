@@ -98,7 +98,7 @@ export default function NavSearch({ compact = false, onNavigate }) {
             }}
             onFocus={() => query && setOpen(true)}
             onKeyDown={handleKeyDown}
-            placeholder={compact ? "Search tools..." : "Search ToolSlay's 40+ tools..."}
+            placeholder={compact ? "Search tools..." : `Search Toolslay's ${TOOLS.length}+ tools...`}
             aria-label="Search tools"
             role="combobox"
             aria-expanded={open && suggestions.length > 0}

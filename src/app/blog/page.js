@@ -5,7 +5,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "Blog — Guides & Tips",
-  description: "How-to guides and tips for getting more out of ToolSlay's free online tools.",
+  description: "How-to guides and tips for getting more out of Toolslay's free online tools.",
   path: "/blog",
 });
 

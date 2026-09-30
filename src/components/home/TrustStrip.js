@@ -1,10 +1,11 @@
 import { Lock, Zap, Wrench, Infinity as InfinityIcon } from "lucide-react";
 import Container from "@/components/layout/Container";
+import { TOOLS } from "@/data/tools";
 
 const ITEMS = [
   { icon: Lock, label: "100% in your browser" },
   { icon: Zap, label: "No sign-up, ever" },
-  { icon: Wrench, label: "40+ free tools" },
+  { icon: Wrench, label: `${TOOLS.length}+ free tools` },
   { icon: InfinityIcon, label: "Free forever" },
 ];
 

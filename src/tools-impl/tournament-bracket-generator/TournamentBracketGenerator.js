@@ -226,9 +226,9 @@ export default function TournamentBracketGenerator() {
         <div className="flex-1 w-full bg-paper border border-line rounded-2xl shadow-sm relative overflow-hidden min-h-[550px] print:m-0 print:border-none print:shadow-none print:bg-surface print:fixed print:inset-0 print:z-50 font-sans">
           
           <div className="hidden print:block text-center pt-8 pb-4">
-            <h1 className="text-2xl font-black text-ink uppercase tracking-widest border-b-2 border-ink inline-block pb-2">
+            <h2 className="text-2xl font-black text-ink uppercase tracking-widest border-b-2 border-ink inline-block pb-2">
               {tournamentName}
-            </h1>
+            </h2>
           </div>
 
           {!isGenerated ? (

@@ -278,7 +278,7 @@ export default function MetaDescriptionLengthChecker() {
                    </div>
                    <div className="flex flex-col min-w-0">
                      <span className="text-[12px] text-[#202124] dark:text-[#bdc1c6] font-normal leading-tight truncate">
-                       ToolSlay
+                       toolslay
                      </span>
                      <span className="text-[10px] text-[#4d5156] dark:text-[#9aa0a6] font-normal leading-tight truncate">
                        {url || "https://example.com"}

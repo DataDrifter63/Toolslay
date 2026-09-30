@@ -1,5 +1,5 @@
 export const SITE = {
-  name: "ToolSlay",
+  name: "Toolslay",
   tagline: "Every tool your day needs. Nothing to install.",
   description:
     "200+ free online tools for PDF, image, video, text, calculators, developers and everyday life. 100% browser-based, no sign-up, no downloads.",

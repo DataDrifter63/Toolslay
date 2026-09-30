@@ -4,7 +4,7 @@ import Container from "@/components/layout/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Icon from "@/components/ui/Icon";
 import { CATEGORIES } from "@/data/categories";
-import { getToolsByCategory } from "@/data/tools";
+import { getToolsByCategory, TOOLS } from "@/data/tools";
 
 export default function CategoryGrid() {
   return (
@@ -13,7 +13,7 @@ export default function CategoryGrid() {
         <SectionHeading
           eyebrow="Browse"
           title="Find tools by category"
-          description="40+ tools organized into six categories so you can get to the right one fast."
+          description={`${TOOLS.length}+ tools organized into ${CATEGORIES.length} categories so you can get to the right one fast.`}
         />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CATEGORIES.map((cat) => {

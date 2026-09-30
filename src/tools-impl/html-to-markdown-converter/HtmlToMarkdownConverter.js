@@ -11,7 +11,7 @@ export default function HtmlToMarkdownConverter() {
   const [isMounted, setIsMounted] = useState(false);
 
   const [htmlInput, setHtmlInput] = useState(
-`<h1>Muxair Conversion Engine</h1>
+`<h2>Muxair Conversion Engine</h2>
 <p>Welcome to the <b>premium</b> HTML to Markdown compiler.</p>
 
 <div class="wrapper-junk" style="color: red;">

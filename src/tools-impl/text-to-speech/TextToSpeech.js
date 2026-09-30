@@ -46,7 +46,7 @@ const QUOTES = [
 ];
 
 export default function TextToSpeech() {
-  const [text, setText] = useState("Welcome to ToolSlay! Our voice agents now have unique names, perfect gender-matching photos, and they never repeat. Click on any agent's photo to hear their unique greeting.");
+  const [text, setText] = useState("Welcome to Toolslay! Our voice agents now have unique names, perfect gender-matching photos, and they never repeat. Click on any agent's photo to hear their unique greeting.");
   
   const [voices, setVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState("");

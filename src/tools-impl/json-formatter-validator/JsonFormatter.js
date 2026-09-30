@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 
 const SAMPLE_JSON = `{
   "project": {
-    "name": "ToolSlay",
+    "name": "toolslay",
     "version": "1.3",
     "active": true,
     "features": [

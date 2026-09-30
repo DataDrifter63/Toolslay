@@ -48,7 +48,7 @@ Try writing some \`inline code\` or bold text.`
 
     html = html.replace(/^### (.*$)/gim, mode === 'tailwind' ? '<h3 class="text-lg sm:text-xl font-bold mt-6 mb-3 text-ink">$1</h3>' : '<h3>$1</h3>');
     html = html.replace(/^## (.*$)/gim, mode === 'tailwind' ? '<h2 class="text-xl sm:text-2xl font-black mt-8 mb-4 text-ink border-b border-line pb-2">$1</h2>' : '<h2>$1</h2>');
-    html = html.replace(/^# (.*$)/gim, mode === 'tailwind' ? '<h1 class="text-2xl sm:text-4xl font-black mt-4 mb-6 text-brand">$1</h1>' : '<h1>$1</h1>');
+    html = html.replace(/^# (.*$)/gim, mode === 'tailwind' ? '<h2 class="text-2xl sm:text-4xl font-black mt-4 mb-6 text-brand">$1</h2>' : '<h2>$1</h2>');
 
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/gim, mode === 'tailwind' 
       ? '<a href="$2" class="text-brand hover:opacity-80 font-bold underline underline-offset-2 transition-opacity">$1</a>' 

@@ -16,7 +16,7 @@ const POINTS = [
   {
     icon: Ban,
     title: "No sign-up, no paywall",
-    text: "Every tool on ToolSlay is free with no usage cap, no watermark, and no account required. Open a tool and start using it immediately.",
+    text: "Every tool on Toolslay is free with no usage cap, no watermark, and no account required. Open a tool and start using it immediately.",
   },
   {
     icon: RefreshCw,
@@ -30,7 +30,7 @@ export default function WhyToolSlay() {
     <section className="border-t border-line bg-surface py-16">
       <Container>
         <SectionHeading
-          eyebrow="Why ToolSlay"
+          eyebrow="Why Toolslay"
           title="Built to be fast, private and free"
           description="A quick look at what makes browser-based tools different from the average online converter."
         />

@@ -382,7 +382,7 @@ export default class ColorPicker extends React.Component {
         <div className="bg-surface border border-line px-4 sm:px-6 py-4 rounded-2xl shadow-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full box-border">
           <div>
             <div className="text-[10px] font-black text-brand uppercase tracking-widest mb-1">DESIGN & COLOR TOOL</div>
-            <h1 className="text-xl sm:text-2xl font-black text-ink tracking-tight">Color Picker</h1>
+            <h2 className="text-xl sm:text-2xl font-black text-ink tracking-tight">Color Picker</h2>
             <p className="text-xs font-bold text-muted mt-0.5">Pick, inspect, convert, and test colors with professional toolsets.</p>
           </div>
           <div className="flex items-center gap-2 w-full sm:w-auto">

@@ -16,7 +16,7 @@ body { font-family: sans-serif; margin: 0; padding: 20px; background: #f9f9f9; }
 </style>
 </head>
 <body>
-<div class="container" id="main-wrapper"><div class="card"><h1 style="color: #333;" class="title">Welcome to HTML Pro Formatter</h1><p>This is an unformatted sample snippet with mixed attributes. Click buttons on the right to test presets and sorting!</p><button type="button" class="btn primary" id="action-btn">Click Me</button></div></div>
+<div class="container" id="main-wrapper"><div class="card"><h2 style="color: #333;" class="title">Welcome to HTML Pro Formatter</h2><p>This is an unformatted sample snippet with mixed attributes. Click buttons on the right to test presets and sorting!</p><button type="button" class="btn primary" id="action-btn">Click Me</button></div></div>
 </body>
 </html>`;
 

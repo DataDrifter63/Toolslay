@@ -85,6 +85,26 @@ export function websiteJsonLd() {
   };
 }
 
+/** JSON-LD Organization schema — ties the brand to its social profiles
+ *  (sameAs) so Google can connect them into one entity in the Knowledge
+ *  Graph, instead of treating the site and each social profile separately.
+ *  Update the sameAs list if any handle below ever changes. */
+export function organizationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.name,
+    url: SITE.url,
+    logo: `${SITE.url}/opengraph-image`,
+    sameAs: [
+      "https://x.com/toolslay",
+      "https://www.linkedin.com/company/toolslay",
+      "https://www.instagram.com/toolslay",
+      "https://www.facebook.com/toolslay",
+    ],
+  };
+}
+
 /** JSON-LD FAQPage schema — enables FAQ rich results in Google search. */
 export function faqJsonLd(faqItems = []) {
   if (!faqItems || faqItems.length === 0) return null;

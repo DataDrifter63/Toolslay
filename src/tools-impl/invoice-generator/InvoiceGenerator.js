@@ -367,7 +367,7 @@ const InvoiceGenerator = () => {
                  {/* Top Header Section */}
                  <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b-2 border-slate-100 pb-5 mb-5 min-w-0">
                     <div className="space-y-0.5 min-w-0">
-                       <h1 className={`text-2xl sm:text-4xl font-black tracking-tight uppercase ${theme.text}`}>INVOICE</h1>
+                       <h2 className={`text-2xl sm:text-4xl font-black tracking-tight uppercase ${theme.text}`}>INVOICE</h2>
                        <p className="text-xs sm:text-sm font-bold text-slate-500 tracking-wider truncate">{invoiceNo || "INV-000"}</p>
                     </div>
                     <div className="text-left sm:text-right space-y-0.5 min-w-0 w-full sm:w-auto">
