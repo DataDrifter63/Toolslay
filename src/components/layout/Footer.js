@@ -12,7 +12,7 @@ export default function Footer() {
       <Container className="grid grid-cols-2 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="col-span-2 lg:col-span-1">
           <Link href="/" className="font-display text-lg font-bold text-ink">
-            Tool<span className="text-brand">Slay</span>
+            tool<span className="text-brand">slay</span>
           </Link>
           <p className="mt-3 max-w-xs text-sm text-muted">{SITE.description}</p>
         </div>

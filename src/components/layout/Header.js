@@ -15,7 +15,7 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur">
       <Container className="flex h-16 items-center gap-4">
         <Link href="/" className="shrink-0 font-display text-lg font-bold text-ink">
-          Tool<span className="text-brand">slay</span>
+          tool<span className="text-brand">slay</span>
         </Link>
 
         <div className="hidden flex-1 max-w-md md:block">

@@ -13,7 +13,7 @@ export default function TermsPage() {
     <Container className="py-14">
       <div className="mx-auto max-w-2xl">
         <h1 className="font-display text-3xl font-bold text-ink">Terms of Service</h1>
-        <p className="mt-2 text-xs text-muted">Last updated: [DATE]</p>
+        <p className="mt-2 text-xs text-muted">Last updated: September 30, 2026</p>
 
         <div className="prose prose-sm mt-8 space-y-6 text-sm leading-relaxed text-muted">
           <section>

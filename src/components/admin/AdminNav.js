@@ -20,7 +20,7 @@ export default function AdminNav() {
     <header className="border-b border-line bg-surface">
       <div className="mx-auto flex max-w-container items-center justify-between px-5 py-3 sm:px-6 lg:px-8">
         <Link href="/admin" className="font-display text-sm font-bold text-ink">
-          Tool<span className="text-brand">Slay</span> <span className="text-muted">Admin</span>
+          tool<span className="text-brand">slay</span> <span className="text-muted">Admin</span>
         </Link>
         <nav className="flex items-center gap-5">
           <Link href="/admin" className="flex items-center gap-1.5 text-sm text-muted transition hover:text-ink">

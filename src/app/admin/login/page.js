@@ -13,7 +13,7 @@ export default function AdminLoginPage() {
   return (
     <Container className="flex min-h-[70vh] flex-col items-center justify-center py-14">
       <Link href="/" className="mb-6 font-display text-lg font-bold text-ink">
-        Tool<span className="text-brand">Slay</span>
+        tool<span className="text-brand">slay</span>
       </Link>
       <div className="w-full max-w-sm rounded-card border border-line bg-surface p-6 shadow-card">
         <h1 className="mb-1 font-display text-xl font-bold text-ink">Admin sign in</h1>

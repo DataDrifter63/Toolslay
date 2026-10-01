@@ -25,7 +25,7 @@ export default async function sitemap() {
     priority: 0.7,
   }));
 
-  const toolPages = TOOLS.map((tool) => ({
+  const toolPages = TOOLS.filter((tool) => tool.implemented).map((tool) => ({
     url: `${SITE.url}/tools/${tool.slug}`,
     lastModified: now,
     changeFrequency: "monthly",

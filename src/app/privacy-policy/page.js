@@ -13,16 +13,14 @@ export default function PrivacyPolicyPage() {
     <Container className="py-14">
       <div className="mx-auto max-w-2xl">
         <h1 className="font-display text-3xl font-bold text-ink">Privacy Policy</h1>
-        <p className="mt-2 text-xs text-muted">Last updated: [DATE]</p>
+        <p className="mt-2 text-xs text-muted">Last updated: September 30, 2026</p>
 
         <div className="prose prose-sm mt-8 space-y-6 text-sm leading-relaxed text-muted">
           <section>
             <h2 className="font-display text-lg font-semibold text-ink">1. Overview</h2>
             <p className="mt-2">
               {SITE.name} (&quot;we&quot;, &quot;us&quot;) provides free online tools at {SITE.url}. This policy
-              explains what data is collected when you use the site and how it is used. Replace
-              the bracketed placeholders below with your actual company/contact details before
-              publishing.
+              explains what data is collected when you use the site and how it is used.
             </p>
           </section>
 
