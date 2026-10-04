@@ -18,6 +18,7 @@ export async function generateMetadata({ params }) {
     title: post.title,
     description: post.meta_description,
     path: `/blog/${post.slug}`,
+    image: post.cover_image || undefined,
   });
 }
 
@@ -38,7 +39,7 @@ export default async function BlogPostPage({ params }) {
   return (
     <Container className="py-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <article className="mx-auto max-w-2xl">
+      <article>
         <h1 className="font-display text-3xl font-bold text-ink">{post.title}</h1>
         {post.published_at && (
           <p className="mt-2 text-xs text-muted">
@@ -49,6 +50,15 @@ export default async function BlogPostPage({ params }) {
             })}
           </p>
         )}
+
+        {post.cover_image && (
+          <img
+            src={post.cover_image}
+            alt={post.title}
+            className="mt-6 aspect-[16/9] w-full rounded-card object-cover"
+          />
+        )}
+
         {/* Content is authored as Markdown in the /admin editor — converted to HTML here. */}
         <div
           className="prose prose-sm mt-8 max-w-none text-ink"

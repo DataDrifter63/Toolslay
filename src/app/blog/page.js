@@ -29,12 +29,24 @@ export default async function BlogPage() {
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group rounded-card border border-line bg-surface p-5 shadow-card transition hover:-translate-y-0.5 hover:shadow-hover"
+              className="group overflow-hidden rounded-card border border-line bg-surface shadow-card transition hover:-translate-y-0.5 hover:shadow-hover"
             >
-              <h2 className="font-display text-base font-semibold text-ink group-hover:text-brand">
-                {post.title}
-              </h2>
-              <p className="mt-2 text-sm text-muted line-clamp-3">{post.meta_description}</p>
+              {post.cover_image ? (
+                <img
+                  src={post.cover_image}
+                  alt={post.title}
+                  loading="lazy"
+                  className="aspect-[16/9] w-full object-cover"
+                />
+              ) : (
+                <div className="aspect-[16/9] w-full bg-brand-light" aria-hidden="true" />
+              )}
+              <div className="p-5">
+                <h2 className="font-display text-base font-semibold text-ink group-hover:text-brand">
+                  {post.title}
+                </h2>
+                <p className="mt-2 text-sm text-muted line-clamp-3">{post.meta_description}</p>
+              </div>
             </Link>
           ))}
         </div>

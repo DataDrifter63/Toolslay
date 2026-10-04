@@ -4,9 +4,13 @@ import { SITE } from "./constants";
  * Build a Next.js Metadata object for a page.
  * Usage: export const metadata = buildMetadata({ title, description, path })
  */
-export function buildMetadata({ title, description, path = "/", noIndex = false }) {
+export function buildMetadata({ title, description, path = "/", noIndex = false, image }) {
   const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} — ${SITE.tagline}`;
   const url = `${SITE.url}${path}`;
+  // Pages like blog posts can pass their own cover image (e.g. from Cloudinary)
+  // so link previews on WhatsApp/Twitter/etc. show the actual post image instead
+  // of the generic site-wide one.
+  const ogImage = image || "/opengraph-image";
 
   return {
     metadataBase: new URL(SITE.url),
@@ -21,14 +25,14 @@ export function buildMetadata({ title, description, path = "/", noIndex = false 
       siteName: SITE.name,
       locale: SITE.locale,
       type: "website",
-      images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: SITE.name }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: fullTitle }],
     },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
       description: description || SITE.description,
       site: SITE.twitter,
-      images: ["/opengraph-image"],
+      images: [ogImage],
     },
   };
 }

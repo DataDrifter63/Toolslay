@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Save, Eye, Pencil, ImagePlus } from "lucide-react";
+import { Loader2, Save, Eye, Pencil, ImagePlus, Image as ImageIcon } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { markdownToHtml } from "@/lib/markdown";
+import { uploadImageToCloudinary } from "@/lib/cloudinary";
 
 function slugify(str) {
   return str
@@ -26,12 +27,14 @@ export default function PostForm({ postId }) {
   const [category, setCategory] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(true);
-  const [coverFile, setCoverFile] = useState(null);
   const [coverPreview, setCoverPreview] = useState(null);
   const [tab, setTab] = useState("write"); // "write" | "preview"
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(isEditMode);
   const [error, setError] = useState("");
+  const [coverUploading, setCoverUploading] = useState(false);
+  const [insertingImage, setInsertingImage] = useState(false);
+  const contentRef = useRef(null);
 
   const previewHtml = useMemo(() => markdownToHtml(content), [content]);
 
@@ -71,11 +74,50 @@ export default function PostForm({ postId }) {
     if (!slugTouched) setSlug(slugify(value));
   }
 
-  function handleCoverChange(e) {
+  async function handleCoverChange(e) {
     const file = e.target.files?.[0];
     if (!file) return;
-    setCoverFile(file);
-    setCoverPreview(URL.createObjectURL(file));
+    setError("");
+    setCoverUploading(true);
+    try {
+      const { url } = await uploadImageToCloudinary(file);
+      setCoverPreview(url);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setCoverUploading(false);
+    }
+  }
+
+  async function handleInsertContentImage(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = ""; // allow picking the same file again later
+    setError("");
+    setInsertingImage(true);
+    try {
+      const { url } = await uploadImageToCloudinary(file);
+      const markdown = `![${file.name.replace(/\.[^.]+$/, "")}](${url})`;
+      const textarea = contentRef.current;
+      if (textarea) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const next = content.slice(0, start) + markdown + content.slice(end);
+        setContent(next);
+        // restore focus + cursor after the inserted markdown
+        requestAnimationFrame(() => {
+          textarea.focus();
+          const pos = start + markdown.length;
+          textarea.setSelectionRange(pos, pos);
+        });
+      } else {
+        setContent((prev) => `${prev}\n${markdown}\n`);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setInsertingImage(false);
+    }
   }
 
   async function handleSubmit(e) {
@@ -93,27 +135,13 @@ export default function PostForm({ postId }) {
 
     setSaving(true);
 
-    let coverUrl = isEditMode ? coverPreview : null;
-    if (coverFile) {
-      const ext = coverFile.name.split(".").pop();
-      const path = `${slug}-${Date.now()}.${ext}`;
-      const { error: uploadError } = await supabase.storage.from("blog-covers").upload(path, coverFile);
-      if (uploadError) {
-        setError(`Cover image upload failed: ${uploadError.message}`);
-        setSaving(false);
-        return;
-      }
-      const { data: urlData } = supabase.storage.from("blog-covers").getPublicUrl(path);
-      coverUrl = urlData.publicUrl;
-    }
-
     const payload = {
       title: title.trim(),
       slug: slug.trim(),
       content,
       meta_description: metaDescription.trim() || null,
       category: category.trim() || null,
-      cover_image: coverUrl,
+      cover_image: coverPreview || null,
       published,
     };
 
@@ -217,39 +245,78 @@ export default function PostForm({ postId }) {
             {coverPreview && (
               <img src={coverPreview} alt="Cover preview" className="h-16 w-16 rounded-lg object-cover" />
             )}
-            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-line bg-paper px-3 py-2 text-sm text-muted hover:border-brand hover:text-brand">
-              <ImagePlus size={15} aria-hidden="true" />
-              {coverPreview ? "Change image" : "Upload image"}
-              <input type="file" accept="image/*" onChange={handleCoverChange} className="hidden" />
+            <label
+              className={`flex items-center gap-2 rounded-lg border border-line bg-paper px-3 py-2 text-sm text-muted hover:border-brand hover:text-brand ${
+                coverUploading ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+              }`}
+            >
+              {coverUploading ? (
+                <Loader2 size={15} className="animate-spin" aria-hidden="true" />
+              ) : (
+                <ImagePlus size={15} aria-hidden="true" />
+              )}
+              {coverUploading ? "Uploading..." : coverPreview ? "Change image" : "Upload image"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleCoverChange}
+                disabled={coverUploading}
+                className="hidden"
+              />
             </label>
           </div>
         </label>
       </div>
 
       <div className="mt-4 rounded-card border border-line bg-surface p-5">
-        <div className="mb-3 inline-flex rounded-lg border border-line bg-paper p-1">
-          <button
-            type="button"
-            onClick={() => setTab("write")}
-            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition ${
-              tab === "write" ? "bg-surface text-ink shadow-card" : "text-muted"
-            }`}
-          >
-            <Pencil size={13} aria-hidden="true" /> Write
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab("preview")}
-            className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition ${
-              tab === "preview" ? "bg-surface text-ink shadow-card" : "text-muted"
-            }`}
-          >
-            <Eye size={13} aria-hidden="true" /> Preview
-          </button>
+        <div className="mb-3 flex items-center justify-between">
+          <div className="inline-flex rounded-lg border border-line bg-paper p-1">
+            <button
+              type="button"
+              onClick={() => setTab("write")}
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition ${
+                tab === "write" ? "bg-surface text-ink shadow-card" : "text-muted"
+              }`}
+            >
+              <Pencil size={13} aria-hidden="true" /> Write
+            </button>
+            <button
+              type="button"
+              onClick={() => setTab("preview")}
+              className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium transition ${
+                tab === "preview" ? "bg-surface text-ink shadow-card" : "text-muted"
+              }`}
+            >
+              <Eye size={13} aria-hidden="true" /> Preview
+            </button>
+          </div>
+
+          {tab === "write" && (
+            <label
+              className={`flex items-center gap-1.5 rounded-lg border border-line bg-paper px-3 py-1.5 text-xs font-medium text-muted hover:border-brand hover:text-brand ${
+                insertingImage ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+              }`}
+            >
+              {insertingImage ? (
+                <Loader2 size={13} className="animate-spin" aria-hidden="true" />
+              ) : (
+                <ImageIcon size={13} aria-hidden="true" />
+              )}
+              {insertingImage ? "Uploading..." : "Insert image"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleInsertContentImage}
+                disabled={insertingImage}
+                className="hidden"
+              />
+            </label>
+          )}
         </div>
 
         {tab === "write" ? (
           <textarea
+            ref={contentRef}
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write in Markdown — # Heading, **bold**, *italic*, [link](url), - list item..."
