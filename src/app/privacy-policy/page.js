@@ -11,11 +11,11 @@ export const metadata = buildMetadata({
 export default function PrivacyPolicyPage() {
   return (
     <Container className="py-14">
-      <div className="mx-auto max-w-2xl">
+      <div>
         <h1 className="font-display text-3xl font-bold text-ink">Privacy Policy</h1>
         <p className="mt-2 text-xs text-muted">Last updated: September 30, 2026</p>
 
-        <div className="prose prose-sm mt-8 space-y-6 text-sm leading-relaxed text-muted">
+        <div className="prose prose-sm mt-8 max-w-none space-y-6 text-sm leading-relaxed text-muted">
           <section>
             <h2 className="font-display text-lg font-semibold text-ink">1. Overview</h2>
             <p className="mt-2">

@@ -21,7 +21,7 @@ export default function ContactForm() {
     setError("");
     const subject = encodeURIComponent(`Message from ${form.name} via ${SITE.name}`);
     const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name} (${form.email})`);
-    window.location.href = `mailto:hello@toolsslay.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:hello@toolslay.com?subject=${subject}&body=${body}`;
     setSent(true);
   }
 

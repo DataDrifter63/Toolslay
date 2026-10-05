@@ -8,7 +8,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import AboutSection from "@/components/ui/AboutSection";
 import RelatedTools from "./RelatedTools";
 import { getCategory } from "@/data/categories";
-import { getRelatedTools as relatedToolsFn } from "@/data/tools";
+import { getRelated as relatedToolsFn } from "@/data/related";
 import { toolJsonLd, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
 import { getToolContent } from "@/lib/toolContent";
 
