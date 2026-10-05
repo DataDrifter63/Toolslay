@@ -51,7 +51,7 @@ export default function ContactPage() {
           <div className="rounded-card border border-line bg-surface p-6 sm:p-8 lg:col-span-3">
             <h2 className="font-display text-lg font-bold text-ink">Send a message</h2>
             <p className="mt-1 text-sm text-muted">
-              This opens your email app with the message pre-filled to {SITE.name.toLowerCase()}
+              This opens your email app with the message pre-filled to {SITE.name}
               &apos;s inbox — review it and hit send.
             </p>
             <ContactForm />

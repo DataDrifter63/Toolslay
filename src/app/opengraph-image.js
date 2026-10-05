@@ -46,7 +46,7 @@ export default async function OpengraphImage() {
             T
           </div>
           <div style={{ display: "flex", fontSize: 72, fontWeight: 700, color: "white" }}>
-            tool<span style={{ color: "#A5B4FC" }}>slay</span>
+            Tool<span style={{ color: "#A5B4FC" }}>slay</span>
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 34, color: "#E0E7FF", textAlign: "center" }}>

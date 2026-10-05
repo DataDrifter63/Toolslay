@@ -33,6 +33,21 @@ export function markdownToHtml(markdown) {
   let listBuffer = [];
   let listType = null; // "ul" | "ol"
 
+  // The post page already renders the post title as the page's <h1>, so headings
+  // inside the body must start at <h2>. Find the shallowest heading the author
+  // used and shift every heading so that one becomes <h2> — this keeps their
+  // hierarchy intact (no second <h1>, no skipped levels) whether they write
+  // "# Section", "## Section" or "### Section".
+  let scanFence = false;
+  let minLevel = 7;
+  for (const l of lines) {
+    if (l.trim().startsWith("```")) { scanFence = !scanFence; continue; }
+    if (scanFence) continue;
+    const m = /^(#{1,4})\s+/.exec(l);
+    if (m && m[1].length < minLevel) minLevel = m[1].length;
+  }
+  const levelShift = minLevel === 7 ? 0 : minLevel - 2;
+
   function flushList() {
     if (listBuffer.length) {
       html.push(`<${listType}>${listBuffer.join("")}</${listType}>`);
@@ -60,19 +75,11 @@ export function markdownToHtml(markdown) {
       continue;
     }
 
-    if (/^###\s+/.test(line)) {
+    const headingMatch = /^(#{1,4})\s+(.*)/.exec(line);
+    if (headingMatch) {
       flushList();
-      html.push(`<h3>${inline(line.replace(/^###\s+/, ""))}</h3>`);
-      continue;
-    }
-    if (/^##\s+/.test(line)) {
-      flushList();
-      html.push(`<h2>${inline(line.replace(/^##\s+/, ""))}</h2>`);
-      continue;
-    }
-    if (/^#\s+/.test(line)) {
-      flushList();
-      html.push(`<h1>${inline(line.replace(/^#\s+/, ""))}</h1>`);
+      const level = Math.min(Math.max(headingMatch[1].length - levelShift, 2), 6);
+      html.push(`<h${level}>${inline(headingMatch[2])}</h${level}>`);
       continue;
     }
 

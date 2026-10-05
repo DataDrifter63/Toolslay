@@ -31,7 +31,6 @@ export function buildMetadata({ title, description, path = "/", noIndex = false,
       card: "summary_large_image",
       title: fullTitle,
       description: description || SITE.description,
-      site: SITE.twitter,
       images: [ogImage],
     },
   };
@@ -78,6 +77,7 @@ export function websiteJsonLd() {
     name: SITE.name,
     url: SITE.url,
     description: SITE.description,
+    publisher: { "@id": `${SITE.url}/#organization` },
     potentialAction: {
       "@type": "SearchAction",
       target: {
@@ -90,22 +90,23 @@ export function websiteJsonLd() {
 }
 
 /** JSON-LD Organization schema — ties the brand to its social profiles
- *  (sameAs) so Google can connect them into one entity in the Knowledge
- *  Graph, instead of treating the site and each social profile separately.
- *  Update the sameAs list if any handle below ever changes. */
+ *  (sameAs) so Google can connect them into one entity. Profile URLs live in
+ *  SITE.social (constants.js). The logo is a square PNG (public/logo.png) as
+ *  Google's logo guidelines ask — not the wide 1200x630 share image. */
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${SITE.url}/#organization`,
     name: SITE.name,
     url: SITE.url,
-    logo: `${SITE.url}/opengraph-image`,
-    sameAs: [
-      "https://x.com/toolslay",
-      "https://www.linkedin.com/company/toolslay",
-      "https://www.instagram.com/toolslay",
-      "https://www.facebook.com/toolslay",
-    ],
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE.url}/logo.png`,
+      width: 512,
+      height: 512,
+    },
+    sameAs: Object.values(SITE.social),
   };
 }
 

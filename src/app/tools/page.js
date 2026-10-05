@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import Container from "@/components/layout/Container";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { TOOLS } from "@/data/tools";
@@ -19,9 +18,7 @@ export default function AllToolsPage() {
         category to find what you need.
       </p>
       <div className="mt-8">
-        <Suspense fallback={null}>
-          <ToolSearch tools={TOOLS} />
-        </Suspense>
+        <ToolSearch tools={TOOLS} />
       </div>
     </Container>
   );

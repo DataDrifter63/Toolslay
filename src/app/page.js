@@ -7,7 +7,7 @@ import HomeFAQ, { HOME_FAQ } from "@/components/home/HomeFAQ";
 import BlogTeaser from "@/components/home/BlogTeaser";
 import AdSlot from "@/components/ui/AdSlot";
 import Container from "@/components/layout/Container";
-import { buildMetadata, faqJsonLd, websiteJsonLd } from "@/lib/seo";
+import { buildMetadata, faqJsonLd, websiteJsonLd, organizationJsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/constants";
 
 export const metadata = buildMetadata({
@@ -18,7 +18,7 @@ export const metadata = buildMetadata({
 
 export default function HomePage() {
   const faqSchema = faqJsonLd(HOME_FAQ);
-  const jsonLd = [websiteJsonLd(), faqSchema].filter(Boolean);
+  const jsonLd = [organizationJsonLd(), websiteJsonLd(), faqSchema].filter(Boolean);
   return (
     <>
       {jsonLd.map((schema, i) => (

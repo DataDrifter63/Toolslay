@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { Suspense, useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import ToolCard from "./ToolCard";
@@ -12,15 +12,25 @@ import { CATEGORIES } from "@/data/categories";
 import { TOOLS } from "@/data/tools";
 import { getCategoryContent, getAllToolsContent } from "@/lib/toolContent";
 
-export default function ToolSearch({ tools }) {
+// Reads ?q= from the URL and pushes it into the search box. It lives in its own
+// tiny <Suspense> boundary on purpose: useSearchParams() opts the nearest
+// boundary out of server rendering, so keeping it here means ONLY this empty
+// child is client-rendered — the tool grid, About text and FAQ below are
+// rendered into the static HTML for crawlers.
+function QuerySync({ onQuery }) {
   const searchParams = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("q") || "");
-  const [activeCategory, setActiveCategory] = useState("all");
+  const q = searchParams.get("q");
 
   useEffect(() => {
-    const q = searchParams.get("q");
-    if (q) setQuery(q);
-  }, [searchParams]);
+    if (q) onQuery(q);
+  }, [q, onQuery]);
+
+  return null;
+}
+
+export default function ToolSearch({ tools }) {
+  const [query, setQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
 
   const filtered = useMemo(() => {
     return tools.filter((tool) => {
@@ -56,6 +66,10 @@ export default function ToolSearch({ tools }) {
 
   return (
     <div>
+      <Suspense fallback={null}>
+        <QuerySync onQuery={setQuery} />
+      </Suspense>
+
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="flex flex-1 items-center gap-2 rounded-lg border border-line bg-surface px-4 py-3">
           <Search size={18} className="text-muted" aria-hidden="true" />
@@ -101,10 +115,10 @@ export default function ToolSearch({ tools }) {
         ))}
       </div>
 
-      <p className="mt-6 text-sm text-muted">
+      <h2 className="mt-6 text-sm text-muted">
         Found <span className="font-semibold text-ink">{filtered.length}</span> tool
         {filtered.length !== 1 ? "s" : ""} for you
-      </p>
+      </h2>
 
       {filtered.length > 0 ? (
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

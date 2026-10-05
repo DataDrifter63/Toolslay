@@ -77,10 +77,10 @@ export default async function CategoryPage({ params }) {
       </div>
 
       <Container className="py-10">
-        <p className="mb-6 text-sm text-muted">
-          <span className="font-semibold text-ink">{tools.length}</span> tool
-          {tools.length !== 1 ? "s" : ""} in this category
-        </p>
+        <h2 className="mb-6 text-sm text-muted">
+          <span className="font-semibold text-ink">{tools.length}</span> free tool
+          {tools.length !== 1 ? "s" : ""} in {category.name}
+        </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => (
             <ToolCard key={tool.slug} tool={tool} />
