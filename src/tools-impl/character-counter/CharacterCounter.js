@@ -81,8 +81,6 @@ export default function CharacterCounter() {
     setText("");
   };
 
-  if (!isMounted) return null;
-
   // Premium Indigo & Violet Theme
   const theme = {
     gradient: "from-indigo-200 via-violet-100 to-transparent dark:from-indigo-900/30 dark:via-violet-900/20",

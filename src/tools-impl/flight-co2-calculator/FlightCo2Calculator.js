@@ -64,12 +64,10 @@ export default function FlightCo2Calculator() {
       totalKg: totalCO2.toFixed(1),
       totalTonnes: (totalCO2 / 1000).toFixed(2),
       trees: treesRequired,
-      phones: phoneCharges.toLocaleString(),
-      carKm: carKmEq.toLocaleString()
+      phones: phoneCharges.toLocaleString("en-US"),
+      carKm: carKmEq.toLocaleString("en-US")
     };
   }, [distance, unit, cabinClass, passengers, isRoundTrip, includeRFI]);
-
-  if (!isMounted) return null;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">

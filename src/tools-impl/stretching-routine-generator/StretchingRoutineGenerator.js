@@ -121,8 +121,6 @@ export default function StretchingRoutineGenerator() {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       

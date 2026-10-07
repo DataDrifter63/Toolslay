@@ -95,8 +95,6 @@ export default function JsonDiffChecker() {
     return String(val);
   };
 
-  if (!isMounted) return null;
-
   return (
     <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative box-border font-mono">
       

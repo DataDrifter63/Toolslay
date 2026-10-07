@@ -1,4 +1,4 @@
-# ToolSlay
+# Toolslay
 
 Free, browser-based online tools (PDF, image, text, calculators, developer tools, generators).
 Next.js 15 (App Router) + Tailwind CSS + Supabase (blog & admin) + Cloudflare Pages hosting.

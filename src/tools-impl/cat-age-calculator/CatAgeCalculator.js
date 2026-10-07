@@ -72,8 +72,6 @@ export default function CatAgeCalculator() {
   // Visual scale capping around 100 human years for the progress bar
   const progressPercent = Math.min((humanAge / 100) * 100, 100);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       

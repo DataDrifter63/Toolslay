@@ -127,9 +127,7 @@ export default function ElectricityBillEstimator() {
     };
   }, [appliances, ratePerKwh, fixedCharge, includeVampire]);
 
-  const formatMoney = (amount) => amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-  if (!isMounted) return null;
+  const formatMoney = (amount) => amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   return (
     <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">

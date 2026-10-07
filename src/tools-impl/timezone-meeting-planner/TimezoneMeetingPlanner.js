@@ -134,8 +134,6 @@ export default function TimezoneMeetingPlanner() {
     setBaseTimeMins(bestTime);
   };
 
-  if (!isMounted) return null;
-
   return (
     <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
       

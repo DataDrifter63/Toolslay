@@ -115,8 +115,6 @@ export default function UtmLinkBuilder() {
     localStorage.removeItem("utm_vault");
   };
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm">

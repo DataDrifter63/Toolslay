@@ -93,8 +93,6 @@ export default function SleepCycleCalculator() {
     });
   }, [timeStr, mode, fallAsleepTime]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       

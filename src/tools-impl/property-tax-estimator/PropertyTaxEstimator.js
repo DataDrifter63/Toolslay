@@ -59,8 +59,6 @@ export default function PropertyTaxEstimator() {
     };
   }, [marketValue, assessmentRatio, taxRate, exemptions]);
 
-  if (!isMounted) return null;
-
   const baseInputStyle = "w-full min-w-0 bg-surface border border-line rounded-xl px-3 py-2.5 text-base font-bold text-ink outline-none focus:border-brand tabular-nums";
 
   return (

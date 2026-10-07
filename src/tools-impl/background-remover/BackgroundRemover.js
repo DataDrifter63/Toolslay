@@ -235,8 +235,6 @@ export default function BackgroundRemover() {
     }
   };
 
-  if (!isMounted) return null;
-
   return (
     <div className="mx-auto max-w-7xl space-y-6">
       <style>{`

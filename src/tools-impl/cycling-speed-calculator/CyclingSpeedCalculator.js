@@ -122,8 +122,6 @@ export default function CyclingSpeedCalculator() {
     };
   }, [solveFor, distance, speed, hours, minutes, system, bikeProfile]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">
       

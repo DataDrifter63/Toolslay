@@ -93,9 +93,7 @@ export default function EvVsPetrolCalculator() {
     };
   }, [annualDistance, petrolPrice, petrolEfficiency, evEfficiency, homeRate, publicRate, homeChargePercent, evPricePremium]);
 
-  const formatMoney = (val) => val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-  if (!isMounted) return null;
+  const formatMoney = (val) => val.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   return (
     <div className="mx-auto w-full max-w-[1200px] px-3 sm:px-6 space-y-6 text-ink font-sans box-border overflow-x-hidden">
@@ -342,7 +340,7 @@ export default function EvVsPetrolCalculator() {
               <div className="flex items-start gap-2.5 bg-paper p-3 rounded-xl border border-line shadow-sm">
                 <Leaf className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                 <p className="text-[10px] font-bold text-muted leading-relaxed">
-                  Driving EV eliminates ~<strong>{calculations.tailpipeCO2Lbs.toLocaleString()} lbs</strong> of tailpipe CO₂ annually.
+                  Driving EV eliminates ~<strong>{calculations.tailpipeCO2Lbs.toLocaleString("en-US")} lbs</strong> of tailpipe CO₂ annually.
                 </p>
               </div>
             </div>

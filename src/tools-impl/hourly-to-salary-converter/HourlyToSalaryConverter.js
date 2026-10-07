@@ -80,8 +80,6 @@ export default function HourlyToSalaryConverter() {
     };
   }, [mode, amount, hoursPerDay, daysPerWeek, weeksPerYear, taxRate]);
 
-  if (!isMounted) return null;
-
   const baseInputStyle = "w-full min-w-0 bg-paper border border-line rounded-xl px-3 py-2.5 text-base font-bold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all tabular-nums text-center";
 
   return (
@@ -156,7 +154,7 @@ export default function HourlyToSalaryConverter() {
                   <CalendarDays className="w-3.5 h-3.5 text-brand shrink-0" /> Schedule Configuration
                 </label>
                 <span className="text-[9px] font-bold text-muted bg-paper px-2 py-0.5 rounded border border-line shrink-0">
-                  {calculations.totalHoursPerYear.toLocaleString()} Hrs/Year
+                  {calculations.totalHoursPerYear.toLocaleString("en-US")} Hrs/Year
                 </span>
               </div>
               

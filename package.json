@@ -2,7 +2,7 @@
   "name": "toolslay",
   "version": "1.0.0",
   "private": true,
-  "description": "ToolSlay — free browser-based online tools (PDF, image, text, calculators, developer tools).",
+  "description": "Toolslay — free browser-based online tools (PDF, image, text, calculators, developer tools).",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

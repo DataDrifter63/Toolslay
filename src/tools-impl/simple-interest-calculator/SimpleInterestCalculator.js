@@ -62,8 +62,6 @@ export default function SimpleInterestCalculator() {
     };
   }, [principal, rate, time, timeUnit]);
 
-  if (!isMounted) return null;
-
   const isInvestment = mode === "investment";
   const MainIcon = isInvestment ? PiggyBank : Landmark;
   const actionText = isInvestment ? "Interest Earned" : "Interest Cost";

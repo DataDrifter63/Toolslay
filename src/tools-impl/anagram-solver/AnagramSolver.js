@@ -135,8 +135,6 @@ export default function AnagramSolver() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  if (!isMounted) return null;
-
   // Premium Violet/Fuchsia Theme
   const theme = {
     gradient: "from-violet-200 via-fuchsia-100 to-transparent dark:from-violet-900/30 dark:via-fuchsia-900/20",

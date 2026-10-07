@@ -98,9 +98,7 @@ export default function EventSeatingPlanner() {
     };
   }, [guestCount, activeTable, hasDanceFloor, hasBuffet, venueSqFt]);
 
-  const formatNum = (num) => num.toLocaleString();
-
-  if (!isMounted) return null;
+  const formatNum = (num) => num.toLocaleString("en-US");
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">

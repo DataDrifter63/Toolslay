@@ -89,8 +89,6 @@ export default function CarDepreciationCalculator() {
     };
   }, [price, condition, brandTier, yearsToOwn]);
 
-  if (!isMounted) return null;
-
   const baseInputStyle = "w-full min-w-0 bg-paper border border-line rounded-xl px-3.5 py-3 text-base font-bold text-ink outline-none focus:border-brand tabular-nums";
 
   return (

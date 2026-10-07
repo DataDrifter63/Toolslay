@@ -81,8 +81,6 @@ export default function ReadingTimeCalculator() {
     return `${mins}m ${secs}s`;
   };
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       

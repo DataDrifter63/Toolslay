@@ -100,9 +100,7 @@ export default function WeddingBudgetCalculator() {
     };
   }, [totalBudget, guestCount, activeStyle, bufferPercent]);
 
-  const formatMoney = (amount) => amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-
-  if (!isMounted) return null;
+  const formatMoney = (amount) => amount.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">

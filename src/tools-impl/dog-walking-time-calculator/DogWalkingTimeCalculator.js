@@ -119,8 +119,6 @@ export default function DogWalkingTimeCalculator() {
 
   }, [energyLevel, ageUnit, ageValue, health, temperature]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       

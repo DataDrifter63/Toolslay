@@ -91,8 +91,6 @@ export default function ScholarshipEligibilityChecker() {
     return results;
   }, [targetCountry, studyLevel, fieldOfStudy, currentGpa, currentIelts]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       

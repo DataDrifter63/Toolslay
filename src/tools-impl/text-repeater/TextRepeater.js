@@ -81,8 +81,6 @@ export default function TextRepeater() {
     setText("");
   };
 
-  if (!isMounted) return null;
-
   // Premium Pink & Violet Theme
   const theme = {
     gradient: "from-pink-200 via-purple-100 to-transparent dark:from-pink-900/30 dark:via-purple-900/20",

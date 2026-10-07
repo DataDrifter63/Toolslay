@@ -130,9 +130,7 @@ export default function CarpetAreaCalculator() {
   }, [rooms, includeStairs, stairCount, overagePercent, carpetPrice, paddingPrice, laborPrice, system]);
 
   // Format Helper
-  const formatMoney = (amount) => amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-  if (!isMounted) return null;
+  const formatMoney = (amount) => amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">

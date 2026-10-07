@@ -163,8 +163,6 @@ export default function MorseCodeTranslator() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!isMounted) return null;
-
   const theme = {
     gradient: "from-emerald-200 via-teal-100 to-transparent dark:from-emerald-900/30 dark:via-teal-900/20",
     textPri: "text-emerald-600 dark:text-emerald-400",

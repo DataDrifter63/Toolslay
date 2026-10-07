@@ -102,8 +102,6 @@ export default function TimeDurationCalculator() {
     };
   }, [baseTime, mathAction, mathHours, mathMins, mathSecs]);
 
-  if (!isMounted) return null;
-
   const baseInputStyle = "w-full min-w-0 bg-paper border border-line rounded-xl px-4 py-3 sm:py-3.5 text-base font-bold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all";
 
   return (

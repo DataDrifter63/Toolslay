@@ -90,8 +90,6 @@ export default function PlasticUsageEstimator() {
     };
   }, [members, bottlesPerWeek, bagsPerWeek, takeoutPerWeek, wrappersPerDay, hygienePerMonth, deliveriesPerMonth, ecoMode]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">
       

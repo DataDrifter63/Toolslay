@@ -134,8 +134,6 @@ export default function BillSplitterCalculator() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!isMounted) return null;
-
   const baseInputStyle = "w-full min-w-0 bg-paper border border-line rounded-xl px-4 py-3 text-xs sm:text-sm font-bold text-ink outline-none focus:border-brand transition-colors tabular-nums";
 
   return (

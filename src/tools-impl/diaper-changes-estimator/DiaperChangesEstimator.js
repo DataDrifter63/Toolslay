@@ -73,10 +73,8 @@ export default function DiaperChangesEstimator() {
     };
   }, [age, costPerDiaper, wipesPerChange, stockDuration]);
 
-  const formatMoney = (val) => val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const formatNum = (val) => val.toLocaleString();
-
-  if (!isMounted) return null;
+  const formatMoney = (val) => val.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatNum = (val) => val.toLocaleString("en-US");
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">

@@ -261,8 +261,6 @@ export default function VideoCompressor() {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  if (!isMounted) return null;
-
   const theme = {
     gradient: "from-violet-200 via-indigo-100 to-transparent dark:from-violet-900/30 dark:via-indigo-900/20",
     bgIcon: "bg-gradient-to-br from-violet-500 to-indigo-600",

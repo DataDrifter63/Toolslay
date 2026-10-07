@@ -102,8 +102,6 @@ export default function RoadTripCostCalculator() {
     };
   }, [distance, fuelEfficiency, fuelPrice, passengers, isRoundTrip, addDetourBuffer, system]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       
@@ -272,7 +270,7 @@ export default function RoadTripCostCalculator() {
                 <Calculator className="w-3.5 h-3.5 text-emerald-500" /> Your Journey Budget
               </span>
               <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">
-                Total: {calculations.totalDistance.toLocaleString()} {system === "metric" ? "km" : "mi"}
+                Total: {calculations.totalDistance.toLocaleString("en-US")} {system === "metric" ? "km" : "mi"}
               </span>
             </div>
             
@@ -282,7 +280,7 @@ export default function RoadTripCostCalculator() {
               <div className="flex justify-center items-start gap-1">
                 <span className="text-2xl font-bold text-slate-400 mt-2">{currency}</span>
                 <span className="text-6xl lg:text-7xl font-black text-slate-800 dark:text-slate-100 tracking-tighter tabular-nums">
-                  {calculations.totalFuelCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                  {calculations.totalFuelCost.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                 </span>
               </div>
             </div>
@@ -293,7 +291,7 @@ export default function RoadTripCostCalculator() {
                 <SplitSquareHorizontal className="w-5 h-5 mx-auto text-emerald-500 mb-2" />
                 <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Doston Share (Per Person)</span>
                 <span className="text-4xl font-black text-emerald-600 dark:text-emerald-400 tabular-nums">
-                  {currency} {calculations.costPerPerson.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                  {currency} {calculations.costPerPerson.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                 </span>
               </div>
             )}
@@ -304,10 +302,10 @@ export default function RoadTripCostCalculator() {
                 <Wallet className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 mb-1">
-                    AAA True Cost Estimation: {currency} {calculations.totalTrueCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                    AAA True Cost Estimation: {currency} {calculations.totalTrueCost.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                   </h4>
                   <p className="text-[10px] font-medium text-slate-500 leading-relaxed pr-2">
-                    Factors in localized US averages of <strong>{currency} {calculations.wearAndTear.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong> for wear & tear, maintenance, and depreciation based on distance.
+                    Factors in localized US averages of <strong>{currency} {calculations.wearAndTear.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong> for wear & tear, maintenance, and depreciation based on distance.
                   </p>
                 </div>
               </div>

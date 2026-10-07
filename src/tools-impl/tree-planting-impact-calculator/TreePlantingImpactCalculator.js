@@ -77,8 +77,6 @@ export default function TreePlantingImpactCalculator() {
     };
   }, [trees, species, years, survivalRate]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">
       
@@ -220,7 +218,7 @@ export default function TreePlantingImpactCalculator() {
                 
                 {calculations.deadTrees > 0 && (
                   <span className="text-[9px] font-bold uppercase tracking-widest text-amber-600 bg-amber-50 border border-amber-200 px-2 py-1 rounded">
-                    {calculations.effectiveTrees.toLocaleString()} Effective Trees
+                    {calculations.effectiveTrees.toLocaleString("en-US")} Effective Trees
                   </span>
                 )}
               </div>
@@ -232,7 +230,7 @@ export default function TreePlantingImpactCalculator() {
                 </span>
                 <div className="flex justify-center items-end gap-1">
                   <span className="text-6xl lg:text-7xl font-black text-slate-800 dark:text-slate-100 tracking-tighter tabular-nums">
-                    {calculations.totalTons.toLocaleString()}
+                    {calculations.totalTons.toLocaleString("en-US")}
                   </span>
                   <span className="text-lg font-bold text-slate-400 mb-2 uppercase tracking-widest">
                     Tons
@@ -267,7 +265,7 @@ export default function TreePlantingImpactCalculator() {
                       </div>
                     </div>
                     <span className="text-xl font-black text-slate-800 dark:text-slate-100 tabular-nums">
-                      {calculations.carsOffset.toLocaleString()}
+                      {calculations.carsOffset.toLocaleString("en-US")}
                     </span>
                   </div>
 
@@ -282,7 +280,7 @@ export default function TreePlantingImpactCalculator() {
                       </div>
                     </div>
                     <span className="text-xl font-black text-slate-800 dark:text-slate-100 tabular-nums">
-                      {calculations.flightsOffset.toLocaleString()}
+                      {calculations.flightsOffset.toLocaleString("en-US")}
                     </span>
                   </div>
 
@@ -294,7 +292,7 @@ export default function TreePlantingImpactCalculator() {
                 <div className="flex items-start gap-2 opacity-90">
                   <Info className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
                   <p className="text-[9px] font-medium text-slate-500 leading-relaxed">
-                    <strong>Forestry Math:</strong> Trees don't absorb their maximum capacity immediately. Our engine applies a 10-year biological growth curve. We also factor in a {100 - survivalRate}% mortality rate, removing {calculations.deadTrees.toLocaleString()} trees from the final calculation to maintain real-world accuracy.
+                    <strong>Forestry Math:</strong> Trees don't absorb their maximum capacity immediately. Our engine applies a 10-year biological growth curve. We also factor in a {100 - survivalRate}% mortality rate, removing {calculations.deadTrees.toLocaleString("en-US")} trees from the final calculation to maintain real-world accuracy.
                   </p>
                 </div>
               </div>

@@ -99,8 +99,6 @@ export default function ClothingSizeConverter() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!isMounted) return null;
-
   return (
     <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6 overflow-x-hidden text-ink relative">
       

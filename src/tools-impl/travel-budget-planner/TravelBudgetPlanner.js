@@ -92,10 +92,8 @@ export default function TravelBudgetPlanner() {
 
   // Format Helper
   const formatMoney = (amount) => {
-    return amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return amount.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
   };
-
-  if (!isMounted) return null;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">

@@ -67,8 +67,6 @@ export default function DogAgeCalculator() {
   // Progress Bar Calculation (Maxed at 100 human years for visual scale)
   const progressPercent = Math.min((humanAge / 100) * 100, 100);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       

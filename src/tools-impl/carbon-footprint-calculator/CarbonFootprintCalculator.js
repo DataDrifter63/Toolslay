@@ -92,8 +92,6 @@ export default function CarbonFootprintCalculator() {
     };
   }, [carMiles, flights, diet, energy]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">
       
@@ -132,7 +130,7 @@ export default function CarbonFootprintCalculator() {
                   <div className="flex justify-between items-end">
                     <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Car Driving (Annual Miles)</span>
                     <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded">
-                      {carMiles.toLocaleString()} Miles
+                      {carMiles.toLocaleString("en-US")} Miles
                     </span>
                   </div>
                   <input
@@ -289,7 +287,7 @@ export default function CarbonFootprintCalculator() {
                   </div>
                   <div>
                     <span className="block text-2xl font-black text-slate-800 dark:text-slate-100 tabular-nums leading-none">
-                      {calculations.treesNeeded.toLocaleString()} Trees
+                      {calculations.treesNeeded.toLocaleString("en-US")} Trees
                     </span>
                     <span className="text-[10px] font-bold text-slate-500 mt-1 block">
                       required to offset your emissions each year.

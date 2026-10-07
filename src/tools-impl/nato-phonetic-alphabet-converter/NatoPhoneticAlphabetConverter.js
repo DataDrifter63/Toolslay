@@ -105,8 +105,6 @@ export default function NatoPhoneticAlphabetConverter() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!isMounted) return null;
-
   const theme = {
     gradient: "from-sky-200 via-indigo-100 to-transparent dark:from-sky-900/30 dark:via-indigo-900/20",
     textPri: "text-sky-600 dark:text-sky-400",

@@ -288,8 +288,6 @@ export default function GifMaker() {
     return parseFloat(secs).toFixed(2) + "s";
   };
 
-  if (!isMounted) return null;
-
   const theme = {
     gradient: "from-pink-200 via-rose-100 to-transparent dark:from-pink-900/30 dark:via-rose-900/20",
     bgIcon: "bg-gradient-to-br from-pink-500 to-rose-600",

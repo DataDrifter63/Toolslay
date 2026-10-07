@@ -120,8 +120,6 @@ export default function LeaseVsBuyCarCalculator() {
     investmentReturnRate
   ]);
 
-  if (!isMounted) return null;
-
   const baseInputStyle = "w-full min-w-0 bg-surface border border-line rounded-lg px-2.5 py-2 text-xs sm:text-sm font-bold text-ink outline-none focus:border-brand tabular-nums";
 
   return (

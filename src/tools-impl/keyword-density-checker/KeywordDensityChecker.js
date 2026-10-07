@@ -130,8 +130,6 @@ export default function KeywordDensityChecker() {
     }
   };
 
-  if (!isMounted) return null;
-
   const currentList = analysis.ngrams[activeTab];
 
   return (

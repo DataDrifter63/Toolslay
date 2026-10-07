@@ -111,8 +111,6 @@ export default function MovingBoxCalculator() {
     };
   }, [rooms, lifestyle]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       
@@ -285,7 +283,7 @@ export default function MovingBoxCalculator() {
                 <DollarSign className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 mb-1">
-                    Est. New Material Cost: ${calculations.totalEstCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                    Est. New Material Cost: ${calculations.totalEstCost.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
                   </h4>
                   <p className="text-[9px] font-medium text-slate-500 leading-relaxed pr-2">
                     Approximate US retail cost for buying these boxes and supplies brand new. Save money by sourcing free boxes from local grocery stores or recycling centers!

@@ -80,8 +80,6 @@ export default function DateDifferenceCalculator() {
     };
   }, [startDate, endDate, includeEndDate]);
 
-  if (!isMounted) return null;
-
   const baseInputStyle = "w-full min-w-0 bg-paper border border-line rounded-xl px-4 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all uppercase tracking-wider";
 
   return (

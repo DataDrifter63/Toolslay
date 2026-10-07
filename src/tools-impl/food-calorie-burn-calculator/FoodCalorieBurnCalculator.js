@@ -113,7 +113,7 @@ export default function FoodCalorieBurnCalculator() {
     const distanceMi = distanceKm * 0.621371;
 
     return {
-      steps: requiredSteps.toLocaleString(),
+      steps: requiredSteps.toLocaleString("en-US"),
       distanceKm: distanceKm.toFixed(1),
       distanceMi: distanceMi.toFixed(1),
       walkingMins,
@@ -122,8 +122,6 @@ export default function FoodCalorieBurnCalculator() {
       swimmingMins: calcMinutes(MET_SWIMMING)
     };
   }, [weight, unit, targetCalories]);
-
-  if (!isMounted) return null;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">

@@ -67,8 +67,6 @@ ${siteName ? `<meta property="og:site_name" content="${siteName}" />` : ''}
     }
   };
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       

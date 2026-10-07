@@ -69,8 +69,6 @@ export default function OvertimePayCalculator() {
     };
   }, [hourlyRate, regularHours, overtimeHours, doubleTimeHours, taxRate]);
 
-  if (!isMounted) return null;
-
   const baseInputStyle = "w-full min-w-0 bg-paper border border-line rounded-xl px-3 py-2.5 text-base font-bold text-ink outline-none focus:border-brand tabular-nums";
 
   return (

@@ -113,8 +113,6 @@ export default function PigLatinTranslator() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!isMounted) return null;
-
   const theme = {
     gradient: "from-amber-200 via-orange-100 to-transparent dark:from-amber-900/30 dark:via-orange-900/20",
     bgIcon: "bg-gradient-to-br from-amber-500 to-orange-600",

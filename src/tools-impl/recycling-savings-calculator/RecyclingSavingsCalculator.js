@@ -76,15 +76,13 @@ export default function RecyclingSavingsCalculator() {
       totalCash,
       totalCO2: parseFloat(totalCO2.toFixed(1)),
       totalKwh: Math.round(totalKwh),
-      laptopHours: laptopHours.toLocaleString(),
-      waterSavedGals: waterSavedGals.toLocaleString(),
-      eligibleContainers: eligibleContainers.toLocaleString(),
+      laptopHours: laptopHours.toLocaleString("en-US"),
+      waterSavedGals: waterSavedGals.toLocaleString("en-US"),
+      eligibleContainers: eligibleContainers.toLocaleString("en-US"),
       annualPaper: annPaper,
       isEmpty: eligibleContainers === 0 && annPaper === 0
     };
   }, [frequency, deposit, aluminum, plastic, glass, paper]);
-
-  if (!isMounted) return null;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">

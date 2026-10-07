@@ -161,8 +161,6 @@ export default function GrowthPercentileChecker() {
     ? { pri: "sky", bgLight: "bg-sky-50 dark:bg-sky-900/20", borderPri: "border-sky-500", textPri: "text-sky-600 dark:text-sky-400", bgPri: "bg-sky-500" }
     : { pri: "rose", bgLight: "bg-rose-50 dark:bg-rose-900/20", borderPri: "border-rose-500", textPri: "text-rose-600 dark:text-rose-400", bgPri: "bg-rose-500" };
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans">
       

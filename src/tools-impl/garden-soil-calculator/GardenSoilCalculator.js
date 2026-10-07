@@ -152,10 +152,8 @@ export default function GardenSoilCalculator() {
     };
   }, [shape, length, width, diameter, depth, includeSettling, system, bagSize, bagPrice, bulkPrice, bulkDeliveryFee]);
 
-  const formatMoney = (val) => val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const formatVol = (val) => val.toLocaleString(undefined, { maximumFractionDigits: 1 });
-
-  if (!isMounted) return null;
+  const formatMoney = (val) => val.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatVol = (val) => val.toLocaleString("en-US", { maximumFractionDigits: 1 });
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">

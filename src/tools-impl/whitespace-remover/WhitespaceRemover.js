@@ -108,8 +108,6 @@ export default function WhitespaceRemover() {
     setText("");
   };
 
-  if (!isMounted) return null;
-
   // Premium Cyan & Blue Theme
   const theme = {
     gradient: "from-cyan-200 via-sky-100 to-transparent dark:from-cyan-900/30 dark:via-sky-900/20",

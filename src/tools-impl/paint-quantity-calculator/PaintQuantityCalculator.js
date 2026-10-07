@@ -133,8 +133,6 @@ export default function PaintQuantityCalculator() {
     };
   }, [length, width, height, includeCeiling, doors, windows, coats, quality, pricePerUnit, system]);
 
-  if (!isMounted) return null;
-
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       
@@ -326,7 +324,7 @@ export default function PaintQuantityCalculator() {
               <DollarSign className="w-5 h-5 mx-auto text-emerald-500 mb-2" />
               <span className="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Estimated Paint Cost</span>
               <span className="text-4xl font-black text-emerald-600 dark:text-emerald-400 tabular-nums">
-                {currency}{calculations.estCost.toLocaleString(undefined, {minimumFractionDigits: 2})}
+                {currency}{calculations.estCost.toLocaleString("en-US", {minimumFractionDigits: 2})}
               </span>
             </div>
 

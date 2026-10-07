@@ -112,8 +112,6 @@ export default function LicensePlateGenerator() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!isMounted) return null;
-
   const currentDisplay = isCustom ? customText.toUpperCase().slice(0, 8) : generatedText;
 
   return (
