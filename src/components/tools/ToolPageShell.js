@@ -11,6 +11,12 @@ import { getCategory } from "@/data/categories";
 import { getRelated as relatedToolsFn } from "@/data/related";
 import { toolJsonLd, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
 import { getToolContent } from "@/lib/toolContent";
+import { getToolSeo } from "@/data/toolSeo";
+
+// Shown on tool pages that have hand-written SEO copy and no `highlights` of their own.
+// Kept to claims that are true for every tool (no "100% private" / "no server" claims,
+// because a few tools call outside services or save data in localStorage).
+const SAFE_HIGHLIGHTS = [{ icon: "Check", label: "Free, no sign-up" }];
 
 // `about` and `faq` are optional overrides — pass them in from a specific tool page
 // once you've written real, hand-crafted copy for it. Until then, every tool page
@@ -19,12 +25,17 @@ export default function ToolPageShell({ tool, children, about, faq }) {
   const category = getCategory(tool.category);
   const related = relatedToolsFn(tool, 4);
   const generated = getToolContent(tool, category);
-  const aboutParagraphs = about || generated.about;
-  const faqItems = faq && faq.length > 0 ? faq : generated.faq;
+  // Priority: props passed in > entry in src/data/toolSeo.js > auto-generated fallback.
+  const seo = getToolSeo(tool.slug);
+  const aboutParagraphs = about || (seo?.about?.length ? seo.about : generated.about);
+  const faqItems = faq && faq.length > 0 ? faq : seo?.faq?.length ? seo.faq : generated.faq;
+  const pageH1 = seo?.h1 || tool.name;
+  const pageIntro = seo?.shortDescription || tool.description;
+  const aboutHighlights = seo ? (seo.highlights?.length ? seo.highlights : SAFE_HIGHLIGHTS) : undefined;
   const [leadParagraph, ...restParagraphs] = aboutParagraphs;
 
   const jsonLd = [
-    toolJsonLd(tool),
+    toolJsonLd({ ...tool, description: pageIntro }),
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
       { name: category.name, path: `/category/${category.slug}` },
@@ -60,8 +71,8 @@ export default function ToolPageShell({ tool, children, about, faq }) {
             <Icon name={tool.icon} size={24} />
           </div>
           <div>
-            <h1 className="font-display text-2xl font-bold text-ink sm:text-3xl">{tool.name}</h1>
-            <p className="mt-1.5 max-w-2xl text-sm text-muted">{tool.description}</p>
+            <h1 className="font-display text-2xl font-bold text-ink sm:text-3xl">{pageH1}</h1>
+            <p className="mt-1.5 max-w-2xl text-sm text-muted">{pageIntro}</p>
           </div>
         </div>
 
@@ -74,6 +85,7 @@ export default function ToolPageShell({ tool, children, about, faq }) {
           lead={leadParagraph}
           paragraphs={restParagraphs}
           accent={category.accent}
+          highlights={aboutHighlights}
         />
 
         {faqItems.length > 0 && (

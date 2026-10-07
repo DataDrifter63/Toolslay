@@ -3,6 +3,7 @@ import { TOOLS, getToolBySlug } from "@/data/tools";
 import ToolPageShell from "@/components/tools/ToolPageShell";
 import ToolRenderer from "@/components/tools/ToolRenderer";
 import { buildMetadata } from "@/lib/seo";
+import { getToolSeo, isToolIndexable } from "@/data/toolSeo";
 
 export function generateStaticParams() {
   return TOOLS.map((tool) => ({ slug: tool.slug }));
@@ -12,10 +13,15 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const tool = getToolBySlug(slug);
   if (!tool) return buildMetadata({ title: "Tool not found", path: `/tools/${slug}` });
+  // Per-tool SEO copy lives in src/data/toolSeo.js. A tool without an entry there
+  // (or one that is still "coming soon") falls back to its default name/description
+  // and is marked noindex until it gets real copy (or INDEX_ALL_TOOLS is switched on).
+  const seo = getToolSeo(tool.slug);
   return buildMetadata({
-    title: tool.name,
-    description: tool.description,
+    title: seo?.seoTitle || tool.name,
+    description: seo?.seoDescription || tool.description,
     path: `/tools/${tool.slug}`,
+    noIndex: !tool.implemented || !isToolIndexable(tool.slug),
   });
 }
 

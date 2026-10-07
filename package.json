@@ -10,7 +10,9 @@
     "lint": "next lint",
     "postinstall": "node scripts/copy-imgly-assets.js",
     "pages:build": "npx @cloudflare/next-on-pages@latest",
-    "pages:deploy": "npm run pages:build && npx wrangler@latest pages deploy .vercel/output/static"
+    "pages:deploy": "npm run pages:build && npx wrangler@latest pages deploy .vercel/output/static",
+    "check:seo": "node scripts/check-seo.mjs",
+    "seo:next": "node scripts/seo-next.mjs"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.7.0",

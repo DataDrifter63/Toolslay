@@ -2,6 +2,7 @@ import { TOOLS } from "@/data/tools";
 import { CATEGORIES } from "@/data/categories";
 import { getAllPosts } from "@/lib/posts";
 import { SITE } from "@/lib/constants";
+import { isToolIndexable } from "@/data/toolSeo";
 
 // New tool → add it to /src/data/tools.js and it appears here automatically.
 // New blog post → publish it from /admin and it appears here automatically.
@@ -25,7 +26,7 @@ export default async function sitemap() {
     priority: 0.7,
   }));
 
-  const toolPages = TOOLS.filter((tool) => tool.implemented).map((tool) => ({
+  const toolPages = TOOLS.filter((tool) => tool.implemented && isToolIndexable(tool.slug)).map((tool) => ({
     url: `${SITE.url}/tools/${tool.slug}`,
     lastModified: now,
     changeFrequency: "monthly",

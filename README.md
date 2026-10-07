@@ -1,25 +1,44 @@
 # Toolslay
 
-Free, browser-based online tools (PDF, image, text, calculators, developer tools, generators).
-Next.js 15 (App Router) + Tailwind CSS + Supabase (blog & admin) + Cloudflare Pages hosting.
+**200+ free, browser-based online tools** — PDF, image, video/audio, text, calculators, developer, generators, SEO and everyday-life tools. No sign-up, no uploads: everything runs client-side.
 
-This project was scaffolded to match the project spec doc: SEO-first structure, flat URLs,
-internal linking, and a config-driven tools list so adding a new tool never means restructuring
-the site.
+Live: [toolslay.com](https://toolslay.com)
+
+**Stack:** Next.js 15 (App Router) · React 18 · Tailwind CSS 3 · Supabase (blog + admin auth) · Cloudinary (blog images) · Cloudflare Pages (hosting)
 
 ---
 
 ## 1. Getting started
 
 ```bash
-npm install
-cp .env.example .env.local   # fill in your Supabase keys (see section 4) — optional to start
-npm run dev
+npm install          # postinstall copies background-remover model assets to /public/imgly
+npm run dev          # http://localhost:3000
 ```
 
-Open http://localhost:3000. The homepage, all 40 tool routes, all 6 category pages, and the
-static pages (About/Contact/Privacy/Terms) work immediately — no Supabase setup required. Blog
-sections simply render empty until Supabase is connected.
+Requires Node >= 18.18.
+
+### Environment variables
+
+Create `.env.local` in the project root:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=
+```
+
+All are optional for local dev. Without Supabase the blog renders empty and `/admin` redirects to login. Without Cloudinary, blog image upload is unavailable.
+
+### Scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server |
+| `npm run build` / `npm start` | Production build / serve |
+| `npm run lint` | ESLint (see Known issues) |
+| `npm run pages:build` | Build for Cloudflare Pages (`npx @cloudflare/next-on-pages`) |
+| `npm run pages:deploy` | Build + deploy via wrangler |
 
 ---
 
@@ -27,130 +46,163 @@ sections simply render empty until Supabase is connected.
 
 ```
 src/
-  app/                    → routes (Next.js App Router — one folder = one URL)
-    page.js               → homepage
-    tools/page.js         → /tools (search + filter grid)
-    tools/[slug]/page.js  → /tools/word-counter etc. (all 40 tools, data-driven)
-    category/[slug]/page.js → /category/calculators etc. (all 6 categories)
-    blog/page.js          → /blog
-    blog/[slug]/page.js   → /blog/some-post (reads from Supabase)
-    about, contact, privacy-policy, terms → static pages
-    admin/page.js         → placeholder for the Supabase-auth dashboard
-    sitemap.js            → auto-generated sitemap.xml
-    robots.js             → auto-generated robots.txt
+  app/
+    page.js                     Homepage
+    tools/page.js               /tools — search + filter grid
+    tools/[slug]/page.js        /tools/<slug> — every tool (data-driven)
+    category/[slug]/page.js     /category/<slug>
+    blog/, blog/[slug]/         Blog (reads from Supabase)
+    admin/                      Dashboard: login, posts list, new, edit (Supabase auth)
+    about, contact, privacy-policy, terms
+    sitemap.js, robots.js, opengraph-image.js, icon.svg
 
   components/
-    layout/               → Header, Footer, Container
-    home/                 → Hero, TrustStrip, CategoryGrid, PopularTools, BlogTeaser
-    tools/                → ToolCard, ToolSearch, ToolPageShell, RelatedTools, ToolComingSoon
-    ui/                   → Badge, AdSlot, SectionHeading, Icon
-    contact/              → ContactForm (client component)
+    layout/    Header, Footer, Container, NavSearch, CookieConsent
+    home/      Hero, TrustStrip, CategoryGrid, PopularTools, WhyToolSlay, BlogTeaser, HomeFAQ
+    tools/     ToolPageShell, ToolRenderer, ToolCard, ToolSearch, RelatedTools,
+               ToolComingSoon, ToolLoading
+    tools/ui/  Shared tool UI kit: Button, ToolInput, ToolTextarea, ToolSelect, ToolCheckbox,
+               Toggle, Stepper, FormField, SettingsPanel, OutputPanel, CopyButton,
+               DownloadButton, ToolLayout
+    ui/        Badge, AdSlot, SectionHeading, Icon, AboutSection, FaqAccordion, ThemeToggle
+    admin/     AdminGuard, AdminNav, LoginForm, PostForm
+    contact/   ContactForm
 
   data/
-    tools.js              → ⭐ single source of truth: all 40 tools (name, slug, category, description, icon)
-    categories.js         → the 6 categories (name, slug, color, description)
+    tools.js         Single source of truth for all tools
+    categories.js    Category definitions
+    related.js       Related-tools mapping
 
   tools-impl/
-    registry.js           → maps a tool's slug → its real React component
-    word-counter/          → fully working example tool
-    bmi-calculator/         → fully working example tool
+    registry.js      slug -> component map (next/dynamic, code-split per tool)
+    <slug>/          One folder per tool (200 total)
 
   lib/
-    constants.js           → site name/url/description
-    seo.js                 → metadata + JSON-LD builders
-    supabase.js             → Supabase client
-    posts.js                → blog post queries
+    constants.js     Site name, URL, description, social links
+    seo.js           Metadata + JSON-LD builders
+    toolContent.js   "About" copy + FAQ per tool
+    supabase.js      Supabase client
+    posts.js         Blog queries
+    markdown.js      Markdown rendering
+    cloudinary.js    Image upload helper
+
+scripts/
+  copy-imgly-assets.js   postinstall: copies @imgly/background-removal assets to /public/imgly
 ```
 
 ---
 
-## 3. Adding a new tool (the whole workflow)
+## 3. Categories
 
-1. **Add one object to `src/data/tools.js`** — name, slug, category, icon (any [lucide-react](https://lucide.dev/icons) name), description.
-   → The route `/tools/your-slug`, its SEO metadata, its sitemap entry, and its card on the
-   homepage/category/all-tools pages all exist immediately — it will show a "coming soon" state.
-2. **Build the tool's UI** as a client component in `src/tools-impl/your-tool/YourTool.js`
-   (see `word-counter/WordCounter.js` or `bmi-calculator/BmiCalculator.js` as a pattern).
-3. **Register it**: add one line to `src/tools-impl/registry.js`.
-4. Done — no routing, SEO, or layout code to touch.
+| Slug | Name |
+|---|---|
+| `calculators` | Calculators & Converters |
+| `life-everyday-tools` | Life & Everyday Tools |
+| `developer-tools` | Developer Tools |
+| `generators-security` | Generators & Random Tools |
+| `text-writing-tools` | Text & Writing Tools |
+| `image-pdf-tools` | Image & PDF Tools |
+| `seo-marketing-tools` | SEO & Marketing Tools |
+| `design-color-tools` | Design & Color Tools |
+| `video-audio-tools` | Video & Audio Tools |
 
-### Libraries already installed for specific tool types
+---
+
+## 4. Adding a new tool
+
+1. **Register metadata** — add one object to `src/data/tools.js`:
+   ```js
+   { slug: "my-tool", name: "My Tool", category: "developer-tools", icon: "Code",
+     description: "One-line description.", implemented: true }
+   ```
+   `icon` is any [lucide-react](https://lucide.dev/icons) name. Add `popular: true` to feature it on the homepage.
+2. **Build the component** — `src/tools-impl/my-tool/MyTool.js` (client component, `"use client"`). Use the shared UI kit in `components/tools/ui/` for consistent look.
+3. **Wire it up** — add one line to `src/tools-impl/registry.js`:
+   ```js
+   "my-tool": dynamic(() => import("./my-tool/MyTool"), { loading: ToolLoading }),
+   ```
+4. **(Optional)** add About/FAQ copy in `lib/toolContent.js` and related tools in `data/related.js`.
+
+Route, SEO metadata, JSON-LD, sitemap entry and cards on home/category/tools pages are generated automatically. A tool without a registry entry shows `ToolComingSoon`.
+
+**Heavy libraries** (`tesseract.js`, `jspdf`, `pdf-lib`, `@imgly/background-removal`) must be loaded with dynamic `import()` inside the component so they don't bloat other pages.
+
+### Libraries by tool type
+
 | Tool type | Library |
 |---|---|
-| Image resize/compress | `browser-image-compression`, Canvas API |
-| PDF create/convert | `pdf-lib`, `jspdf` |
-| OCR (Image to Text, Screenshot to Text) | `tesseract.js` — **dynamic `import()`** it inside the component so it doesn't bloat every other page's JS bundle |
-| CSV/Excel | `papaparse` |
+| Image compress | `browser-image-compression`, Canvas API |
+| PDF create/edit | `pdf-lib`, `jspdf` |
+| OCR | `tesseract.js` |
+| Background removal | `@imgly/background-removal` (assets served from `/public/imgly`) |
+| CSV | `papaparse` |
 | QR codes | `qrcode` |
+| Code formatting | `js-beautify` |
+| Cron | `cron-parser`, `cronstrue` |
 
 ---
 
-## 4. Setting up Supabase (blog + admin dashboard)
+## 5. Supabase setup (blog + admin)
 
-1. Create a project at [supabase.com](https://supabase.com).
-2. In the SQL editor, run:
-   ```sql
-   create table posts (
-     id uuid primary key default gen_random_uuid(),
-     title text not null,
-     slug text unique not null,
-     content text not null,           -- sanitized HTML from the admin editor
-     meta_description text,
-     cover_image text,
-     category text,
-     published_at timestamptz default now()
-   );
-   alter table posts enable row level security;
-   create policy "Public can read posts" on posts for select using (true);
-   ```
-3. Copy your Project URL and `anon` public key into `.env.local` (see `.env.example`).
-4. Blog pages will now populate automatically — no code changes needed.
-5. The `/admin` route is a placeholder. Wire up `supabase.auth.signInWithPassword()` and a
-   protected layout, then build simple insert/update/delete forms against the `posts` table.
+Run in the Supabase SQL editor:
 
----
-
-## 5. Deployment (Cloudflare Pages)
-
-Per the project spec, hosting is Cloudflare Pages — unlimited bandwidth on static assets, and
-commercial use (AdSense) is explicitly allowed (unlike Vercel's free Hobby tier).
-
-```bash
-npm run pages:build     # downloads @cloudflare/next-on-pages on demand and builds
-npm run pages:deploy    # deploys to Cloudflare Pages via wrangler
+```sql
+create table posts (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  slug text unique not null,
+  content text not null,
+  meta_description text,
+  cover_image text,
+  category text,
+  published_at timestamptz default now()
+);
+alter table posts enable row level security;
+create policy "Public can read posts" on posts for select using (true);
 ```
 
-Note: `@cloudflare/next-on-pages` is intentionally **not** a project dependency — it's only
-needed at deploy time, and `npx` fetches it fresh when you run the command above. This avoids a
-known version conflict between its `wrangler`/`workers-types` peer dependencies and keeps local
-`npm install` clean for everyday development.
+Then add write policies for authenticated users (admin), create an admin user under Supabase Auth, and log in at `/admin/login`. `AdminGuard` protects all `/admin/*` routes client-side.
 
-Or connect the GitHub repo directly in the Cloudflare Pages dashboard and set:
+> Note: if your live `posts` table has extra columns beyond the above, keep this schema in sync.
+
+---
+
+## 6. Deployment (Cloudflare Pages)
+
+```bash
+npm run pages:build
+npm run pages:deploy
+```
+
+Or connect the GitHub repo in the Cloudflare Pages dashboard:
 - Build command: `npx @cloudflare/next-on-pages`
-- Build output directory: `.vercel/output/static`
+- Output directory: `.vercel/output/static`
 - Environment variables: same as `.env.local`
 
-Point your domain's DNS to Cloudflare Pages once deployed.
+`@cloudflare/next-on-pages` is intentionally not a dependency — `npx` fetches it at deploy time to avoid peer-dependency conflicts.
 
 ---
 
-## 6. SEO checklist already wired in
+## 7. SEO
 
-- [x] Per-page metadata (title, description, canonical) via `buildMetadata()`
-- [x] JSON-LD: `SoftwareApplication` on every tool page, `BreadcrumbList` on tool + category pages, `BlogPosting` on posts
-- [x] Auto-generated `sitemap.xml` and `robots.txt` (`src/app/sitemap.js`, `robots.js`)
-- [x] Breadcrumbs on tool and category pages
-- [x] Internal linking: related tools on every tool page, category cross-links in the footer
-- [x] Reserved `<AdSlot />` placeholders so ads won't shift layout (protects Core Web Vitals / CLS) once AdSense is approved
-- [ ] Still to do per tool: 300–500 words of unique "About this tool" copy + FAQ (see the `about`/`faq` props on `ToolPageShell`)
-- [ ] Submit sitemap to Google Search Console after first deploy
+- Per-page metadata + canonical via `buildMetadata()` (`lib/seo.js`)
+- JSON-LD: `SoftwareApplication` (tools), `BreadcrumbList` (tools/categories), `BlogPosting` (posts), `Organization` with `sameAs` social links
+- Auto `sitemap.xml`, `robots.txt`, OG image
+- Related-tools internal linking on every tool page
+- Reserved `AdSlot` placeholders (prevent CLS). Ads are off until `ADS_LIVE` is set to `true` in `components/ui/AdSlot.js` after AdSense approval
+- `CookieConsent` banner included for AdSense/EU compliance
 
 ---
 
-## 7. What's implemented vs. placeholder right now
+## 8. Status
 
-- **Fully working**: Word Counter, BMI Calculator — use these as the pattern for the rest.
-- **Routes live, "coming soon" UI**: the other 38 tools (they're fully indexable and linked
-  already — just swap in real components as you build them, per section 3 above).
-- **Blog & Admin**: data layer and routes are ready; UI for the admin dashboard (auth + post
-  forms) still needs to be built.
+- **200 tools** registered in `tools.js` and `registry.js` (in sync)
+- `implemented: true` on 197; 4 are flagged `implemented: false` (e.g. `speech-to-text`) — verify these flags against the registry
+- Blog + admin dashboard built (auth, create/edit posts)
+
+## 9. Known issues / TODO
+
+- `next.config.mjs` sets `eslint.ignoreDuringBuilds: true` because of ~100 `react/no-unescaped-entities` errors. Fix and remove when convenient.
+- `background-remover.patch` in the repo root is a leftover diff — delete if already applied.
+- No `.env.example` committed — add one with the four variables above.
+- Submit sitemap to Google Search Console after each major deploy.
