@@ -1,270 +1,11 @@
-// Per-tool SEO copy. ONE entry per tool, keyed by slug (must match src/data/tools.js).
-//
-// What an entry controls on /tools/<slug>:
-//   seoTitle          <title> tag (the site adds " | Toolslay" itself, so max 50 chars, no brand)
-//   seoDescription    meta description (130 to 155 chars)
-//   h1                the page's H1 (max 60 chars)
-//   shortDescription  the one-line intro under the H1 (20 to 30 words); also used in JSON-LD
-//   about             exactly 5 strings: [lead, left 1, left 2, right 1, right 2]
-//   faq               [{ q, a }], 6 items (8 allowed for tier A+/A tools)
-//   highlights        OPTIONAL, up to 3 badges [{ icon, label }] shown in the About card.
-//                     Icon must be a name registered in src/components/ui/Icon.js.
-//                     Only claim what the tool's code really does.
-//
-// Tools WITHOUT an entry keep their old auto-generated page, but are set to noindex and
-// left out of sitemap.xml. When every tool has copy (or on launch day), set
-// NEXT_PUBLIC_INDEX_ALL_TOOLS=true in the host's env vars, or flip the constant below.
-//
-// Run `npm run check:seo` after adding entries. Run `npm run seo:next` to get the next
-// tools to write, already formatted as input blocks for the AI prompt (docs/SEO_CONTENT_PROMPT.md).
-//
-// Keep this file data-only (no imports): scripts/check-seo.mjs loads it directly.
+import { validateCandidate } from "./build-seo-entries.mjs";
 
-export const INDEX_ALL_TOOLS = process.env.NEXT_PUBLIC_INDEX_ALL_TOOLS === "true";
-
-export const TOOL_SEO = {
-  "utm-link-builder": {
-    seoTitle: "UTM Builder: Create Campaign Tracking Links",
-    seoDescription:
-      "Use this UTM builder to tag any URL with source, medium and campaign values, then copy the link and track every click in Google Analytics.",
-    h1: "UTM Builder",
-    shortDescription:
-      "Add source, medium and campaign tags to any link with this UTM builder, then copy a tracked URL for your next ad, email or post.",
-    about: [
-      "A UTM builder adds tracking tags to a normal link, so Google Analytics can tell which email, ad or post sent each visitor. Marketers, founders and agency teams use it to stop guessing which campaign worked. Enter your URL, fill in a few fields, and copy a link that reports where its clicks came from.",
-      "UTM stands for Urchin Tracking Module. Each tag is a small query parameter added after a question mark. Use utm_source for where the click came from, such as newsletter or google. Then utm_medium names the channel, like email or cpc, and utm_campaign names the push, for example spring_sale. Two optional tags, utm_term and utm_content, separate paid keywords and ad variations in your reports.",
-      "Naming consistency matters more than clever names. Analytics treats Email and email as two different values, so one typo splits your report in half. Pick lowercase, agree on one separator, and keep a shared list of approved values so every teammate tags links the same way. A clean example is utm_source=newsletter, utm_medium=email and utm_campaign=spring_sale. Skip UTM tags on links inside your own site, because they can misattribute the visit.",
-      "This UTM generator starts with your destination URL. It adds https:// when you leave it off and keeps any query parameters already on the link. Then fill in source, medium and campaign, or click a preset (Google Ads, Meta Ads, TikTok Ads or Newsletter) to fill the first two. An empty campaign becomes promo_2026. Term and content are optional. Copy puts the finished link on your clipboard.",
-      "Force Lowercase is on by default, and spaces become underscores unless you switch to a dash or %20. Match your team's style. Save to Vault keeps your last 10 links in this browser's local storage, and Clear removes them. The QR code preview comes from an outside service, api.qrserver.com, which receives the full link. Skip it for private URLs.",
-    ],
-    faq: [
-      {
-        q: "What does a UTM link actually do?",
-        a: "It tells your analytics tool where a visit came from. The tags sit in the URL after a question mark, and Google Analytics reads them when someone clicks. Without tags, that visit often lands in a vague bucket like direct or referral, and you can't compare one campaign against another.",
-      },
-      {
-        q: "Which UTM parameters do I need?",
-        a: "Use utm_source, utm_medium and utm_campaign every time. Add utm_term for paid search keywords and utm_content when you test two versions of one ad. This tool marks term and content as optional and only adds the fields you fill in, so a short link stays short.",
-      },
-      {
-        q: "Do UTM parameters hurt SEO?",
-        a: "No, they do not change the page itself. Search engines usually treat a tagged URL as a copy of the original, and a canonical tag helps them settle on one version. Keep tagged links for ads, emails and social posts, and avoid using them in your own navigation or internal links.",
-      },
-      {
-        q: "Should I use underscores or dashes in UTM values?",
-        a: "Either works. Consistency matters more than the symbol. This tool defaults to underscores, and you can switch to dashes or %20 with the space option. Pick one style, keep values lowercase, and use the same names across your team so your reports group each campaign correctly.",
-      },
-      {
-        q: "Does this UTM generator store or send my links?",
-        a: "The link is built in your browser as you type. Two features touch your data: Save to Vault keeps your last 10 links in this browser's local storage, and the QR preview sends the full link to api.qrserver.com. Skip both for unreleased pages, or clear the vault when you finish.",
-      },
-      {
-        q: "Can I use these links outside Google Analytics?",
-        a: "Often, yes. Many analytics and marketing platforms read the same utm_ parameters, but each one decides how to report them. Build the link once, test a click, and check how your platform shows source, medium and campaign before you send the link to a large email list or ad account.",
-      },
-    ],
-    highlights: [
-      { icon: "Check", label: "Free, no sign-up" },
-      { icon: "Clock", label: "Keeps your last 10 links on this device" },
-    ],
-  },
-
-  // ─── Design & Color Tools ─────────────────────────────────────────────
-
-  "color-picker": {
-    seoTitle: "Color Picker from Image: Sample Hex & RGB Codes",
-    seoDescription:
-      "Sample exact color values with this color picker from image tool. Extract HEX, RGB and HSL codes, test contrast ratios, and copy values easily.",
-    h1: "Color Picker from Image",
-    shortDescription:
-      "Extract exact shades using this color picker from image tool, featuring detailed HEX and RGB conversions, WCAG accessibility testing, and quick palette copying options.",
-    about: [
-      "This color picker from image utility lets you sample precise colors from any graphic right inside your browser. Designers, developers and content creators use it when they spot an appealing color in a photo or screenshot and need the exact digital code. Upload your image, hover over any pixel, and copy your required color format without installing complex design applications.",
-      "Sampling colors directly from an image used to require launching heavy desktop editing suites. This online eyedropper tool simplifies the workflow by displaying HEX, RGB, HSL and CMYK values as you move your cursor across the canvas. If you are building brand palettes or matching interface themes, you can sample multiple points across your picture without reloading your browser tab. That convenience accelerates creative tasks.",
-      "The built-in contrast checker evaluates whether your chosen shade satisfies accessibility requirements. Pairing your sampled tone against background colors shows whether the combination complies with WCAG AA or AAA legibility criteria. That feedback helps web designers select text and button colors that remain comfortably readable for all visitors across websites and mobile applications. Evaluating contrast early avoids expensive redesign work later in production.",
-      "Every sampled color generates an interactive preview swatch alongside ready-to-copy code snippets. You can review tint and shade variations, explore complementary and triadic harmonies, and inspect color blindness simulations. Copy individual color codes with a single click, or grab CSS variable declarations ready for immediate insertion into your stylesheets or design systems. The interface keeps all outputs accessible and organized.",
-      "All pixel reading and color mathematics execute locally within your browser canvas, keeping your uploaded graphics on your personal device. There are no account registration requirements, subscriptions, or watermarks attached to your results. Bookmark this utility whenever you need to sample colors from client logos, photography mood boards, or digital artwork. Your source images remain confidential on your computer.",
-    ],
-    faq: [
-      {
-        q: "How do I sample a shade using this color picker from image?",
-        a: "Upload or drag your graphic into the tool, then click or hover over any pixel on the canvas. The tool displays the exact HEX, RGB, and HSL values for that spot, allowing you to sample multiple colors across the image freely.",
-      },
-      {
-        q: "What color formats does this color picker support?",
-        a: "The tool generates HEX, RGB, RGBA, HSL, and CMYK codes for every selected pixel. You can also view generated CSS custom properties and background declarations ready to paste into your website stylesheets or design tools like Figma.",
-      },
-      {
-        q: "How does the accessibility contrast checker work?",
-        a: "The contrast checker compares your selected color against black and white or custom background choices using official WCAG algorithms. It displays exact contrast ratios and clear pass indicators for normal and large text sizes, ensuring your website typography remains completely legible for all visitors.",
-      },
-      {
-        q: "Are my uploaded photos sent to remote servers?",
-        a: "Your images remain on your personal device. The tool draws your file onto a local HTML5 canvas element and reads pixel data directly in memory. No graphics or colors are transmitted over the network or saved to remote databases.",
-      },
-      {
-        q: "Can I simulate color blindness for my chosen shade?",
-        a: "Yes. The preview panel includes simulation filters for protanopia, deuteranopia, and tritanopia vision types. This allows designers to verify that important visual elements remain distinguishable for individuals with diverse color perception capabilities across websites and digital interfaces.",
-      },
-      {
-        q: "Can I sample colors from screenshots and logos?",
-        a: "The eyedropper utility accepts PNG, JPG, WebP, and standard bitmap graphic files. You can upload high-resolution screenshots, corporate logos, or illustration graphics to identify and extract exact brand color codes in seconds without leaving your browser tab.",
-      },
-    ],
-    highlights: [
-      { icon: "Check", label: "Free, no sign-up" },
-      { icon: "Pipette", label: "Exact pixel eyedropper" },
-      { icon: "Contrast", label: "Built-in WCAG contrast check" },
-    ],
-  },
-  "hex-rgb-converter": {
-    seoTitle: "HEX to RGB Converter: Translate Color Codes Fast",
-    seoDescription:
-      "Translate color formats using this free hex to rgb converter. Convert codes to RGB, HSL and CMYK numbers while checking contrast and previewing shades.",
-    h1: "HEX to RGB Converter",
-    shortDescription:
-      "Convert color codes from hex to rgb with live shade previews, alpha transparency sliders, and dual conversion between hexadecimal and decimal color systems.",
-    about: [
-      "This hex to rgb converter translates color notations across formats that web developers and graphic designers use daily. Type or paste a hexadecimal value to see matching RGB, HSL, and CMYK coordinates alongside an interactive color swatch. The tool simplifies color translation when moving assets between code editors, design applications, and commercial print shops. This makes switching between color systems straightforward during styling tasks.",
-      "Hexadecimal and RGB formats describe identical visual hues through different mathematical systems. Hex strings express red, green, and blue light channels using base-sixteen digits from zero to full intensity. Standard RGB notation uses decimal numbers from zero to two hundred fifty-five. Web stylesheets often require rgba declarations with alpha transparency, making format translation essential during styling tasks across digital platforms.",
-      "Performing rgb to hex conversions is equally simple using the dual input fields. Entering decimal values for red, green, and blue coordinates automatically calculates the corresponding hexadecimal string. The converter also calculates HSL coordinates for CSS styling and CMYK percentages for offset printing specifications, bridging the gap between digital screens and physical paper. All output values update synchronously.",
-      "Using the interface takes only a few keystrokes. Enter a three-digit or six-digit hexadecimal string, or adjust individual RGB sliders. Use the opacity slider to customize alpha transparency levels, and browse the generated nine-step shade ramp to explore lighter and darker variations. Click any value card to copy its formatting onto your clipboard for quick integration into your code. Every calculated value remains ready for immediate copying into your project files.",
-      "All color calculations execute inside your browser via client-side JavaScript, ensuring fast performance without transmitting your color choices across the network. There are no fees or usage constraints. Keep this conversion utility bookmarked whenever you need to translate color values for web stylesheets, mobile interfaces, or print specifications. Your design codes remain private on your computer.",
-    ],
-    faq: [
-      {
-        q: "How do I convert a color code from hex to rgb?",
-        a: "Type or paste your hexadecimal code into the input field. All supported formats update simultaneously across decimal channels, HSL, and CMYK equivalents, allowing you to copy the required syntax with one click for stylesheets or graphics software.",
-      },
-      {
-        q: "Can I perform an rgb to hex conversion as well?",
-        a: "Yes. Enter your decimal numbers into the red, green, and blue input boxes, and the tool calculates the corresponding hexadecimal color code. The conversion functions bidirectionally, supporting both workflows smoothly for developers and graphic artists alike.",
-      },
-      {
-        q: "What is the difference between HEX and RGB color models?",
-        a: "Both notations specify red, green, and blue light components for screen displays. Hexadecimal uses base-sixteen pairs like FF0000, while RGB uses decimal values from 0 to 255. They produce identical visual colors on computer displays.",
-      },
-      {
-        q: "Does this converter support alpha opacity transparency?",
-        a: "Yes. An integrated alpha slider allows you to adjust opacity from zero to one hundred percent. The tool outputs matching rgba code snippets and eight-digit hexadecimal values ready for modern CSS stylesheets and interactive interface components.",
-      },
-      {
-        q: "Does the tool evaluate color accessibility contrast?",
-        a: "Yes. The interface measures contrast ratios against pure white and black backgrounds, displaying clear WCAG compliance badges to help you determine whether your text colors meet readability standards across light and dark user interface themes.",
-      },
-      {
-        q: "Are my converted color codes saved or tracked online?",
-        a: "No color data is stored or transmitted over the internet. The conversion calculations run completely within your browser session using local mathematical functions, keeping your design tokens and color choices private on your machine without external analytics.",
-      },
-    ],
-    highlights: [
-      { icon: "Check", label: "Free, no sign-up" },
-      { icon: "Palette", label: "HEX, RGB, HSL and CMYK formats" },
-      { icon: "Copy", label: "One-click value copying" },
-    ],
-  },
-  "palette-generator": {
-    seoTitle: "Color Palette from Image: Extract Dominant Colors",
-    seoDescription:
-      "Extract a cohesive color palette from image uploads with this free tool. Generate harmonious swatches, lock preferred tones, and export clean HEX codes.",
-    h1: "Color Palette from Image",
-    shortDescription:
-      "Generate cohesive palettes using this color palette from image tool, featuring color harmony algorithms, interactive swatch locking, and rapid clipboard export.",
-    about: [
-      "This color palette from image tool extracts cohesive color schemes from photographs, digital artwork, and mood boards. Designers, illustrators and marketers use it to build balanced color systems inspired by nature, architecture, or existing photography. Upload an image, generate balanced color swatches, lock your favorites, and copy the values for your creative projects. Generating a cohesive color palette from image references keeps your designs consistent and appealing.",
-      "Creating unified color schemes from scratch often consumes hours of trial and error. Sampling colors directly from harmonious photography solves this challenge because natural scenes already possess balanced lighting and complementary relationships. Extracting key tones from an editorial photo creates an authentic palette that feels unified across website layouts and marketing materials. It gives your branding immediate visual harmony.",
-      "The integrated image color palette generator analyzes pixel clusters to identify prominent background shades and vibrant accent tones. You can explore different algorithmic harmony modes, including monochromatic, analogous, and complementary variations. Locking specific colors while randomizing others helps you refine five-color palettes until the balance matches your creative vision without starting over from scratch. Every adjustment refines the overall harmony.",
-      "Generating a custom scheme is intuitive. Upload a graphic or choose a base color, then select your preferred harmony mode to generate five matching swatches. Click the lock icon on shades you want to keep, and adjust individual slots with the color picker. Copy individual HEX codes or grab the entire palette with a single click. The generator organizes everything neatly.",
-      "Local canvas routines handle all swatch sampling, so your private creative references stay safe on your machine without account requirements. Save your completed palettes directly to your design notes or export them into your stylesheet variables for immediate project implementation. You keep complete creative control over your assets on your personal machine for all future design iterations.",
-    ],
-    faq: [
-      {
-        q: "How do I extract a color palette from image uploads?",
-        a: "Upload your photo into the generator, and the tool samples pixel clusters to construct a balanced five-color palette. You can fine-tune individual swatches, change harmony settings, or lock favorite tones while regenerating the rest to discover fresh color combinations.",
-      },
-      {
-        q: "How does this image color palette generator calculate swatches?",
-        a: "The tool uses color harmony mathematics and pixel sampling to identify prominent visual tones. It groups related shades and surfaces key dominant and accent colors to form an aesthetically balanced five-color collection suitable for website design and branding work.",
-      },
-      {
-        q: "Can I lock individual colors while randomizing others?",
-        a: "Yes. Each color swatch includes a lock toggle. When you click the lock button, that specific color remains fixed while you randomize or recalculate the remaining slots to discover new complementary combinations for your creative project.",
-      },
-      {
-        q: "Are my uploaded photos stored on cloud servers?",
-        a: "Your photos remain on your personal computer. Pixel extraction executes entirely within your browser session via HTML5 canvas scripting. Your private photographs and brand graphics are never transmitted or stored on remote servers, protecting your creative privacy.",
-      },
-      {
-        q: "How can I copy or export my finished palette?",
-        a: "You can click any individual color swatch to copy its HEX code, or use the copy palette button to copy all five hexadecimal values as a clean text block ready for Figma, Tailwind, or CSS variables.",
-      },
-      {
-        q: "Does the palette generator check text legibility contrast?",
-        a: "Yes. Each swatch card displays contrast measurements against black and white text, helping you determine whether a color can safely serve as a button or card background while maintaining readable typography across light and dark user interfaces.",
-      },
-    ],
-    highlights: [
-      { icon: "Check", label: "Free, no sign-up" },
-      { icon: "SwatchBook", label: "Generate 5-color harmony sets" },
-      { icon: "Copy", label: "Lock and copy individual swatches" },
-    ],
-  },
-  "color-name-finder": {
-    seoTitle: "Color Name Finder: Identify Any Color Name Fast",
-    seoDescription:
-      "Find official names for any shade with this color name finder. Enter HEX or RGB numbers to discover matching names, tints, and contrast evaluations.",
-    h1: "Color Name Finder",
-    shortDescription:
-      "Discover the closest CSS shade titles using this color name finder, complete with interactive RGB sliders, tint and shade ramps, and accessibility checks.",
-    about: [
-      "This color name finder matches hexadecimal and RGB values to their recognized color titles. Frontend developers, design system managers and content creators use it to replace abstract codes like #2E8B57 with memorable descriptive names like Sea Green. Enter any code, discover its title, and copy the result for your documentation and stylesheets. This bridges the gap between raw numbers and descriptive naming.",
-      "Hexadecimal codes convey precision to web browsers, but human communication thrives on descriptive language. Telling a team member to update the Coral button communicates visual intent much faster than reciting alphanumeric codes. Identifying the official hex color name helps developers establish readable design tokens and write self-explanatory CSS variable declarations. Descriptive naming creates shared understanding across product teams.",
-      "The matching algorithm compares your input against an extensive dictionary of standard CSS and expanded color names using Euclidean distance in RGB color space. If your color matches a recognized shade exactly, the tool confirms the exact match. For custom intermediate shades, it identifies the nearest neighbor and displays both swatches for visual comparison. This mathematical approach guarantees consistency.",
-      "Using the finder is simple. Enter a hexadecimal code with or without the hash symbol, or adjust the red, green, and blue channel sliders. The tool shows the matching title, exact RGB values, and an interactive tint and shade ramp. Review the black and white text contrast indicators, then copy your preferred values with one click. Every calculated title updates immediately whenever you adjust a color value.",
-      "All color matching executes locally within your browser using an embedded color dictionary, ensuring quick lookups without transmitting your color choices to external servers. There are no registration forms or usage caps. Use this utility whenever you need to label design tokens or describe product colors in marketing copy. Everything runs smoothly on your personal device.",
-    ],
-    faq: [
-      {
-        q: "How do I find a color name from a HEX code?",
-        a: "Enter your hexadecimal value into the search box, and the tool matches it against its color dictionary. You will see the matching name, the exact distance score, and a live swatch comparing your input with the named color, guaranteeing accurate naming.",
-      },
-      {
-        q: "How does the tool find the closest hex color name?",
-        a: "The tool calculates Euclidean geometric distance between your input and known colors across three-dimensional RGB space. It identifies the color title with the smallest mathematical distance, ensuring an accurate visual match for your design tokens.",
-      },
-      {
-        q: "Can I search by RGB coordinates instead of HEX codes?",
-        a: "Yes. You can adjust the red, green, and blue channel sliders or type numeric values directly. The tool converts between models automatically and updates the matching name and visual swatches in real time without extra calculation steps.",
-      },
-      {
-        q: "Are the color names compatible with standard CSS?",
-        a: "The dictionary includes all 148 official W3C CSS named colors, such as Crimson and MediumSeaGreen. When a match belongs to the standard CSS specification, you can use the name directly in your stylesheets without hex conversion.",
-      },
-      {
-        q: "Does this color name finder store my searches online?",
-        a: "No search queries or color codes are saved or transmitted over the internet. The matching algorithm searches a local dictionary embedded directly within the webpage, keeping your lookups completely private on your personal device without external tracking.",
-      },
-      {
-        q: "Can I inspect lighter tints and darker shades of the color?",
-        a: "Yes. An interactive strip displays three lighter tints and three darker shades of your chosen color. You can click any tint or shade swatch to copy its hexadecimal code directly to your clipboard for quick styling work.",
-      },
-    ],
-    highlights: [
-      { icon: "Check", label: "Free, no sign-up" },
-      { icon: "Palette", label: "Matches 140+ CSS named colors" },
-      { icon: "Tag", label: "Closest named color matching" },
-    ],
-  },
-
-  // ─── Image & PDF Tools ────────────────────────────────────────────────
-
+export const IMAGE_PDF_SEO = {
   "pdf-to-image": {
     seoTitle: "PDF to JPG: Convert PDF Pages to Images Online",
-    seoDescription:
-      "Convert document pages from pdf to jpg or png format with this free tool. Select page ranges, adjust picture quality, and download crisp files.",
+    seoDescription: "Convert document pages from pdf to jpg or png format with this free tool. Select page ranges, adjust picture quality, and download crisp files.",
     h1: "PDF to JPG Converter",
-    shortDescription:
-      "Convert your document pages from pdf to jpg with custom DPI resolution settings, flexible page extraction ranges, and convenient image downloads.",
+    shortDescription: "Convert your document pages from pdf to jpg with custom DPI resolution settings, flexible page extraction ranges, and convenient image downloads.",
     about: [
       "This pdf to jpg converter transforms document pages into sharp image files without requiring desktop software. Students, office workers and freelancers use it when an upload portal rejects PDF documents or when a slide presentation needs to appear on social media. Choose your file, pick an image format, and export individual pages or complete documents.",
       "Document formats serve different purposes than graphic files. A PDF preserves vector shapes, digital signatures and printer layouts across diverse computers and phones. However, web browsers, slide decks and chat apps handle graphic files much more naturally. Converting each page into a pixel graphic lets you share single charts, insert receipts into presentations, and upload application materials without sending an entire publication. This makes everyday digital communication much simpler.",
@@ -304,19 +45,18 @@ export const TOOL_SEO = {
       { icon: "Check", label: "Free, no account needed" },
     ],
   },
+
   "image-to-pdf": {
     seoTitle: "JPG to PDF: Combine Images into One PDF File",
-    seoDescription:
-      "Convert pictures from jpg to pdf in seconds. Combine multiple photos into one document, customize page margins, and set orientation easily.",
+    seoDescription: "Convert pictures from jpg to pdf in seconds. Combine multiple photos into one document, customize page margins, and set orientation easily.",
     h1: "JPG to PDF Converter",
-    shortDescription:
-      "Merge your pictures from jpg to pdf with customizable page orientations, margin options, and drag-and-drop file reordering for clean paperwork.",
+    shortDescription: "Merge your pictures from jpg to pdf with customizable page orientations, margin options, and drag-and-drop file reordering for clean paperwork.",
     about: [
       "This jpg to pdf tool bundles multiple photos and graphic files into a single structured document. Real estate agents, accountants and job applicants use it to compile receipts, portfolio samples or identification cards into one shareable file. Add your pictures, reorder them, adjust margins, and download a neat document in moments.",
       "Sending several image files as loose email attachments often causes frustration for clients and colleagues. Attachments arrive out of order, get blocked by mail filters, or fail to preview correctly on mobile phones. Creating a single PDF ensures the recipient views your pages in your intended sequence, with uniform page dimensions and clean white margins framing every picture. It eliminates confusion during official file submissions.",
       "Page geometry matters when preparing documents for printing or formal submission. Standard letter size fits North American office printers, while A4 suits international paperwork. Selecting fit to image avoids extra white borders altogether. Using this image to pdf workflow helps you keep file sizes reasonable by arranging multiple photos into one structured compilation. You maintain full control over paper formatting.",
       "Working with the tool takes four simple steps. Drag your images into the upload box, then rearrange the thumbnail sequence so your pages appear in proper order. Pick your preferred paper size, choose between portrait or landscape orientation, and select your margin width. Click the generate button to create and download your finished PDF. The process stays smooth and intuitive.",
-      "Document assembly runs within your browser session using client-side scripts, keeping your receipts and private identification cards on your machine without accounts. There is no account registration required and no branding stamps are placed on your pages. Clear your workspace anytime using the reset option once your document download finishes successfully. Your graphics stay under your direct supervision.",
+      "Processing runs completely inside your browser using client-side JavaScript, meaning your photographs are compiled locally on your computer. There is no account registration required and no watermarks are stamped onto your pages. Clear your workspace anytime using the reset option once your document download finishes successfully. Your graphics stay under your direct supervision throughout the entire compilation.",
     ],
     faq: [
       {
@@ -333,7 +73,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Are my personal pictures stored on your servers?",
-        a: "Your picture files stay on your local computer. The entire compilation runs through client-side scripting within your browser window. Your photos and created documents never leave your machine, making it suitable for confidential financial records, client receipts, and medical documents.",
+        a: "Your files remain on your local computer. The entire compilation runs through client-side scripting within your browser window. Your photos and created documents never leave your computer, making it suitable for confidential financial records, client receipts, and medical documents.",
       },
       {
         q: "What paper size options are available?",
@@ -350,13 +90,12 @@ export const TOOL_SEO = {
       { icon: "Check", label: "Free, no sign-up" },
     ],
   },
+
   "text-to-pdf": {
     seoTitle: "TXT to PDF Converter: Convert Text into Clean PDFs",
-    seoDescription:
-      "Use this txt to pdf converter to transform plain text notes into styled PDF documents with custom font sizes, margins, headers, and footers.",
+    seoDescription: "Use this txt to pdf converter to transform plain text notes into styled PDF documents with custom font sizes, margins, headers, and footers.",
     h1: "TXT to PDF Converter",
-    shortDescription:
-      "Transform your raw notes using this txt to pdf converter, featuring custom font families, page numbering, header controls, and clean layout settings.",
+    shortDescription: "Transform your raw notes using this txt to pdf converter, featuring custom font families, page numbering, header controls, and clean layout settings.",
     about: [
       "This txt to pdf converter turns plain text notes, coding scripts and raw manuscripts into polished documents. Authors, programmers and legal assistants use it to convert unstructured text files into tidy, printable files with formal page numbers and margins. Paste your copy, configure layout settings, and download your finished PDF immediately.",
       "Raw text files lack visual structure like page breaks, margins and font hierarchies. When you print a basic text file directly, lines often clip awkwardly or stretch across the entire paper width without breathing room. Converting text to pdf introduces consistent typography, proportional line height and standard margins that make long passages comfortable to read on both screens and printed pages. Your content gains immediate credibility.",
@@ -396,13 +135,12 @@ export const TOOL_SEO = {
       { icon: "ShieldCheck", label: "Runs locally in browser" },
     ],
   },
+
   "image-converter": {
     seoTitle: "Image Converter: Convert PNG, JPG and WebP Files",
-    seoDescription:
-      "Switch file formats easily with this free image converter. Convert PNG to JPG, WebP, GIF or ICO with adjustable compression and background fill.",
+    seoDescription: "Switch file formats easily with this free image converter. Convert PNG to JPG, WebP, GIF or ICO with adjustable compression and background fill.",
     h1: "Image Converter",
-    shortDescription:
-      "Switch between modern graphic formats using this image converter, offering customizable compression quality, transparent background fill options, and quick exports for your projects.",
+    shortDescription: "Switch between modern graphic formats using this image converter, offering customizable compression quality, transparent background fill options, and quick exports for your projects.",
     about: [
       "This image converter transforms graphic files between major formats without sacrificing visual quality. Web developers, graphic designers and store owners use it to prepare product photos for faster website loading or compatibility with older software. Drop your pictures, select your target format, and save converted files in seconds.",
       "Different graphics formats excel at distinct technical jobs across the web. The PNG format preserves crisp edges and transparent layers, making it ideal for logos, icons and user interface elements. In contrast, JPG compresses complex photographs into small file sizes by discarding subtle color information. Modern WebP combines the best of both worlds with smaller byte sizes. Choosing the right format prevents sluggish site rendering.",
@@ -413,7 +151,7 @@ export const TOOL_SEO = {
     faq: [
       {
         q: "How do I convert png to jpg with this tool?",
-        a: "Drag your PNG into the upload area, select JPG as your target format, and pick an optional background tone for transparent areas. Adjust your quality setting and click download to save the converted image to your computer.",
+        a: "Upload your PNG file into the drop zone, choose JPG from the format selector, and select a background fill color for transparent areas. Adjust your quality level and click the download button to save the new image onto your computer.",
       },
       {
         q: "What happens to transparent backgrounds when converting to JPG?",
@@ -442,19 +180,18 @@ export const TOOL_SEO = {
       { icon: "Download", label: "Single and batch ZIP export" },
     ],
   },
+
   "image-resizer": {
     seoTitle: "Image Resizer: Resize Photos by Pixels or Percent",
-    seoDescription:
-      "Scale your photos accurately using this free image resizer. Resize by pixels or percentage, lock aspect ratio, and choose social media presets.",
+    seoDescription: "Scale your photos accurately using this free image resizer. Resize by pixels or percentage, lock aspect ratio, and choose social media presets.",
     h1: "Image Resizer",
-    shortDescription:
-      "Adjust picture dimensions using this image resizer, featuring aspect ratio locking, social media dimension presets, and customizable output quality for your design work.",
+    shortDescription: "Adjust picture dimensions using this image resizer, featuring aspect ratio locking, social media dimension presets, and customizable output quality for your design work.",
     about: [
-      "This image resizer adjusts picture dimensions with exact pixel precision to meet any upload requirement. Social media managers, bloggers and marketplace sellers use it to fit photos into strict profile headers, product listings, and banner slots. Upload your photo, enter your desired dimensions, and download your resized picture effortlessly. Tailoring image dimensions precisely ensures your visual content looks sharp on every platform.",
+      "This image resizer adjusts picture dimensions with exact pixel precision to meet any upload requirement. Social media managers, bloggers and marketplace sellers use it to fit photos into strict profile headers, product listings, and banner slots. Upload your photo, enter your desired dimensions, and download your resized picture effortlessly.",
       "Uploading oversized images directly from modern smartphones slows down websites and wastes visitor bandwidth. A standard smartphone snapshot often measures four thousand pixels across and weighs ten megabytes. Downscaling that image to twelve hundred pixels wide delivers sharp visual clarity while slashing the byte size substantially for faster web performance. Clean scaling keeps layouts responsive and snappy across phones.",
       "Preserving the original aspect ratio prevents unwanted stretching or squishing. When you resize image online, width and height should scale proportionally unless you intentionally want distortion. For social media graphics, standard presets like Instagram square or YouTube thumbnail dimensions help you crop and scale quickly without memorizing exact platform numbers. Matching exact specifications avoids awkward auto-cropping by publishing platforms.",
       "The tool makes resizing simple. Upload your picture and choose between exact pixel inputs or percentage scaling. Keep the aspect ratio lock enabled to maintain natural proportions, or select a pre-configured social media preset. Choose your desired export format and quality level, then click download to save your resized file to your computer. The entire adjustment takes under half a minute.",
-      "All pixel processing happens locally within your browser canvas, so your pictures remain on your personal device. The tool operates without watermarks, subscriptions or file count restrictions. For optimal sharpness, avoid scaling small thumbnails upward past their original resolution to prevent visible pixelation. Downscaling always produces cleaner visual results than artificial enlarging for everyday media files. Checking dimensions before publishing guarantees your graphics fit designated containers.",
+      "All pixel processing happens locally within your browser canvas, so your pictures remain on your personal device. The tool operates without watermarks, subscriptions or file count restrictions. For optimal sharpness, avoid scaling small thumbnails upward past their original resolution to prevent visible pixelation. Downscaling always produces cleaner visual results than artificial enlarging for everyday media files.",
     ],
     faq: [
       {
@@ -471,7 +208,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Will my images be uploaded to remote cloud storage?",
-        a: "Your image files remain on your personal computer. Local canvas computations handle all dimension adjustments right inside your active browser tab. Your original photos and scaled results are never uploaded to remote servers or cloud storage buckets during the scaling workflow.",
+        a: "Your files remain on your personal machine. The resizing calculations and image rendering execute entirely inside your local browser session. Your photos remain on your personal device throughout the entire scaling process without external transmission or remote storage logs.",
       },
       {
         q: "Can I enlarge a small photo to a higher resolution?",
@@ -488,19 +225,18 @@ export const TOOL_SEO = {
       { icon: "Download", label: "Export to JPG, PNG, or WebP" },
     ],
   },
+
   "bulk-image-resizer": {
     seoTitle: "Bulk Image Resizer: Resize Multiple Photos at Once",
-    seoDescription:
-      "Scale dozens of pictures simultaneously with this bulk image resizer. Set dimensions, lock aspect ratios, and download a ZIP file in moments.",
+    seoDescription: "Scale dozens of pictures simultaneously with this bulk image resizer. Set dimensions, lock aspect ratios, and download a ZIP file in moments.",
     h1: "Bulk Image Resizer",
-    shortDescription:
-      "Process entire folders of photos using this bulk image resizer, featuring batch dimension scaling, aspect ratio locking, and single ZIP archive downloads.",
+    shortDescription: "Process entire folders of photos using this bulk image resizer, featuring batch dimension scaling, aspect ratio locking, and single ZIP archive downloads.",
     about: [
-      "This bulk image resizer processes dozens of pictures at the same time to accelerate your production workflow. Photographers, catalog managers and digital marketers use it when resizing individual photos one by one would waste valuable hours. Drop your image batch, specify your dimensions, and download all resized assets in one archive. Batch scaling keeps entire catalog collections consistent, organized, and lightweight for online viewing.",
+      "This bulk image resizer processes dozens of pictures at the same time to accelerate your production workflow. Photographers, catalog managers and digital marketers use it when resizing individual photos one by one would waste valuable hours. Drop your image batch, specify your dimensions, and download all resized assets in one archive.",
       "Handling large photo collections manually creates repetitive drudgery and inconsistent results. Online stores frequently require hundreds of product shots scaled to uniform widths for catalog grids. When you resize multiple images at once, batch resizing applies identical dimensional rules across every photo in your batch, ensuring clean aesthetic uniformity across product galleries. Customers appreciate consistent presentation throughout entire store categories.",
       "Scaling rules can adapt to mixed orientation collections. When your batch contains both landscape and portrait orientations, choosing a fixed maximum dimension prevents vertical pictures from expanding excessively. Locking aspect ratios preserves each subject's original geometry without accidental distortion or stretching across varied picture collections. This balance protects photographic integrity across diverse commercial photography assignments and client projects.",
       "Using the batch tool is straightforward. Select or drop multiple graphics into the processing grid, then pick your resizing method by width, height, percentage, or maximum boundary. Choose your target output format and compression level, then click resize to process the batch and download everything in a clean ZIP file. The batch finishes without complex configuration.",
-      "Batch resizing calculates locally through client-side canvas routines, ensuring your commercial photography library never leaves your computer. There are no registration forms or hidden fees. For smooth performance, processing batches of thirty to fifty images at a time works best on consumer hardware. Working in batches prevents browser slowdowns when handling massive digital camera files.",
+      "All file batching and resizing operations execute inside your browser using canvas technology, keeping your photo collections on your device. There are no registration forms or hidden fees. For smooth performance, processing batches of thirty to fifty images at a time works best on consumer hardware. Working in batches prevents browser slowdowns when handling massive digital camera files.",
     ],
     faq: [
       {
@@ -517,7 +253,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Are my bulk image files uploaded to an online server?",
-        a: "Your photo collection remains secure on your disk. The batch scaling routine operates exclusively within your local browser memory. Your private photo library is never transferred across the network to external hosting providers or remote databases, keeping client photos safe.",
+        a: "Your files remain on your computer. The entire batch processing pipeline operates locally within your browser memory. Your private photo library is never transferred across the network to external hosting providers or remote databases, keeping client photos safe.",
       },
       {
         q: "What is the maximum number of photos I can resize at once?",
@@ -534,19 +270,18 @@ export const TOOL_SEO = {
       { icon: "Check", label: "Free, no sign-up" },
     ],
   },
+
   "image-compressor": {
     seoTitle: "Image Compressor: Shrink Photo File Sizes Online",
-    seoDescription:
-      "Reduce image file sizes with this free image compressor. Choose compression intensity, preview byte savings, and download optimized photos.",
+    seoDescription: "Reduce image file sizes with this free image compressor. Choose compression intensity, preview byte savings, and download optimized photos.",
     h1: "Image Compressor",
-    shortDescription:
-      "Shrink picture file sizes with this image compressor, offering real-time size comparisons, adjustable compression levels, and batch download options for faster websites.",
+    shortDescription: "Shrink picture file sizes with this image compressor, offering real-time size comparisons, adjustable compression levels, and batch download options for faster websites.",
     about: [
-      "This image compressor reduces photo file sizes while preserving sharp visual quality for websites and email. Content creators, web designers and store administrators use it to speed up page load times and satisfy file upload limits. Add your images, choose your compression strength, and download optimized files quickly. Efficient compression keeps visitor bounce rates low and saves bandwidth across mobile and desktop devices.",
+      "This image compressor reduces photo file sizes while preserving sharp visual quality for websites and email. Content creators, web designers and store administrators use it to speed up page load times and satisfy file upload limits. Add your images, choose your compression strength, and download optimized files quickly.",
       "High-resolution cameras produce heavy image files filled with redundant color data that human eyes cannot easily distinguish. An uncompressed five-megabyte photo creates noticeable lag when loaded on mobile networks. When you compress image online, stripping invisible metadata and reorganizing color tables delivers files up to eighty percent lighter without obvious visual flaws. Your pages load much more smoothly for users.",
       "Selecting the right compression balance depends on where the image appears. A hero banner on an art portfolio demands gentle compression to preserve subtle gradients and textures. Conversely, thumbnail previews and blog body photos tolerate stronger compression because smaller display dimensions hide tiny compression artifacts effectively. Testing multiple levels lets you balance clarity and speed perfectly.",
       "Operating the compression tool takes seconds. Drop single or multiple photos into the upload area, then adjust the compression slider or pick a preset like balanced or high compression. Review the live comparison showing original and compressed byte sizes, then download your optimized files individually or packaged in a ZIP archive. The progress displays clearly for every picture.",
-      "Byte reduction calculations run entirely inside your browser session, keeping confidential documents and family photographs safe on your personal computer. The service requires no credit card, account registration or software downloads. Save your original high-resolution masters before replacing them with compressed web versions for production use. Keeping archival copies ensures you can re-export later if needed for future projects.",
+      "Compression computations happen directly in your browser using canvas re-encoding, ensuring your personal photos remain on your computer. The service requires no credit card, account registration or software downloads. Save your original high-resolution masters before replacing them with compressed web versions for production use. Keeping archival copies ensures you can re-export later if needed for future projects.",
     ],
     faq: [
       {
@@ -563,7 +298,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Are my uploaded photos sent to third-party servers?",
-        a: "Your pictures remain on your personal device. Browser canvas encoding performs all compression directly in your computer memory. Your files never transfer across the internet, allowing you to optimize confidential documents and private photography with peace of mind.",
+        a: "Your files remain on your personal computer. All compression routines execute locally within your browser session. Your images never leave your computer, allowing you to compress confidential documents and family photographs safely without external exposure.",
       },
       {
         q: "Can I compress multiple pictures simultaneously?",
@@ -580,19 +315,18 @@ export const TOOL_SEO = {
       { icon: "Check", label: "Free, no sign-up" },
     ],
   },
+
   "image-crop-tool": {
     seoTitle: "Image Cropper: Crop Photos to Aspect Ratios Online",
-    seoDescription:
-      "Trim pictures to exact proportions with this free image cropper. Choose preset aspect ratios, rotate or flip, and download clean images.",
+    seoDescription: "Trim pictures to exact proportions with this free image cropper. Choose preset aspect ratios, rotate or flip, and download clean images.",
     h1: "Image Cropper",
-    shortDescription:
-      "Cut unwanted edges and reframe subjects using this image cropper, featuring standard aspect ratio presets, rotation tools, and export controls.",
+    shortDescription: "Cut unwanted edges and reframe subjects using this image cropper, featuring standard aspect ratio presets, rotation tools, and export controls.",
     about: [
-      "This image cropper trims away distracting borders and reframes subjects to achieve balanced visual compositions. Photographers, graphic designers and social media users use it to adapt widescreen photos into square profile pictures or vertical mobile banners. Load your picture, adjust the crop box, and save your framed photo with precision. Trimming framing errors helps emphasize key subjects in your photography and design mockups.",
+      "This image cropper trims away distracting borders and reframes subjects to achieve balanced visual compositions. Photographers, graphic designers and social media users use it to adapt widescreen photos into square profile pictures or vertical mobile banners. Load your picture, adjust the crop box, and save your framed photo with precision.",
       "Cropping serves two critical visual purposes: improving artistic composition and matching specific platform dimensions. The rule of thirds suggests placing focal points along intersecting grid lines rather than dead center. In addition, digital platforms enforce rigid container ratios, meaning uncropped photos frequently get clipped awkwardly by automated platform algorithms. Proper manual cropping puts you in charge of focal points.",
       "Using standardized aspect ratio presets guarantees consistent presentation across design assets. A 1:1 square ratio suits Instagram feeds and user avatars, while 16:9 widescreen matches YouTube thumbnails and desktop slide presentations. When you crop image online, selecting the right preset lets you frame pictures without guesswork. Clean cropping avoids uneven image borders in layout designs.",
       "Framing your shot is straightforward. Upload an image and select your desired aspect ratio preset, or drag the corner crop handles freely. Use the rotation buttons to straighten tilted horizons or flip the photo horizontally. Preview the cropped framing, then download your finalized image in JPG, PNG, or WebP format. The preview ensures your composition meets your visual standards.",
-      "Canvas transformations occur locally on your machine, so your unedited camera snapshots remain secure on your device. The editor functions without signups or branding watermarks. Always check the crop boundary on high-resolution displays to ensure your primary subject stays comfortably within the frame before saving your work. Proper framing enhances your visual storytelling significantly across websites.",
+      "Cropping and canvas rendering take place entirely within your browser window, keeping your personal photographs on your device. No account setup or watermarks apply. Always check the crop boundary on high-resolution displays to ensure your primary subject stays comfortably within the frame before saving your work. Proper framing enhances your visual storytelling significantly across websites.",
     ],
     faq: [
       {
@@ -609,7 +343,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Are my uploaded photos stored on your cloud servers?",
-        a: "Your source photography stays on your machine. Interactive cropping coordinates and image export run through client-side canvas methods. Your pictures remain strictly on your personal device without being transmitted across the internet to third-party processing services.",
+        a: "Your files remain on your computer. The entire cropping and image rendering pipeline runs locally inside your browser via the HTML5 canvas element. Your photos remain on your personal device and are never transmitted across the network to external servers.",
       },
       {
         q: "What aspect ratios work best for social media profiles?",
@@ -626,19 +360,18 @@ export const TOOL_SEO = {
       { icon: "Check", label: "Free, no sign-up" },
     ],
   },
+
   "image-to-text-ocr": {
     seoTitle: "Image to Text: Extract Text from Photos Online",
-    seoDescription:
-      "Extract text from photos and scans with this free image to text tool. Copy extracted sentences to your clipboard or download clean text files.",
+    seoDescription: "Extract text from photos and scans with this free image to text tool. Copy extracted sentences to your clipboard or download clean text files.",
     h1: "Image to Text OCR",
-    shortDescription:
-      "Turn scanned documents and photos into editable words using this image to text converter, featuring multi-language OCR and quick text file exports.",
+    shortDescription: "Turn scanned documents and photos into editable words using this image to text converter, featuring multi-language OCR and quick text file exports.",
     about: [
-      "This image to text tool reads letters and numbers inside photographs and scans to produce editable text. Researchers, students and accountants use it to digitize paper receipts, book pages and invoice tables without tedious manual typing. Upload your document image, let optical recognition process the words, and copy the text immediately. Optical text extraction eliminates the need for manual transcription.",
+      "This image to text tool reads letters and numbers inside photographs and scans to produce editable text. Researchers, students and accountants use it to digitize paper receipts, book pages and invoice tables without tedious manual typing. Upload your document image, let optical recognition process the words, and copy the text immediately.",
       "Optical character recognition analyzes pixel patterns to distinguish letter shapes against background colors. The technology identifies typographical contours, line breaks and paragraphs to reconstruct original sentences. Instead of retyping long contracts by hand, choosing to extract text from image files extracts sentences in moments, eliminating transcription errors and saving valuable time. Automated text recognition simplifies document archiving.",
       "Image quality heavily influences recognition accuracy. Clear lighting, high resolution and strong contrast between dark text and light paper yield the cleanest extraction results. Wrinkled receipts, blurry smartphone snaps, or slanted angles can cause character confusion, such as mistaking the number zero for the letter O. Straightening pages beforehand improves output clarity dramatically. Clean source pictures produce dependable transcriptions.",
       "Extracting words takes just a few steps. Drag your picture or scanned document into the detection area, then choose your document language if processing non-English text. The recognition engine reads the file and displays editable sentences in the text viewer. Copy the entire transcription with one click, or download it as a plain text file. The workflow stays swift and accessible.",
-      "The tool performs character recognition through Tesseract worker scripts loaded from jsDelivr CDN, processing text inside your active browser session. Your document scans do not transfer to external machine learning databases. Proofread numerical values like bank totals or invoice dates after extraction to catch any potential optical misreadings. Checking critical numbers ensures complete factual accuracy across paperwork. Taking extra care with punctuation guarantees accurate transcription.",
+      "The tool performs character recognition through Tesseract worker scripts loaded from jsDelivr CDN, processing text inside your active browser session. Your document scans do not transfer to external machine learning databases. Proofread numerical values like bank totals or invoice dates after extraction to catch any potential optical misreadings. Checking critical numbers ensures complete factual accuracy across paperwork.",
     ],
     faq: [
       {
@@ -672,16 +405,15 @@ export const TOOL_SEO = {
       { icon: "Check", label: "Free, no sign-up" },
     ],
   },
+
   "screenshot-to-text": {
     seoTitle: "Screenshot to Text: Copy Words from Screen Snips",
-    seoDescription:
-      "Extract words from screen captures with this free screenshot to text tool. Paste snips from your clipboard and copy error codes or chat logs.",
+    seoDescription: "Extract words from screen captures with this free screenshot to text tool. Paste snips from your clipboard and copy error codes or chat logs.",
     h1: "Screenshot to Text",
-    shortDescription:
-      "Grab words from screen captures using this screenshot to text extractor, supporting direct clipboard pasting, rapid OCR, and clean text exports.",
+    shortDescription: "Grab words from screen captures using this screenshot to text extractor, supporting direct clipboard pasting, rapid OCR, and clean text exports.",
     about: [
-      "This screenshot to text tool extracts unselectable words directly from screen captures, error popups and video stills. Software developers, support technicians and researchers use it when an application locks text from being highlighted or copied normally. Paste a screen capture, let the recognizer parse the words, and copy your text effortlessly. Pasting screen captures directly saves valuable development time.",
-      "Modern operating systems present countless dialog boxes, video frames and locked documents where standard cursor highlighting is impossible. Retyping complex error codes, terminal paths or customer IDs wastes time and invites spelling mistakes. Choosing to copy text from screenshot snips bypasses software copy restrictions and delivers clean editable sentences in moments. Technical workflows become much more efficient. Capturing screen regions directly solves common workplace transcription bottlenecks.",
+      "This screenshot to text tool extracts unselectable words directly from screen captures, error popups and video stills. Software developers, support technicians and researchers use it when an application locks text from being highlighted or copied normally. Paste a screen capture, let the recognizer parse the words, and copy your text effortlessly.",
+      "Modern operating systems present countless dialog boxes, video frames and locked documents where standard cursor highlighting is impossible. Retyping complex error codes, terminal paths or customer IDs wastes time and invites spelling mistakes. Choosing to copy text from screenshot snips bypasses software copy restrictions and delivers clean editable sentences in moments. Technical workflows become much more efficient.",
       "Screen typography presents distinct advantages for optical detection. Computer monitors render characters in clean digital fonts with high contrast against window backgrounds. Because screenshots lack the shadows, paper wrinkles and lens distortions found in paper photography, character recognition rates on clean screen snips are exceptionally reliable and accurate. Clean screen pixels convert into plain text smoothly.",
       "Using the tool requires no file saving steps. Take a screen snip with your operating system shortcut, then press Ctrl+V to paste the image directly from your clipboard into the tool. The engine extracts the text and displays it in an editable box. Click copy to grab the text, or download a text file for your records. The direct clipboard paste saves multiple extra steps.",
       "Optical recognition processes locally in your browser through Tesseract scripts loaded from jsDelivr CDN, keeping your screen captures inside your current browser session. No accounts or software installations are required. Double-check ambiguous symbols like semicolons and quotation marks when capturing programming code or terminal commands. A quick review avoids coding syntax errors during deployment and testing.",
@@ -718,19 +450,18 @@ export const TOOL_SEO = {
       { icon: "Check", label: "Free, no sign-up" },
     ],
   },
+
   "meme-generator": {
     seoTitle: "Meme Generator: Create Custom Memes Online Fast",
-    seoDescription:
-      "Make hilarious memes with this free meme generator. Add top and bottom captions, customize text colors, pick templates, and download graphics.",
+    seoDescription: "Make hilarious memes with this free meme generator. Add top and bottom captions, customize text colors, pick templates, and download graphics.",
     h1: "Meme Generator",
-    shortDescription:
-      "Design custom humor graphics using this meme generator, featuring classic top and bottom caption layouts, outline controls, and popular templates.",
+    shortDescription: "Design custom humor graphics using this meme generator, featuring classic top and bottom caption layouts, outline controls, and popular templates.",
     about: [
-      "This meme generator creates shareable humor graphics using classic templates or your own personal photographs. Community managers, social media creators and friends use it to produce punchy jokes, relatable commentary and viral marketing content. Choose a popular template, type your captions, and download your customized meme in moments. Crafting relatable graphics helps build active online social communities.",
+      "This meme generator creates shareable humor graphics using classic templates or your own personal photographs. Community managers, social media creators and friends use it to produce punchy jokes, relatable commentary and viral marketing content. Choose a popular template, type your captions, and download your customized meme in moments.",
       "Visual memes communicate complex ideas, inside jokes and cultural commentary faster than plain text posts. The classic meme format pairs a recognizable reaction photo with bold white impact text framed by dark outlines. When you create meme online graphics, the font outline ensures readability against both dark and light backgrounds, keeping punchlines legible on mobile feeds. High visual contrast drives social engagement.",
       "Effective caption writing relies on brevity and sharp comedic timing. Splitting your idea into a setup on top and a punchline on the bottom creates natural anticipation. Adjusting text size, letter casing and vertical positioning prevents captions from blocking important facial expressions or central comedic focal points in the source image. Clear visual hierarchy makes every joke land with maximum impact.",
       "Building your graphic takes under a minute. Pick a trending meme template from the visual gallery or upload a custom snapshot from your device. Add top and bottom text captions, adjust font size, and customize fill and outline colors. Drag caption boxes to reposition them, then click download to save your finished graphic to your computer. Sharing your humor graphic is fast and simple.",
-      "The generator renders your composition locally on canvas using templates from Imgflip and fonts from Google Fonts, so your custom photo uploads remain on your computer. No watermarks are added and no subscription is required. Download the graphic as a JPG and share it across Discord, Reddit, or Twitter feeds. You retain full freedom over all your creative jokes. Custom humor graphics export cleanly for quick sharing across all platforms.",
+      "The generator renders your composition locally on canvas using templates from Imgflip and fonts from Google Fonts, so your custom photo uploads remain on your computer. No watermarks are added and no subscription is required. Download the graphic as a JPG and share it across Discord, Reddit, or Twitter feeds. You retain full freedom over all your creative jokes.",
     ],
     faq: [
       {
@@ -764,19 +495,18 @@ export const TOOL_SEO = {
       { icon: "Download", label: "Clean JPG and PNG export" },
     ],
   },
+
   "background-remover": {
     seoTitle: "Background Remover: Cut Out Backdrops Online Free",
-    seoDescription:
-      "Remove photo backdrops with this free background remover. Isolate subjects, create transparent PNG graphics, and download clean product shots.",
+    seoDescription: "Remove photo backdrops with this free background remover. Isolate subjects, create transparent PNG graphics, and download clean product shots.",
     h1: "Background Remover",
-    shortDescription:
-      "Cut out photo backgrounds using this background remover, producing clean transparent PNG graphics ready for ecommerce listings, avatars, and collages.",
+    shortDescription: "Cut out photo backgrounds using this background remover, producing clean transparent PNG graphics ready for ecommerce listings, avatars, and collages.",
     about: [
-      "This background remover separates subjects from their surroundings to create transparent cutout graphics automatically. Ecommerce merchants, graphic artists and content creators use it to prepare product listings, professional avatars and YouTube video thumbnails. Upload your photo, watch the cutout process, and download a transparent PNG file immediately. Clean cutout images make product catalogs look uniform, sharp, and appealing across diverse web stores.",
+      "This background remover separates subjects from their surroundings to create transparent cutout graphics automatically. Ecommerce merchants, graphic artists and content creators use it to prepare product listings, professional avatars and YouTube video thumbnails. Upload your photo, watch the cutout process, and download a transparent PNG file immediately.",
       "Manual background removal in complex editing suites requires meticulous brushwork along hair strands, clothing folds and intricate edges. Automated subject isolation analyzes foreground contrast and edge boundaries to distinguish people, merchandise or pets from cluttered backdrops. This automated cutout workflow saves substantial design time when preparing multiple product catalog assets for web publication. It eliminates hours of tedious masking.",
       "Clean transparent graphics form the foundation of flexible graphic design. Using this transparent background maker, once you isolate a product or portrait onto a transparent layer, you can superimpose it over solid brand colors, gradient backgrounds, or marketing banners. For online stores, clean cutouts make it easy to place merchandise against pure white backdrops. That clean look builds customer confidence.",
       "The tool operates smoothly in three steps. Drop your picture into the processing card and let the edge detection engine separate the subject from its environment. Inspect the cutout preview against a transparent checkerboard pattern or solid preview colors. Once satisfied with edge accuracy, click download to export your high-resolution cutout PNG file. The result is ready for immediate production.",
-      "Subject masking takes place within your local browser memory, keeping your product mockups and personal portraits safe on your machine. No account sign-up or credits are needed. For optimal edge definition, photograph subjects against contrasting backgrounds with clear, balanced lighting. Good lighting always makes cutout edges look sharp and professional for marketing campaigns and catalog listings.",
+      "Cutout processing runs locally within your browser environment using client-side algorithms, keeping your private portraiture and unreleased product prototypes on your computer. No account sign-up or credits are needed. For optimal edge definition, photograph subjects against contrasting backgrounds with clear, balanced lighting. Good lighting always makes cutout edges look sharp and professional for marketing campaigns.",
     ],
     faq: [
       {
@@ -793,7 +523,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Are my personal portraits uploaded to a cloud server?",
-        a: "Your portrait files remain on your local computer. The background removal calculations execute entirely on your device using client-side browser technology. Your photographs remain on your machine and are never stored or transmitted across external cloud servers.",
+        a: "Your files remain on your local computer. The background removal calculations execute entirely on your device using client-side browser technology. Your photographs remain on your machine and are never stored or transmitted across external cloud servers.",
       },
       {
         q: "Can I preview my cut-out subject over a solid color?",
@@ -810,19 +540,18 @@ export const TOOL_SEO = {
       { icon: "ShieldCheck", label: "Processes locally in browser" },
     ],
   },
+
   "image-watermark-adder": {
     seoTitle: "Add Watermark to Image: Protect Photos Online Free",
-    seoDescription:
-      "Protect your creative work when you add watermark to image files. Apply text labels or logo graphics with custom opacity, rotation, and tile grids.",
+    seoDescription: "Protect your creative work when you add watermark to image files. Apply text labels or logo graphics with custom opacity, rotation, and tile grids.",
     h1: "Add Watermark to Image",
-    shortDescription:
-      "Protect your creative photographs using this add watermark to image tool, complete with custom text, logo stamps, opacity sliders, and repeating patterns.",
+    shortDescription: "Protect your creative photographs using this add watermark to image tool, complete with custom text, logo stamps, opacity sliders, and repeating patterns.",
     about: [
-      "This add watermark to image utility overlays custom copyright stamps, brand logos and photographer credits onto your visual files. Photographers, digital artists and agency teams use it to discourage unauthorized image theft before publishing portfolios online. Select your photos, configure your watermark text or logo, and save protected graphics in seconds. Adding visible signatures protects creative investments across public websites and portfolio galleries.",
+      "This add watermark to image utility overlays custom copyright stamps, brand logos and photographer credits onto your visual files. Photographers, digital artists and agency teams use it to discourage unauthorized image theft before publishing portfolios online. Select your photos, configure your watermark text or logo, and save protected graphics in seconds.",
       "Uncredited image scraping is widespread across social media platforms, blog networks and ecommerce stores. Once high-resolution photographs circulate without branding, proving intellectual ownership becomes difficult. Placing a visible watermark across key visual elements deters casual content scrapers while establishing clear brand attribution for anyone discovering your work online. A stamped name preserves your artistic credit.",
       "Watermark design requires balancing copyright protection against aesthetic viewing enjoyment. A subtle corner logo preserves the beauty of a landscape photo while identifying the creator. Working with an image watermark adder lets you apply semi-transparent repeating tile patterns angled across the entire frame to prevent unauthorized commercial usage by competitors. Selecting the right density keeps your images appealing while guarded.",
       "Adding stamps takes minimal effort. Upload one or more pictures, then choose between a custom text watermark or an uploaded logo graphic. Adjust font typography, size, color, opacity, rotation angle, and placement across a nine-point position grid or full tile pattern. Preview the result and download your protected images. The layout controls make adjustments simple and precise.",
-      "Watermark application runs inside your browser session using canvas drawing methods, meaning your original graphics remain protected on your computer. No account registration is needed and batch processing is supported. Always keep unmarked original files safely backed up in a separate storage folder before stamping your public web copies. Keeping originals guarantees your high-resolution archives remain intact.",
+      "Watermarking executes completely within your browser session using HTML5 canvas processing, so your photography remains on your computer. No account registration is needed and batch processing is supported. Always keep unmarked original files safely backed up in a separate storage folder before stamping your public web copies. Keeping originals guarantees your high-resolution archives remain intact.",
     ],
     faq: [
       {
@@ -839,7 +568,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Does this watermarking service store copies of my photos?",
-        a: "Your private photography stays on your device. Watermark blending and text rendering happen entirely within your local browser window. Your original photographs and watermarked exports are never sent to external servers or remote storage systems.",
+        a: "Your files remain on your personal device. The watermark stamping executes locally inside your web browser via canvas drawing methods. Your original photos and watermarked copies remain on your personal device and are never uploaded to remote servers.",
       },
       {
         q: "What is the benefit of a repeating tile watermark?",
@@ -856,19 +585,18 @@ export const TOOL_SEO = {
       { icon: "Download", label: "Single and batch photo exports" },
     ],
   },
+
   "photo-collage-maker": {
     seoTitle: "Photo Collage Maker: Combine Pictures into Grids",
-    seoDescription:
-      "Create stunning photo grids with this free photo collage maker. Choose grid layouts, adjust border spacing, round corners, and export high-res files.",
+    seoDescription: "Create stunning photo grids with this free photo collage maker. Choose grid layouts, adjust border spacing, round corners, and export high-res files.",
     h1: "Photo Collage Maker",
-    shortDescription:
-      "Assemble your favorite snapshots into attractive grids with this photo collage maker, featuring flexible layouts, spacing sliders, and custom borders.",
+    shortDescription: "Assemble your favorite snapshots into attractive grids with this photo collage maker, featuring flexible layouts, spacing sliders, and custom borders.",
     about: [
-      "This photo collage maker arranges multiple pictures into clean, balanced grid layouts for sharing and printing. Vacationers, event coordinators and social media creators use it to showcase photo highlights, before-and-after transformations, and family memories in a single composite graphic. Upload your pictures, choose a grid arrangement, and download your finished collage. Combining complementary snapshots captures the atmosphere of special occasions and milestones.",
+      "This photo collage maker arranges multiple pictures into clean, balanced grid layouts for sharing and printing. Vacationers, event coordinators and social media creators use it to showcase photo highlights, before-and-after transformations, and family memories in a single composite graphic. Upload your pictures, choose a grid arrangement, and download your finished collage.",
       "Sharing several loose snapshots in separate posts often dilutes audience engagement and clutters social media feeds. A cohesive photo collage tells a complete visual story at a glance, grouping complementary angles and moments together. Framing travel photos, wedding celebrations or birthday parties into one composition makes your memories easier to print and share. Collages connect related memories in one unified design.",
       "Compositional balance makes the difference between a messy layout and a striking design. Choosing consistent border spacing between photos gives each image room to breathe. Adjusting corner radius adds modern rounded edges, while selecting background border colors helps tie distinct photo color palettes together into a harmonious overall graphic composition. Thoughtful borders highlight your best photographic moments.",
       "Building your collage takes four simple steps. Upload your pictures into the gallery, then choose a layout grid designed for your number of photos. Use the controls to adjust border gap spacing, corner rounding, and frame aspect ratios. Drag pictures between slots to adjust their positioning, then click download to save your high-resolution collage. The drag handles keep layout adjustments intuitive.",
-      "The browser canvas compiles your grid layout on your own machine, keeping personal snapshots secure without accounts or branding overlays. Choose high-resolution source photos to ensure printed collages look crisp and vibrant when framed on home walls. Archiving high quality prints keeps family records clear for generations to enjoy. The output remains clean and ready for immediate printing.",
+      "Collage rendering happens locally inside your browser canvas, keeping your personal family photographs on your computer. No account sign-up is required and no watermarks are stamped onto your work. Choose high-resolution source photos to ensure printed collages look crisp and vibrant when framed on home walls. Archiving high quality prints keeps family records clear for generations.",
     ],
     faq: [
       {
@@ -885,7 +613,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Are my private family pictures stored on remote servers?",
-        a: "Your family photos remain on your personal computer. The composite grid layout and image rendering execute directly within your local web browser session. Your snapshots are never uploaded to remote databases or external storage providers without your permission.",
+        a: "Your files remain on your computer. The collage composition and image rendering execute entirely in your web browser using HTML5 canvas. Your photos remain on your personal device and are never uploaded or saved to remote databases.",
       },
       {
         q: "What aspect ratios can I choose for my collage canvas?",
@@ -902,19 +630,18 @@ export const TOOL_SEO = {
       { icon: "Download", label: "High-resolution clean JPG export" },
     ],
   },
+
   "favicon-generator": {
     seoTitle: "Favicon Generator: Create Website Icons and Code",
-    seoDescription:
-      "Create a complete website icon set with this free favicon generator. Download multi-size ICO files, Apple touch icons, and ready-to-paste HTML tags.",
+    seoDescription: "Create a complete website icon set with this free favicon generator. Download multi-size ICO files, Apple touch icons, and ready-to-paste HTML tags.",
     h1: "Favicon Generator",
-    shortDescription:
-      "Generate browser, Apple, and Android icon assets with this favicon generator, providing a bundled ZIP package and complete HTML header tags for your site.",
+    shortDescription: "Generate browser, Apple, and Android icon assets with this favicon generator, providing a bundled ZIP package and complete HTML header tags for your site.",
     about: [
       "This favicon generator converts logos and brand graphics into a complete set of website icon assets. Web developers, WordPress site owners and startup founders use it to ensure their site displays crisp, professional icons across browser tabs, bookmarks and mobile home screens. Upload a square logo, preview generated sizes, and download your icon package.",
       "A favicon is far more than a tiny visual decorative detail. It serves as your primary brand identifier across browser tab bars, bookmark lists, browsing history panels, and mobile home screen shortcuts. When a website lacks a favicon, browsers show a generic globe icon, which looks unfinished and damages user trust during online checkout or sign-up flows. A distinct icon anchors your presence.",
       "Modern device ecosystems require multiple icon dimensions and specific file formats. Desktop web browsers rely on multi-size ICO files containing sixteen, thirty-two, and forty-eight pixel variants. Apple iOS devices look for a dedicated 180-pixel Apple touch icon, while Android and Chrome look for high-resolution PNG manifests at 192 and 512 pixels. Meeting all platform requirements prevents blurry icons across mobile devices.",
       "Creating your asset bundle takes just a moment. Upload a square PNG, SVG, or JPG graphic into the upload box. The tool automatically generates the standard ICO file and companion PNG graphics across all necessary device resolutions. Copy the generated HTML header code, then download the bundled ZIP package containing all icon files. Your deployment package comes completely organized.",
-      "Icon compilation processes within your local browser tab, keeping your proprietary brand assets on your machine without subscriptions. No user account or subscription is needed. Place the unpacked files into your website root directory and paste the provided HTML snippet into your page header to display your icons. Testing across multiple mobile browsers ensures smooth icon rendering across all platforms.",
+      "Asset resizing and package generation execute within your browser session, keeping your brand artwork on your computer. No user account or subscription is needed. Place the unpacked files into your website root directory and paste the provided HTML snippet into your page header to display your icons. Testing across multiple mobile browsers ensures smooth icon rendering.",
     ],
     faq: [
       {
@@ -931,7 +658,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Are my uploaded logo files sent to external servers?",
-        a: "Your uploaded logo graphics remain on your computer. The icon generation, canvas scaling, and ZIP bundling routines execute locally within your browser using client-side JavaScript. Your proprietary logo designs and brand assets are never transmitted across the network.",
+        a: "Your files remain on your computer. The icon generation, canvas scaling, and ZIP bundling routines execute locally within your browser using client-side JavaScript. Your proprietary logo designs and brand assets are never transmitted across the network.",
       },
       {
         q: "Why do I need both an ICO file and PNG icons?",
@@ -948,19 +675,18 @@ export const TOOL_SEO = {
       { icon: "Check", label: "Free, no sign-up" },
     ],
   },
+
   "svg-to-png-converter": {
     seoTitle: "SVG to PNG: Convert Vector Graphics to PNG Files",
-    seoDescription:
-      "Convert vector artwork from svg to png at any custom resolution. Preserve transparency or pick a background shade, then download crisp raster images.",
+    seoDescription: "Convert vector artwork from svg to png at any custom resolution. Preserve transparency or pick a background shade, then download crisp raster images.",
     h1: "SVG to PNG Converter",
-    shortDescription:
-      "Render vector drawings into raster graphics using this svg to png converter, with custom pixel dimensions, high scale factors, and transparency controls.",
+    shortDescription: "Render vector drawings into raster graphics using this svg to png converter, with custom pixel dimensions, high scale factors, and transparency controls.",
     about: [
       "This svg to png converter renders scalable vector graphics into crisp raster images at any resolution you choose. Web developers, digital illustrators and presentation designers use it when an application or publishing platform does not support vector SVG files natively. Upload your vector file, configure your output dimensions, and download a sharp PNG file.",
       "Vector graphics use mathematical paths, curves and color fills to describe visual artwork, allowing infinite scaling without pixelation. However, many email clients, slide software tools and social media channels do not accept SVG code due to security or compatibility constraints. Converting vector paths into raster PNG files ensures universal compatibility across all platforms. That versatility solves everyday software incompatibilities.",
       "Rendering resolution is vital when converting vector files to raster formats. Because vector artwork contains no fixed pixel grid, you can render an SVG at two hundred pixels for a website badge or four thousand pixels for billboard printing without loss of quality. Choosing a high pixel multiplier ensures razor-sharp lines on retina displays. Custom scaling protects sharp edges across every display size.",
       "The conversion process takes seconds. Drop your SVG vector file into the converter, then specify your target width and height or select a scaling multiplier like 2x, 4x, or 8x. Choose between a transparent background or custom solid color fill, preview the rendered raster image, and click download to save your PNG file. The controls provide complete flexibility over every detail.",
-      "Rasterization executes within the HTML5 canvas sandbox, ensuring your vector artwork remains safely on your computer without registration hurdles. For print materials, choose a high scaling factor like 4x or 8x to ensure crisp thirty-point print quality across banners and brochures. High density exports look vibrant when produced on commercial printers. The exported files preserve full detail.",
+      "Conversion processes locally within your browser canvas, so your vector artwork and brand illustrations remain on your computer. No account sign-up is required. For print materials, choose a high scaling factor like 4x or 8x to ensure crisp thirty-point print quality across banners and brochures. High density exports look vibrant when produced on commercial printers.",
     ],
     faq: [
       {
@@ -981,7 +707,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Does this tool upload my proprietary vector graphics to a server?",
-        a: "Your vector designs remain on your computer. Vector path calculations and raster drawing execute locally within your browser using canvas components. Your vector illustrations, corporate logos, and icon assets remain on your machine throughout the entire conversion process.",
+        a: "Your files remain on your computer. The vector parsing and rasterization pipeline runs locally inside your browser via the HTML5 canvas element. Your vector illustrations, corporate logos, and icon assets remain on your machine throughout the entire conversion process.",
       },
       {
         q: "Why do some platforms reject SVG files and require PNG?",
@@ -996,10 +722,19 @@ export const TOOL_SEO = {
   },
 };
 
-export function getToolSeo(slug) {
-  return TOOL_SEO[slug] || null;
+// Validate each entry
+console.log("=== VALIDATING ALL 16 IMAGE & PDF ENTRIES ===");
+let totalErrors = 0, totalWarnings = 0;
+for (const [slug, entry] of Object.entries(IMAGE_PDF_SEO)) {
+  const { errs, warns } = validateCandidate(slug, entry);
+  if (errs.length || warns.length) {
+    console.log(`\n${slug}: ${errs.length} ERR, ${warns.length} WARN`);
+    errs.forEach((e) => console.log(`  ERR: ${e}`));
+    warns.forEach((w) => console.log(`  WARN: ${w}`));
+  } else {
+    console.log(`PASS: ${slug}`);
+  }
+  totalErrors += errs.length;
+  totalWarnings += warns.length;
 }
-
-export function isToolIndexable(slug) {
-  return INDEX_ALL_TOOLS || Boolean(TOOL_SEO[slug]);
-}
+console.log(`\nTotal Validation Result: ${totalErrors} errors, ${totalWarnings} warnings.`);

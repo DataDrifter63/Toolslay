@@ -2,9 +2,9 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-export const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..", "..");
+export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 
 // Import a data-only ESM file that lives in a CommonJS package by copying it to a temp .mjs file.
 export async function importDataFile(relPath) {
