@@ -2678,6 +2678,848 @@ export const TOOL_SEO = {
       },
     ],
   },
+
+  // --- Batch 3 ---
+
+  "discount-calculator": {
+    seoTitle: "Discount Calculator: Calculate Sale Prices & Savings",
+    seoDescription:
+      "Find the exact sale price and savings amount instantly. Free discount calculator, handles single and sequential markdowns correctly.",
+    h1: "Discount Calculator",
+    shortDescription:
+      "Enter the original price and discount percentage below, and this sale price calculator shows exactly what you'll pay and what you're saving.",
+    about: [
+      "A discount calculator does the straightforward multiplication, price times the discount percentage, to show your exact savings and final checkout total. This sale price calculator is also where people usually realize a stacked discount, say, 50% off and then an extra 30% off, doesn't add up the way it sounds.",
+      "Two sequential discounts never simply add together, which is the detail retail signage counts on people not doing the math on. Fifty percent off followed by an additional thirty percent off isn't 80% off total, it's actually 1 minus (0.5 times 0.7), which works out to 65% off, a meaningfully smaller discount than the headline numbers suggest at a glance.",
+      "Businesses pricing a sale rely on this same math from the other direction, working out exactly what markdown percentage keeps a promotional price profitable without accidentally pricing an item below cost.",
+      "Enter the original price and the discount percentage, and the tool outputs both the dollar amount you're saving and the final price you'll actually pay at checkout.",
+      "For a stacked discount, run the calculation in sequence rather than trying to add percentages together, calculate the first markdown, then run that new subtotal through the calculator a second time for the additional discount. Your shopping queries and any business pricing you're testing stay entirely local, nothing uploads to a server.",
+    ],
+    faq: [
+      {
+        q: "How do I calculate a discount by hand?",
+        a: "Convert the percentage to a decimal by dividing by 100, multiply the original price by that decimal to find your savings, then subtract that savings figure from the original price for your final cost.",
+      },
+      {
+        q: "Can this calculate a stacked or sequential discount, like an extra coupon on top of a sale?",
+        a: "Not directly in one step, since discounts compound rather than simply adding. Apply the first discount, take that new subtotal, and run a second calculation for the additional discount, rather than adding the two percentages together.",
+      },
+      {
+        q: "Does this tool factor in sales tax?",
+        a: "No, it calculates the straightforward price markdown only. Sales tax varies too much by region to apply automatically, so you'd add that separately based on your local rate.",
+      },
+      {
+        q: "How do I figure out what discount percentage was actually applied if I only know the before and after price?",
+        a: "Use a percentage difference calculation between the original and new price, that tells you the exact markdown percentage the retailer applied.",
+      },
+      {
+        q: "Is this usable for small business retail pricing, not just personal shopping?",
+        a: "Yes, it works identically for either use case, no account or sign-up needed for either.",
+      },
+      {
+        q: "Are the prices I check here logged anywhere?",
+        a: "No, every calculation runs locally in your browser. Prices and discount figures you check are never tracked or stored.",
+      },
+    ],
+  },
+
+  "unit-converter": {
+    seoTitle: "Unit Converter: Convert Measurements Instantly",
+    seoDescription:
+      "Convert length, weight, volume, and temperature between metric and imperial units in seconds. Free measurement converter, precise results.",
+    h1: "Unit Converter",
+    shortDescription:
+      "Select your units below, and this measurement converter instantly translates length, weight, volume, or temperature between metric and imperial.",
+    about: [
+      "Metric units scale by clean powers of ten, which is by design, the system was built from the ground up to be decimal-friendly. Imperial units, inches, pounds, gallons, carry centuries of historical baggage instead and don't share that clean relationship with each other. A unit converter handles the actual math, and this measurement converter covers length, weight, volume, area, and temperature in one place.",
+      "Temperature is the one category that trips up a naive conversion the most, since it's not a simple multiplication like most other unit pairs. Fahrenheit and Celsius start at different zero points entirely, so converting between them requires both a multiplication and an offset, (°F minus 32) times 5/9 to get Celsius, not just a straight ratio the way converting meters to feet works.",
+      "Precision matters more than people assume outside of just \"close enough\" contexts. A rounding error in an architectural conversion or a culinary recipe scaled for a different measurement system can genuinely ruin the result, which is exactly why this calculates out to several decimal places rather than rounding early.",
+      "Pick your measurement category, length, weight, volume, temperature, or area, then select your starting and target units. The conversion calculates immediately with no equation to type in yourself.",
+      "Once the page has loaded, the conversion math runs entirely offline in your browser, so it stays fast and reliable even on a weak connection. Whatever you're converting, an engineering dimension, a recipe, a travel itinerary, stays private the entire time.",
+    ],
+    faq: [
+      {
+        q: "What's the core difference between metric and imperial?",
+        a: "Metric is a decimal-based system used by nearly every country worldwide, built around units like meters and grams that scale cleanly by powers of ten. Imperial, still primarily used in the US, relies on units like inches and pounds with less consistent scaling relationships between them.",
+      },
+      {
+        q: "Does this tool handle temperature conversions correctly?",
+        a: "Yes, temperature needs an offset calculation, not just a multiplication, since Celsius and Fahrenheit start at different zero points. The converter applies the correct formula automatically for Celsius, Fahrenheit, and Kelvin.",
+      },
+      {
+        q: "How precise are the converted results?",
+        a: "The tool calculates to several decimal places, which matters for contexts like cooking, engineering, or scientific work where a rounding error early on can compound into a meaningfully wrong final result.",
+      },
+      {
+        q: "Can I convert liquid volume, like liters to gallons?",
+        a: "Yes, the volume category covers both dry and liquid measurements, milliliters, liters, fluid ounces, cups, pints, and gallons all included.",
+      },
+      {
+        q: "Do I need an active internet connection to use this?",
+        a: "Only to initially load the page. After that, all conversion math runs locally in your browser's own memory, so it keeps working reliably even with a weak or intermittent connection.",
+      },
+      {
+        q: "Is my conversion history logged anywhere?",
+        a: "No, every conversion runs client-side. Measurements you enter, whether for a recipe, a project, or anything else, are never tracked or stored.",
+      },
+    ],
+  },
+
+  "love-calculator": {
+    seoTitle: "Love Calculator: Test Compatibility Percentages",
+    seoDescription:
+      "Get a fun, instant compatibility score from two names. Free love calculator, purely for entertainment, nothing saved or shared.",
+    h1: "Love Calculator",
+    shortDescription:
+      "Enter two names below, and this love percentage calculator generates a playful compatibility score in seconds, just for fun.",
+    about: [
+      "A love calculator runs two names through an algorithmic formula and outputs a percentage score, a digital descendant of classic name-matching games people have played for generations, FLAMES being one well-known paper-and-pencil version. This love percentage calculator automates that same idea instantly, purely as a lighthearted bit of fun rather than anything resembling actual relationship science.",
+      "Worth being upfront about: there's no psychology, astrology, or compatibility research behind the number this produces. It's a deterministic function based on the characters in the two names you enter, meaning the same two names will always generate the identical score every single time, which is exactly what makes it fun to test with friends rather than something to actually read into.",
+      "Name-based matching games have existed in different forms across cultures for a long time, long before anything digital. This is really just that same tradition wearing a web interface, something to laugh about at a party or with a group of friends rather than a tool anyone should take seriously.",
+      "Type in two names and hit calculate. The result shows up instantly as a percentage score, paired with a playful little relationship blurb.",
+      "Since it's just names going in, nothing sensitive, the whole thing runs locally in your browser anyway, so whatever names or crushes you're testing never get logged or sent anywhere.",
+    ],
+    faq: [
+      {
+        q: "How does a love calculator actually generate its score?",
+        a: "It's not based on real psychology or relationship science at all. It typically runs a pseudo-random algorithm against the letters in the two names entered, producing a consistent percentage tied to that specific combination of characters.",
+      },
+      {
+        q: "Can this actually predict whether a relationship will work out?",
+        a: "No, genuinely not. Real relationship outcomes depend on communication, shared values, and mutual effort, none of which a name-based algorithm has any way of measuring. Treat it strictly as entertainment.",
+      },
+      {
+        q: "Will the same two names always produce the same score?",
+        a: "Yes, the underlying calculation is deterministic, so testing the identical name pair again will always return the exact same percentage.",
+      },
+      {
+        q: "Is it safe to type in real names here?",
+        a: "Yes, the whole calculation runs locally in your browser. Names you test aren't stored, tracked, or sent anywhere.",
+      },
+      {
+        q: "Can I use nicknames or even celebrity names instead of real full names?",
+        a: "Sure, any text works, full names, nicknames, celebrity pairings, whatever you're curious about testing for a laugh.",
+      },
+      {
+        q: "Is this appropriate for kids or teens to use?",
+        a: "Yes, it's entirely family-friendly and built purely for harmless, lighthearted fun.",
+      },
+    ],
+  },
+
+  "loan-calculator": {
+    seoTitle: "Loan Calculator: Estimate Payments & Interest",
+    seoDescription:
+      "Estimate your monthly loan payment and total interest cost instantly. Free personal loan calculator, full amortization breakdown.",
+    h1: "Loan Calculator",
+    shortDescription:
+      "Enter your loan amount, rate, and term below, and this personal loan calculator outputs your monthly payment and total interest cost.",
+    about: [
+      "A loan calculator runs the standard amortization formula to work out your fixed monthly payment based on how much you're borrowing, the rate, and the repayment term. This personal loan calculator is useful for more than just the payment figure itself, it also shows total interest paid over the life of the loan, which is often the number that actually changes someone's mind about a longer term.",
+      "Without a clear monthly figure upfront, it's genuinely easy to take on more debt than actually fits comfortably into a budget. This calculator handles the underlying amortization math instantly, the kind of calculation that's not realistic to work out accurately by hand, and gives you the exact flat monthly commitment.",
+      "Comparing loan offers side by side gets confusing fast when rates and terms both differ between lenders. Running a few different scenarios through the same calculator, what happens with an extra $100 a month, a shorter term versus a lower payment, makes those tradeoffs concrete instead of abstract.",
+      "Enter the loan amount, the annual rate your lender offered, and the repayment term in months or years. The tool calculates your monthly installment immediately, along with the full interest cost over the loan's lifetime.",
+      "One thing worth knowing: paying extra toward principal typically doesn't lower your required monthly payment unless you formally refinance, what it does instead is shorten the loan's overall length, which can meaningfully cut your total interest paid. Your loan amount and rate stay private, calculated entirely in your browser.",
+    ],
+    faq: [
+      {
+        q: "What's the actual difference between principal and interest?",
+        a: "Principal is the amount you originally borrowed. Interest is the additional cost the lender charges for lending it to you, expressed as an annual percentage rate.",
+      },
+      {
+        q: "How does the calculator arrive at my monthly payment?",
+        a: "It applies a standard amortization formula, using the principal, the monthly rate derived from your annual rate, and the total number of payments, to calculate one consistent monthly figure.",
+      },
+      {
+        q: "If I pay extra, will my monthly payment go down?",
+        a: "Not automatically, no, not unless you formally refinance the loan. What typically happens instead is the loan's overall term shortens, which can save a substantial amount in total interest by the time it's paid off.",
+      },
+      {
+        q: "What exactly is an amortization schedule?",
+        a: "A detailed table showing every individual payment across the loan's full term, breaking down precisely how much of each one goes toward principal versus interest.",
+      },
+      {
+        q: "Does this work for any type of loan, or just certain ones?",
+        a: "The core amortization math applies to any fixed-rate installment loan, personal loans, debt consolidation, signature loans, all calculate the same way regardless of the specific lender or purpose.",
+      },
+      {
+        q: "Is my loan information saved anywhere?",
+        a: "No, every calculation happens locally in your browser. The amounts and rates you test are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "mortgage-calculator": {
+    seoTitle: "Mortgage Calculator: Estimate Home Loan Payments",
+    seoDescription:
+      "Estimate your full monthly mortgage payment, including taxes and insurance. Free home loan calculator, PITI breakdown included.",
+    h1: "Mortgage Calculator",
+    shortDescription:
+      "Enter your home price, down payment, and rate below, and this home loan calculator outputs your full monthly payment breakdown.",
+    about: [
+      "A mortgage calculator goes beyond basic loan math because a home payment carries more than principal and interest alone. This home loan calculator factors in the full picture lenders refer to as PITI, Principal, Interest, Taxes, and Insurance, which is the only way to get a monthly estimate that actually matches what shows up on a real mortgage statement.",
+      "Property taxes and homeowner's insurance get bundled into most monthly mortgage payments by the lender, held in what's called an escrow account and paid out on your behalf, rather than billed separately. Skipping those two line items, like a plain loan calculator would, can leave your actual monthly number looking considerably lower than what you'll really owe.",
+      "Down payment size matters more than it might seem too. Put down less than 20% and most lenders will require Private Mortgage Insurance, an added monthly cost specifically protecting the lender, not you, in case of default, which adds yet another line to the total payment beyond the loan itself.",
+      "Enter the home price, your planned down payment, the interest rate, and loan term. The calculator outputs your principal and interest payment immediately, with options to layer in estimated property tax and insurance for the fuller picture.",
+      "Comparing a 15-year against a 30-year fixed term here makes the tradeoff concrete rather than abstract, a shorter term means a higher monthly payment but dramatically less total interest paid over the loan's life. Your real estate budget and financial details stay entirely local the whole time.",
+    ],
+    faq: [
+      {
+        q: "What's actually included in a standard monthly mortgage payment?",
+        a: "The four core components, commonly abbreviated PITI: Principal, Interest, property Taxes, and homeowner's Insurance. Loans with a smaller down payment often add Private Mortgage Insurance as a fifth component.",
+      },
+      {
+        q: "How does my down payment size affect the mortgage?",
+        a: "A larger down payment directly reduces how much principal you need to borrow, which lowers both your monthly payment and the total interest paid over the life of the loan.",
+      },
+      {
+        q: "What's the real difference between a fixed-rate and an adjustable-rate mortgage?",
+        a: "A fixed-rate mortgage locks your interest rate for the entire loan term, so your payment never changes. An adjustable-rate mortgage starts with a lower introductory rate that then shifts periodically based on market conditions after that intro period ends.",
+      },
+      {
+        q: "What exactly is Private Mortgage Insurance?",
+        a: "A policy lenders typically require when a down payment is below 20% of the home's price, protecting the lender financially if the borrower defaults, not something that benefits the homeowner directly.",
+      },
+      {
+        q: "Can I estimate how much I'd save by paying off my mortgage early?",
+        a: "Yes, adjusting the loan term or layering in extra monthly principal payments shows roughly how many years you could shave off the mortgage and what that would save in total interest.",
+      },
+      {
+        q: "Is my real estate and financial data saved anywhere?",
+        a: "No, every calculation runs locally in your browser. Your property budget and borrowing details are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "salary-take-home-calculator": {
+    seoTitle: "Salary Calculator: Estimate Your Take-Home Pay",
+    seoDescription:
+      "Calculate your actual net take-home pay after taxes and deductions. Free paycheck calculator, estimates federal, state, and FICA withholding.",
+    h1: "Salary/Take-Home Pay Calculator",
+    shortDescription:
+      "Enter your gross salary below, and this paycheck calculator estimates your actual net take-home pay after taxes and deductions.",
+    about: [
+      "A job offer's headline salary figure is gross pay, before federal income tax, state tax where applicable, and FICA contributions get deducted, so it's rarely the number that actually lands in your bank account. A paycheck calculator bridges that gap, and this salary calculator breaks down exactly what gets withheld to show your real net pay.",
+      "FICA withholding alone, Social Security plus Medicare, adds up to 7.65% of gross pay for a typical W-2 employee in the US, split as 6.2% for Social Security and 1.45% for Medicare, on top of whatever federal and state income tax applies based on your filing status and bracket. That combination is exactly why a $70,000 salary offer never translates to $70,000 actually hitting your account over the year.",
+      "Comparing job offers across different states specifically requires looking at net pay, not gross, since state income tax rates vary dramatically, some states charge none at all, which can make a lower gross offer in a no-income-tax state net out higher than a bigger offer somewhere with steep state taxes.",
+      "Enter your gross pay, select your pay frequency, and input your filing status along with your state. The calculator breaks down exactly what's withheld for federal, state, and FICA taxes, landing on your actual net take-home figure.",
+      "Pre-tax contributions, a traditional 401(k) or an HSA, reduce your taxable income before any of this withholding math even applies, which is worth factoring in if you're trying to compare take-home pay under different contribution scenarios. Your income figures and tax details stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between gross pay and net pay?",
+        a: "Gross pay is your total earnings before any taxes or deductions. Net pay, your actual take-home amount, is what's left after federal, state, and FICA taxes, along with any other deductions, are subtracted.",
+      },
+      {
+        q: "Why do tax deductions vary so much from person to person?",
+        a: "Withholding depends on filing status, number of dependents, which state you're in, and any pre-tax deductions like 401(k) or HSA contributions, all of which shift the final number meaningfully.",
+      },
+      {
+        q: "Does this account for retirement contributions?",
+        a: "Yes, pre-tax contributions like a traditional 401(k) or HSA reduce your taxable income before tax withholding is calculated, which this tool factors into the final net pay figure.",
+      },
+      {
+        q: "When should I actually double-check my withholding?",
+        a: "Any time a major life event happens, getting married, having a child, buying a home, or getting a significant raise, since any of these can shift what you should actually be withholding.",
+      },
+      {
+        q: "Does this work accurately for freelance or 1099 income?",
+        a: "Not directly, it's built around standard W-2 employment with automatic employer withholding. Freelancers need to separately account for self-employment tax and quarterly estimated payments, which work differently.",
+      },
+      {
+        q: "Is my salary information saved anywhere?",
+        a: "No, every calculation happens locally through client-side JavaScript. Your income figures are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "tip-calculator": {
+    seoTitle: "Tip Calculator: Calculate Gratuity & Split Bills Fast",
+    seoDescription:
+      "Calculate the tip and split the bill among friends in seconds. Free tip calculator, standard percentage presets, works on mobile.",
+    h1: "Tip Calculator",
+    shortDescription:
+      "Enter your bill total and tip percentage below, and this tip calculator instantly splits the total, including gratuity, among everyone at the table.",
+    about: [
+      "A tip calculator takes care of the gratuity math and the group split at the same time, which is exactly the combination that turns into a frustrating end-of-meal moment when everyone's trying to do it in their head. Enter the bill and a percentage, and this tool handles both calculations together, no awkward pause at the table.",
+      "There's a real debate worth knowing about: whether to calculate a tip on the pre-tax subtotal or the full post-tax total. Tipping etiquette generally leans toward the pre-tax subtotal as the technically correct baseline, though calculating on the full total is common too and just means a slightly more generous tip, neither is wrong exactly.",
+      "Standard tipping percentage ranges fifteen to twenty percent for solid sit-down restaurant service in most of the US, with twenty percent or higher reserved for genuinely exceptional service. Delivery tipping runs a bit different, typically ten to twenty percent depending on distance, weather, and order size.",
+      "Enter your bill subtotal, pick a standard percentage or enter a custom one, and set how many people are splitting it. The tool calculates the tip amount, the grand total, and exactly what each person owes, instantly.",
+      "Fully usable on a phone at the table, which is really the whole point, this isn't something you'd want to pull out a laptop for. Your bill details and group totals never leave your browser.",
+    ],
+    faq: [
+      {
+        q: "What's a typical tip percentage for restaurant service in the US?",
+        a: "Fifteen to twenty percent of the pre-tax bill is standard for decent sit-down service, with twenty percent or above generally reserved for exceptional service.",
+      },
+      {
+        q: "Should the tip be calculated before or after sales tax?",
+        a: "Etiquette generally favors calculating on the pre-tax subtotal, though calculating on the post-tax total is common too, it just results in a somewhat more generous tip either way.",
+      },
+      {
+        q: "How does the split handle amounts that don't divide evenly?",
+        a: "The calculator rounds to the nearest cent per person. In practice, groups often round their individual shares up slightly just to make sure the full bill gets covered.",
+      },
+      {
+        q: "Can I use this for tipping a delivery driver, not just a restaurant?",
+        a: "Yes, delivery tipping is customary too, typically landing somewhere between ten and twenty percent depending on distance, weather conditions, and the size of the order.",
+      },
+      {
+        q: "Does this work well on a phone at the actual restaurant table?",
+        a: "Yes, it's built to be fully usable on mobile, so pulling it up at the table works exactly as intended.",
+      },
+      {
+        q: "Are the bill amounts I calculate stored anywhere?",
+        a: "No, every calculation runs locally in your browser. Bill totals and group splits are never tracked or saved.",
+      },
+    ],
+  },
+
+  "currency-converter": {
+    seoTitle: "Currency Converter: Live Exchange Rates & Math",
+    seoDescription:
+      "Convert between world currencies using current exchange rates. Free currency converter for travel, shopping, and business, instant results.",
+    h1: "Currency Converter",
+    shortDescription:
+      "Select your currencies and enter an amount below, and this exchange rate calculator converts it instantly using current market rates.",
+    about: [
+      "Currency values shift constantly based on global market activity, so a currency converter needs current rate data behind it rather than a fixed table that goes stale within hours. This exchange rate calculator pulls current values and handles the math, useful for anything from planning a trip budget to pricing an international order.",
+      "What moves exchange rates, in practice, is a mix of a country's inflation rate, its central bank's interest rate decisions, overall trade balance, and plain market speculation, all interacting at once, which is exactly why rates are never static and manual calculation would always be working from outdated numbers.",
+      "Worth knowing specifically: the rate shown by most converters, including this one, is the mid-market rate, the true midpoint between global buy and sell prices. Banks and currency exchange booths typically add their own markup on top of that rate when actually selling you physical cash, so the number you see here and the number you'll get at an airport kiosk usually won't match exactly.",
+      "Select your starting and target currencies and enter an amount. The conversion calculates immediately using current rate data, no manual math required.",
+      "The actual conversion math runs locally once the current rate data has loaded, covering all major global currencies, dollars, euros, pounds, yen, and dozens more. Your spending amounts and travel plans stay private throughout.",
+    ],
+    faq: [
+      {
+        q: "What actually causes exchange rates to move?",
+        a: "A combination of inflation, central bank interest rate policy, trade balances between countries, geopolitical stability, and general market speculation, all shifting rates continuously rather than on any fixed schedule.",
+      },
+      {
+        q: "Is the rate shown here the same rate I'd get at a bank or currency exchange?",
+        a: "Not exactly. This shows the mid-market rate, the real midpoint between global buy and sell prices. Banks and exchange booths typically add a markup on top when they actually sell you physical currency.",
+      },
+      {
+        q: "Can I use this without an internet connection while traveling?",
+        a: "The initial rate data needs a connection to load, but the actual conversion math then runs locally in your browser, so it stays fast and responsive for calculations after that.",
+      },
+      {
+        q: "Does it cover less common, regional currencies, or just major ones?",
+        a: "It covers all major global currencies and a wide range of regional ones as well, not just the handful of most commonly traded pairs.",
+      },
+      {
+        q: "Can I check historical exchange rates for a past date?",
+        a: "This tool is built for current, real-time conversions specifically. Historical rate lookups for something like past tax filings would need a dedicated financial archive instead.",
+      },
+      {
+        q: "Is my conversion activity logged anywhere?",
+        a: "No, the actual math runs locally in your browser. Amounts and currencies you check are never tracked or stored.",
+      },
+    ],
+  },
+
+  "calorie-calculator-tdee": {
+    seoTitle: "Calorie Calculator: Find Your Daily TDEE Needs",
+    seoDescription:
+      "Calculate your Total Daily Energy Expenditure using the Mifflin-St Jeor formula. Free TDEE calculator for weight loss, maintenance, or muscle gain.",
+    h1: "Calorie Calculator (TDEE)",
+    shortDescription:
+      "Enter your stats and activity level below, and this TDEE calculator outputs your daily maintenance calories using a peer-reviewed formula.",
+    about: [
+      "TDEE, Total Daily Energy Expenditure, is the full number of calories your body burns in a day, combining your resting metabolic needs with digestion and all physical activity layered on top. A calorie calculator starts with your Basal Metabolic Rate and scales it by an activity multiplier to land on that number, and this TDEE calculator uses the Mifflin-St Jeor equation specifically, which research has shown to be more accurate across most populations than the older Harris-Benedict formula it replaced.",
+      "BMR alone only covers what your body needs at complete rest, just keeping organs running, breathing, circulating blood, nothing more. TDEE builds on top of that baseline using an activity multiplier, roughly 1.2 for a sedentary lifestyle up through around 1.9 for extremely physically demanding work or training, which is what actually produces a usable, personalized maintenance number.",
+      "The math for weight change is more predictable than it feels: a pound of fat is roughly equivalent to 3,500 calories, so a consistent 500-calorie daily deficit below TDEE works out to roughly one pound of weight loss per week, a widely cited and reasonably reliable benchmark for sustainable, gradual loss.",
+      "Enter your age, gender, height, current weight, and select the activity level that actually matches your week, not an idealized version of it. The calculator outputs your BMR and full TDEE together, along with suggested calorie targets for cutting, maintaining, or building.",
+      "One thing worth building into your routine: TDEE shifts as your weight changes, since a lighter body needs fewer calories to maintain itself, so recalculating every 10 to 15 pounds of change keeps the number accurate rather than working off a figure that's quietly gone stale. Your body stats and nutrition goals stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What does TDEE actually stand for?",
+        a: "Total Daily Energy Expenditure, the full estimate of calories burned in a day, combining basal metabolic rate, the energy cost of digesting food, and all physical activity combined.",
+      },
+      {
+        q: "What is Basal Metabolic Rate, specifically?",
+        a: "The number of calories your body needs just to keep functioning at complete rest, breathing, circulation, brain activity, with zero additional physical movement factored in.",
+      },
+      {
+        q: "How do I actually use my TDEE number to lose weight?",
+        a: "Eat consistently below it to create a caloric deficit. A moderate, sustainable deficit of around 500 calories a day typically results in roughly a pound of weight loss per week.",
+      },
+      {
+        q: "How accurate is the formula this calculator uses?",
+        a: "It uses the Mifflin-St Jeor equation, which research has found more accurate for most people than the older Harris-Benedict formula. Individual metabolism still varies somewhat, so tracking actual weight change over a couple of weeks is the best way to fine-tune your personal number.",
+      },
+      {
+        q: "Do I need to recalculate my TDEE as my weight changes?",
+        a: "Yes, a lighter body requires fewer calories to maintain itself, so recalculating every 10 to 15 pounds of change keeps your target accurate instead of working from an outdated baseline.",
+      },
+      {
+        q: "Is my health and body data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your measurements and targets are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "macro-calculator": {
+    seoTitle: "Macro Calculator: Track Your Daily Macros",
+    seoDescription:
+      "Calculate your ideal daily protein, carbs, and fat in grams instantly. Free macro calculator for weight loss, maintenance, or muscle gain.",
+    h1: "Macro Calculator",
+    shortDescription:
+      "Enter your stats and goal below, and this macro calculator for weight loss or muscle gain outputs your exact daily gram targets.",
+    about: [
+      "Total calories determine whether you gain or lose weight, but the three macronutrients, protein, carbs, and fat, determine what that weight change is actually made of, muscle or fat. A macro calculator splits your daily calorie target into gram-based goals for each, and this macro calculator for weight loss specifically prioritizes protein intake high enough to protect muscle while you're in a deficit.",
+      "Each macronutrient carries a different calorie density that the math has to account for: protein and carbohydrates both provide 4 calories per gram, while fat provides 9, more than double. That's why swapping fat grams for protein or carb grams changes your total calorie count even if the total weight of food stays the same, a detail that trips up a lot of rough mental math.",
+      "Protein also does more than build muscle, it carries a notably higher thermic effect than carbs or fat, meaning your body burns more energy simply digesting it, and it's consistently shown to improve satiety, helping you feel fuller on fewer total calories. That combination is exactly why a cutting-focused macro split typically pushes protein higher than a standard maintenance split would.",
+      "Enter your age, height, weight, gender, activity level, and your specific goal, cutting, maintaining, or building. The calculator outputs your target daily calories broken into exact gram targets for protein, carbs, and fat.",
+      "These targets aren't meant to be set once and forgotten. As your body weight shifts, your energy needs shift along with it, so recalculating every few weeks keeps the ratios accurate rather than working off numbers that quietly became outdated. Your body stats and nutrition targets stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What exactly are macronutrients?",
+        a: "The three nutrient categories your body needs in large amounts to function: protein, carbohydrates, and fat. Each provides a specific number of calories per gram, protein and carbs at 4 each, fat at 9.",
+      },
+      {
+        q: "Why does protein matter so much specifically when cutting weight?",
+        a: "It helps preserve lean muscle tissue during a caloric deficit, has a higher thermic effect than other macros meaning your body burns more energy digesting it, and tends to keep you fuller on fewer total calories.",
+      },
+      {
+        q: "Can I adjust the macro ratio percentages myself?",
+        a: "Yes, while the calculator provides a balanced default split, many people training for a specific goal prefer a higher-protein or lower-carb ratio, and you can adjust the breakdown to match your own approach.",
+      },
+      {
+        q: "How do I actually track these numbers day to day?",
+        a: "Once you have your gram targets, a food-tracking app or a basic kitchen scale is the standard way to log meals and stay accountable to the targets throughout the day.",
+      },
+      {
+        q: "Do I need to update my macros as my weight changes?",
+        a: "Yes, your total energy expenditure shifts as your body weight does, so recalculating every few weeks keeps your targets accurate rather than stale.",
+      },
+      {
+        q: "Is my health and body data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your personal stats and nutrition targets are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "retirement-savings-calculator": {
+    seoTitle: "Retirement Calculator: Plan Your Future Nest Egg",
+    seoDescription:
+      "Project your retirement savings growth based on contributions and compound returns. Free retirement savings calculator, instant results.",
+    h1: "Retirement Savings Calculator",
+    shortDescription:
+      "Enter your current savings and monthly contributions below, and this retirement calculator projects your nest egg at retirement age.",
+    about: [
+      "Retirement planning really comes down to one mechanism doing most of the heavy lifting, compound growth, where your investment returns start generating their own returns over enough decades to matter. A retirement savings calculator projects that growth forward, and this retirement calculator shows exactly how much of your eventual balance came from contributions versus compounding itself.",
+      "Time in the market matters more than most people intuitively expect, which is precisely what compounding rewards. A dollar invested in your twenties has decades to compound before a dollar invested in your forties does, which is why starting early with modest contributions consistently outperforms starting later with considerably larger ones, even when the later saver contributes more total money over their working years.",
+      "A commonly cited target for retirement readiness, often called the Rule of 25, suggests aiming for roughly 25 times your expected annual expenses, which lines up with the widely referenced 4% safe withdrawal rate from the original Trinity study on retirement sustainability.",
+      "Enter your current age, target retirement age, existing savings, planned monthly contribution, and an expected annual return rate. The calculator projects your total balance at retirement, clearly separating how much came from your own contributions versus accumulated compound interest.",
+      "Historical broad stock market returns have averaged somewhere around 7 to 10% annually before inflation, though a more conservative 6 to 8% is a commonly used planning assumption to account for market volatility. Subtracting a couple of percentage points from your assumed rate is a simple way to see your projection in today's purchasing power rather than inflated future dollars. Your savings figures and projections stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "Why does compound interest matter so much for long-term retirement planning?",
+        a: "Because your investment earnings get reinvested and start generating their own earnings, which over two or three decades produces exponential rather than linear growth, making early, consistent saving dramatically more powerful than catching up later.",
+      },
+      {
+        q: "What's a realistic annual return rate to use in this calculator?",
+        a: "Historical broad market averages run around 7 to 10% before inflation, though many financial planners recommend a more conservative 6 to 8% assumption to account for market volatility and long-term uncertainty.",
+      },
+      {
+        q: "How much money will I actually need saved for retirement?",
+        a: "A commonly used rule of thumb targets replacing roughly 70 to 80% of your pre-retirement income, though the right number depends heavily on your specific expected lifestyle and expenses.",
+      },
+      {
+        q: "Does this calculator account for inflation?",
+        a: "It projects nominal future dollar values by default. To see your projection in today's purchasing power, lower your assumed return rate by two or three percentage points to roughly account for inflation.",
+      },
+      {
+        q: "Can I use this if I'm starting from zero savings?",
+        a: "Yes, just enter a starting balance of zero and focus on the monthly contribution field to see how consistent saving alone builds up over a full career.",
+      },
+      {
+        q: "Is my financial information saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your savings figures and projections are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "car-loan-calculator": {
+    seoTitle: "Car Loan Calculator: Estimate Auto Monthly Payments",
+    seoDescription:
+      "Calculate your monthly auto loan payment and total interest cost instantly. Free car loan calculator, compare different loan terms easily.",
+    h1: "Car Loan Calculator",
+    shortDescription:
+      "Enter the vehicle price, down payment, and loan term below, and this auto loan calculator outputs your exact monthly payment.",
+    about: [
+      "A car loan calculator works out your monthly payment from the vehicle price, down payment, trade-in value, and interest rate, before you're standing on a dealership lot being shown payment figures designed to look smaller than the actual deal is. This auto loan calculator is also the clearest way to see what stretching a loan term out actually costs you in total interest.",
+      "Dealership financing conversations tend to focus entirely on the monthly payment number, since stretching a loan from 48 months to 72 or even 84 months makes that figure look more attractive. What rarely gets mentioned at the same time is that the longer term adds meaningfully more total interest and increases the odds you'll end up owing more than the car is worth at some point during the loan.",
+      "That last scenario, called being \"upside down\" or having negative equity, happens because new cars depreciate fast, commonly losing around 20% of their value in the first year alone, while a long loan term pays down principal slowly. The gap between what you owe and what the car is actually worth can persist for years on a long-term loan with a small down payment.",
+      "Enter the vehicle price, your down payment, any trade-in value, the lender's annual rate, and your loan term in months. The calculator outputs your exact monthly payment alongside total interest paid over the full loan term.",
+      "Sales tax on the vehicle's purchase price should factor into your numbers too, since it's rarely included in the sticker price shown. Entering it into the vehicle price or down payment fields here gets you a more realistic total before you're actually negotiating at the dealership. Your budget and loan details stay private, calculated entirely in your browser.",
+    ],
+    faq: [
+      {
+        q: "What counts as a good interest rate on a car loan?",
+        a: "It depends heavily on your credit score, whether the car is new or used, and broader economic conditions at the time. Strong credit typically secures low single-digit rates, while weaker credit results in noticeably higher ones.",
+      },
+      {
+        q: "How does a bigger down payment actually help?",
+        a: "It reduces the total amount you need to finance, which lowers both your monthly payment and the total interest paid over the loan, since you're borrowing less from the start.",
+      },
+      {
+        q: "What does it mean to be \"upside down\" on a car loan?",
+        a: "It means you owe more on the loan than the car is currently worth, which commonly happens with a long loan term and a small down payment, since new cars depreciate faster than a slow amortization schedule pays down the principal.",
+      },
+      {
+        q: "Should I include sales tax in my loan calculation?",
+        a: "Yes, dealerships charge tax on the full purchase price, so adding your local tax rate into the vehicle price gives a meaningfully more accurate estimate than ignoring it.",
+      },
+      {
+        q: "Does this work for a private-party vehicle purchase, not just a dealership?",
+        a: "Yes, the underlying amortization math is identical regardless of whether you're financing through a dealer or a private seller with a separate bank loan.",
+      },
+      {
+        q: "Is my loan and budget information saved anywhere?",
+        a: "No, every calculation runs locally in your browser. Your vehicle budget and loan terms are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "investment-return-calculator": {
+    seoTitle: "Investment Return Calculator: Project Wealth Growth",
+    seoDescription:
+      "Project your investment portfolio's growth from contributions and compound returns. Free investment calculator, accounts for fees too.",
+    h1: "Investment Return Calculator",
+    shortDescription:
+      "Enter your starting amount and contributions below, and this investment calculator projects your portfolio's growth over time.",
+    about: [
+      "An investment return calculator projects how capital grows from an initial amount, regular contributions, and compounding over time, turning \"I should probably invest more consistently\" into an actual number you can plan around. This investment calculator shows the full breakdown, your own contributions versus what growth alone added to the total.",
+      "Consistent periodic contributions, commonly called dollar-cost averaging, matter for a reason beyond just building the habit, they spread your purchases across market ups and downs rather than betting everything on a single entry price. Over a long enough horizon, that consistently smooths out the impact of short-term volatility compared to trying to time a single lump-sum investment perfectly.",
+      "Fees are the part people most often leave out of a projection, and they compound too, working against you the same way returns work for you. A 1% annual fee sounds small in isolation, but applied consistently over 25 or 30 years, it can meaningfully reduce your final balance, which is exactly why subtracting an estimated fee percentage from your assumed return rate produces a far more realistic number.",
+      "Enter your starting principal, a regular contribution amount, your expected annual return, and your investment timeframe. The calculator projects your ending balance, clearly separating total deposits from net investment earnings.",
+      "Historical broad market index returns have averaged somewhere around 7 to 10% annually before inflation, though that's a long-run average, not a guarantee for any specific year or decade, and past performance never guarantees future results. Your contribution amounts and projections stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "How does this calculator actually work under the hood?",
+        a: "It applies a compound growth formula, taking your starting principal, layering in your regular contributions, and applying your expected annual return across every compounding period to project a final balance.",
+      },
+      {
+        q: "What's a realistic annual return to assume?",
+        a: "Historically, a broad stock market index has averaged around 7 to 10% annually before inflation, though a more conservative assumption is reasonable given that past performance never guarantees future results.",
+      },
+      {
+        q: "Should I factor in investment fees and taxes?",
+        a: "Yes, brokerage fees and capital gains taxes reduce your actual net return over time. Subtracting an estimated fee percentage from your assumed annual return gives a more realistic, conservative projection.",
+      },
+      {
+        q: "Why do regular contributions matter more than one large lump sum?",
+        a: "Consistent periodic investing, dollar-cost averaging, spreads your purchases across different market prices over time, which tends to smooth out the effect of short-term volatility compared to trying to time a single large investment.",
+      },
+      {
+        q: "Can I use this to project real estate appreciation too?",
+        a: "Loosely, yes. Real estate has its own unique factors like rental income and specific appreciation patterns, but the core compound growth formula can approximate general equity appreciation if you treat it as a standard investment asset.",
+      },
+      {
+        q: "Is my portfolio information saved anywhere?",
+        a: "No, every calculation happens locally in your browser. Your investment amounts and projections are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "water-intake-calculator": {
+    seoTitle: "Water Intake Calculator: Find Daily Hydration Needs",
+    seoDescription:
+      "Calculate how much water you should actually drink daily based on your weight and activity. Free water intake calculator, personalized results.",
+    h1: "Water Intake Calculator",
+    shortDescription:
+      "Enter your weight and activity level below, and this how much water should I drink calculator outputs your personalized daily hydration target.",
+    about: [
+      "The old \"eight glasses a day\" rule is a generic round number that never actually accounted for individual body weight, activity level, or climate, it's just an easy figure to remember, not a researched recommendation. A water intake calculator replaces that with a personalized estimate based on your actual weight and how active you are, and this how much water should I drink calculator factors in climate too.",
+      "Official guidance from health organizations lands closer to around 3.7 liters of total daily fluids for adult men and 2.7 liters for women, and critically, that figure includes water obtained from food, not just what you drink directly, roughly 20% of typical daily fluid intake actually comes from the food itself rather than a glass.",
+      "Exercise changes the math meaningfully too, since sweat carries away both water and electrolytes that need replacing, which is exactly why an athlete training hard needs noticeably more fluid than someone sitting at a desk all day, something a flat daily number was never going to capture accurately.",
+      "Enter your body weight, your typical daily exercise duration, and your general climate conditions. The calculator outputs a personalized daily fluid target in ounces or liters, tailored to those specific inputs rather than a generic average.",
+      "Worth knowing on the other end of the spectrum: drinking an excessive amount of water in a short window can actually cause hyponatremia, a dangerous dilution of blood sodium levels, so spacing intake evenly through the day matters more than chugging a large amount at once. Your body stats and activity details stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "How much water does the average adult actually need?",
+        a: "Guidance generally lands around 3.7 liters of total fluids daily for men and 2.7 liters for women, though that figure includes fluid from food, roughly a fifth of total intake typically comes from what you eat rather than what you drink directly.",
+      },
+      {
+        q: "Is it possible to drink too much water?",
+        a: "Yes, consuming a large amount in a short period can cause hyponatremia, a dangerous drop in blood sodium from excess water diluting it. Spacing intake evenly throughout the day avoids this.",
+      },
+      {
+        q: "Do coffee and tea count toward daily water intake?",
+        a: "Yes, despite their mild diuretic effect, caffeinated drinks still contribute net fluid to your daily total. Plain water remains the better default choice though, since it comes with zero added sugar.",
+      },
+      {
+        q: "How much does exercise actually change my water needs?",
+        a: "Significantly. Sweat carries away both water and electrolytes, so anyone training regularly needs noticeably more fluid intake than a sedentary day would require, to replace what's actually lost.",
+      },
+      {
+        q: "Does climate affect how much water I should drink?",
+        a: "Yes, hot and humid conditions increase sweat loss even without exercise, and dry climates increase fluid loss through breathing, both of which push your daily target higher than a temperate climate would.",
+      },
+      {
+        q: "Is my health data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your body measurements and activity details are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "heart-rate-zone-calculator": {
+    seoTitle: "Heart Rate Zone Calculator: Find Your Training Zones",
+    seoDescription:
+      "Calculate your personal heart rate training zones instantly. Free target heart rate calculator for fat burn, cardio, and peak performance.",
+    h1: "Heart Rate Zone Calculator",
+    shortDescription:
+      "Enter your age below, and this target heart rate calculator outputs your training zones for fat burn, cardio, and peak performance.",
+    about: [
+      "A heart rate zone calculator estimates your maximum heart rate and breaks it into training zones, each tied to a different physiological purpose, light recovery, fat-burning, aerobic conditioning, and peak anaerobic effort. This target heart rate calculator gives you actual pulse ranges to train within rather than guessing based on how hard a workout feels.",
+      "The standard estimate, 220 minus your age, comes from the Fox formula, developed in the 1970s, and while it's still the most widely used baseline, it carries a real margin of error, roughly plus or minus 10 to 12 beats per minute for any individual. Factoring in your resting heart rate through a more refined calculation, the Karvonen method, tightens that estimate meaningfully by accounting for your actual current fitness level rather than age alone.",
+      "Each zone serves a genuinely different training purpose rather than just being \"harder\" or \"easier\" versions of the same thing. The lower zones burn a higher percentage of calories from fat specifically, while the upper zones burn more total calories and build anaerobic capacity, which is why a well-structured training week usually spends time in more than one zone rather than always pushing for maximum effort.",
+      "Enter your age, and your resting heart rate if you know it for a more precise result. The calculator outputs your estimated maximum heart rate along with clear boundaries for warm-up, fat-burn, aerobic cardio, and peak performance zones.",
+      "The most practical way to actually train within these zones in real time is a chest strap monitor or a fitness watch, since checking your pulse manually mid-workout isn't realistic for sustained effort. Alternating between zones within a single session, interval training, is a well-established way to build cardiovascular capacity efficiently. Your personal stats stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "How is maximum heart rate typically estimated?",
+        a: "The most common formula subtracts your age from 220. It's a useful general baseline, though it carries a real individual margin of error, so it's a starting point rather than a precise personal number.",
+      },
+      {
+        q: "What exactly is the fat burn zone?",
+        a: "Roughly 60 to 70% of your estimated maximum heart rate, where your body draws a higher percentage of its energy from fat specifically, even though higher-intensity zones ultimately burn more total calories overall.",
+      },
+      {
+        q: "Why does my resting heart rate matter for this calculation?",
+        a: "Factoring it in through a more refined formula produces a tighter, more personalized training range than age alone, since it reflects your actual current cardiovascular fitness level rather than a generic age-based estimate.",
+      },
+      {
+        q: "How do I actually track my heart rate during a workout in real time?",
+        a: "A fitness tracker, smartwatch, or dedicated chest strap monitor is the practical way to see your pulse live while training, since checking manually mid-workout isn't realistic for sustained effort.",
+      },
+      {
+        q: "Is it fine to train across multiple heart rate zones in one session?",
+        a: "Yes, interval training, alternating between higher-intensity and recovery zones within a single workout, is a well-established and effective way to build cardiovascular endurance.",
+      },
+      {
+        q: "Is my health data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your personal stats are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "break-even-calculator": {
+    seoTitle: "Break-Even Calculator: Find Your Profit Point",
+    seoDescription:
+      "Calculate exactly how many units you need to sell to break even. Free break even point calculator, instant results for any business.",
+    h1: "Break-Even Calculator",
+    shortDescription:
+      "Enter your fixed costs, variable cost, and price below, and this break even calculator outputs exactly how many units you need to sell to turn a profit.",
+    about: [
+      "A break-even calculator answers one specific, make-or-break question for a new product or business: how many units does this actually need to sell before it stops losing money? This break even point calculator runs the standard formula, fixed costs divided by the difference between your price and your variable cost per unit, instantly.",
+      "Every business carries two fundamentally different kinds of cost. Fixed costs, rent, software subscriptions, salaries, stay constant no matter how much or little you sell. Variable costs, materials, packaging, per-unit shipping, scale directly with each unit produced. The gap between your price and your variable cost per unit is what's called your contribution margin, and it's that margin that has to eventually cover all your fixed costs before you're actually in profit.",
+      "Pricing a product without knowing this number is a genuinely common reason new businesses run into trouble, since it's entirely possible to be \"busy\" selling units while still losing money on every single one if the price doesn't clear variable costs by enough margin.",
+      "Enter your total fixed costs, your variable cost per unit, and your planned selling price. The calculator outputs the exact number of units, and total revenue, needed to reach the break-even point.",
+      "Knowing this number gives you something concrete to evaluate pricing decisions against, whether a planned promotional discount still clears your costs, or whether your current price actually supports a realistic, achievable sales volume. Your cost structure and pricing model stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What exactly does break-even point mean?",
+        a: "The point where total revenue exactly equals total costs, no profit, no loss. Every unit sold past that point is where actual net profit begins.",
+      },
+      {
+        q: "What counts as a fixed cost versus a variable cost?",
+        a: "Fixed costs stay the same regardless of sales volume, rent, insurance, salaried staff, software subscriptions. Variable costs scale directly with how much you produce or sell, raw materials, packaging, per-unit shipping fees.",
+      },
+      {
+        q: "How can I actually lower my break-even point?",
+        a: "Reduce fixed overhead, negotiate cheaper variable costs like materials, or raise your selling price, any of the three shifts the threshold lower and gets you to profitability with fewer units sold.",
+      },
+      {
+        q: "Does this work for a service business that doesn't sell physical units?",
+        a: "Yes, treat billable hours or service packages as your \"units\" and labor costs as the variable expense, the same underlying math applies.",
+      },
+      {
+        q: "What's the real difference between break-even analysis and a general profit calculation?",
+        a: "Break-even analysis identifies the specific threshold where you stop losing money, a single point. Profit calculation measures actual results at any given sales volume, above or below that threshold.",
+      },
+      {
+        q: "Is my business and pricing data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your cost figures and pricing strategy are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "compound-interest-calculator": {
+    seoTitle: "Compound Interest Calculator: Grow Wealth Fast",
+    seoDescription:
+      "Project how your savings grow with compound interest over time. Free compound interest calculator, factors in contributions and frequency.",
+    h1: "Compound Interest Calculator",
+    shortDescription:
+      "Enter your principal, rate, and timeframe below, and this compound interest calculator shows exactly how your money grows over time.",
+    about: [
+      "Simple interest only ever pays out based on your original starting balance, while compound interest pays on that balance plus every bit of interest you've already earned, which is exactly what creates the exponential, rather than flat, growth curve people mean when they talk about compounding. A compound interest calculator maps that curve out precisely, factoring in your contributions, rate, and how often interest actually compounds.",
+      "There's a well-known mental shortcut for this, the Rule of 72: divide 72 by your annual interest rate to get a rough estimate of how many years it takes your money to double. At 6% annual growth, that's roughly 12 years to double, a useful sanity check even when you'd rather let the actual calculator run the precise numbers.",
+      "Compounding frequency, whether interest calculates annually, monthly, or daily, has a smaller but real effect on your final balance. More frequent compounding means your money starts earning on previously earned interest slightly sooner, which adds up to a modestly higher effective return compared to the same stated rate compounded less often.",
+      "Enter your starting principal, a regular contribution amount, your expected annual rate, your compounding frequency, and your timeframe in years. The calculator outputs your ending balance along with a clear split between what you contributed and what grew from interest alone.",
+      "The exact same math that builds wealth works against you with debt, specifically revolving balances like credit cards, where unpaid interest compounds right alongside any new charges, which is worth remembering if you're ever comparing the growth curve here to a balance you're trying to pay down instead. Your savings figures stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between simple and compound interest?",
+        a: "Simple interest calculates only against your original principal. Compound interest calculates against your principal plus all previously accumulated interest, which is what produces meaningfully faster growth over a long timeframe.",
+      },
+      {
+        q: "How much does compounding frequency actually matter?",
+        a: "More frequent compounding, daily versus annual, for instance, produces a slightly higher effective return since interest starts earning on itself sooner, though the difference is usually modest compared to the impact of the rate itself or the time invested.",
+      },
+      {
+        q: "What is the Rule of 72?",
+        a: "A quick mental shortcut for estimating how long an investment takes to double: divide 72 by your annual interest rate. At 8% annual growth, for example, that's roughly 9 years to double.",
+      },
+      {
+        q: "Does this calculator work for understanding debt growth too, not just savings?",
+        a: "Yes, the identical compounding formula explains how unpaid revolving debt, like a credit card balance, grows over time if interest keeps accruing on top of itself unaddressed.",
+      },
+      {
+        q: "Does inflation reduce the real value of compound growth?",
+        a: "Yes, inflation erodes purchasing power over time, so subtracting an estimated inflation rate from your nominal return gives a more realistic sense of what your future balance will actually be worth.",
+      },
+      {
+        q: "Is my savings information saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your savings figures and projections are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "roman-numeral-converter": {
+    seoTitle: "Roman Numeral Converter: Translate Numbers & Dates",
+    seoDescription:
+      "Convert a number to Roman numerals or translate one back to a standard number instantly. Free roman numeral converter, works both directions.",
+    h1: "Roman Numeral Converter",
+    shortDescription:
+      "Type a number or a Roman numeral below, and this roman numeral converter translates it instantly in either direction.",
+    about: [
+      "Roman numerals follow a set of subtractive placement rules, a smaller symbol before a larger one means subtraction, that make manual conversion genuinely error-prone past small numbers. A roman numeral converter handles both directions instantly, and this roman numerals converter is equally useful for reading an old copyright date as it is for formatting a formal document outline correctly.",
+      "The system runs on seven core symbols, I, V, X, L, C, D, and M, representing 1, 5, 10, 50, 100, 500, and 1000. Subtractive notation is where people trip up: IV means 5 minus 1, equaling 4, while VI means 5 plus 1, equaling 6, the position of the smaller symbol relative to the larger one completely flips the meaning. There's also a strict limit of three consecutive identical symbols, which is why 4 is written IV, never IIII, under standard modern convention.",
+      "Interestingly, that IIII rule has a famous practical exception: traditional clock faces very often still use IIII instead of IV for the number four, largely for visual symmetry balancing against VIII on the opposite side of the dial, a deliberate departure from the formal written standard.",
+      "Type a standard number to see it convert instantly, 2026 becomes MMXXVI, for instance, or paste in a Roman numeral string to see its decimal value. Both directions work from the same interface, no separate tool needed.",
+      "The Roman system never developed a symbol for zero at all, since it was built for counting tangible things rather than abstract mathematics, which is worth knowing if you're ever trying to represent a value that includes a zero, something the system genuinely can't express directly. Your inputs stay entirely local, nothing gets sent anywhere just to run a conversion.",
+    ],
+    faq: [
+      {
+        q: "What are the core symbols used in Roman numerals?",
+        a: "Seven letters: I for 1, V for 5, X for 10, L for 50, C for 100, D for 500, and M for 1000. Every other number is built from combinations and positioning of these seven.",
+      },
+      {
+        q: "How does the subtractive rule actually work?",
+        a: "When a smaller symbol sits before a larger one, you subtract it, IV equals 4 (5 minus 1), while a smaller symbol after a larger one adds instead, VI equals 6 (5 plus 1).",
+      },
+      {
+        q: "What's the largest number you can represent with standard Roman numerals?",
+        a: "M, representing 1000, is the largest single symbol in common modern use. Ancient Romans used an overline notation to multiply values by a thousand for larger figures, though that's rarely used today.",
+      },
+      {
+        q: "Did the Romans have a symbol for zero?",
+        a: "No, there's no zero in traditional Roman numerals, the system was designed for counting physical quantities, not for abstract mathematical operations that would require a zero concept.",
+      },
+      {
+        q: "Can this handle a modern four-digit year, like a copyright date?",
+        a: "Yes, converting a year like 2026 to MMXXVI or similar is one of the most common practical uses for this kind of converter.",
+      },
+      {
+        q: "Are my conversions logged anywhere?",
+        a: "No, every conversion runs locally through client-side JavaScript. Numbers you translate are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "profit-margin-calculator": {
+    seoTitle: "Profit Margin Calculator: Calculate Markup & Revenue",
+    seoDescription:
+      "Calculate your exact profit margin and markup percentage instantly. Free profit margin calculator for pricing products or services correctly.",
+    h1: "Profit Margin Calculator",
+    shortDescription:
+      "Enter your cost and selling price below, and this markup calculator outputs both your profit margin and markup percentage instantly.",
+    about: [
+      "Profit margin and markup sound interchangeable but they're calculated against two different baselines entirely, margin against your selling price, markup against your cost, and confusing the two is a genuinely common and costly pricing mistake. A profit margin calculator keeps both straight, and this markup calculator outputs both figures side by side so you can see exactly how they diverge.",
+      "Here's where it actually bites: a 50% markup on a $100 cost gives you a $150 selling price, which sounds like it should be a 50% margin too, but it isn't. Gross profit of $50 divided by that $150 selling price works out to roughly 33% margin, a meaningfully different number from the markup percentage, and exactly the kind of gap that causes underpricing if you're mentally treating the two terms as the same thing.",
+      "Margin percentages also vary wildly by industry in a way that's worth knowing as a benchmark, software businesses often clear 80% or higher given minimal per-unit production cost, while a grocery store might run on margins as thin as 1 to 3%, relying on high volume rather than high markup to stay profitable.",
+      "Enter your product's cost and your selling price, and the calculator outputs gross profit in dollars, your margin percentage, and your markup percentage, all three at once so the distinction between margin and markup is immediately visible.",
+      "If you already know your target margin and need to work backward to a price instead, the calculator handles that direction too, useful when you're setting a price specifically to hit a margin goal rather than checking an existing price after the fact. Your cost figures and pricing strategy stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What's the actual difference between margin and markup?",
+        a: "Margin is profit divided by your selling price. Markup is profit divided by your cost. They use the same profit figure but different denominators, which is exactly why the two percentages are never equal for the same transaction.",
+      },
+      {
+        q: "How do I calculate margin manually?",
+        a: "Subtract your cost from your selling price to get gross profit, divide that by your selling price, then multiply by 100 for the percentage.",
+      },
+      {
+        q: "What counts as a healthy profit margin?",
+        a: "It varies enormously by industry. Software can run margins above 80% due to low per-unit costs, while a grocery store might operate on just 1 to 3%, relying on volume rather than high per-item markup.",
+      },
+      {
+        q: "Can I calculate backward from a target margin to figure out my price?",
+        a: "Yes, enter your cost and your desired margin percentage, and the calculator works out the exact selling price needed to hit that target.",
+      },
+      {
+        q: "Does gross margin account for overhead costs like rent or marketing?",
+        a: "No, gross margin only subtracts direct product cost from revenue. Overhead and operating expenses factor into net profit margin instead, a separate, broader calculation.",
+      },
+      {
+        q: "Is my pricing and cost data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your cost figures and pricing details are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "date-difference-calculator": {
+    seoTitle: "Date Difference Calculator: Find Days Between Dates",
+    seoDescription:
+      "Calculate the exact days, weeks, and months between two dates instantly. Free days between dates calculator, accounts for leap years correctly.",
+    h1: "Date Difference Calculator",
+    shortDescription:
+      "Enter a start and end date below, and this days between dates calculator outputs the exact span in days, weeks, months, and years.",
+    about: [
+      "Counting days between two calendar dates by hand is harder than it sounds, since months run different lengths and roughly every fourth year adds an extra day in February. A date difference calculator handles that irregularity automatically, and this days between dates calculator breaks the result down into days, weeks, months, and years all at once.",
+      "The leap year rule itself has a quirky exception most people have never actually needed to know: a year is a leap year if divisible by 4, except century years, which only count as leap years if also divisible by 400. That's why 2000 was a leap year but 1900 wasn't, a rule obscure enough that manual date math gets it wrong more often than people realize.",
+      "Whether to count a date range inclusively or exclusively, does the end date itself count as a full day, actually matters for contracts, legal deadlines, and project timelines, where an off-by-one error on a filing deadline is a real problem, not just an academic nitpick.",
+      "Pick your start and end dates from the calendar pickers, and the duration calculates immediately, shown simultaneously in total days, weeks, months, and years, no manual equation needed.",
+      "This handles date ranges spanning decades or centuries just as cleanly as a short gap, which makes it equally useful for a project deadline next month or a genealogical research question spanning a century. Your dates and the context behind them stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "How does the calculator handle leap years correctly?",
+        a: "It automatically applies the actual leap year rule, divisible by 4, except century years unless also divisible by 400, factoring in every extra February 29th that falls within your date range.",
+      },
+      {
+        q: "Does the result include both the start and end date?",
+        a: "Standard output measures total elapsed time between the two dates. Depending on what you're calculating for, like a legal deadline, you may need to decide separately whether the end date itself should count as a full additional day.",
+      },
+      {
+        q: "Can I calculate a date range far in the past or future?",
+        a: "Yes, the underlying calendar math handles date ranges spanning decades or even centuries without any accuracy loss, useful for historical research as much as everyday scheduling.",
+      },
+      {
+        q: "How many weeks are actually in a year?",
+        a: "A standard year has 52 full weeks plus one extra day. A leap year has 52 full weeks plus two extra days, both of which the calculator accounts for precisely rather than rounding.",
+      },
+      {
+        q: "Is this suitable for business project planning, not just personal use?",
+        a: "Yes, it's fully free for either use, with no account or sign-up required regardless of context.",
+      },
+      {
+        q: "Are the dates I calculate logged anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Dates you enter are never stored or transmitted to a server.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
