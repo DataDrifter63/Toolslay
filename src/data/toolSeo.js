@@ -6888,6 +6888,848 @@ export const TOOL_SEO = {
       },
     ],
   },
+
+  // --- Batch 8 ---
+
+  "scholarship-eligibility-checker": {
+    seoTitle: "Scholarship Eligibility Checker: Find Financial Aid",
+    seoDescription:
+      "Check your scholarship eligibility criteria easily. Use this free scholarship calculator and eligibility checker to evaluate financial aid requirements securely.",
+    h1: "Scholarship Eligibility Checker",
+    shortDescription:
+      "Enter your GPA, test scores, and background, and this checker shows which common scholarship criteria you meet.",
+    about: [
+      "Scholarships generally fall into two broad categories, merit-based, which weigh GPA and test scores, and need-based, which weigh financial circumstances typically assessed through something like the FAFSA. Most students waste real time applying to programs they don't actually qualify for simply because they never checked baseline criteria first. This checker runs your profile against common thresholds so you can focus applications where you genuinely have a shot.",
+      "Scholarship databases list thousands of programs, but a meaningful share enforce hard cutoffs, a minimum GPA, a specific standardized test score, a particular field of study, that disqualify an applicant instantly regardless of how strong their essay is. Applying broadly without checking those cutoffs first burns hours on applications that were never going to succeed.",
+      "Merit-based aid rewards academic or extracurricular achievement directly, while need-based aid weighs financial circumstances, often calculated through a formula similar to the Expected Family Contribution used in federal financial aid. Knowing which category a given scholarship falls into changes what actually matters in your application.",
+      "Enter your GPA, standardized test scores, intended field of study, and other relevant details. The checker cross-references your profile against common scholarship eligibility criteria and flags where you meet baseline requirements.",
+      "Your academic and financial profile deserves privacy. Everything evaluates locally in your browser, with nothing transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "What criteria do scholarships typically check?",
+        a: "GPA, standardized test scores, financial need, community service hours, intended major, and sometimes demographic or geographic background, depending on the specific program.",
+      },
+      {
+        q: "Does meeting eligibility guarantee I'll win the scholarship?",
+        a: "No, meeting baseline criteria just qualifies you to apply. Competitive scholarships still weigh essays, recommendation letters, and committee review on top of baseline eligibility.",
+      },
+      {
+        q: "Can this help with international scholarships too?",
+        a: "Yes, the underlying comparison, checking your stats against stated program cutoffs, applies whether the program is domestic or international.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for students and parents narrowing down which scholarships are worth the application effort.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, useful for checking eligibility while researching programs on the go.",
+      },
+      {
+        q: "Are my academic details stored anywhere?",
+        a: "No. Evaluation runs locally via client-side JavaScript, and we don't store, track, or record your profile.",
+      },
+    ],
+  },
+
+  "recipe-scaler": {
+    seoTitle: "Recipe Scaler: Multiply Ingredients Instantly",
+    seoDescription:
+      "Scale recipe ingredient quantities up or down easily. Use this free recipe multiplier to adjust cooking portions for baking and meals securely.",
+    h1: "Recipe Scaler",
+    shortDescription:
+      "Enter your original recipe and target serving size, and this scaler recalculates every ingredient instantly.",
+    about: [
+      "Doubling a recipe sounds like simple multiplication until you hit three-quarters of a teaspoon of baking soda or two-thirds of a cup of buttermilk, fractions that get genuinely awkward to scale by hand without a calculator or a lot of mental math. This scaler converts every measurement to a precise decimal, applies your scaling factor, and converts back to readable kitchen fractions so nothing gets rounded wrong.",
+      "Baking punishes measurement errors more than general cooking does, it's closer to chemistry than cooking in the sense that leavening agents, fats, and liquids need to stay in proportion for the final texture to come out right. Scaling a cake recipe up or down by hand risks small rounding errors that compound across multiple ingredients, which is exactly the kind of mistake a precise scaler avoids.",
+      "One nuance worth knowing: leavening agents like baking soda and baking powder don't always scale perfectly linearly in very large batches, professional bakers sometimes reduce the proportional increase slightly when scaling way up, since too much leavening can actually collapse a structure rather than help it rise. For typical home-scale adjustments, straightforward scaling works fine.",
+      "Enter your original recipe's serving size and your target serving size, or a direct scaling multiplier, along with each ingredient's quantity. The scaler recalculates every measurement and displays clean, readable fractions for the adjusted amounts.",
+      "Family recipes are often personal and sometimes closely guarded. Everything calculates in your browser, with no ingredient lists transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "How does the scaler handle awkward fractions?",
+        a: "It converts fractions like 3/4 teaspoon into decimals internally for precise multiplication, then converts the result back into standard, readable kitchen fractions.",
+      },
+      {
+        q: "Does this work well for baking recipes specifically?",
+        a: "Yes, it's especially useful there, since baking depends on maintaining precise ratios between flour, leavening agents, and liquids that general cooking is more forgiving about.",
+      },
+      {
+        q: "Do cooking times change when I scale a recipe up?",
+        a: "Often yes, a larger scaled-up dish, like a doubled casserole, may need extra time in the oven since more mass takes longer for heat to fully penetrate to the center.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for home cooks adjusting portions for any size gathering.",
+      },
+      {
+        q: "Does it work offline once loaded?",
+        a: "Once the page loads, the calculations run locally in your browser's memory, so it keeps working even with a spotty kitchen Wi-Fi connection.",
+      },
+      {
+        q: "Are my recipes saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your ingredients.",
+      },
+    ],
+  },
+
+  "baking-conversion-calculator": {
+    seoTitle: "Baking Conversion Calculator: Grams to Cups",
+    seoDescription:
+      "Convert baking measurements easily. Use this free baking conversion calculator to translate grams, ounces, cups, and fluid milliliters securely.",
+    h1: "Baking Conversion Calculator",
+    shortDescription:
+      "Pick your ingredient and enter an amount, and this calculator converts between grams, cups, and ounces accurately.",
+    about: [
+      "One cup of flour can weigh anywhere from about 120 to 150 grams depending on how it's scooped and packed, which is exactly why professional bakers measure by weight instead of volume, a gram is a gram regardless of how settled or aerated the flour is. This calculator applies ingredient-specific density conversions rather than one blanket rule, since a cup of sugar and a cup of flour weigh meaningfully different amounts.",
+      "Volume measurements like cups and tablespoons were never built for precision, the same cup of flour can vary in actual weight by 20 grams or more depending on whether it was scooped directly from the bag or spooned in lightly, a difference that genuinely changes how a cake turns out. Professional and serious home bakers weigh ingredients in grams specifically to eliminate that variability.",
+      "International recipes, especially from Europe, are written almost exclusively in grams and milliliters, which leaves US-based bakers without a kitchen scale stuck converting by hand or guessing. This calculator bridges that gap using actual ingredient densities rather than a single generic conversion factor.",
+      "Select your specific ingredient, flour, sugar, butter, cocoa powder, among others, since each has its own density, then enter your starting measurement in grams, ounces, or cups. The calculator applies the correct ingredient-specific conversion and returns the equivalent amount instantly.",
+      "Your recipes and kitchen notes stay private. The conversion runs entirely in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Why do professional bakers weigh ingredients instead of using cups?",
+        a: "Weight measurement eliminates the variability caused by how tightly an ingredient is packed or settled, giving far more consistent, repeatable baking results than volume measurement alone.",
+      },
+      {
+        q: "Does every ingredient convert the same way between grams and cups?",
+        a: "No, density varies significantly by ingredient, a cup of dense granulated sugar weighs considerably more than a cup of light, aerated flour, which is why ingredient-specific conversion factors matter.",
+      },
+      {
+        q: "How do I convert ounces to grams generally?",
+        a: "One US ounce equals approximately 28.35 grams. For baking specifically, the calculator applies the correct density for your selected ingredient rather than a flat ounce-to-gram conversion.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for home bakers working from international or weight-based recipes.",
+      },
+      {
+        q: "Does it work offline in the kitchen?",
+        a: "Once the page loads, conversions run locally in your browser's memory, so it keeps working through a spotty kitchen connection.",
+      },
+      {
+        q: "Are my ingredient queries saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your searches.",
+      },
+    ],
+  },
+
+  "coffee-water-ratio-calculator": {
+    seoTitle: "Coffee Water Ratio Calculator: Brew Perfect Coffee",
+    seoDescription:
+      "Calculate your coffee to water ratio easily. Use this free coffee ratio calculator to brew the perfect cup for pour-over, french press, and drip.",
+    h1: "Coffee Water Ratio Calculator",
+    shortDescription:
+      "Enter your water amount and brew method, and this calculator returns the exact coffee weight for a balanced cup.",
+    about: [
+      "The Specialty Coffee Association's golden ratio for filter coffee sits around 1:16 to 1:18, coffee to water by weight, meaning roughly 18 to 20 grams of grounds per 300 grams of water, a standard most specialty cafes build their brewing around. This calculator starts from your target water volume and returns the exact gram weight of coffee you need, no eyeballing scoops required.",
+      "Brewing by volume, scoops and cups rather than grams, introduces the same inconsistency problem baking has: a \"scoop\" varies by grind size, bean density, and how packed it is, which means the same recipe produces a noticeably different cup strength from batch to batch. Weighing both coffee and water removes that variability entirely.",
+      "Ratio sets strength, but it's not the only variable; grind size controls extraction rate and flow, so a correct ratio paired with the wrong grind for your brewing method, too fine for a French press, too coarse for espresso, still produces an unbalanced cup. Dialing in both together is what actually gets you a consistently good brew.",
+      "Select your brewing method, pour-over, drip, French press, or espresso, and enter your target water weight in grams or ounces. The calculator applies the appropriate ratio for that method and returns the exact weight of coffee grounds to use.",
+      "Your morning routine is your own business. The calculation runs entirely in your browser, with nothing about your brewing habits transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What's the golden ratio for brewing coffee?",
+        a: "Roughly 1:16 to 1:18, coffee to water by weight, the range the Specialty Coffee Association generally points to for balanced filter coffee, meaning about 18 to 20 grams of grounds per 300 grams of water.",
+      },
+      {
+        q: "Does grind size matter if I already have the right ratio?",
+        a: "Yes, ratio controls strength, but grind size controls extraction rate and flow. The wrong grind for your brewing method can still produce a bitter or weak cup even at a technically correct ratio.",
+      },
+      {
+        q: "Should I actually weigh my coffee and water?",
+        a: "Yes, specialty coffee professionals weigh both in grams for consistency, since volume measurements like scoops vary too much based on grind and bean density to be reliable.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for home coffee enthusiasts dialing in their brew.",
+      },
+      {
+        q: "Does it work well on mobile?",
+        a: "Yes, fully responsive, convenient for checking a ratio right at the kitchen counter.",
+      },
+      {
+        q: "Are my brewing preferences saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your data.",
+      },
+    ],
+  },
+
+  "cooking-time-calculator": {
+    seoTitle: "Cooking Time Calculator: Roast Turkey & Meat Times",
+    seoDescription:
+      "Calculate cooking times for turkeys, roasts, and meats easily. Use this free cooking time calculator to estimate kitchen prep schedules securely.",
+    h1: "Cooking Time Calculator",
+    shortDescription:
+      "Enter your meat type and weight, and this calculator estimates roasting time and the right oven temperature.",
+    about: [
+      "Thirteen to fifteen minutes per pound at 325°F is the standard rule of thumb for an unstuffed whole turkey, a benchmark that's held up for decades of holiday cooking, but it's still only an estimate, oven calibration, starting meat temperature, and whether the bird is stuffed all shift the actual time. This calculator gives you that starting estimate so you're not guessing blind on a schedule that has a dozen other dishes depending on it.",
+      "Holiday cooking runs on tight, interdependent timing, side dishes, the oven, and guest arrival all have to line up, and a turkey that finishes two hours late throws off everything downstream. Getting a reasonably accurate starting estimate matters more on days like that than on an ordinary weeknight dinner.",
+      "Time estimates are a starting point, not a safety guarantee. USDA guidelines set specific minimum internal temperatures for food safety, 165°F for poultry, 145°F for whole cuts of beef and pork with a rest period, 160°F for ground meats, and no clock-based estimate replaces actually checking those numbers with a thermometer before serving.",
+      "Select your meat type, whole turkey, beef roast, pork loin, or chicken, and enter the total weight. The calculator returns an estimated total cooking time along with a recommended oven temperature for that cut.",
+      "Holiday menus and kitchen schedules are often part of planning something private. Calculations run entirely in your browser, with nothing about your meal plans transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How long does a whole turkey actually take to roast?",
+        a: "Roughly 13 to 15 minutes per pound at 325°F for an unstuffed bird, meaning a 15-pound turkey runs somewhere around three and a quarter to four hours, though oven variance means checking temperature is still essential.",
+      },
+      {
+        q: "Can I rely on time estimates alone for food safety?",
+        a: "No, time estimates are a scheduling tool, not a safety guarantee. The only reliable way to confirm meat is done is checking internal temperature with a digital thermometer in the thickest part, away from bone.",
+      },
+      {
+        q: "Why does resting meat after cooking matter?",
+        a: "Resting for 10 to 20 minutes lets internal juices redistribute through the muscle fibers instead of spilling out the moment you cut in, keeping the meat noticeably more tender and juicy.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for home cooks planning holiday or weekend roasts.",
+      },
+      {
+        q: "Does it work offline in the kitchen?",
+        a: "Once loaded, it runs locally in your browser's memory, so it keeps working through a spotty kitchen connection.",
+      },
+      {
+        q: "Are my cooking schedules saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your meal plans.",
+      },
+    ],
+  },
+
+  "freezing-time-estimator": {
+    seoTitle: "Freezing Time Estimator: Food Storage Calculator",
+    seoDescription:
+      "Estimate food freezing times and storage limits easily. Use this free freezing time estimator to plan meal prep and freezer organization securely.",
+    h1: "Freezing Time Estimator",
+    shortDescription:
+      "Select a food category, and this estimator shows how long it stays at peak quality in the freezer.",
+    about: [
+      "Food kept continuously at 0°F stays technically safe to eat indefinitely, a point the USDA is explicit about, but \"safe\" and \"good\" aren't the same thing. Freezer burn, caused by moisture sublimating straight from ice crystals into the surrounding air inside poorly sealed packaging, degrades texture and flavor well before anything becomes unsafe. This estimator gives you the realistic quality window for different food categories, not just the bare safety floor.",
+      "A lot of freezer waste happens because people genuinely don't know how long something's been sitting in the back, or assume the freezer pauses the clock entirely on quality. Different foods actually degrade at meaningfully different rates, fatty meats go rancid faster than lean cuts, and raw ingredients generally outlast fully prepared meals, so a single blanket rule doesn't serve anyone well.",
+      "Reducing household food waste is as much about awareness as discipline, knowing a container of soup is approaching its quality limit at month three is what actually gets it eaten rather than forgotten and eventually tossed.",
+      "Select your food category, raw meat, poultry, baked goods, soups, or vegetables, from the list. The estimator returns the recommended maximum freezer storage window in months for maintaining peak quality in that category.",
+      "Pantry and meal-prep habits are personal household details. The lookup runs entirely in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Does freezing kill bacteria in food?",
+        a: "No, freezing only puts microbial activity into a dormant state, it doesn't kill existing bacteria or pathogens, which resume activity once the food thaws, so proper handling before and after freezing still matters.",
+      },
+      {
+        q: "What causes freezer burn, and how do I prevent it?",
+        a: "It happens when moisture sublimates directly from ice crystals on exposed food surfaces into the surrounding air, leaving dry, discolored patches. Tight, moisture-proof wrapping or vacuum sealing prevents it.",
+      },
+      {
+        q: "Can food technically stay frozen forever and still be safe?",
+        a: "Yes, food held continuously at 0°F remains safe indefinitely from a bacterial standpoint, though flavor, texture, and overall quality decline well before any safety concern develops.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, useful for meal preppers and anyone managing freezer inventory.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking storage limits right at the freezer.",
+      },
+      {
+        q: "Are my pantry searches saved anywhere?",
+        a: "No. Lookups run locally via client-side JavaScript, and we don't store, track, or record your queries.",
+      },
+    ],
+  },
+
+  "flight-co2-calculator": {
+    seoTitle: "Flight CO2 Calculator: Estimate Carbon Emissions",
+    seoDescription:
+      "Calculate flight carbon footprint emissions easily. Use this free flight co2 calculator to measure air travel environmental impact securely.",
+    h1: "Flight CO2 Calculator",
+    shortDescription:
+      "Enter your route and cabin class, and this calculator estimates the carbon emissions of your flight.",
+    about: [
+      "Cabin class changes your personal emissions allocation more than most travelers realize, business and first-class seats take up several times the floor space of economy, which means fewer total passengers share the same flight's total fuel burn, pushing the per-person carbon share up sharply even though the aircraft itself burns the same fuel regardless. This calculator factors in cabin class alongside route distance to give a more accurate per-passenger figure than distance alone would.",
+      "For a lot of frequent travelers, flying represents the single largest chunk of their personal carbon footprint, often dwarfing a year's worth of driving in just a couple of long-haul trips. That's a hard thing to intuit without running the actual numbers, which is exactly what makes a dedicated calculator useful before booking rather than after.",
+      "Route distance alone doesn't tell the whole emissions story. Aircraft type, passenger load factor, and cabin configuration all shift fuel burn per passenger, which is why two flights covering the same distance can carry noticeably different carbon costs depending on which airline and cabin you choose.",
+      "Enter your departure and arrival airports and select your cabin class, economy, premium economy, business, or first. The calculator estimates your total CO2 emissions in kilograms or metric tons based on route distance and cabin space allocation.",
+      "Travel plans are often personal or professionally sensitive. Calculations run entirely in your browser, with no route data transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How are flight emissions actually estimated?",
+        a: "By combining route distance, typical fuel burn rates for comparable aircraft, passenger load assumptions, and the physical space allocation of your specific cabin class.",
+      },
+      {
+        q: "Why does business class carry a bigger carbon footprint per passenger?",
+        a: "Premium cabins take up significantly more physical space on the aircraft, so fewer total passengers share the flight's total fuel burn, raising each business or first-class passenger's proportional emissions share.",
+      },
+      {
+        q: "What does carbon offsetting for flights actually involve?",
+        a: "It means funding certified projects, reforestation, renewable energy, methane capture, designed to remove or prevent roughly the same amount of CO2 your flight produced from entering the atmosphere.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for travelers tracking personal or corporate sustainability goals.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking emissions estimates while booking on the go.",
+      },
+      {
+        q: "Are my travel routes saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your itineraries.",
+      },
+    ],
+  },
+
+  "road-trip-cost-calculator": {
+    seoTitle: "Road Trip Cost Calculator: Estimate Gas & Travel Expenses",
+    seoDescription:
+      "Calculate your road trip fuel costs and travel expenses easily. Use this free trip gas calculator to budget driving trips securely in your browser.",
+    h1: "Road Trip Cost Calculator",
+    shortDescription:
+      "Enter your distance, fuel economy, and gas price, and this calculator returns your total trip fuel cost.",
+    about: [
+      "The core math behind trip fuel cost is simple, total miles divided by your car's miles-per-gallon rating gives gallons needed, multiplied by the local price per gallon gives total cost, but gas prices genuinely swing by a dollar or more per gallon crossing state lines, which means a trip estimate based on your home state's price can be meaningfully off by the time you're three states away. This calculator runs that math against your actual inputs so you can budget before you leave rather than get surprised at the pump.",
+      "Gas price volatility across a long road trip route is easy to underestimate when you're planning from home, where you only see your local price. States tax fuel differently and local supply conditions vary, so a trip crossing several state lines can see real price swings that change your total budget by a noticeable amount.",
+      "Fuel is usually the biggest single line item on a driving trip, but it's rarely the only one. Tolls, especially on major interstate corridors, and parking in dense cities can add up to a meaningful chunk on top of gas alone, which is worth padding into any realistic travel budget.",
+      "Enter your total driving distance, your vehicle's fuel economy rating in miles per gallon, and the current local gas price. The calculator returns your estimated total gallons needed and overall fuel cost for the trip.",
+      "Travel plans and vehicle details are personal. The calculation runs entirely in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How does the calculator figure out total fuel cost?",
+        a: "It divides total trip mileage by your vehicle's miles-per-gallon rating to get gallons needed, then multiplies that by the price of gas per gallon.",
+      },
+      {
+        q: "Do I need to double my mileage for a round trip?",
+        a: "Yes, either double your one-way distance or enter the full round-trip mileage directly so the calculator accounts for fuel needed for the entire journey, not just the way there.",
+      },
+      {
+        q: "How can I actually improve gas mileage on a long drive?",
+        a: "Proper tire pressure, removing unnecessary cargo weight, using cruise control on highways, and avoiding aggressive acceleration all measurably improve real-world fuel economy.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for planning any driving trip's fuel budget.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, useful for checking costs while route planning on your phone.",
+      },
+      {
+        q: "Are my travel routes saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your itineraries.",
+      },
+    ],
+  },
+
+  "luggage-weight-checker": {
+    seoTitle: "Luggage Weight Checker: Avoid Airline Baggage Fees",
+    seoDescription:
+      "Check your luggage weight limits and avoid airline fees easily. Use this free baggage weight limit tool to plan packing restrictions securely.",
+    h1: "Luggage Weight Checker",
+    shortDescription:
+      "Add up your packed items, and this checker tells you if you're under your airline's weight limit before you leave for the airport.",
+    about: [
+      "Most major airlines cap checked bags at 50 pounds (about 23 kilograms) under IATA's common industry standard, with many international carriers setting the line at 44 pounds (20 kilograms) instead, and overweight fees at the counter routinely run well into the double digits per bag. This checker tallies your packed items against those thresholds at home, where you still have the option to repack, rather than at the counter, where you don't.",
+      "Finding out your bag is overweight at airport check-in is one of the more stressful last-minute surprises travel offers, it usually means a rushed repack in a crowded terminal, a steep fee, or both. Running the numbers the night before, when you can still swap items between bags or leave something behind, avoids that entirely.",
+      "Carry-on weight rules get overlooked because many US domestic carriers don't actively weigh carry-ons unless a bag looks visibly overstuffed. International and budget carriers are a different story, some enforce strict carry-on limits as low as 15 to 20 pounds, which catches a lot of travelers off guard who assumed carry-ons were unlimited.",
+      "Add your luggage items, clothing, shoes, toiletries, with estimated weights into the tracker. The checker totals your suitcase weight and compares it against standard airline limits to confirm whether you're safely under the threshold.",
+      "Packing lists reveal a lot about your trip. Everything calculates locally in your browser, with nothing transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "What's the standard checked bag weight limit?",
+        a: "Most major domestic carriers cap checked bags at 50 pounds (23 kilograms), while many international airlines set the limit lower, around 44 pounds (20 kilograms).",
+      },
+      {
+        q: "What happens if my bag is overweight at check-in?",
+        a: "Airlines charge overweight fees, which can be steep, or require you to shift items into a second bag on the spot, so catching it before the airport saves both money and hassle.",
+      },
+      {
+        q: "Do carry-on bags actually have weight limits too?",
+        a: "Many US domestic carriers don't weigh carry-ons unless they look visibly heavy, but international and budget airlines often enforce strict limits, sometimes as low as 15 to 20 pounds.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for travelers packing before a flight.",
+      },
+      {
+        q: "Does it work well while actively packing?",
+        a: "Yes, fully responsive, so you can check your running total on your phone right next to the suitcase.",
+      },
+      {
+        q: "Are my packing lists saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your suitcase data.",
+      },
+    ],
+  },
+
+  "travel-budget-planner": {
+    seoTitle: "Travel Budget Planner: Calculate Trip Expenses",
+    seoDescription:
+      "Plan your travel budget and trip expenses easily. Use this free travel cost calculator to organize vacation spending and currency securely.",
+    h1: "Travel Budget Planner",
+    shortDescription:
+      "Enter your trip length and daily costs, and this planner calculates your total vacation budget and a daily spending cap.",
+    about: [
+      "Government agencies like the US State Department publish per diem rates for international destinations specifically because daily cost-of-living estimates, broken into lodging, meals, and incidentals, are a more reliable budgeting method than a single lump trip estimate. This planner applies that same logic to your personal trip: break the total into daily categories, flights, hotel, food, activities, so you end up with a realistic number instead of a guess.",
+      "Vacation overspending rarely comes from one big purchase, it comes from daily leakage: an extra meal out, a souvenir, a taxi instead of transit, each small on its own but compounding fast across a week or two. Building a daily spending target up front gives you a reference point to check against as the trip unfolds.",
+      "Breaking a total savings goal into a daily cap also makes the number far more actionable than a vague \"I need $3,000 for this trip\" target, since a daily figure is something you can actually track and adjust against in real time while traveling.",
+      "Enter your trip length in days, estimated flight cost, nightly accommodation rate, daily food budget, and planned activity spending. The planner totals your required funds and returns a recommended daily spending cap.",
+      "Vacation budgets are financial details worth keeping private. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How much should I budget per day for food and transit?",
+        a: "It varies heavily by destination, but a common baseline for developed countries runs an extra $50 to $100 per day on top of accommodation for food and local transport.",
+      },
+      {
+        q: "Should I include an emergency buffer in my travel budget?",
+        a: "Yes, financial planners commonly recommend adding 10 to 15% on top of your total estimated budget to absorb unexpected costs like medical needs, flight changes, or delays.",
+      },
+      {
+        q: "How do currency exchange fees affect my budget?",
+        a: "Foreign transaction fees on cards and unfavorable exchange rates on cash conversions both quietly erode your travel budget, worth factoring in as a separate line item rather than assuming your card rate matches the posted exchange rate.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for planning any vacation or extended trip.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, useful for adjusting your budget on the go mid-trip.",
+      },
+      {
+        q: "Are my financial plans saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your budget data.",
+      },
+    ],
+  },
+
+  "timezone-meeting-planner": {
+    seoTitle: "Timezone Meeting Planner: Schedule Global Calls",
+    seoDescription:
+      "Plan international meetings across global timezones easily. Use this free time zone meeting planner to coordinate remote calls securely.",
+    h1: "Timezone Meeting Planner",
+    shortDescription:
+      "Select your participants' cities, and this planner shows the overlapping working hours across every timezone.",
+    about: [
+      "UTC, Coordinated Universal Time, is the fixed reference point every other timezone is expressed as an offset from, but the practical complication is that daylight saving transitions happen on different dates in North America, Europe, and not at all in most of the Southern Hemisphere, which means the gap between two cities' local time can actually shift by an hour depending on the week. This planner accounts for that shifting offset rather than treating timezone gaps as fixed.",
+      "Scheduling a call across three or four countries by mental math alone is where meeting-time mistakes come from most often, especially around the weeks when the US and Europe aren't yet or no longer aligned on daylight saving, a mismatch window that trips up even experienced remote teams every single year.",
+      "Finding a window where every participant is in reasonable working hours, not just technically awake, matters for meeting quality too. A call where one participant is attending at 11pm tends to be shorter, less engaged, and less useful than one scheduled inside everyone's actual workday.",
+      "Select each participant's city or country from the timezone database. The planner displays a side-by-side timeline of local hours and highlights the windows where everyone overlaps during standard working hours.",
+      "Meeting schedules often reveal business relationships worth keeping confidential. The planner runs entirely in your browser, with no location or schedule data transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How do daylight saving changes mess with international scheduling?",
+        a: "The US, Europe, and most of the Southern Hemisphere shift clocks on different dates (or not at all), which means the time gap between two cities can change by an hour for a few weeks each year without anyone adjusting anything manually.",
+      },
+      {
+        q: "What exactly is UTC, and why does it matter here?",
+        a: "UTC is Coordinated Universal Time, the fixed baseline every timezone is measured against as a positive or negative offset, making it the stable reference point for any cross-timezone calculation.",
+      },
+      {
+        q: "Can this help plan asynchronous work, not just live meetings?",
+        a: "Yes, seeing when different regional teams are actually active helps set realistic response-time expectations for async collaboration, not just live call scheduling.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for remote teams and international collaborators.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking overlap windows while scheduling on the go.",
+      },
+      {
+        q: "Are my meeting schedules saved anywhere?",
+        a: "No. Time conversions run locally via client-side JavaScript, and we don't store, track, or record your calendar data.",
+      },
+    ],
+  },
+
+  "paint-quantity-calculator": {
+    seoTitle: "Paint Quantity Calculator: How Much Paint Do I Need?",
+    seoDescription:
+      "Calculate how much paint you need for a room easily. Use this free paint quantity calculator to estimate wall square footage and gallons securely.",
+    h1: "Paint Quantity Calculator",
+    shortDescription:
+      "Enter your wall dimensions and coat count, and this calculator tells you exactly how many gallons to buy.",
+    about: [
+      "A standard gallon of quality architectural paint covers roughly 350 to 400 square feet with one coat on smooth drywall, a number that shifts meaningfully with wall texture, heavily textured surfaces like stucco or popcorn ceilings have far more actual surface area than their flat square footage suggests, which means they drink up noticeably more paint per wall than a smooth surface does. This calculator applies that coverage rate to your actual measurements so you're not guessing at the paint aisle.",
+      "Eyeballing paint needs at the hardware store tends to go one of two ways, buying extra expensive gallons you don't end up using, or running short halfway through an accent wall and having to make a second trip with a possible color-batch mismatch. Measuring your actual wall perimeter and height first, then subtracting doors and windows, avoids both outcomes.",
+      "Professional painters almost universally recommend two coats regardless of how good the first coat looks going on, since a single coat rarely achieves full, uniform color opacity or the durability a second coat provides, especially over a different base color.",
+      "Enter your room's wall perimeter and ceiling height, then subtract the area of doors and windows. Specify your planned number of coats, and the calculator returns the exact number of gallons needed for the project.",
+      "Home renovation plans are personal. The calculation runs entirely in your browser, with no room dimensions transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How much area does one gallon of paint actually cover?",
+        a: "Roughly 350 to 400 square feet with a single coat on smooth drywall, though textured surfaces reduce that coverage since they have more actual surface area than their flat measurement suggests.",
+      },
+      {
+        q: "Should I always plan for two coats?",
+        a: "Yes, professional painters recommend it almost universally, since a single coat rarely delivers full, even color opacity or the durability that a second coat adds, especially over a different existing color.",
+      },
+      {
+        q: "How do I account for doors and windows in my total?",
+        a: "A common approach subtracts about 20 square feet per standard door and 15 square feet per average window from your total wall surface area before calculating paint needed.",
+      },
+      {
+        q: "Does wall texture change how much paint I need?",
+        a: "Yes, textured surfaces like stucco, brick, or popcorn ceilings have significantly more actual surface area than smooth drywall of the same dimensions, requiring extra paint for full coverage.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for homeowners and DIY renovators.",
+      },
+      {
+        q: "Are my room dimensions saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your project details.",
+      },
+    ],
+  },
+
+  "carpet-area-calculator": {
+    seoTitle: "Carpet Area Calculator: Estimate Flooring Costs",
+    seoDescription:
+      "Calculate your room carpet area and flooring material needs easily. Use this free carpet calculator to measure square footage and flooring supplies securely.",
+    h1: "Carpet Area Calculator",
+    shortDescription:
+      "Enter your room dimensions, and this calculator returns the total square footage you need to order, waste margin included.",
+    about: [
+      "Flooring installers routinely build in a 10% waste margin on top of a room's raw square footage, accounting for trimming, seam matching, and the inevitable cutting mistakes that come with fitting material into real rooms with closets, alcoves, and odd angles. This calculator applies that same industry-standard buffer to your dimensions, so the number you take to the store already accounts for what installation actually consumes.",
+      "A room's raw length-times-width measurement is rarely the whole story once you account for closets, bay windows, or an L-shaped layout, and forgetting those extra sections is one of the most common ways people under-order flooring material and end up stalling mid-installation waiting on a second shipment.",
+      "Ordering too much carries its own cost too, flooring materials aren't cheap, and excess inventory is dead money sitting in a garage. Getting the waste-adjusted total right the first time avoids both the stall and the overspend.",
+      "Enter your room's length and width in feet or meters. For irregular or multi-section layouts, add each section's dimensions separately, and the calculator totals your square footage and applies the standard waste margin to give a recommended purchase quantity.",
+      "Renovation plans are personal project details. The calculation runs entirely in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How do I calculate square footage for flooring?",
+        a: "Multiply the room's length by its width in feet. A room measuring 10 feet by 12 feet, for example, comes out to 120 square feet of raw area.",
+      },
+      {
+        q: "Why add extra material for waste?",
+        a: "Flooring installers typically recommend a 10% waste margin on top of raw square footage to cover trimming, seam matching, and unavoidable cutting errors during installation.",
+      },
+      {
+        q: "Does this work for materials other than carpet?",
+        a: "Yes, the underlying square footage math applies to any flooring type, hardwood, tile, laminate, or vinyl, even though the tool is framed around carpet.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for homeowners and renovators measuring before a purchase.",
+      },
+      {
+        q: "Does it work well on mobile while standing in the room?",
+        a: "Yes, fully responsive, convenient for measuring and calculating on the spot.",
+      },
+      {
+        q: "Are my room dimensions saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your project stats.",
+      },
+    ],
+  },
+
+  "moving-box-calculator": {
+    seoTitle: "Moving Box Calculator: How Many Boxes Do I Need?",
+    seoDescription:
+      "Calculate how many moving boxes you need for house relocation easily. Use this free moving box calculator to plan packing supplies securely.",
+    h1: "Moving Box Calculator",
+    shortDescription:
+      "Select your home size and accumulation level, and this calculator outputs a realistic box count broken down by size.",
+    about: [
+      "A one-bedroom apartment typically needs somewhere around 20 to 30 boxes, while a three-bedroom house commonly runs 70 to 100 boxes across various sizes, figures movers have settled on through years of actual relocations rather than guesswork. This calculator applies that same industry baseline to your specific home size and accumulation level, breaking the total down by box size rather than giving you one undifferentiated number.",
+      "Running out of boxes mid-pack on moving day creates a genuine logistical headache, half-packed rooms, a scramble to find more supplies, and a moving truck sitting on the clock while you sort it out. Overbuying wastes money and leaves you storing or disposing of excess cardboard afterward, so getting a reasonably accurate estimate upfront matters more than it might seem.",
+      "Matching item weight to box size prevents two common moving mistakes: heavy items like books packed into oversized boxes that become too heavy to lift safely, and light bulky items like pillows stuffed into small boxes that waste space and time. A proper size breakdown avoids both.",
+      "Select your home size, studio, one-bedroom, two-bedroom, or larger, and indicate your general level of belongings accumulation. The calculator returns a recommended supply list broken into small, medium, large, and specialty box counts.",
+      "Relocation plans and household inventory are private details. Calculations run entirely in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How many boxes does an average move actually require?",
+        a: "A one-bedroom apartment typically needs 20 to 30 boxes, while a three-bedroom house often runs 70 to 100 boxes of various sizes, depending on how much you've accumulated.",
+      },
+      {
+        q: "What size box should heavy items like books go in?",
+        a: "Always small boxes. Heavy, dense items like books, canned goods, and records should go in small boxes, while large boxes should stay reserved for lightweight, bulky items like pillows and bedding.",
+      },
+      {
+        q: "Should I buy new boxes or collect free ones?",
+        a: "Professional-grade double-walled moving boxes hold up far better under the weight of stacking in a truck than free grocery store boxes, which can collapse under pressure during transit.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for anyone planning a move and ordering packing supplies.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, useful for checking your supply list while shopping for boxes.",
+      },
+      {
+        q: "Are my home details saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your relocation data.",
+      },
+    ],
+  },
+
+  "electricity-bill-estimator": {
+    seoTitle: "Electricity Bill Estimator: Calculate Power Costs",
+    seoDescription:
+      "Calculate your household electricity consumption and bills easily. Use this free electricity cost calculator to track appliance power usage securely.",
+    h1: "Electricity Bill Estimator",
+    shortDescription:
+      "Enter your appliance wattage and usage hours, and this estimator calculates your monthly energy cost.",
+    about: [
+      "A kilowatt-hour, the unit your utility actually bills you in, equals running 1,000 watts continuously for one hour, which means a 1,500-watt space heater running for four hours burns 6 kWh, not an intuitive number unless you've done the math. This estimator converts your appliances' wattage and usage hours directly into kWh and multiplies by your local rate, turning a confusing bill into a clear breakdown of where the money actually goes.",
+      "Appliances that generate heat or cold are, almost without exception, the biggest line items on a power bill, central air conditioning, electric water heaters, space heaters, and clothes dryers all draw far more continuous wattage than lighting or electronics ever do. Knowing which devices actually drive your bill matters more than cutting back on things like phone chargers, which barely register by comparison.",
+      "A bill that spikes unexpectedly is almost always explained by a specific appliance running longer or more often than usual, not some mysterious baseline increase. Running the numbers on individual devices turns a vague \"why is my bill so high\" into a concrete answer you can actually act on.",
+      "Enter an appliance's wattage rating, your estimated daily usage hours, and your utility's cost per kilowatt-hour. The estimator calculates monthly energy consumption in kWh along with the projected dollar cost.",
+      "Household energy habits are private. Everything calculates locally in your browser, with no usage data transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What exactly is a kilowatt-hour?",
+        a: "It's the energy used running 1,000 watts continuously for one hour, the standard unit utility companies use to calculate your monthly bill.",
+      },
+      {
+        q: "Which appliances use the most electricity?",
+        a: "Devices that heat or cool, central AC, electric water heaters, space heaters, and clothes dryers, consistently top the list, consuming far more than lighting or small electronics.",
+      },
+      {
+        q: "What's the fastest way to actually lower my bill?",
+        a: "Switching to LED bulbs, unplugging idle electronics, sealing drafts, using a smart thermostat, and shifting heavy appliance use to off-peak hours all meaningfully reduce consumption.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for homeowners and renters tracking energy costs.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking an appliance's cost right where it's plugged in.",
+      },
+      {
+        q: "Are my usage stats saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your home data.",
+      },
+    ],
+  },
+
+  "garden-soil-calculator": {
+    seoTitle: "Garden Soil Calculator: Estimate Cubic Yards & Bags",
+    seoDescription:
+      "Calculate your garden soil and topsoil needs easily. Use this free garden soil calculator to measure raised bed volume and purchase amounts securely.",
+    h1: "Garden Soil Calculator",
+    shortDescription:
+      "Enter your bed dimensions, and this calculator returns the cubic yards and exact number of soil bags to buy.",
+    about: [
+      "One cubic yard equals 27 cubic feet, and since most retail soil bags hold 1.5 cubic feet, filling a single cubic yard takes about 18 bags, a conversion most gardeners don't carry around in their heads until they're standing in the garden center aisle doing mental math. This calculator runs your bed's length, width, and depth straight through that conversion and gives you a bag count instead of a volume figure you'd have to translate yourself.",
+      "Raised beds and garden borders rarely come in perfectly round numbers, which makes eyeballing soil volume unreliable. Underestimating means a second trip to the store mid-project; overestimating means paying for, hauling, and storing bags you didn't need. Measuring length, width, and depth precisely and running the actual math avoids both.",
+      "Soil quality directly affects root development and moisture retention, so getting the volume right matters for more than just your wallet, an under-filled bed leaves roots cramped and exposed to temperature swings they'd otherwise be insulated from.",
+      "Enter your garden bed's length, width, and desired depth in inches or feet. The calculator returns total volume in cubic feet and cubic yards, along with the exact number of standard soil bags needed.",
+      "Landscaping plans are personal project details. Calculations run entirely in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How do I calculate cubic yards for soil?",
+        a: "Multiply length, width, and depth in feet to get cubic feet, then divide by 27 (the number of cubic feet in one cubic yard).",
+      },
+      {
+        q: "How many bags of soil make up a cubic yard?",
+        a: "Since a cubic yard equals 27 cubic feet and most retail bags hold 1.5 cubic feet, it takes roughly 18 standard bags to fill one cubic yard.",
+      },
+      {
+        q: "What's the actual difference between topsoil, garden soil, and compost?",
+        a: "Topsoil is heavy native dirt used for grading and filling; garden soil is topsoil amended with organic matter for planting; compost is pure decomposed organic material used to enrich nutrient content.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for gardeners and landscapers planning a purchase.",
+      },
+      {
+        q: "Does it work on mobile while standing in the garden?",
+        a: "Yes, fully responsive, convenient for measuring and calculating on the spot.",
+      },
+      {
+        q: "Are my garden dimensions saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your project stats.",
+      },
+    ],
+  },
+
+  "wedding-budget-calculator": {
+    seoTitle: "Wedding Budget Calculator: Plan Ceremony Expenses",
+    seoDescription:
+      "Calculate your wedding budget and ceremony expenses easily. Use this free wedding budget planner to allocate reception costs and guest fees securely.",
+    h1: "Wedding Budget Calculator",
+    shortDescription:
+      "Enter your total budget and guest count, and this calculator allocates recommended spending across every major category.",
+    about: [
+      "Catering and venue rental together typically consume 40 to 50% of a traditional wedding budget, the single largest chunk by a wide margin, with photography, attire, flowers, and entertainment splitting most of the remainder. This calculator applies those standard industry percentage allocations to your specific total budget, giving you spending caps per category instead of one undifferentiated number you'd have to divide up yourself.",
+      "A wedding involves dozens of separate vendor contracts and payments spread across many months, which makes it remarkably easy for spending to drift without anyone noticing until the final tally comes in over budget. A category-by-category allocation gives you checkpoints to measure against as deposits and payments come due.",
+      "Guest count drives cost more than almost any other single decision, every additional attendee adds a catering plate, more chairs, more favors, more printed invitations, which is why trimming the guest list is consistently the most effective lever for controlling overall spend.",
+      "Enter your total available budget and expected guest count. The calculator returns recommended spending caps across venue, catering, photography, attire, entertainment, and decor based on standard industry allocation percentages.",
+      "Wedding budgets are deeply personal financial plans. Everything calculates locally in your browser, with no figures transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What percentage of a wedding budget usually goes to venue and catering?",
+        a: "Typically 40 to 50%, making it by far the largest category, well ahead of photography, attire, or entertainment individually.",
+      },
+      {
+        q: "How much does guest count actually affect the total cost?",
+        a: "Enormously, since every additional guest adds catering, seating, favors, and invitation costs simultaneously, making guest count the single biggest lever for controlling overall spend.",
+      },
+      {
+        q: "Should I set aside a contingency fund?",
+        a: "Yes, wedding planners commonly recommend a 5 to 10% buffer on top of your planned budget to absorb last-minute fees, tax adjustments, or vendor gratuities.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for couples and planners budgeting a wedding.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, useful for checking allocations while meeting with vendors.",
+      },
+      {
+        q: "Are my budget figures saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your financial plans.",
+      },
+    ],
+  },
+
+  "party-food-calculator": {
+    seoTitle: "Party Food Calculator: How Much Food for a Party?",
+    seoDescription:
+      "Calculate party food quantities and catering portions easily. Use this free party food calculator to estimate pizza, snacks, and drinks securely.",
+    h1: "Party Food Calculator",
+    shortDescription:
+      "Enter your guest count and event length, and this calculator returns exactly how much food and drink to buy.",
+    about: [
+      "The standard planning rule of thumb puts adult pizza consumption at two to three slices per person at a casual gathering, which works out to roughly five to six large pizzas for a party of twenty, a number that's genuinely useful to know before you're on the phone with a delivery place trying to guess. This calculator applies that same kind of per-person benchmark across mains, snacks, desserts, and drinks based on your actual guest count and event length.",
+      "Hosting means walking a line between running out of food, which guests notice and remember, and over-ordering to the point where half of it ends up as reluctant leftovers in your fridge for a week. Per-person benchmarks built from actual catering experience get you much closer to the right number than a rough guess.",
+      "Event duration changes consumption more than people expect, a two-hour gathering and a six-hour one call for meaningfully different quantities, especially for drinks, where longer events need both more total beverages and a wider mix beyond just the first round everyone grabs early.",
+      "Enter your expected guest count, event duration in hours, and gathering style. The calculator returns recommended quantities for mains, appetizers, snacks, desserts, and beverages scaled to your specific numbers.",
+      "Guest lists and party planning details are personal. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How many pizza slices should I plan per person?",
+        a: "Roughly two to three slices for an adult at a casual gathering, which translates to about five to six large pizzas for a group of twenty.",
+      },
+      {
+        q: "How many drinks should I plan per guest?",
+        a: "For a standard four-hour event, plan roughly one drink per hour for the first couple hours, plus extra non-alcoholic options like water and soda throughout.",
+      },
+      {
+        q: "Should I adjust quantities for kids attending?",
+        a: "Yes, children generally eat smaller portions than adults, so you can scale down main dishes while still stocking plenty of kid-friendly snacks and drinks.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for hosts planning any size gathering.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking quantities while grocery shopping.",
+      },
+      {
+        q: "Are my guest lists saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your event stats.",
+      },
+    ],
+  },
+
+  "event-seating-planner": {
+    seoTitle: "Event Seating Planner: Create Table Arrangements",
+    seoDescription:
+      "Plan event seating charts and table arrangements easily. Use this free seating chart generator to organize guests and venue layouts securely.",
+    h1: "Event Seating Planner",
+    shortDescription:
+      "Enter your guest list and table capacities, and this planner organizes everyone into a clear seating chart.",
+    about: [
+      "Round tables remain the standard choice for wedding receptions for a practical reason, they put every seated guest within easy conversational reach of everyone else at the table, unlike long rectangular banquet tables where guests at opposite ends barely interact. This planner helps you work through those table-by-table decisions, dragging guests into groups rather than redoing a paper chart every time a family dynamic or RSVP changes.",
+      "A seating chart for any sizable event has to balance several competing constraints at once, family relationships, friend groups, VIP placement, and rigid venue table capacities, all while staying flexible enough to handle last-minute RSVP changes without a full redo. Doing that on paper means constant erasing and a chart that's hard to read by the fifth revision.",
+      "Managing awkward family dynamics tactfully is one of the quieter skills of event planning, placing estranged relatives or conflicting guests at separate tables on opposite sides of the room, while grouping close friends and supportive family together, does more for the evening's atmosphere than almost any other seating decision.",
+      "Enter your guest list, create tables with specific seat capacities, and assign guests to their spots. The planner tracks table occupancy in real time and flags any guests who haven't been placed yet.",
+      "Guest lists reveal real relationships and sometimes sensitive family details. Everything runs locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What table shape works best for a wedding reception?",
+        a: "Round tables are the most common choice because they encourage conversation across the whole table, while long rectangular tables offer a dramatic communal look but limit cross-table interaction.",
+      },
+      {
+        q: "How do I handle difficult family dynamics in the seating chart?",
+        a: "Seat estranged or conflicting guests at separate tables, ideally on opposite sides of the room, while grouping close friends and supportive relatives together for a smoother evening.",
+      },
+      {
+        q: "Should I assign exact seats or just tables?",
+        a: "For most events, assigning tables rather than individual seats strikes the right balance, giving guests flexibility in exactly where they sit while keeping overall structure intact.",
+      },
+      {
+        q: "Is this planner free?",
+        a: "Yes, no account needed, built for wedding and event hosts organizing seating.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, useful for adjusting the chart as RSVPs change.",
+      },
+      {
+        q: "Are my guest lists saved anywhere?",
+        a: "No. Layout rendering runs locally via client-side JavaScript, and we don't store, track, or record your attendee data.",
+      },
+    ],
+  },
+
+  "running-pace-calculator": {
+    seoTitle: "Running Pace Calculator: Compute Mile Splits & Speed",
+    seoDescription:
+      "Calculate your running pace, finish times, and mile splits easily. Use this free mile pace calculator to train for marathons and races securely.",
+    h1: "Running Pace Calculator",
+    shortDescription:
+      "Enter your target distance and finish time, and this calculator returns your required per-mile or per-kilometer splits.",
+    about: [
+      "A negative split, running the second half of a race faster than the first, is widely regarded among coaches and exercise physiologists as the most efficient pacing strategy for distance running, since starting conservatively preserves glycogen stores that a fast opening mile burns through disproportionately. This calculator gives you the mile-by-mile splits needed to hit a target finish time, the exact numbers you'd otherwise have to work out mid-race under fatigue.",
+      "Going out too fast in the opening mile feels great in the moment and wrecks the back half of the race almost every time, since early pace that exceeds your sustainable effort burns through glycogen reserves faster than they can be replenished, leaving little in the tank when it matters most in the final miles.",
+      "Splits calculated ahead of time, printed on a wrist card or memorized before the gun goes off, remove a layer of in-race decision-making that gets harder as fatigue sets in. Knowing your target mile-four split in advance beats trying to do pace math mentally while breathing hard.",
+      "Enter your race distance, 5K, 10K, half marathon, or marathon, and your target finish time. The calculator returns your required pace per mile or kilometer to hit that goal.",
+      "Training data and race goals are personal. Calculations run entirely in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How do I calculate my pace manually?",
+        a: "Divide your total finish time by total distance covered to get minutes per mile or kilometer.",
+      },
+      {
+        q: "What's a negative split, and why does it matter?",
+        a: "Running the second half of a race faster than the first, a strategy most coaches consider the most efficient approach since it avoids the glycogen depletion that an overly fast start causes.",
+      },
+      {
+        q: "How much do hills actually affect pace?",
+        a: "Significantly. Uphill sections demand extra energy and naturally slow pace, while downhill sections speed you up but add real impact stress on the quadriceps, worth factoring into any hilly-course pacing plan.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for runners training for any race distance.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, useful for checking splits during training runs.",
+      },
+      {
+        q: "Are my training stats saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your athletic data.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
