@@ -7730,6 +7730,722 @@ export const TOOL_SEO = {
       },
     ],
   },
+
+  // --- Batch 9 ---
+
+  "cycling-speed-calculator": {
+    seoTitle: "Cycling Speed Calculator: Compute Bike Pace",
+    seoDescription:
+      "Calculate your cycling speed, time, and distance easily. Use this free cycling speed calculator to analyze bike rides and performance securely.",
+    h1: "Cycling Speed Calculator",
+    shortDescription:
+      "Enter your ride distance and elapsed time, and this calculator returns your average speed instantly.",
+    about: [
+      "A casual recreational cyclist on flat paved roads typically averages 12 to 14 miles per hour, a useful baseline for judging your own numbers against, though wind resistance and hills swing that figure more than most new cyclists expect, a steady headwind alone can cost several miles per hour off an otherwise easy pace. This calculator runs your ride distance and elapsed time to give you the average speed, a number worth tracking over time more than comparing to any single benchmark.",
+      "Tracking average speed across training rides reveals endurance gains that aren't always obvious day to day, a gradual half-mile-per-hour improvement over a season is easy to miss in the moment but shows up clearly once you compare numbers across weeks.",
+      "Aerodynamic and gravitational resistance both eat into speed more than most riders account for mentally, a headwind or a sustained climb can slow you down substantially even while you're pushing the same perceived effort, which is why raw average speed numbers need context from the ride's actual conditions to mean much.",
+      "Enter your total ride distance and elapsed time in hours and minutes. The calculator returns your average speed in miles per hour or kilometers per hour.",
+      "Ride data and fitness habits are personal. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What's a good average speed for a beginner cyclist?",
+        a: "Around 12 to 14 miles per hour on flat paved roads is typical for a casual recreational rider just starting out.",
+      },
+      {
+        q: "How much do wind and hills actually change speed?",
+        a: "Substantially, headwinds and climbs both add real resistance that slows speed noticeably even at the same perceived effort, which is why comparing rides across different conditions needs context, not just raw numbers.",
+      },
+      {
+        q: "Does this work for indoor trainer rides too?",
+        a: "Yes, the underlying distance-over-time math applies the same whether you're riding outdoors or on a stationary indoor trainer.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for cyclists tracking training progress.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking stats right after a ride.",
+      },
+      {
+        q: "Are my ride stats saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your fitness data.",
+      },
+    ],
+  },
+
+  "pregnancy-due-date-calculator": {
+    seoTitle: "Pregnancy Due Date Calculator: Estimate Arrival",
+    seoDescription:
+      "Calculate your pregnancy due date instantly. Use this free due date calculator and IVF calculator to track gestational milestones securely.",
+    h1: "Pregnancy Due Date Calculator",
+    shortDescription:
+      "Enter the first day of your last period, and this calculator estimates your due date using Naegele's rule.",
+    about: [
+      "The standard medical method for estimating a due date, Naegele's rule, adds 280 days, exactly 40 weeks, to the first day of the last menstrual period, a formula that's been the obstetric standard for generations even though it's genuinely just a statistical estimate. Only a small fraction of babies actually arrive on their calculated due date; most full-term births happen somewhere in the 38-to-42-week window. This calculator applies that same formula so you get the standard clinical estimate your provider will reference too.",
+      "Gestational milestones, from the first ultrasound to key prenatal screenings, are all scheduled relative to estimated due date rather than conception date, which is why having an accurate calculation matters for more than just curiosity, it actually drives your entire prenatal care calendar.",
+      "A due date is a statistical midpoint, not a prediction of the actual delivery day. Understanding that upfront, that 38 to 42 weeks is the normal full-term range rather than a narrow target, helps set realistic expectations rather than treating the calculated date as a hard deadline.",
+      "Enter the first day of your last menstrual period into the date picker. The calculator returns your estimated due date, current gestational age in weeks, and key trimester transition dates.",
+      "Pregnancy details are deeply personal health information. Calculations run entirely in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How is a due date actually calculated?",
+        a: "Using Naegele's rule, which adds 280 days (40 weeks) to the first day of the last menstrual period, the standard formula obstetric providers reference.",
+      },
+      {
+        q: "How accurate are due date calculators really?",
+        a: "They're statistical estimates, not predictions, only a small percentage of babies arrive exactly on the calculated date. Most full-term births happen anywhere between 38 and 42 weeks.",
+      },
+      {
+        q: "Does this work for IVF pregnancies?",
+        a: "Not directly with this formula, IVF due dates are typically calculated from the specific embryo transfer date and embryo age (commonly a 3-day or 5-day transfer) rather than last menstrual period.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for expectant parents tracking pregnancy milestones.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking milestones at a prenatal appointment.",
+      },
+      {
+        q: "Are my health details saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your medical data.",
+      },
+    ],
+  },
+
+  "license-plate-generator": {
+    seoTitle: "License Plate Generator: Custom Vanity Plates",
+    seoDescription:
+      "Generate custom license plate designs and vanity text easily. Use this free license plate generator to create mockups and custom text art securely.",
+    h1: "License Plate Generator",
+    shortDescription:
+      "Type your vanity text and pick a state style, and this generator renders a realistic plate mockup instantly.",
+    about: [
+      "Most state motor vehicle departments cap vanity plate text at seven or eight alphanumeric characters, including spaces and hyphens, a constraint that makes brainstorming a clever combination genuinely tricky before you've even reached the registry application. This generator renders a realistic mockup of your idea against real state-style templates, letting you see readability and spacing before submitting anything official.",
+      "A vanity plate idea that reads clearly in your head doesn't always translate visually once it's actually rendered in plate-style lettering within a tight seven-to-eight-character limit, spacing, character substitutions, and readability all shift once you see it mocked up rather than just typed in a text field.",
+      "Beyond actual vanity plate applications, realistic plate mockups get used constantly for film and photography props, graphic design projects, and general creative brainstorming where an authentic-looking plate matters more than DMV compliance.",
+      "Enter your custom vanity text, select a state style template, and choose any badge or emblem options. The generator renders a realistic plate graphic instantly, ready to download.",
+      "Design ideas and brainstorming drafts are worth keeping private until you're ready to share them. Everything renders locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Are these generated plates legally valid for driving?",
+        a: "No, they're digital mockups only, intended for design projects, props, and brainstorming. Official plates must come through your state's motor vehicle department registration process.",
+      },
+      {
+        q: "What's the typical character limit for vanity plates?",
+        a: "Most states cap vanity plate text at seven or eight alphanumeric characters, including spaces and hyphens, though exact limits vary by state.",
+      },
+      {
+        q: "Can I preview different state styles?",
+        a: "Yes, the generator includes multiple regional templates so you can see how your text looks against different state backdrops and layouts.",
+      },
+      {
+        q: "Is this generator free?",
+        a: "Yes, no account needed, built for designers, filmmakers, and automotive enthusiasts.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for mocking up ideas on the go.",
+      },
+      {
+        q: "Are my plate designs saved anywhere?",
+        a: "No. Rendering happens locally via client-side JavaScript, and we don't store, track, or record your text.",
+      },
+    ],
+  },
+
+  "invitation-word-counter": {
+    seoTitle: "Invitation Word Counter: Count Words & Characters",
+    seoDescription:
+      "Count words in event invitations and greeting cards easily. Use this free invitation word counter to check length limits and printing space securely.",
+    h1: "Invitation Word Counter",
+    shortDescription:
+      "Paste your invitation wording, and this counter checks word count, character count, and estimated print fit.",
+    about: [
+      "Physical invitation cards have a fixed print area, unlike a digital document that just scrolls, which means wording that reads fine in a text editor can force font sizes down to uncomfortably small or crowd a layout once it actually hits the printer. This counter tracks word count, character count, and sentence count as you draft, so you catch a length problem before it becomes an expensive reprint.",
+      "Stationery design and digital writing follow genuinely different rules, a paragraph that looks perfectly reasonable on a screen can overflow a 5x7 card layout entirely once it's set in an elegant script font at a readable size, since decorative typography takes up more physical space than a standard sans-serif.",
+      "Getting the essential details right matters as much as length: every invitation needs the host, the guest of honor if applicable, date, time, venue, dress code if relevant, and clear RSVP instructions, missing any one of those creates confusion regardless of how well the wording counts out.",
+      "Paste your invitation draft into the text field. The counter instantly returns total word count, character count, sentence count, and an estimated reading time.",
+      "Event details and guest information can be private ahead of an announcement. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Why does word count matter for a printed invitation?",
+        a: "Physical cards have a fixed print area, so concise wording keeps font sizes legible and the overall layout looking clean rather than cramped.",
+      },
+      {
+        q: "What essential details should every invitation include?",
+        a: "The host, guest of honor where relevant, exact date and time, venue, dress code if applicable, and clear RSVP instructions are the standard essentials.",
+      },
+      {
+        q: "How do I check character limits for custom printing platforms?",
+        a: "Most stationery printing services enforce specific character limits per text box, which this counter lets you verify before uploading your final design.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for event hosts and planners.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking wording on the go.",
+      },
+      {
+        q: "Are my text drafts saved anywhere?",
+        a: "No. Word counting runs locally via client-side JavaScript, and we don't store, track, or record your drafts.",
+      },
+    ],
+  },
+
+  "baby-feeding-schedule-generator": {
+    seoTitle: "Baby Feeding Schedule: Track Milk & Solids",
+    seoDescription:
+      "Track baby feeding schedules, milk volumes, and solid food milestones easily. Use this free infant feeding tracker to organize baby care securely.",
+    h1: "Baby Feeding Schedule",
+    shortDescription:
+      "Enter your baby's age and feeding method, and this planner builds an age-appropriate feeding routine.",
+    about: [
+      "Newborns typically need feeding every two to three hours around the clock, a frequency that shifts fast as they grow, and pediatric guidance generally points to around six months as the age when solid foods can start being introduced, once a baby shows developmental readiness signs like sitting up with support. This planner takes your baby's current age and feeding method and builds a routine matched to that specific stage rather than a generic one-size schedule.",
+      "Feeding needs change dramatically and quickly during the first year, a newborn's round-the-clock two-to-three-hour cycle looks nothing like a six-month-old transitioning toward solids and longer stretches between feeds, which makes keeping manual notes during sleep-deprived early weeks genuinely difficult to stay consistent with.",
+      "Formula feeding guidelines commonly point to roughly 2.5 ounces per pound of body weight daily as a starting reference, spread across scheduled feeds, a number worth having on hand rather than recalculating from memory during a 3am feeding.",
+      "Enter your baby's current age in weeks or months and select your feeding method, breastfeeding, formula, or mixed. The planner generates a recommended daily feeding schedule and volume guideline matched to that age.",
+      "Family health details deserve real privacy. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How often do newborns typically need feeding?",
+        a: "Roughly every two to three hours around the clock, since their small stomachs can only hold limited volume at a time.",
+      },
+      {
+        q: "When can solid foods be introduced?",
+        a: "Pediatric guidance generally points to around six months of age, once a baby shows developmental readiness signs like sitting up with support, though every baby's timeline should be confirmed with their own pediatrician.",
+      },
+      {
+        q: "How much formula should a baby drink daily?",
+        a: "A common starting reference is roughly 2.5 ounces of formula per pound of body weight per day, spread across scheduled feeds, though individual needs vary.",
+      },
+      {
+        q: "Is this planner free?",
+        a: "Yes, no account needed, built for new parents and caregivers.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking schedules one-handed during a feed.",
+      },
+      {
+        q: "Are my baby's stats saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your family data.",
+      },
+    ],
+  },
+
+  "diaper-changes-estimator": {
+    seoTitle: "Diaper Change Tracker: Log Baby Wet & Dirty Diapers",
+    seoDescription:
+      "Track your baby diaper changes and wet counts easily. Use this free infant diaper tracking tool to monitor hydration and baby health securely.",
+    h1: "Diaper Changes",
+    shortDescription:
+      "Log wet and dirty diaper counts, and this tracker summarizes daily patterns pediatricians actually ask about.",
+    about: [
+      "Pediatricians use diaper output as one of the most reliable early signals of whether a newborn is getting enough milk, the standard guideline runs one wet diaper on day one, two on day two, scaling up to six or more every 24 hours by around day six, a pattern that's easy to lose track of during sleep-deprived early weeks without something logging it for you. This tracker keeps that count alongside notes on consistency, exactly the history your pediatrician will ask about at checkups.",
+      "Memory is unreliable at 3am with a newborn, and diaper output is one of the few objective, trackable signals available during those first exhausting weeks before feeding routines settle into a predictable rhythm. Logging counts as they happen beats trying to reconstruct a pattern from memory at a pediatrician appointment days later.",
+      "Stool color genuinely matters as a health signal too, meconium, the newborn's first dark, tarry stool, normally transitions through green, yellow, or brown within the first week as digestion establishes, but white, red, or black stools after the newborn period are a signal worth flagging to a pediatrician promptly.",
+      "Log wet diaper counts, soiled diaper notes, and timestamps as they happen throughout the day. The tracker summarizes your entries into a clear daily overview you can reference or share at a pediatrician visit.",
+      "Newborn health details are private family information. Everything logs locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How many wet diapers should a newborn have daily?",
+        a: "A general pediatric guideline runs one wet diaper on day one, two on day two, scaling to six or more every 24 hours by around day six as milk supply establishes.",
+      },
+      {
+        q: "What stool color changes are normal in the first weeks?",
+        a: "Meconium, the dark, tarry first stool, transitions to green, yellow, or brown within the first week; white, red, or black stools after the newborn period warrant a prompt call to the pediatrician.",
+      },
+      {
+        q: "Why do pediatricians ask about diaper counts specifically?",
+        a: "Diaper frequency is a direct, objective window into an infant's fluid intake and digestive function, helping rule out dehydration or feeding issues early.",
+      },
+      {
+        q: "Is this tracker free?",
+        a: "Yes, no account needed, built for new parents and caregivers.",
+      },
+      {
+        q: "Does it work well on mobile?",
+        a: "Yes, fully responsive, convenient for logging from the nursery at any hour.",
+      },
+      {
+        q: "Are my baby's health logs saved anywhere?",
+        a: "No. Logging runs locally via client-side JavaScript, and we don't store, track, or record your family's data.",
+      },
+    ],
+  },
+
+  "child-growth-percentile-checker": {
+    seoTitle: "Child Growth Percentile Calculator: Track Height & Weight",
+    seoDescription:
+      "Calculate child growth percentiles for height, weight, and head size easily. Use this free growth chart calculator to track pediatric milestones securely.",
+    h1: "Child Growth Percentile",
+    shortDescription:
+      "Enter your child's age and measurements, and this calculator returns their growth percentile against standard pediatric charts.",
+    about: [
+      "A percentile isn't a grade, it's a comparison, if a baby's weight sits in the 70th percentile, it means they weigh more than 70% of babies the same age and gender in the reference population used by standard WHO or CDC growth charts, not that 70% is a better or worse number than 50%. This calculator runs your child's measurements against those same standardized datasets so you get the number pediatricians reference at checkups.",
+      "What actually matters to pediatricians isn't which percentile a child lands in, but whether they track consistently along their own curve over time. A child who's steadily in the 30th percentile at every visit is generally considered healthy; a sudden jump or drop from an established curve is what tends to prompt a closer look.",
+      "Reading raw WHO or CDC growth charts by hand, interpolating between age brackets and percentile curves on a printed graph, is genuinely fiddly. Getting the exact number quickly, especially right before or after an appointment, is where a calculator earns its keep.",
+      "Enter your child's age, gender, and current weight, height, and head circumference measurements. The calculator returns their percentile for each metric based on standard pediatric growth datasets.",
+      "Pediatric measurements are sensitive family health data. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What does a growth percentile actually mean?",
+        a: "It's a direct comparison to other children of the same age and gender, a 70th percentile weight means the child weighs more than 70% of that reference group, nothing more.",
+      },
+      {
+        q: "Is a higher percentile better than a lower one?",
+        a: "No, there's no \"ideal\" percentile. Children are healthy across a wide range of percentiles; what pediatricians watch for is a steady, consistent curve over time rather than any specific number.",
+      },
+      {
+        q: "How often should growth percentiles be checked?",
+        a: "Pediatricians typically check during routine well-child visits, frequent during infancy and tapering to annual checks as a child gets older.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for parents and caregivers tracking developmental milestones.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking numbers right at an appointment.",
+      },
+      {
+        q: "Are my child's measurements saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your family's data.",
+      },
+    ],
+  },
+
+  "carbon-footprint-calculator": {
+    seoTitle: "Carbon Footprint Calculator: Estimate Emissions",
+    seoDescription:
+      "Calculate your household carbon footprint and greenhouse gas emissions easily. Use this free carbon calculator to measure environmental impact securely.",
+    h1: "Carbon Footprint",
+    shortDescription:
+      "Enter your energy, travel, and lifestyle habits, and this calculator estimates your annual carbon footprint in metric tons.",
+    about: [
+      "For most households, three categories drive the bulk of personal carbon emissions, home heating and cooling, vehicle fuel consumption, and long-distance air travel, which together usually outweigh everything else combined, including diet and daily shopping habits. This calculator weighs your electricity bills, mileage, and flight frequency against those known major categories to produce an annual metric-ton estimate you can actually act on.",
+      "Most people have a rough intuition that driving and flying matter environmentally, but translating monthly electricity bills, annual mileage, and flight counts into a single comparable number, metric tons of CO2 equivalent, requires converting across very different units, which is exactly the kind of conversion math this calculator handles.",
+      "Knowing which category actually dominates your personal footprint matters more than trying to improve everything equally, a household that flies internationally twice a year likely has a bigger lever there than in switching light bulbs, while a household with an older, inefficient furnace has a different priority entirely.",
+      "Enter your monthly electricity bill, annual vehicle mileage, flight frequency, and recycling habits. The calculator returns your total estimated annual carbon footprint in metric tons, compared against regional and global averages.",
+      "Household energy and travel habits are personal. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What exactly is a carbon footprint?",
+        a: "The total greenhouse gas emissions caused directly and indirectly by a person, household, or activity, expressed in equivalent metric tons of carbon dioxide.",
+      },
+      {
+        q: "What typically drives the biggest share of a household's footprint?",
+        a: "Home heating and cooling, personal vehicle fuel use, and long-distance air travel are consistently the largest contributors for most households.",
+      },
+      {
+        q: "What's the most effective way to actually lower my footprint?",
+        a: "Upgrading to energy-efficient appliances, driving an electric or hybrid vehicle, using public transit, reducing meat consumption, and cutting single-use plastics all meaningfully help, with the biggest lever depending on your specific habits.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for anyone curious about their environmental impact.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking estimates on the go.",
+      },
+      {
+        q: "Are my lifestyle inputs saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your personal data.",
+      },
+    ],
+  },
+
+  "plastic-usage-estimator": {
+    seoTitle: "Plastic Usage Calculator: Track Single-Use Plastic",
+    seoDescription:
+      "Calculate your annual single-use plastic consumption easily. Use this free plastic waste calculator to measure environmental footprint and reduction securely.",
+    h1: "Plastic Usage",
+    shortDescription:
+      "Answer a few quick habit questions, and this calculator estimates your annual single-use plastic consumption.",
+    about: [
+      "Single-use plastic doesn't biodegrade the way organic waste does, it breaks down into progressively smaller microplastic fragments that persist in ecosystems for centuries and have been documented turning up in waterways, soil, and even human blood samples in recent research. Most people genuinely underestimate their own annual plastic count until it's actually tallied, which is exactly what this calculator does from a handful of quick questions about weekly habits.",
+      "Daily plastic use accumulates invisibly, a bottled water here, a grocery bag there, individually each item feels negligible, but tallied across a full year the total count tends to surprise people, often running into the hundreds of items once bottles, bags, packaging, and disposable cutlery are all counted together.",
+      "Seeing a concrete annual number rather than an abstract sense of \"I should use less plastic\" tends to actually shift behavior, swapping toward a reusable water bottle or cloth shopping bags becomes a specific, measurable change against a baseline you can track.",
+      "Answer a few quick questions about weekly grocery shopping, bottled water purchases, takeout packaging, and other single-use item habits. The calculator returns your estimated annual plastic item count and total weight.",
+      "Personal shopping and lifestyle habits are private. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Why is single-use plastic such a significant environmental concern?",
+        a: "It doesn't biodegrade, instead breaking down into microplastics that persist in ecosystems for centuries, accumulating in waterways, soil, and the food chain.",
+      },
+      {
+        q: "What's the most effective way to cut daily plastic use?",
+        a: "Carrying reusable grocery bags, using a refillable water bottle, buying in bulk with minimal packaging, and skipping plastic straws and disposable cutlery all add up to meaningful reductions.",
+      },
+      {
+        q: "Is all plastic actually recyclable?",
+        a: "No, many consumer plastics use composite resins or carry food contamination that municipal recycling facilities can't process, so they end up in landfills or incinerators despite being labeled recyclable.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for anyone auditing their plastic habits.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for a quick check on the go.",
+      },
+      {
+        q: "Are my habit answers saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your personal data.",
+      },
+    ],
+  },
+
+  "tree-planting-impact-calculator": {
+    seoTitle: "Tree Planting Calculator: Carbon Offset Estimation",
+    seoDescription:
+      "Calculate how many trees you need to plant to offset carbon emissions easily. Use this free tree planting calculator to measure carbon sequestration securely.",
+    h1: "Tree Planting",
+    shortDescription:
+      "Enter your annual carbon footprint, and this calculator estimates how many mature trees it would take to offset it.",
+    about: [
+      "A mature tree absorbs roughly 48 pounds of carbon dioxide per year on average through photosynthesis, though that figure swings widely by species, climate, and age, a young sapling barely registers while an older, established tree sequesters considerably more. This calculator takes your estimated annual carbon footprint and translates it into the number of mature trees that would be needed to offset it over a standard growing timeframe.",
+      "Trees function as one of the planet's most direct natural carbon capture systems, pulling CO2 from the atmosphere and storing it in wood, leaves, and root systems over decades, but the actual offset math is rarely intuitive, most people have no real sense of how many trees their personal emissions would actually require.",
+      "Scientists are consistent on one point worth stating plainly: tree planting is a genuinely valuable climate tool, but it's not a substitute for reducing fossil fuel emissions directly. Offsetting works best as one piece of a broader reduction strategy, not a replacement for cutting emissions at the source.",
+      "Enter your estimated annual carbon footprint in metric tons (or use the linked carbon footprint estimator). The calculator returns the number of mature trees required to sequester that amount over a standard growth timeframe.",
+      "Personal environmental estimates are yours to explore privately. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How much CO2 does one tree actually absorb?",
+        a: "On average, roughly 48 pounds per year once mature, though this varies significantly by species, climate, and the tree's age.",
+      },
+      {
+        q: "Can tree planting fully offset a high-emission lifestyle?",
+        a: "Tree planting is a genuinely valuable climate tool, but scientists are clear it works best alongside direct emission reductions, not as a standalone substitute for cutting fossil fuel use.",
+      },
+      {
+        q: "How long before a newly planted tree is absorbing meaningful carbon?",
+        a: "Young saplings sequester relatively little in their early years; absorption capacity accelerates significantly as the tree matures over a decade or more.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for anyone exploring carbon offset planning.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for a quick estimate on the go.",
+      },
+      {
+        q: "Are my calculation inputs saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your personal data.",
+      },
+    ],
+  },
+
+  "recycling-savings-calculator": {
+    seoTitle: "Recycling Savings Calculator: Track Environmental Impact",
+    seoDescription:
+      "Calculate your recycling savings, energy conservation, and landfill diversion easily. Use this free recycling impact calculator to measure green results securely.",
+    h1: "Recycling Savings",
+    shortDescription:
+      "Enter what you recycle weekly, and this calculator shows the energy, water, and landfill space it actually saves.",
+    about: [
+      "Aluminum is the standout material here, recycling it saves up to 95% of the energy required to produce new aluminum from raw bauxite ore, a dramatically bigger efficiency gain than most other common recyclables offer, which is part of why aluminum can recycling programs have stayed economically viable for decades. This calculator converts your weekly recycling quantities, paper, glass, aluminum, plastic, into concrete energy, water, and landfill savings rather than leaving the benefit as an abstract good habit.",
+      "Recycling conserves resources because manufacturing from recycled material skips most of the energy-intensive extraction and refining that virgin raw materials require, mining ore, processing wood pulp, extracting petroleum for plastics, all of which demands far more industrial energy than reprocessing existing material.",
+      "Seeing recycling translated into kilowatt-hours saved or landfill space preserved makes an otherwise abstract habit feel concrete and worth sustaining, a stack of aluminum cans recycled over a month adds up to a surprisingly specific energy number once it's actually calculated.",
+      "Enter your weekly or monthly recycled quantities for paper, cardboard, glass, aluminum, and plastics. The calculator returns your total resource savings in kilowatt-hours of energy, gallons of water, and cubic yards of landfill space preserved.",
+      "Household habits are personal details worth keeping private. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How does recycling actually save energy?",
+        a: "Manufacturing from recycled material skips most of the energy-intensive extraction and refining virgin raw materials require, dramatically cutting the industrial energy needed per unit produced.",
+      },
+      {
+        q: "Which material saves the most energy when recycled?",
+        a: "Aluminum, by a wide margin, recycling it saves up to 95% of the energy needed to produce new aluminum from raw bauxite ore.",
+      },
+      {
+        q: "Does sorting recyclables correctly actually matter?",
+        a: "Yes, contaminated or improperly sorted recyclables are often rejected by processing facilities and diverted to landfills anyway, so clean sorting directly determines whether material actually gets reprocessed.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for environmental advocates and students.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking your impact on the go.",
+      },
+      {
+        q: "Are my recycling inputs saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your personal stats.",
+      },
+    ],
+  },
+
+  "ev-vs-petrol-calculator": {
+    seoTitle: "EV vs Petrol Car Cost Calculator: Savings Compared",
+    seoDescription:
+      "Compare electric vehicle versus petrol car ownership costs easily. Use this free EV vs gas savings calculator to evaluate fuel and maintenance expenses securely.",
+    h1: "EV vs Petrol",
+    shortDescription:
+      "Enter your mileage, gas price, and electricity rate, and this calculator compares total ownership costs between EV and petrol.",
+    about: [
+      "Electric vehicles carry dramatically fewer moving parts than internal combustion cars, no oil changes, spark plugs, timing belts, or exhaust systems to maintain, which translates into real long-term savings beyond the obvious per-mile fuel cost difference between electricity and gasoline. This calculator weighs both sides together, fuel savings and maintenance savings, against the typically higher upfront purchase price to show when an EV actually pays off for your specific driving pattern.",
+      "The EV-versus-petrol decision usually gets framed around sticker price alone, electric vehicles typically cost more upfront, but that comparison misses the ongoing savings that accumulate every month afterward, in fuel cost per mile and in maintenance that simply isn't needed anymore.",
+      "Payback timelines vary enormously based on driving habits. A high-mileage commuter facing a steep local gas price and a lower residential electricity rate can often recover an EV's price premium within just a few years, while a low-mileage driver in a region with cheap gas and expensive electricity sees a much longer payback window.",
+      "Enter your annual mileage, local gas price per gallon, residential electricity rate per kilowatt-hour, and vehicle efficiency estimates. The calculator returns annual and multi-year cost comparisons between the two.",
+      "Driving habits and vehicle budgets are personal financial details. Everything calculates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Are EVs actually cheaper to run day to day?",
+        a: "Yes, charging with residential electricity consistently costs less per mile than buying gasoline, though the exact gap depends on local electricity and gas prices.",
+      },
+      {
+        q: "Do EVs really need less maintenance?",
+        a: "Significantly less, electric vehicles have far fewer moving parts, eliminating oil changes, spark plug replacements, exhaust repairs, and timing belt service entirely.",
+      },
+      {
+        q: "How long does it typically take an EV to pay off its price premium?",
+        a: "It depends heavily on annual mileage and the local gas-versus-electricity price gap, but high-mileage drivers often recoup the difference within just a few years.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for car buyers and commuters weighing the switch.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking comparisons while researching on the go.",
+      },
+      {
+        q: "Are my driving stats saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your personal data.",
+      },
+    ],
+  },
+
+  "video-compressor": {
+    seoTitle: "Video Compressor: Reduce MP4 File Size Online",
+    seoDescription:
+      "Compress video files and reduce MP4 sizes easily. Use this free online video compressor to shrink video file dimensions securely in your browser.",
+    h1: "Video Compressor",
+    shortDescription:
+      "Upload your video, pick a quality level, and this compressor shrinks the file size entirely in your browser.",
+    about: [
+      "Email providers typically cap attachments around 25 megabytes, a limit modern smartphone video blows past almost instantly, since even a short 4K clip can run into the hundreds of megabytes. This compressor adjusts bitrate, resolution, and encoding to shrink your file, processing entirely through WebAssembly running in your browser rather than uploading your video to a remote server first.",
+      "Smartphone cameras now capture video at resolutions that generate file sizes nobody designed messaging apps or email around, which is exactly why a video that looks completely normal on your phone becomes \"too large to send\" the moment you try to share it.",
+      "Compression is a balancing act, light adjustments strip redundant data invisibly with no perceptible quality loss, while pushing compression too aggressively starts introducing visible pixelation and artifacts, so the right setting depends on how much you're willing to trade size for clarity.",
+      "Upload your video file (MP4, MOV, AVI, or WebM) and select a target compression level. The tool processes it locally using client-side WebAssembly and returns a significantly smaller file ready for download.",
+      "Personal videos deserve real privacy. Processing happens entirely on your device, nothing is uploaded to a remote server or stored anywhere.",
+    ],
+    faq: [
+      {
+        q: "Does compressing a video noticeably hurt quality?",
+        a: "Light to moderate compression strips redundant data with minimal visible difference; pushing compression too aggressively can introduce visible pixelation, so there's a real trade-off at higher compression levels.",
+      },
+      {
+        q: "What video formats does this support?",
+        a: "MP4, MOV, AVI, and WebM are all supported for browser-based processing.",
+      },
+      {
+        q: "Why is my phone video too large to email?",
+        a: "Email providers typically cap attachments around 25 megabytes, a limit modern HD and 4K smartphone video routinely exceeds by a wide margin.",
+      },
+      {
+        q: "Is this compressor free?",
+        a: "Yes, no account needed, built for anyone needing to shrink video for sharing.",
+      },
+      {
+        q: "Is it actually safe to compress private videos here?",
+        a: "Yes, processing runs entirely on your device via client-side WebAssembly, so your files never leave your computer or get uploaded anywhere.",
+      },
+      {
+        q: "Are my video files saved on a server?",
+        a: "No. All processing happens locally, and we don't store, track, or record your videos.",
+      },
+    ],
+  },
+
+  "gif-maker": {
+    seoTitle: "GIF Maker: Convert Video to Animated GIF",
+    seoDescription:
+      "Convert videos to animated GIFs easily. Use this free video to GIF converter to create looping graphics and memes securely in your browser.",
+    h1: "GIF Maker (Video to GIF)",
+    shortDescription:
+      "Upload a video clip, trim it, and this converter turns it into a smooth, looping animated GIF.",
+    about: [
+      "The GIF format dates back to 1987, originally built by CompuServe with a 256-color palette limit that's still technically true today, which is exactly why converting video to GIF involves real trade-offs: color depth, frame rate, and dimensions all have to be balanced to keep the resulting file lightweight enough to load instantly in a chat window or social feed. This converter handles that balancing automatically from your trim points and quality settings.",
+      "GIFs remain the default format for chat reactions and social media loops for a practical reason beyond nostalgia, they autoplay without needing a video player's controls and loop seamlessly, which no standard video format does natively across every platform the same way.",
+      "Converting a video clip into a GIF isn't a simple format swap, it genuinely requires frame-rate trimming and color palette reduction to stay within the format's 256-color constraint while still looking smooth, which is exactly the technical work this tool automates rather than leaving you to configure manually.",
+      "Upload your video clip, select your start and end trim points, and adjust frame rate or resolution. The tool renders a smooth, looping GIF ready for download.",
+      "Personal video clips deserve privacy during conversion. Processing runs entirely in your browser via client-side code, with nothing uploaded to a server.",
+    ],
+    faq: [
+      {
+        q: "What exactly is a GIF?",
+        a: "A Graphics Interchange Format file, a bitmap image format dating to 1987 that supports short, looping animations without audio, and remains the standard for chat reactions and web animations.",
+      },
+      {
+        q: "How do I make my converted GIF file smaller?",
+        a: "Shortening the clip's duration, lowering pixel dimensions, or reducing the frame rate all meaningfully cut file size during conversion.",
+      },
+      {
+        q: "Can I convert video clips from my phone?",
+        a: "Yes, the tool is fully responsive and works directly from a smartphone browser.",
+      },
+      {
+        q: "Is this GIF maker free?",
+        a: "Yes, no account needed, built for creators and meme makers.",
+      },
+      {
+        q: "Is processing private video clips here actually safe?",
+        a: "Yes, rendering happens entirely on your device, nothing is uploaded to a remote server.",
+      },
+      {
+        q: "Are my converted GIFs saved anywhere?",
+        a: "No. All rendering runs locally via client-side processing, and we don't store, track, or record your media.",
+      },
+    ],
+  },
+
+  "audio-trimmer": {
+    seoTitle: "Audio Trimmer: Cut MP3 & Sound Files Online",
+    seoDescription:
+      "Trim audio files, MP3 songs, and ringtones easily. Use this free online audio cutter to edit sound clips and music tracks securely in your browser.",
+    h1: "Audio Trimmer",
+    shortDescription:
+      "Upload your audio, drag the waveform markers, and this trimmer cuts the exact clip you need.",
+    about: [
+      "Trimming an audio file is non-destructive in a way that often surprises people, cropping a track's duration doesn't re-encode or degrade the underlying sound fidelity, it simply removes the unwanted portion of the original waveform. This trimmer gives you a visual waveform timeline to drag start and end markers against, which is a far more precise way to find an exact cut point than guessing timestamps blind.",
+      "Audio editing used to mean downloading dedicated desktop software just to cut a few seconds off a song, a disproportionate amount of friction for what's often a thirty-second job, trimming a clip for a ringtone or isolating a quote from a longer recording.",
+      "A visual waveform makes finding the exact right cut point dramatically easier than scrubbing through audio blind, you can actually see where a word ends or a musical phrase resolves, which matters a lot when precision on the cut point is the whole point of the task.",
+      "Upload your audio file (MP3, WAV, AAC, or OGG), drag the waveform's start and end markers to select your clip, and trim. The tool processes instantly and provides your edited file for download.",
+      "Personal recordings and music files are yours to edit privately. Processing runs entirely in your browser, with nothing uploaded to a server.",
+    ],
+    faq: [
+      {
+        q: "What audio formats are supported?",
+        a: "MP3, WAV, AAC, and OGG are all supported for browser-based trimming.",
+      },
+      {
+        q: "Can I make a custom ringtone with this?",
+        a: "Yes, trim a favorite track down to a 30-second segment and save it as an MP3 to set as a custom ringtone.",
+      },
+      {
+        q: "Does trimming reduce sound quality?",
+        a: "No, trimming simply crops duration without re-encoding, so the original sound fidelity stays intact.",
+      },
+      {
+        q: "Is this trimmer free?",
+        a: "Yes, no account needed, built for podcasters and anyone editing audio clips.",
+      },
+      {
+        q: "Is editing private audio here actually safe?",
+        a: "Yes, processing happens entirely on your device, your files never leave your computer.",
+      },
+      {
+        q: "Are my edited audio files saved anywhere?",
+        a: "No. All processing runs locally via client-side JavaScript, and we don't store, track, or record your recordings.",
+      },
+    ],
+  },
+
+  "screen-recorder": {
+    seoTitle: "Screen Recorder: Free Online Capture & Video Record",
+    seoDescription:
+      "Record your computer screen, webcam, and audio easily. Use this free online screen recorder to capture browser windows and tutorials securely.",
+    h1: "Screen Recorder",
+    shortDescription:
+      "Click start, choose your screen or window, and this recorder captures your footage directly in the browser.",
+    about: [
+      "Modern browsers expose a native screen capture API that lets a web page record your display, a specific application window, or a single browser tab, with microphone and webcam feeds layered in, without installing any software at all. This recorder builds on that same browser capability, which is why it starts capturing the instant you click rather than requiring a download first.",
+      "Recording a software tutorial or documenting a bug for a support ticket used to mean downloading heavyweight desktop recording software just for a five-minute capture, a lot of friction and disk space for something you might only do occasionally.",
+      "Layering webcam picture-in-picture and microphone narration on top of screen capture turns a flat screen recording into something that actually feels like a presenter walking someone through a process, which matters a lot for tutorial and training content specifically.",
+      "Click start, choose whether to capture your full desktop, a specific application window, or a single browser tab, and enable microphone audio if needed. The recorder captures your session locally and provides an instant download link when you stop.",
+      "Screen content often includes sensitive information, open tabs, documents, messages. Recording processes entirely on your device, with nothing uploaded to a server during capture.",
+    ],
+    faq: [
+      {
+        q: "Do I need to install software to use this?",
+        a: "No, it uses your browser's native screen capture capability directly, no download or installation required.",
+      },
+      {
+        q: "Can I record my webcam alongside my screen?",
+        a: "Yes, webcam picture-in-picture and microphone narration can both be layered into the recording for a more presenter-style tutorial feel.",
+      },
+      {
+        q: "What can I choose to capture?",
+        a: "Your full desktop, a specific application window, or a single browser tab, selected right when you start recording.",
+      },
+      {
+        q: "Is this recorder free?",
+        a: "Yes, no account needed, built for tutorials, bug reports, and quick screen captures.",
+      },
+      {
+        q: "Is my recorded footage actually private?",
+        a: "Yes, capture and processing happen locally on your device, nothing is uploaded to a server during recording.",
+      },
+      {
+        q: "Are my recordings saved anywhere else?",
+        a: "No. Everything processes locally, and we don't store, track, or record your footage beyond the download you generate.",
+      },
+    ],
+  },
+
+  "daylight-saving-countdown": {
+    seoTitle: "Daylight Saving Time Countdown: Clocks Change Dates",
+    seoDescription:
+      "Track the exact time remaining until daylight saving time begins or ends. Use this free countdown clock to track clock changes securely in your browser.",
+    h1: "Daylight Saving Countdown",
+    shortDescription:
+      "A live clock counting down to the next clock change, so you know exactly when to adjust.",
+    about: [
+      "In the US, clocks fall back one hour on the first Sunday in November, ending Daylight Saving Time, a date that moves every year and that a surprising number of people still mix up with \"spring forward.\" This countdown tracks the exact days, hours, minutes, and seconds until the next transition, calculated against the correct regional rule rather than a date you have to remember yourself.",
+      "Daylight Saving Time rules aren't universal, which trips people up constantly, not every US state observes it (Arizona, outside the Navajo Nation, and Hawaii both opt out entirely), and plenty of countries near the equator skip it altogether since day length barely varies there across seasons.",
+      "The twice-yearly transition does more than shift your morning alarm, it disrupts sleep schedules measurably for days afterward, which is part of why having a clear, exact countdown helps people mentally prepare for the adjustment rather than get caught off guard by it.",
+      "The countdown widget automatically calculates time remaining until the next scheduled Daylight Saving transition based on your regional rules, updating continuously down to the second.",
+      "Browsing habits around checking a countdown are nobody's business but yours. Everything runs locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "When do clocks actually go back in the fall?",
+        a: "In the US, clocks fall back one hour on the first Sunday in November, marking the end of Daylight Saving Time and the return to standard time.",
+      },
+      {
+        q: "Does every US state observe Daylight Saving Time?",
+        a: "No, Arizona (outside the Navajo Nation) and Hawaii both opt out entirely, staying on standard time year-round.",
+      },
+      {
+        q: "How does the countdown calculate the exact remaining time?",
+        a: "It compares your current local time against the officially scheduled transition timestamp for your region, updating continuously down to the second.",
+      },
+      {
+        q: "Why does Daylight Saving Time exist in the first place?",
+        a: "It was originally adopted to extend usable evening daylight during warmer months, reducing reliance on artificial lighting in the evening hours.",
+      },
+      {
+        q: "Is this countdown free?",
+        a: "Yes, no account needed, built for anyone trying to keep track of the seasonal time change.",
+      },
+      {
+        q: "Is my activity on this page tracked?",
+        a: "No. The countdown runs entirely locally via client-side JavaScript, and we don't store, track, or record your visits.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
