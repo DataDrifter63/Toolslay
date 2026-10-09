@@ -2596,43 +2596,43 @@ export const TOOL_SEO = {
   },
 
   "age-calculator": {
-    seoTitle: "Cat Age Calculator: Convert Cat Years to Human Years",
+    seoTitle: "Age Calculator: Calculate Exact Age in Days and Years",
     seoDescription:
-      "Calculate your cat's age in human years easily. Use this free cat age calculator to track your feline's life stage and senior care needs securely.",
-    h1: "Cat Age Calculator",
+      "Find your exact age in years, months, weeks, and days instantly. Free age calculator by date of birth, accounts for leap years correctly.",
+    h1: "Age Calculator",
     shortDescription:
-      "Enter your cat's age, and this calculator converts it into human years using their real, non-linear maturation curve.",
+      "Enter your date of birth below, and this age calculator by date of birth outputs your exact age down to the day.",
     about: [
-      "Cats pack an enormous amount of maturation into their first two years, reaching roughly the human equivalent of 15 by their first birthday and around 24 by their second, according to feline aging research veterinary associations use, then the curve flattens to roughly four human years for each calendar year after that. This calculator applies that actual curve rather than a flat multiplier, since treating a 3-year-old cat as \"21 in cat years\" badly understates how mature they already are.",
-      "A one-year-old cat isn't a kitten anymore in any meaningful biological sense, it's already reached something close to full physical and reproductive maturity, comparable to a human teenager. That rapid early development is easy to underestimate if you're mentally picturing a slow, linear aging process, which is why understanding the real curve matters for things like spay or neuter timing and early health screening.",
-      "After that initial sprint, the aging rate settles dramatically, which is part of why indoor cats can live well into their late teens or even twenties with good care. Recognizing when your cat shifts from mature adult into senior and geriatric stages helps you anticipate changes like reduced kidney function or joint stiffness before they become serious problems.",
-      "Enter your cat's current age in years and months. The calculator applies the feline-specific non-linear aging curve, fast in the first two years, slower after, and returns their equivalent human age along with their current life stage classification.",
-      "Your cat's details stay with you. The calculator runs entirely client-side in your browser, so nothing about your pet gets transmitted to a server.",
+      "Everyone knows their age in years, but getting an exact figure in months, weeks, or days means correctly accounting for leap years and inconsistent month lengths, math that's genuinely easy to get slightly wrong doing it manually. This age calculator by date of birth runs that calendar math precisely, comparing your birth date against today, or any date you choose, instantly.",
+      "This goes beyond personal curiosity. Pediatric medicine tracks an infant's age in weeks or months specifically, not years, since growth and development move fast enough early on that yearly precision is far too coarse for accurate dosing or developmental milestones. HR departments lean on the same precision for verifying legal working age or retirement eligibility down to the exact day.",
+      "The leap year handling is the part that actually makes this nontrivial to calculate by hand accurately. Every February 29th someone has lived through needs to be correctly counted, and getting that wrong by even a day compounds into a noticeably inaccurate total once you're counting in weeks or days rather than years.",
+      "Enter your date of birth and the tool compares it against today's date automatically, outputting your age in standard years alongside more granular figures, total days, weeks, even hours lived, if you're curious about a specific milestone.",
+      "You can also swap the comparison date to a future date instead of today, useful for figuring out exactly how old you'll be on a specific future day, like a graduation date or retirement eligibility. Everything calculates using your browser's own local clock, so a birth date, which counts as sensitive personal information, never gets uploaded anywhere.",
     ],
     faq: [
       {
-        q: "How old is a one-year-old cat really, in human terms?",
-        a: "Roughly 15 years old, biologically comparable to a human teenager, reflecting how much maturation happens in a cat's first twelve months.",
+        q: "How does the calculator correctly handle leap years?",
+        a: "The underlying calendar logic tracks every historical leap year and adds the extra day for each February 29th you've lived through, keeping the total day and week counts mathematically accurate.",
       },
       {
-        q: "When does a cat become a senior?",
-        a: "Cats are typically considered mature adults around age seven, with senior and geriatric stages beginning around age eleven to fourteen and beyond.",
+        q: "Can I calculate age as of a future date instead of today?",
+        a: "Yes, just change the comparison date field to a future date instead of leaving it at today. That's useful for figuring out your exact age on a specific future milestone, like a graduation or retirement date.",
       },
       {
-        q: "Do indoor cats really live longer than outdoor cats?",
-        a: "Yes, substantially. Indoor cats commonly live twelve to twenty years, protected from traffic, predators, and infectious disease exposure that significantly shorten outdoor cats' average lifespans.",
+        q: "Why would I need my age in months or days instead of just years?",
+        a: "Pediatric medicine specifically tracks age in weeks and months for infants and toddlers, since development moves quickly enough that yearly precision isn't accurate enough for things like dosing. It's also just a fun way to mark a specific milestone, like your ten-thousandth day alive.",
       },
       {
-        q: "How do vets estimate a rescue cat's age without records?",
-        a: "They examine dental wear and tartar buildup, eye clarity, coat condition, and muscle tone, all of which shift predictably with age even without a known birthdate.",
+        q: "Does this tool factor in the exact time I was born, not just the date?",
+        a: "No, standard age calculation works off full calendar days. Calculating age down to the hour would require knowing your exact birth time and timezone, which is beyond what a date-based calculator handles.",
       },
       {
-        q: "Is this calculator free?",
-        a: "Yes, no account needed, built for pet owners and rescue volunteers alike.",
+        q: "Can I use this for historical dates, like calculating how long a historical figure lived?",
+        a: "Yes, the calendar math works across any date range, so you can enter a birth and death date for a historical figure to calculate their exact lifespan, useful for research or general curiosity.",
       },
       {
-        q: "Are my cat's details stored anywhere?",
-        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your pet's information.",
+        q: "Is my date of birth saved anywhere?",
+        a: "No, the comparison runs entirely locally using your browser's own clock. Your date of birth is never collected, transmitted, or stored on a server.",
       },
     ],
   },
@@ -8443,6 +8443,92 @@ export const TOOL_SEO = {
       {
         q: "Is my activity on this page tracked?",
         a: "No. The countdown runs entirely locally via client-side JavaScript, and we don't store, track, or record your visits.",
+      },
+    ],
+  },
+
+  // --- Dog/Cat age calculators (fix: were wrongly merged into age-calculator) ---
+
+  "dog-age-calculator": {
+    seoTitle: "Dog Age Calculator: Convert Dog Years to Human Years",
+    seoDescription:
+      "Calculate your dog's age in human years easily. Use this free dog years to human years calculator to track your pet's life stage accurately.",
+    h1: "Dog Age Calculator",
+    shortDescription:
+      "Enter your dog's breed size and age, and this calculator converts it into their true biological age in human years.",
+    about: [
+      "The \"one dog year equals seven human years\" rule is a myth with no real biological basis, actual research from veterinary groups like the American Veterinary Medical Association shows dogs mature explosively in their first year, reaching the rough biological equivalent of a 15-year-old human, then aging at a much slower, breed-size-dependent pace afterward. This calculator uses that more accurate curve instead of the old flat multiplier.",
+      "A dog's first year packs in more biological change than the next several years combined, bone growth, sexual maturity, brain development, all compressed into twelve months. After that initial sprint, aging settles into a steadier pace, but critically, that pace isn't the same across breeds. Large and giant breeds age noticeably faster in their later years than small breeds do, which is part of why a Great Dane is considered a senior years before a Chihuahua reaches the same life stage.",
+      "Knowing your dog's real biological age, not just their calendar age, shapes practical decisions: when to switch to senior food formulas, when to start watching more closely for joint issues, and how to pace exercise appropriately for their actual physical maturity rather than their birth year alone.",
+      "Select your dog's size category, small, medium, large, or giant, and enter their current age in years and months. The calculator applies the appropriate non-linear aging curve for that size class and returns their equivalent human age.",
+      "Pet details are personal too. Everything calculates locally in your browser, so your dog's stats never get transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "Is the \"7 dog years per human year\" rule actually accurate?",
+        a: "No, it's an oversimplified myth. Real aging curves show dogs maturing extremely fast in year one, then aging at a size-dependent rate that varies significantly between small and giant breeds.",
+      },
+      {
+        q: "Why do large dogs age faster than small dogs later in life?",
+        a: "Larger breeds experience accelerated cellular aging in their later years, which is a major contributor to their shorter average lifespans compared to toy and small breeds.",
+      },
+      {
+        q: "At what age is a dog considered senior?",
+        a: "Most dogs reach senior status around age seven, though giant breeds can enter that life stage as early as five or six due to their faster aging curve.",
+      },
+      {
+        q: "Can I calculate age for a mixed-breed dog?",
+        a: "Yes, estimate their adult weight and pick the closest matching size category, small, medium, large, or giant, for a reasonably accurate result.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for quick, accurate reference.",
+      },
+      {
+        q: "Are my pet's details saved anywhere?",
+        a: "No. The calculation runs locally via client-side JavaScript, and we don't store, track, or record your pet's data.",
+      },
+    ],
+  },
+
+  "cat-age-calculator": {
+    seoTitle: "Cat Age Calculator: Convert Cat Years to Human Years",
+    seoDescription:
+      "Calculate your cat's age in human years easily. Use this free cat age calculator to track your feline's life stage and senior care needs securely.",
+    h1: "Cat Age Calculator",
+    shortDescription:
+      "Enter your cat's age, and this calculator converts it into human years using their real, non-linear maturation curve.",
+    about: [
+      "Cats pack an enormous amount of maturation into their first two years, reaching roughly the human equivalent of 15 by their first birthday and around 24 by their second, according to feline aging research veterinary associations use, then the curve flattens to roughly four human years for each calendar year after that. This calculator applies that actual curve rather than a flat multiplier, since treating a 3-year-old cat as \"21 in cat years\" badly understates how mature they already are.",
+      "A one-year-old cat isn't a kitten anymore in any meaningful biological sense, it's already reached something close to full physical and reproductive maturity, comparable to a human teenager. That rapid early development is easy to underestimate if you're mentally picturing a slow, linear aging process, which is why understanding the real curve matters for things like spay or neuter timing and early health screening.",
+      "After that initial sprint, the aging rate settles dramatically, which is part of why indoor cats can live well into their late teens or even twenties with good care. Recognizing when your cat shifts from mature adult into senior and geriatric stages helps you anticipate changes like reduced kidney function or joint stiffness before they become serious problems.",
+      "Enter your cat's current age in years and months. The calculator applies the feline-specific non-linear aging curve, fast in the first two years, slower after, and returns their equivalent human age along with their current life stage classification.",
+      "Your cat's details stay with you. The calculator runs entirely client-side in your browser, so nothing about your pet gets transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How old is a one-year-old cat really, in human terms?",
+        a: "Roughly 15 years old, biologically comparable to a human teenager, reflecting how much maturation happens in a cat's first twelve months.",
+      },
+      {
+        q: "When does a cat become a senior?",
+        a: "Cats are typically considered mature adults around age seven, with senior and geriatric stages beginning around age eleven to fourteen and beyond.",
+      },
+      {
+        q: "Do indoor cats really live longer than outdoor cats?",
+        a: "Yes, substantially. Indoor cats commonly live twelve to twenty years, protected from traffic, predators, and infectious disease exposure that significantly shorten outdoor cats' average lifespans.",
+      },
+      {
+        q: "How do vets estimate a rescue cat's age without records?",
+        a: "They examine dental wear and tartar buildup, eye clarity, coat condition, and muscle tone, all of which shift predictably with age even without a known birthdate.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for pet owners and rescue volunteers alike.",
+      },
+      {
+        q: "Are my cat's details stored anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your pet's information.",
       },
     ],
   },
