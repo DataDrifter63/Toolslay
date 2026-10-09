@@ -4362,6 +4362,848 @@ export const TOOL_SEO = {
       },
     ],
   },
+
+  // --- Batch 5 ---
+
+  "random-team-generator": {
+    seoTitle: "Random Team Generator: Create Balanced Groups",
+    seoDescription:
+      "Generate random teams and groups easily. Use this free random group generator to sort players and participants fairly for sports and projects.",
+    h1: "Random Team Generator",
+    shortDescription:
+      "Paste your list of names, set your group count, and this generator shuffles everyone into fair teams instantly.",
+    about: [
+      "Splitting a group into teams by hand almost always draws complaints, whether it's a gym class, a office trivia night, or a weekend pickup game. This generator applies a genuine shuffle algorithm to your list, the same category of randomization used in shuffling card decks programmatically, so every name has an equal shot at landing in any group, with no room to argue the picks were rigged.",
+      "The classic captain's-pick method for building teams creates an obvious hierarchy, with the same people getting picked last every time, which stings more than organizers usually realize. A properly randomized shuffle, the kind built on a Fisher-Yates style algorithm, guarantees each name has an equal probability of ending up in any given group, removing that social dynamic entirely.",
+      "Corporate team-building events, classroom group projects, and casual sports leagues all run into the same friction: someone has to divide people fairly, fast, and without visible bias. This tool handles that math instantly, which matters more than it sounds like it should when you're standing in front of thirty restless kids or a room full of coworkers waiting to start.",
+      "Paste your full participant list into the text box, one name per line, then set either the number of teams you want or how many people should land on each team. The generator shuffles the list and outputs clean, labeled rosters you can copy straight into a message or spreadsheet.",
+      "Rosters often include real names tied to a school, workplace, or league, so privacy matters here. The shuffle runs entirely in your browser via client-side code, and nothing you paste in gets sent to a server or stored anywhere.",
+    ],
+    faq: [
+      {
+        q: "How does the shuffle guarantee fairness?",
+        a: "It uses a randomization approach that gives every name in your list an equal probability of landing in any position, avoiding the clustering or bias that a naive shuffle method can introduce.",
+      },
+      {
+        q: "What happens if my participant count doesn't divide evenly?",
+        a: "The generator distributes the remainder as evenly as possible across the groups, so instead of one team being noticeably short, the extra people spread out by one across a few teams.",
+      },
+      {
+        q: "Can I save a roster for later?",
+        a: "The tool itself doesn't store anything, but you can copy the generated output and paste it into a note, email, or spreadsheet to keep for reference.",
+      },
+      {
+        q: "Is it appropriate for classroom and workplace use?",
+        a: "Yes, it's free and built for exactly that kind of use, teachers, coaches, and event organizers all rely on it for quick, defensible group splits.",
+      },
+      {
+        q: "Does it work on mobile during a live event?",
+        a: "Yes, it's fully responsive, so you can paste a list and generate teams from a phone while standing in a gym or conference room.",
+      },
+      {
+        q: "Are the names I paste stored anywhere?",
+        a: "No. Everything runs locally through client-side JavaScript, and we don't log, track, or retain the names you enter.",
+      },
+    ],
+  },
+
+  "nickname-generator": {
+    seoTitle: "Nickname Generator: Create Cool Usernames",
+    seoDescription:
+      "Generate cool, stylish nicknames for gaming and social media. Use this free nickname generator to find catchy online handles instantly.",
+    h1: "Nickname Generator",
+    shortDescription:
+      "Type a base name, and this generator remixes it into dozens of stylized handles for gaming and social profiles.",
+    about: [
+      "Every obvious username got claimed years ago, which is why gaming platforms are full of handles stacked with extra numbers, symbols, or deliberately misspelled words. This generator takes your base name and runs it through a library of prefixes, suffixes, and stylistic substitutions, including the letter-to-number swaps commonly called leetspeak, to produce handles that still feel like you but stand a real chance of being available.",
+      "Picking a username used to be simple; now it's a genuine bottleneck, especially on platforms with hundreds of millions of existing accounts where every plain word variation got taken long ago. A generator breaks that creative block fast, mixing your core name with decorative elements until something clicks, rather than you manually retyping the same word with random numbers tacked on.",
+      "A strong handle does double duty: it needs to be memorable enough that people recognize you across different games or platforms, but distinct enough that it doesn't collide with thousands of other accounts. This tool leans into that balance, producing options that range from clean and professional to heavily stylized for gaming-specific contexts.",
+      "Type your base name or a keyword you want to build from, then pick a style category that matches the vibe you're going for. The generator instantly outputs a list of remixed options, and you can copy any one you like straight to your clipboard.",
+      "What you're brainstorming is yours alone until you decide to use it. Generation happens entirely in your browser, so your base keywords and the handles you consider never get transmitted anywhere or logged.",
+    ],
+    faq: [
+      {
+        q: "How does the generator come up with new ideas?",
+        a: "It combines your input with a built-in set of prefixes, suffixes, character substitutions, and decorative symbols, remixing them in different combinations each time you generate.",
+      },
+      {
+        q: "Can I use these on platforms like Discord or Twitch?",
+        a: "Yes, generated handles work on any platform that accepts custom usernames, just copy your favorite and paste it into your profile settings.",
+      },
+      {
+        q: "Are the generated nicknames free to use commercially?",
+        a: "Yes, you're free to use them for streaming channels, gaming profiles, or branding, provided the result doesn't infringe on an existing trademark.",
+      },
+      {
+        q: "What exactly is leetspeak styling?",
+        a: "It's a substitution style where standard letters get swapped for visually similar numbers or symbols, like a 3 standing in for E, which has been a staple of gaming culture usernames for decades.",
+      },
+      {
+        q: "Does this cost anything?",
+        a: "No, it's completely free with no sign-up required, built for quick brainstorming whenever you need a new handle.",
+      },
+      {
+        q: "Do you keep a record of what I generate?",
+        a: "No. Every generation runs locally via client-side JavaScript, and we don't store, track, or record your keywords or results.",
+      },
+    ],
+  },
+
+  "countdown-timer-generator": {
+    seoTitle: "Countdown Timer Generator: Build Custom Clocks",
+    seoDescription:
+      "Create custom countdown timers easily. Use this free countdown timer generator to track events, product launches, and holidays securely in your browser.",
+    h1: "Countdown Timer Generator",
+    shortDescription:
+      "Set a target date and time, and this generator builds a live, ticking countdown you can embed anywhere.",
+    about: [
+      "A static \"launching soon\" message doesn't create urgency the way a ticking clock does, watching numbers actually count down taps into a different part of attention than reading a fixed date. Under the hood, this comes down to comparing the current timestamp against a target timestamp every second using JavaScript's Date object, then formatting the difference into days, hours, minutes, and seconds, math this tool handles automatically so you don't have to write it yourself.",
+      "Building a countdown from scratch means handling timezone math correctly, since a launch scheduled for a specific moment needs to display accurately whether a visitor is in New York or Tokyo. Get that wrong and your countdown shows different numbers to different visitors, which undermines the entire point. This generator anchors to a standardized time reference so the countdown stays accurate regardless of where someone's viewing from.",
+      "Product launches, webinar start times, and limited sales windows all benefit from visible urgency. A live countdown embedded on a landing page consistently outperforms a static date line for driving visitor attention toward a deadline, which is exactly why marketing teams lean on them so heavily.",
+      "Pick your target date and exact time using the date picker, adjust the visual style to match your site, and the generator produces a live preview instantly. Copy the lightweight embed code and drop it directly into your website, email, or presentation.",
+      "Launch dates and internal timelines are often confidential before go-live. Because the generator runs entirely in your browser, your target dates and project details are never transmitted to a server or logged anywhere.",
+    ],
+    faq: [
+      {
+        q: "How does the timer stay accurate across timezones?",
+        a: "It calculates the remaining time against a standardized time reference rather than a visitor's local clock alone, so the countdown lands correctly no matter where someone's viewing from.",
+      },
+      {
+        q: "Can I embed this on my own website?",
+        a: "Yes, the tool generates clean, lightweight code you can paste directly into any standard HTML page or most content management systems.",
+      },
+      {
+        q: "What happens once the countdown hits zero?",
+        a: "It typically displays all zeros, or you can configure an optional custom message or redirect to trigger once the target moment arrives.",
+      },
+      {
+        q: "Does the countdown update continuously?",
+        a: "Yes, it recalculates and redraws every second using your browser's local clock, so the display stays live without needing a page refresh.",
+      },
+      {
+        q: "Is this free for commercial use on a business website?",
+        a: "Yes, no account or payment required, and it's commonly used for product launches, sales deadlines, and event promotion.",
+      },
+      {
+        q: "Are my target dates stored anywhere?",
+        a: "No. The generator runs locally via client-side JavaScript, and we don't store, track, or record your event schedules.",
+      },
+    ],
+  },
+
+  "fantasy-name-generator": {
+    seoTitle: "Fantasy Name Generator: Character Names for RPGs",
+    seoDescription:
+      "Generate epic fantasy names for characters and worlds. Use this free fantasy name generator and D&D name generator for writing and roleplaying games securely.",
+    h1: "Fantasy Name Generator",
+    shortDescription:
+      "Pick a race or culture, and this generator produces lore-friendly character names for your campaign or manuscript instantly.",
+    about: [
+      "Good fantasy names aren't random noise, they follow consistent phonetic patterns within a fictional culture, which is why Tolkien's elvish names share a distinct sound from his dwarvish ones. This generator builds on that same principle, applying consonant clusters and suffix patterns tied to specific fantasy races and cultures so the output sounds intentional rather than like a keyboard mash.",
+      "Naming every NPC, village, and side character in a campaign or novel eats up creative energy that's better spent on plot and character development. Falling back on the same two or three names repeatedly breaks immersion fast, players notice when every tavern keeper is somehow also named Gareth. A dedicated generator keeps a wide, varied pool available on demand.",
+      "Dungeon Masters running a session tonight don't have time to workshop a dozen names between encounters. This tool is built for that exact situation: pick a race category, generate instantly, and drop the result straight into your notes without breaking the pace of the session.",
+      "Select a race or cultural category, elven, dwarven, orcish, or human, among others, and hit generate. The tool returns a batch of names matching that category's phonetic style, which you can copy directly into your character sheet or manuscript.",
+      "Unpublished story ideas and campaign secrets deserve privacy too. Generation happens entirely client-side in your browser, so your world-building notes and generated names are never transmitted or logged anywhere.",
+    ],
+    faq: [
+      {
+        q: "How does the generator make names sound authentic to a race or culture?",
+        a: "It applies phonetic rules, specific consonant clusters, vowel patterns, and suffixes, that are commonly associated with each fantasy archetype, similar to how real-world naming conventions differ between languages and cultures.",
+      },
+      {
+        q: "Can I use generated names in a book I plan to publish?",
+        a: "Yes, algorithmically generated name combinations are free to use in your own original creative work without copyright concerns.",
+      },
+      {
+        q: "Does it work for D&D specifically?",
+        a: "Yes, the categories map closely to standard D&D race conventions, making it a quick resource for players and Dungeon Masters building characters or NPCs.",
+      },
+      {
+        q: "Can it generate surnames or clan names too?",
+        a: "Many categories include paired first and last names or clan titles, giving a character more immediate backstory than a first name alone.",
+      },
+      {
+        q: "Is this tool free to use?",
+        a: "Yes, completely free, with no account needed, built for writers, players, and hobbyists alike.",
+      },
+      {
+        q: "Do you save the names I generate?",
+        a: "No. Everything runs locally via client-side JavaScript, and we don't store, track, or record your generated names or notes.",
+      },
+    ],
+  },
+
+  "typing-speed-test": {
+    seoTitle: "Typing Speed Test: Measure Your WPM Online",
+    seoDescription:
+      "Test your typing speed and accuracy instantly. Use this free typing test online to measure your words per minute and improve keyboard skills securely.",
+    h1: "Typing Speed Test",
+    shortDescription:
+      "Type the on-screen passage as fast as you can, and this test scores your net words per minute and accuracy instantly.",
+    about: [
+      "Words per minute isn't just a raw speed count, it's calculated by taking your total characters typed, dividing by five to approximate standard word length, then dividing by elapsed time in minutes, and finally subtracting your errors to get a net score. That subtraction step matters: a typist blazing through text with constant typos isn't actually faster in any useful sense, which is why this test reports net WPM rather than gross.",
+      "Typing remains one of the most repeated physical actions in a modern workday, which means small efficiency gains compound fast. The difference between typing at 40 WPM and 70 WPM adds up to real hours saved across a year of emails, documents, and messages, yet most people have never actually measured their baseline speed, let alone tracked whether it's improving.",
+      "Accuracy matters just as much as raw speed, arguably more, since every typo costs time to notice and correct. This test weighs both together in its scoring, which gives a far more honest picture of your real typing competence than a raw character count ever could, and it's part of why professional roles like transcription set accuracy thresholds alongside speed minimums.",
+      "Hit start and begin typing the displayed passage exactly as shown, as quickly and accurately as you can manage. The moment the passage ends or your time runs out, the tool calculates your net WPM and accuracy percentage and displays them immediately.",
+      "Your keystrokes aren't going anywhere. The entire test, timing, scoring, and text display, runs locally in your browser, so nothing about your typing performance gets sent to a server.",
+    ],
+    faq: [
+      {
+        q: "How exactly is WPM calculated?",
+        a: "Total characters typed divided by five (the standard approximation for average word length), divided by elapsed time in minutes, then adjusted downward for errors to produce a net score rather than a raw gross count.",
+      },
+      {
+        q: "What's considered a solid typing speed?",
+        a: "Around 40 WPM is average for a casual typist. Professionals like transcriptionists, administrative staff, and programmers commonly land between 60 and 90 WPM, with competitive typists occasionally exceeding 100 WPM.",
+      },
+      {
+        q: "What's the fastest way to actually get faster?",
+        a: "Touch typing, using all ten fingers without looking at the keyboard, is the single biggest lever. Beyond that, prioritizing accuracy over raw speed during practice tends to build sustainable speed gains faster than just rushing.",
+      },
+      {
+        q: "Can I test over longer durations than a minute?",
+        a: "Yes, many configurations support extended durations like three or five minutes to test typing stamina and consistency rather than just a short burst.",
+      },
+      {
+        q: "Is the test free to use?",
+        a: "Yes, completely free, no account required, useful for casual practice or tracking improvement over time.",
+      },
+      {
+        q: "Are my typing results stored anywhere?",
+        a: "No. All scoring runs locally via client-side JavaScript, and we don't store, track, or record your typing performance.",
+      },
+    ],
+  },
+
+  "reaction-time-test": {
+    seoTitle: "Reaction Time Test: Measure Your Reflexes Online",
+    seoDescription:
+      "Test your visual reflexes and reaction time instantly. Use this free reaction time test to measure your millisecond speed directly in your browser.",
+    h1: "Reaction Time Test",
+    shortDescription:
+      "Click the instant the screen changes color, and this test measures your reflex speed down to the millisecond.",
+    about: [
+      "Simple visual reaction time, how fast you can respond to a stimulus you're already watching for, typically sits around 200 to 250 milliseconds for most adults, a number cognitive science has studied extensively since the 19th century. This test measures that exact interval, the gap between the moment a cue appears on screen and the moment your click registers, giving you a precise millisecond read on your current reflex speed.",
+      "In competitive gaming and fast-paced sports, the gap between a strong reaction time and an average one often decides close outcomes, and professional esports players frequently train specifically to shave milliseconds off their response times. Measuring where you currently stand is the first step toward understanding whether there's real room to improve or whether you're already near typical human limits.",
+      "Reaction time isn't fixed, it shifts noticeably with sleep quality, caffeine, time of day, and general alertness, which makes this test a handy way to spot-check your own cognitive state. Running it a few times across a day often reveals a more honest pattern than most people expect.",
+      "Click to start, then wait for the display to change color, resist the urge to click early. The instant the color shifts, click as fast as possible, and the tool records your exact reaction time in milliseconds, letting you run several trials to average out the noise.",
+      "Reflex scores stay between you and your screen. The test runs entirely client-side in your browser, with no reaction data transmitted to a server or logged anywhere.",
+    ],
+    faq: [
+      {
+        q: "What's a typical human reaction time?",
+        a: "Most adults average between 200 and 250 milliseconds for simple visual reactions. Trained athletes and competitive gamers often average closer to 150 to 180 milliseconds.",
+      },
+      {
+        q: "What slows reaction time down?",
+        a: "Poor sleep, physical fatigue, distraction, alcohol, heavy meals, and general aging all measurably slow visual reaction time, which is part of why the same person's score varies across a day.",
+      },
+      {
+        q: "Can reaction time actually be trained?",
+        a: "Baseline nerve conduction speed has hard physiological limits, but consistent practice, better focus, and improved hand-eye coordination can meaningfully improve your measured scores over time.",
+      },
+      {
+        q: "Is the test accurate on a phone touchscreen?",
+        a: "Touchscreens introduce a small amount of extra input lag compared to a mouse, but the test still gives a reliable relative measure for tracking your own performance over time.",
+      },
+      {
+        q: "Is this free to use?",
+        a: "Yes, no account needed, built for quick, repeatable self-testing.",
+      },
+      {
+        q: "Do you store my reflex scores?",
+        a: "No. Every trial runs locally via client-side JavaScript, and we don't store, track, or record your results.",
+      },
+    ],
+  },
+
+  "vin-decoder": {
+    seoTitle: "VIN Decoder: Check Vehicle History & Specs",
+    seoDescription:
+      "Decode vehicle identification numbers instantly. Use this free VIN decoder to check car specifications, manufacturing specs, and history securely.",
+    h1: "VIN Decoder",
+    shortDescription:
+      "Enter a 17-digit VIN, and this decoder breaks it down into make, model, engine, and manufacturing details instantly.",
+    about: [
+      "Every VIN built since 1981 follows the ISO 3779 standard, a fixed 17-character format where specific positions encode the manufacturer, vehicle attributes, and a unique serial number, plus a built-in check digit at position nine used to catch transcription errors. This decoder parses that structure instantly, turning a seemingly random string of letters and numbers into readable manufacturing data.",
+      "A VIN packs an enormous amount of information into just 17 characters: who built the vehicle, what plant assembled it, the model year, the body style, and the engine configuration, all encoded positionally according to the international standard. Reading that manually requires a reference table most people don't have memorized, which is exactly the gap this decoder fills.",
+      "Verifying a vehicle's actual specifications before buying used protects against misrepresented listings, where a seller's description doesn't quite match what the VIN itself declares. Cross-checking the decoded engine type, trim, or model year against what's advertised is a fast way to catch a mismatch before money changes hands.",
+      "Type the full 17-character VIN into the input field and submit. The decoder parses each positional segment according to the ISO 3779 structure and returns a readable breakdown: manufacturer, model year, assembly plant, body style, and engine code.",
+      "Vehicle research is often tied to a purchase decision you'd rather keep private. The decoding logic runs client-side wherever possible, and your searches aren't logged against your identity.",
+    ],
+    faq: [
+      {
+        q: "What exactly is a VIN?",
+        a: "It's a standardized 17-character identifier assigned to every motor vehicle since 1981, following the ISO 3779 structure, that uniquely encodes the manufacturer, specifications, and production details of that specific vehicle.",
+      },
+      {
+        q: "What information can I pull from a VIN?",
+        a: "Country of origin, manufacturer, body style, engine type, model year, assembly plant, and a unique serial number, all encoded in specific character positions defined by the international standard.",
+      },
+      {
+        q: "Where do I find my car's VIN?",
+        a: "Look through the lower corner of the windshield on the driver's side, or check the certification sticker on the driver's door jamb, both are standard legal placement locations.",
+      },
+      {
+        q: "Can a VIN decoder tell me about past accidents?",
+        a: "No, a VIN decoder reads manufacturing specifications only. Accident history, title status, and insurance claims require a separate vehicle history report from a service that aggregates that data.",
+      },
+      {
+        q: "Why don't VINs use the letters I, O, and Q?",
+        a: "Those letters resemble the numbers 1 and 0 closely enough to cause transcription errors, so international VIN standards exclude them entirely to prevent misreads.",
+      },
+      {
+        q: "Is my VIN search kept private?",
+        a: "Yes, decoding runs without logging searches against your identity, and nothing about your lookup gets tied back to you.",
+      },
+    ],
+  },
+
+  "snow-day-predictor": {
+    seoTitle: "Snow Day Predictor: Will School Be Closed?",
+    seoDescription:
+      "Predict school snow day closures easily. Use this free snow day calculator and predictor to analyze winter weather forecasts and closure odds securely.",
+    h1: "Snow Day Predictor",
+    shortDescription:
+      "Enter your forecast snowfall, temperature, and region, and this predictor gives you a fun, data-driven snow day probability.",
+    about: [
+      "School closure decisions are never based on snowfall totals alone, superintendents weigh ice accumulation, overnight low temperatures, wind chill, road treatment status, and even how many consecutive closures a district has already used that year. This predictor builds a fun, weighted estimate from the forecast variables that matter most, giving you a probability rather than a guaranteed answer, since the final call always belongs to your local district.",
+      "Snowfall totals alone tell an incomplete story. A light dusting on an already icy road can be more dangerous for bus routes than six inches of dry, powdery snow on clear pavement, which is why districts in snow-heavy regions often stay open through storms that would shut down a district further south. Regional infrastructure and plowing readiness shift the actual threshold for closure dramatically.",
+      "This tool exists for the fun of it as much as the forecasting, students checking it the night before a storm, parents trying to plan ahead, but it's built on the same variables meteorologists and school administrators actually look at: expected accumulation, ice risk, temperature, and wind, just weighted into a quick probability score instead of an official decision.",
+      "Enter your expected snowfall total, ice accumulation estimate, overnight low temperature, and your general region's typical winter preparedness level. The predictor runs those inputs through a weighted scoring model and returns an estimated percentage chance of a closure.",
+      "Checking the forecast for your area shouldn't come with any tracking attached. The calculation runs entirely in your browser, and your location details and weather inputs are never transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How does the predictor come up with a percentage?",
+        a: "It weighs expected snowfall, ice accumulation, temperature, wind conditions, and typical regional winter preparedness against common municipal closure thresholds to produce an estimated probability.",
+      },
+      {
+        q: "Is this an official closure announcement?",
+        a: "No, it's for entertainment and planning purposes only. The actual decision always comes from your local school district superintendent based on real-time conditions.",
+      },
+      {
+        q: "Why do some districts close for small amounts of snow?",
+        a: "Districts without heavy snow removal infrastructure, common in southern or warmer-climate regions, tend to close far more readily than northern districts equipped with plows, salt trucks, and winter-ready bus fleets.",
+      },
+      {
+        q: "Does ice matter more than snowfall totals?",
+        a: "Generally yes. Ice creates far more dangerous road and sidewalk conditions for buses and pedestrians than an equivalent depth of dry snow, which is why forecasts with freezing rain tend to push closure probability up sharply.",
+      },
+      {
+        q: "Is the tool free to use?",
+        a: "Yes, no account needed, built for quick, casual forecasting before a storm.",
+      },
+      {
+        q: "Are my location and forecast entries saved anywhere?",
+        a: "No. Everything calculates locally via client-side JavaScript, and we don't store, track, or record your inputs.",
+      },
+    ],
+  },
+
+  "us-holiday-countdown": {
+    seoTitle: "US Holiday Countdown: Days Until Federal Holidays",
+    seoDescription:
+      "Count down the days until upcoming US federal holidays easily. Use this free holiday countdown clock to track festive events and long weekends securely.",
+    h1: "US Holiday Countdown",
+    shortDescription:
+      "Pick a federal holiday, and this live clock counts down the exact days, hours, and minutes until it arrives.",
+    about: [
+      "The United States currently observes 11 federal holidays, several of which, Presidents Day, Memorial Day, Labor Day, and Columbus Day among them, were shifted to fixed Mondays by the Uniform Monday Holiday Act of 1968 specifically to create predictable three-day weekends. This tool tracks live countdowns to each one, pulling the correct date for the current year automatically rather than making you check a calendar.",
+      "Mentally tracking exactly how far away a holiday sits gets harder the further out it is, and calendar math across different months trips people up more often than it should. A live countdown removes that friction entirely, showing the precise remaining time rather than forcing a mental calculation every time you think about an upcoming date.",
+      "Because several federal holidays land on a floating Monday rather than a fixed calendar date, Memorial Day is always the last Monday in May, for instance, the actual date shifts year to year. This tool calculates the correct date for the current year automatically, so you're never working off a stale reference.",
+      "Choose a holiday from the list, Christmas, Thanksgiving, Independence Day, Labor Day, and the rest of the federal calendar, and a live countdown clock appears immediately, ticking down days, hours, minutes, and seconds to that specific date.",
+      "What holidays you're counting down to is nobody's business but yours. The countdown runs entirely client-side in your browser, with no viewing history transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "How many official federal holidays does the US observe?",
+        a: "Eleven, including New Year's Day, Martin Luther King Jr. Day, Presidents Day, Memorial Day, Juneteenth, Independence Day, Labor Day, Columbus Day, Veterans Day, Thanksgiving, and Christmas.",
+      },
+      {
+        q: "Why do some holidays fall on a different date every year?",
+        a: "The Uniform Monday Holiday Act of 1968 moved several federal holidays to a fixed weekday position, like the last Monday in May, rather than a fixed calendar date, specifically to guarantee three-day weekends.",
+      },
+      {
+        q: "Does the countdown update automatically each year?",
+        a: "Yes, the tool calculates the correct date for floating holidays automatically based on the current year, so you don't need to manually check or update anything.",
+      },
+      {
+        q: "Can I track more than one holiday at a time?",
+        a: "Yes, most configurations let you view multiple countdown clocks simultaneously if you want to track several upcoming holidays at once.",
+      },
+      {
+        q: "Is this tool free to use?",
+        a: "Yes, completely free, no sign-up required, built for personal holiday tracking and planning.",
+      },
+      {
+        q: "Is my holiday-viewing activity tracked?",
+        a: "No. The countdown runs locally via client-side JavaScript, and we don't store, track, or record which holidays you check.",
+      },
+    ],
+  },
+
+  "fantasy-points-calculator": {
+    seoTitle: "Fantasy Points Calculator: Score Fantasy Sports",
+    seoDescription:
+      "Calculate fantasy sports points easily. Use this free fantasy football points calculator to score player stats and optimize your fantasy roster securely.",
+    h1: "Fantasy Points Calculator",
+    shortDescription:
+      "Enter a player's stat line and your league's scoring rules, and this calculator outputs their exact fantasy point total.",
+    about: [
+      "Fantasy football scoring isn't standardized the way the real NFL rulebook is, every league sets its own weights for passing yards, touchdowns, and receptions, which is why the same stat line can produce completely different fantasy scores depending on which league you're in. This calculator lets you plug in your league's exact scoring settings and a player's projected stats to see the real number before you set your weekly lineup.",
+      "PPR, short for Points Per Reception, reshaped fantasy strategy when it became the dominant format, rewarding a catch with an extra point (or half a point in half-PPR leagues) regardless of yardage gained. That single rule shift made pass-catching running backs and possession receivers dramatically more valuable than they'd be in a standard non-PPR league, which is exactly why knowing your league's specific format matters before trusting any generic rankings.",
+      "Running the numbers before a trade deadline or a waiver pickup turns a gut feeling into an actual comparison. Plugging two players' projected stat lines through your league's real scoring rules often reveals a gap that raw yardage totals alone would hide completely.",
+      "Enter your league's scoring weights, points per reception, per passing yard, per rushing or receiving touchdown, and so on, then input the player's projected statistics. The calculator instantly totals the exact fantasy score that stat line produces under your specific rules.",
+      "Your league settings and roster strategy are competitive information. Everything calculates locally in your browser, so your scoring rules and lineup plans never get transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What does PPR mean in fantasy football?",
+        a: "Points Per Reception, a scoring format that awards an extra point, or half a point in half-PPR leagues, for every catch a player makes, which significantly boosts the value of pass-catching backs and high-target receivers.",
+      },
+      {
+        q: "Can I enter my league's custom scoring rules?",
+        a: "Yes, every weight is adjustable, standard, half-PPR, full-PPR, or fully custom settings like superflex bonuses all work.",
+      },
+      {
+        q: "How do negative plays affect the score?",
+        a: "Fumbles lost, interceptions thrown, and missed kicks subtract points under most league rules, and the calculator applies those penalties automatically if you've set them.",
+      },
+      {
+        q: "Does this only work for football?",
+        a: "The core logic, weighting individual stats into a cumulative score, applies to any fantasy sport, though it's built primarily around standard football scoring categories.",
+      },
+      {
+        q: "Is the calculator free?",
+        a: "Yes, no account or payment needed, built for quick weekly lineup decisions.",
+      },
+      {
+        q: "Do you track my league settings or lineup choices?",
+        a: "No. Everything runs locally via client-side JavaScript, and we don't store, track, or record your roster data.",
+      },
+    ],
+  },
+
+  "gaming-session-time-calculator": {
+    seoTitle: "Gaming Session Time Calculator: Track Playtime",
+    seoDescription:
+      "Calculate your gaming session hours and playtime schedules easily. Use this free playtime calculator to manage gaming habits securely in your browser.",
+    h1: "Gaming Session Time Calculator",
+    shortDescription:
+      "Enter your start and end times, and this calculator tells you exactly how long you've been playing, overnight sessions included.",
+    about: [
+      "Immersive games are specifically designed to keep you engaged, which is exactly why hours disappear without you noticing, a pattern significant enough that the World Health Organization added \"gaming disorder\" to the ICD-11 in 2019 as a recognized behavioral condition tied to loss of control over play time. This calculator doesn't diagnose anything, it just gives you the objective number: how long you actually played, including sessions that cross midnight.",
+      "Time distortion during gaming is a well-documented phenomenon, flow states common in competitive or narrative-driven games make hours feel like minutes. That's great for enjoyment but terrible for self-awareness about screen time, which is why an objective log matters more than your gut sense of \"I just started.\"",
+      "Coordinating multiplayer sessions, raid nights, scheduled tournaments, or co-op runs across different time zones requires precision most people don't bother calculating by hand. This tool handles that math cleanly, including the awkward overnight-crossing sessions that trip up manual subtraction.",
+      "Enter your session's start time and end time. The calculator instantly computes the total elapsed duration in hours and minutes, correctly handling sessions that run past midnight without requiring any manual date adjustment.",
+      "What and how long you play is your own business. The calculation runs entirely in your browser, with no session logs or schedule data transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Why bother tracking gaming session length?",
+        a: "Objective tracking helps balance gaming against sleep, work, and physical activity, since time distortion during immersive play makes self-estimation notoriously unreliable.",
+      },
+      {
+        q: "Does it handle multi-day events?",
+        a: "Yes, elapsed time calculates correctly across extended intervals, useful for tracking total hours across a weekend gaming marathon or a big release's launch weekend.",
+      },
+      {
+        q: "What about sessions that cross midnight?",
+        a: "The calculator handles overnight sessions automatically, correctly tallying hours without needing you to manually adjust for the date change.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for quick personal tracking.",
+      },
+      {
+        q: "Does it work well on mobile?",
+        a: "Yes, fully responsive, so checking session length from a phone works just as cleanly as desktop.",
+      },
+      {
+        q: "Are my gaming logs stored anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your schedule.",
+      },
+    ],
+  },
+
+  "tournament-bracket-generator": {
+    seoTitle: "Tournament Bracket Generator: Create Single Elimination Brackets",
+    seoDescription:
+      "Generate tournament brackets and match schedules instantly. Use this free bracket generator to organize sports tournaments and gaming competitions securely.",
+    h1: "Tournament Bracket Generator",
+    shortDescription:
+      "Enter your competitor list, pick a format, and this generator builds a complete, properly seeded match tree instantly.",
+    about: [
+      "A clean single-elimination bracket only works out evenly when your competitor count is a power of two, 8, 16, 32, and so on, which is why real tournaments with odd numbers rely on strategically placed \"byes\" to balance the tree. This generator handles that math automatically, inserting byes for top seeds when needed so every bracket renders cleanly regardless of how many competitors you actually have.",
+      "Structuring a bracket by hand for anything beyond eight competitors gets error-prone fast, mismatched rounds, incorrectly placed byes, or seeding mistakes that put two top contenders against each other in round one instead of the final. A generator removes that risk entirely, applying consistent bracket math every time regardless of field size.",
+      "Double elimination formats add real complexity on top of single elimination, since every competitor who loses once drops into a lower bracket rather than being eliminated outright, giving them a second path back to the finals. Building that structure manually, with its separate winners and losers brackets merging at the end, is exactly the kind of layout work this tool automates.",
+      "Enter your list of competitors, choose single elimination, double elimination, or round-robin format, and generate. The tool renders a complete, properly seeded visual bracket you can share digitally or print for event-day use.",
+      "Competitor lists often include real names tied to a league or event you're running. The bracket renders entirely in your browser, with no participant data transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between single and double elimination?",
+        a: "In single elimination, one loss ends a competitor's run immediately. In double elimination, a first loss drops them into a separate lower bracket where they can still fight back to the championship.",
+      },
+      {
+        q: "How does seeding actually work?",
+        a: "Seeding ranks competitors by skill or prior results so top performers are spread across the bracket, preventing two strong competitors from eliminating each other in an early round.",
+      },
+      {
+        q: "What happens if my competitor count isn't a power of two?",
+        a: "The generator automatically inserts byes, free advances, for top seeds in the first round, balancing the bracket so the tournament structure stays clean despite an uneven field.",
+      },
+      {
+        q: "Can I update scores directly inside the bracket?",
+        a: "Yes, most configurations let you input match results as they happen, automatically advancing the winner to the next round in real time.",
+      },
+      {
+        q: "Is this free for running real events?",
+        a: "Yes, completely free, no account required, used by esports organizers, school tournaments, and office competitions alike.",
+      },
+      {
+        q: "Are competitor names saved anywhere?",
+        a: "No. Bracket generation runs locally via client-side JavaScript, and we don't store, track, or record your participant lists.",
+      },
+    ],
+  },
+
+  "dog-food-safety-checker": {
+    seoTitle: "Can My Dog Eat This?: Safe Food Checker for Dogs",
+    seoDescription:
+      "Check if human foods are safe for your dog to eat. Use this free dog food safety checker to prevent toxic poisoning and protect your pet's health.",
+    h1: "Can My Dog Eat This?",
+    shortDescription:
+      "Search any food item, and this checker tells you instantly whether it's safe, risky in moderation, or outright toxic for dogs.",
+    about: [
+      "Chocolate is toxic to dogs because of theobromine, a compound their bodies metabolize far more slowly than humans do, allowing it to build to dangerous levels; grapes and raisins cause acute kidney failure through a toxin researchers still haven't fully identified; and onions, garlic, and other alliums damage red blood cells through organosulfur compounds. This checker exists so you don't have to remember which specific chemical makes which food dangerous, just type the food and get the answer.",
+      "A lot of genuinely dangerous foods look completely harmless sitting on a kitchen counter, which is exactly the problem. Macadamia nuts, a small handful of grapes, a bite of onion-seasoned leftovers, none of these trigger the same alarm bells that something like rat poison would, but the toxic mechanism can be just as serious. Knowing which common foods carry real risk, rather than guessing in the moment, is the entire point of this checker.",
+      "On the flip side, plenty of foods people assume are off-limits are actually fine in reasonable amounts, plain cooked carrots, blueberries, and unseasoned pumpkin all make legitimate healthy treats. This tool gives you clarity in both directions, not just a blanket list of warnings.",
+      "Type the food item you're checking into the search bar, chocolate, grapes, peanut butter, whatever your dog is eyeing or already got into. The tool returns an immediate safety rating, safe, safe in moderation, or toxic, along with symptoms to watch for if ingestion already happened.",
+      "Pet health concerns can be stressful enough without worrying about data privacy too. Searches run entirely in your browser, with nothing logged or transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Why exactly are grapes and raisins so dangerous for dogs?",
+        a: "They cause acute kidney failure through a toxic mechanism that researchers haven't fully pinned down yet, and even small amounts can trigger a serious reaction, which is why any ingestion warrants an emergency vet call.",
+      },
+      {
+        q: "Is peanut butter actually safe?",
+        a: "Plain natural peanut butter is generally fine and often used to hide pills, but always check the label first, some brands use xylitol as a sweetener, and xylitol is fatal to dogs even in small amounts.",
+      },
+      {
+        q: "What should I do if my dog eats something toxic?",
+        a: "Call your veterinarian or an animal poison control hotline immediately, don't wait for symptoms to appear, since early intervention makes a significant difference in outcomes for toxic ingestions.",
+      },
+      {
+        q: "Can dogs have dairy like milk or cheese?",
+        a: "Many adult dogs are lactose intolerant because they lose much of their lactase enzyme production after puppyhood, so dairy often causes digestive upset, vomiting, or diarrhea even without being outright toxic.",
+      },
+      {
+        q: "Does this replace calling a vet?",
+        a: "No, it's informational guidance only. Any suspected poisoning or concerning symptoms warrant an immediate call to a licensed veterinarian or poison control.",
+      },
+      {
+        q: "Are my searches tracked anywhere?",
+        a: "No. Lookups run locally via client-side JavaScript, and we don't store, track, or record what you search.",
+      },
+    ],
+  },
+
+  "pet-calorie-calculator": {
+    seoTitle: "Pet Calorie Calculator: Daily Food for Dogs & Cats",
+    seoDescription:
+      "Calculate your pet's daily calorie needs easily. Use this free dog food calculator to manage pet weight loss, feeding amounts, and nutrition securely.",
+    h1: "Pet Calorie Calculator",
+    shortDescription:
+      "Enter your pet's weight and activity level, and this calculator outputs their exact daily calorie target.",
+    about: [
+      "Veterinary nutritionists calculate a pet's baseline energy needs using the Resting Energy Requirement formula, roughly 70 times body weight in kilograms raised to the 0.75 power, then multiply that baseline by a factor reflecting life stage, activity level, and neuter status. This calculator runs that same formula so you get a number grounded in actual veterinary nutrition science rather than a generic bag recommendation.",
+      "Feeding guidelines printed on commercial pet food bags are built for an \"average\" animal that doesn't really exist, they routinely overshoot actual needs for calmer or already-overweight pets, which is a meaningful contributor to the pet obesity rates veterinarians have flagged as a growing concern. Calculating your specific pet's Resting Energy Requirement, then applying the right multiplier for their actual activity and life stage, gets you a far more honest number.",
+      "Spaying or neutering measurably lowers a pet's metabolic rate, which is exactly why a formula that only accounts for weight, without factoring in neuter status, tends to overestimate how much a fixed pet actually needs. This calculator builds that adjustment in rather than leaving it out.",
+      "Select dog or cat, enter current body weight, indicate neuter status, and choose an activity level. The calculator applies the Resting Energy Requirement formula with the appropriate multiplier and returns a precise daily calorie target.",
+      "Pet health details deserve the same privacy as any personal data. The calculation runs entirely in your browser, with nothing about your pet's measurements transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How exactly is my pet's calorie need calculated?",
+        a: "Starting from the Resting Energy Requirement, roughly 70 times body weight in kilograms to the 0.75 power, then multiplied by a factor based on life stage, activity level, and whether your pet is spayed or neutered.",
+      },
+      {
+        q: "How do I turn daily calories into cups of food?",
+        a: "Check your food bag for its kilocalories-per-cup rating, then divide your pet's daily calorie target by that number to get the exact cup amount to feed.",
+      },
+      {
+        q: "Do treats count toward the daily total?",
+        a: "Yes, and they add up fast. Veterinarians generally recommend keeping treats under 10% of total daily calories to avoid throwing off the nutritional balance of a complete diet.",
+      },
+      {
+        q: "How do I help an overweight dog lose weight safely?",
+        a: "Work with your vet, then use the calculator to target calories slightly below maintenance for your dog's ideal weight (not current weight) while gradually increasing exercise.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for pet parents managing weight or switching foods.",
+      },
+      {
+        q: "Are my pet's measurements stored anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your pet's data.",
+      },
+    ],
+  },
+
+  "dog-walking-time-calculator": {
+    seoTitle: "Dog Walking Time Calculator: Exercise Needs",
+    seoDescription:
+      "Calculate how long you should walk your dog daily easily. Use this free dog walking time calculator to plan exercise schedules and pet fitness securely.",
+    h1: "Dog Walking Time Calculator",
+    shortDescription:
+      "Enter your dog's size, age, and energy level, and this calculator recommends a realistic daily walking duration.",
+    about: [
+      "Veterinarians commonly recommend a five-minutes-per-month-of-age rule for puppies, walked twice daily, specifically because growth plates in young bones haven't closed yet and overexertion can cause lasting joint damage. Adult dogs don't follow that same constraint, but their needs still swing wildly by breed, a working-line border collie and a bulldog have almost nothing in common exercise-wise, which is exactly the gap this calculator closes.",
+      "Under-exercised dogs don't just get restless, they frequently develop destructive habits, excessive chewing, barking, digging, as an outlet for pent-up energy that has nowhere else to go. But over-exercising carries its own risks, particularly for puppies with developing joints and for senior dogs managing arthritis, which is why a one-size-fits-all walking recommendation doesn't actually serve most dogs well.",
+      "Breed temperament matters as much as size here. A high-drive working breed bred for herding or retrieving genuinely needs far more structured activity than a companion breed bred primarily for lap-sitting, even at similar body weights, which is why this calculator factors in energy level alongside size and age.",
+      "Select your dog's size category, life stage, and general energy level. The calculator returns a recommended daily walking duration, broken into suggested morning and evening sessions rather than one long block.",
+      "Your pet's routine is your business. Everything calculates locally in your browser, with no pet statistics transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "How much daily exercise does a typical adult dog need?",
+        a: "It varies by breed, but most adult dogs need somewhere between 30 minutes and 2 hours daily, split across multiple walks and active play.",
+      },
+      {
+        q: "Why can't puppies handle long walks?",
+        a: "Their growth plates haven't closed yet, making joints vulnerable to overexertion injuries. The common guideline is five minutes of walking per month of age, twice daily, until they're fully grown.",
+      },
+      {
+        q: "How do I know if I'm over-exercising my dog?",
+        a: "Watch for excessive panting, lagging behind, refusing to continue, limping, or stiffness the next morning, all signs the activity level exceeded what your dog could comfortably handle.",
+      },
+      {
+        q: "Can puzzle toys substitute for a real walk?",
+        a: "They provide valuable mental stimulation, but they don't replace the cardiovascular benefit and outdoor sensory engagement that physical walking provides.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for pet owners planning a realistic exercise routine.",
+      },
+      {
+        q: "Are my dog's details saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your queries.",
+      },
+    ],
+  },
+
+  "food-calorie-burn-calculator": {
+    seoTitle: "Steps to Burn Food Calculator: Walk Off Calories",
+    seoDescription:
+      "Calculate how many steps you need to walk to burn off specific foods easily. Use this free food calorie burn calculator to track activity and diet.",
+    h1: "Steps to Burn Food",
+    shortDescription:
+      "Pick a food or enter its calories, and this calculator shows exactly how many steps it takes to walk that energy off.",
+    about: [
+      "Walking burns roughly 30 to 40 calories per thousand steps for an average adult, which means that innocent-looking slice of pizza or candy bar often translates into an uncomfortably large number, sometimes five or six thousand steps just to break even. This calculator does that conversion instantly using your body weight and the food's calorie count, turning an abstract nutrition label number into something physically tangible.",
+      "Calorie counts on packaging rarely connect to anything concrete in most people's heads, 250 calories doesn't mean much until you see it translated into roughly 7,000 steps of actual walking. That reframing tends to shift behavior more than the raw number ever did, not by shaming food choices, but by making the energy cost genuinely visible.",
+      "It's worth being upfront about the asymmetry here: eating calories takes seconds, burning them through walking takes considerably longer, since it's simply far more efficient to consume energy than to expend it through movement. This tool isn't meant to suggest walking off every meal is realistic, it's meant to build intuition about the relationship between food and physical activity.",
+      "Pick a common food from the list, or enter a custom calorie amount, along with your current body weight. The calculator instantly outputs the total steps and approximate walking distance needed to burn off that exact amount of energy.",
+      "Diet and body weight details are personal. Calculations run entirely in your browser, with nothing about your searches transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "How does the calculator convert steps into calories burned?",
+        a: "It's based on your body weight, average stride length, and the typical energy cost of walking, which runs roughly 30 to 40 calories per thousand steps for an average adult.",
+      },
+      {
+        q: "Can I realistically walk off any meal I eat?",
+        a: "Technically yes, but practically it's inefficient, since consuming calories takes far less time and effort than burning them through walking, which is worth keeping in perspective rather than treating as a literal daily strategy.",
+      },
+      {
+        q: "Does walking faster change the step count needed?",
+        a: "Walking briskly burns slightly more per minute due to the higher heart rate, but the total steps needed to cover a given distance stays roughly the same regardless of pace.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for quick, casual reference.",
+      },
+      {
+        q: "Does it work well on mobile?",
+        a: "Yes, fully responsive, useful for checking a quick conversion while out and about.",
+      },
+      {
+        q: "Are my searches tracked anywhere?",
+        a: "No. Everything calculates locally via client-side JavaScript, and we don't store, track, or record your personal stats.",
+      },
+    ],
+  },
+
+  "sleep-cycle-calculator": {
+    seoTitle: "Sleep Cycle Calculator: Wake Up Refreshed",
+    seoDescription:
+      "Calculate your ideal sleep times and wake up without grogginess. Use this free sleep cycle calculator and nap calculator to optimize rest securely.",
+    h1: "Sleep Cycle Calculator",
+    shortDescription:
+      "Enter your wake-up time or bedtime, and this calculator times your sleep in full 90-minute cycles to avoid grogginess.",
+    about: [
+      "Sleep isn't one continuous state, your brain moves through a roughly 90-minute cycle of light sleep, deep slow-wave sleep, and REM sleep, repeating that pattern four to six times a night. Waking up mid-cycle, especially during deep sleep, produces the groggy, disoriented feeling sleep researchers call sleep inertia. This calculator works backward or forward from your target time in complete 90-minute blocks specifically to land you in a lighter sleep stage when the alarm goes off.",
+      "An eight-hour night sounds like the universal target, but the actual number of complete sleep cycles you fit in matters more than the raw hour count. Seven and a half hours that lines up with five full cycles often leaves you feeling sharper than eight hours that cuts off mid-cycle, which is the counterintuitive part most sleep advice skips over entirely.",
+      "The same cycle-based logic applies to napping. A nap capped at 20 minutes stays in light sleep and avoids inertia on waking, while a nap that runs a full 90 minutes completes an entire cycle and also avoids that groggy wake-up, it's the in-between naps, 45 to 60 minutes, that reliably leave people feeling worse than before they napped.",
+      "Enter either your target wake-up time or your planned bedtime. The calculator works through complete 90-minute sleep cycles, factoring in an average 14-minute window to actually fall asleep, and returns several optimal timing options.",
+      "Sleep patterns reveal a lot about daily routine, so they stay private here. Calculations run entirely in your browser, with no schedule data transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How long is one full sleep cycle?",
+        a: "Roughly 90 minutes, during which the brain moves through light sleep, deep slow-wave sleep, and REM sleep before the pattern starts again.",
+      },
+      {
+        q: "Why do I sometimes feel worse after 8 hours than after 7.5?",
+        a: "It comes down to whether your sleep duration lines up with complete 90-minute cycles. Waking mid-cycle, particularly out of deep sleep, triggers sleep inertia regardless of total hours logged.",
+      },
+      {
+        q: "What's the ideal nap length?",
+        a: "Either around 20 minutes, short enough to stay in light sleep, or a full 90 minutes to complete an entire cycle. Naps in the 45-to-60-minute range tend to leave people groggier than before napping.",
+      },
+      {
+        q: "Does the calculator account for how long it takes to fall asleep?",
+        a: "Yes, it builds in a standard 14-minute buffer before sleep onset so the suggested times reflect when you should actually get into bed.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for anyone optimizing their sleep or nap schedule.",
+      },
+      {
+        q: "Are my sleep schedules saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your habits. by word file Text & Writing Tools — Content Pack How to use this All 23 Text & Writing Tools, same format as the SEO & Marketing pack: Page Title, Meta Description, H1 Heading, Short Description, primary/secondary keyword, an About section (lead + 4 paragraphs, 2 left / 2 right), and 6 FAQs. Keywords come straight from your keyword_decisions.csv (the main_keyword/secondary_keyword columns, already resolved through USE_SHEET / SAME / KEEP_FILENAME). A couple of tools had no usable secondary keyword in the sheet (Pig Latin Translator, Letter Frequency Counter), so those sections just run on the primary keyword, no forced secondary. Humanized, active voice, no em dashes, no AI filler, same as before.",
+      },
+    ],
+  },
+
+  "word-counter": {
+    seoTitle: "Word Counter: Free Online Word & Character Count Tool",
+    seoDescription:
+      "Count words, characters, sentences and reading time instantly with this free word counter. Paste your text and see live results as you type.",
+    h1: "Word Counter",
+    shortDescription:
+      "Paste or type your text below and this word counter tracks your word count, character count and reading time live, no need to click a button to see the result.",
+    about: [
+      "A word counter does exactly what the name says, it counts every word in your text the moment you type or paste it in, along with characters, sentences and an estimated reading time. This word count tool updates live as you write, so there's no waiting around or clicking a separate button to see where you stand.",
+      "Word count matters most when you're working against a limit, a college essay capped at 500 words, a meta description that needs to stay under a certain length, a cover letter your resume guidelines say should fit on one page. Rather than guessing or counting by hand, pasting your draft in here gives you an exact number in under a second.",
+      "The tool also breaks down character count with and without spaces, which matters for platforms like X or SMS that count by character rather than word, and sentence and paragraph counts, which are useful when an assignment or style guide specifies structure rather than just length.",
+      "Everything runs as you type, directly in your browser, so there's no lag between finishing a sentence and seeing the numbers update. You can paste in a full document, a single paragraph, or just a sentence you're testing, and the counts adjust instantly either way.",
+      "This is useful well beyond essays and school work. Writers use it to hit a publication's word count, marketers use it to keep ad copy or meta descriptions within limit, and students use it to check an assignment meets a minimum before submitting. It's free, with no sign-up and no cap on how much text you paste in.",
+    ],
+    faq: [
+      {
+        q: "Does this word counter count hyphenated words as one word or two?",
+        a: "A hyphenated word like \"well-known\" counts as a single word, which matches how most word processors and style guides treat it. If your specific assignment or platform counts differently, it's worth checking their own guidelines, since conventions can vary slightly between tools.",
+      },
+      {
+        q: "What's the difference between character count with and without spaces?",
+        a: "Character count with spaces includes every space between words, while without spaces only counts the letters, numbers and punctuation themselves. Platforms with strict character limits, like X or SMS messaging, usually count with spaces included, so that's the number worth checking against their limit.",
+      },
+      {
+        q: "How is reading time calculated?",
+        a: "Reading time is estimated based on an average adult reading speed, generally around 200 to 250 words per minute for silent reading. It's a useful estimate for blog posts or scripts, though actual reading time varies by reader and how dense the content is.",
+      },
+      {
+        q: "Can I count words in a PDF or Word document with this tool?",
+        a: "You'll need to copy the text out of the document first and paste it in here, since this tool works on text you paste or type directly rather than uploading a file. Most PDF readers and Word itself let you select all and copy in a couple of clicks.",
+      },
+      {
+        q: "Is there a limit to how much text I can paste in?",
+        a: "No, you can paste in anything from a single sentence to a full manuscript. Since everything processes in your browser rather than on a server, there's no file size cap or daily usage limit to worry about.",
+      },
+      {
+        q: "Does the word counter save or store what I type?",
+        a: "No, nothing you type or paste is sent anywhere or saved. The counting happens locally in your browser tab, so your draft stays private and disappears once you close or refresh the page.",
+      },
+    ],
+  },
+
+  "case-converter": {
+    seoTitle: "Case Converter: Switch Between Upper, Lower & Title Case",
+    seoDescription:
+      "Convert text between uppercase, lowercase, title case, sentence case and more with this free case converter. Paste your text and copy the result instantly.",
+    h1: "Case Converter",
+    shortDescription:
+      "Paste in your text and switch it between uppercase, lowercase, title case, sentence case and a few developer-friendly formats, all with one click.",
+    about: [
+      "A case converter changes the capitalization of your text without you having to retype a single word, switching a sentence between uppercase, lowercase, title case and a handful of other formats in one click. It's a small task, but doing it by hand for anything longer than a sentence gets tedious fast.",
+      "The most common formats are the simple ones: uppercase for emphasis or headers, lowercase for cleaning up text that was typed with caps lock stuck on, and title case for headlines, where the first letter of most words is capitalized following standard style conventions. Sentence case capitalizes only the first word of each sentence, which is useful for fixing text pasted from somewhere with inconsistent formatting.",
+      "There are also a few developer-specific formats here, camelCase and snake_case among them, which are common conventions for naming variables in code. Converting a phrase into one of these formats by hand is easy to get wrong, a missed underscore or an extra capital letter, so having a text case converter handle it removes that small but annoying source of bugs.",
+      "Paste your text in, pick the format you need from the options, and the result appears immediately with a copy button right next to it. There's no need to select each word individually or retype anything, the whole block converts at once regardless of length.",
+      "This gets used for more than just casual formatting. Writers fix text that came in from an old document with the wrong capitalization, social media managers standardize captions, and developers convert a phrase into the exact variable-naming format their codebase expects. It works the same way for a single word or several paragraphs.",
+    ],
+    faq: [
+      {
+        q: "What's the difference between title case and sentence case?",
+        a: "Title case capitalizes the first letter of most major words in a phrase, following the convention used for headlines and titles, while sentence case only capitalizes the very first word of each sentence, the way normal prose is written. Title case is common for headings, sentence case for body text.",
+      },
+      {
+        q: "Does title case capitalize every word?",
+        a: "Not quite. Standard title case conventions typically skip capitalizing short words like \"a,\" \"the,\" \"and,\" or \"of\" unless they're the first or last word in the title. This tool follows that common convention rather than capitalizing every single word.",
+      },
+      {
+        q: "What is camelCase used for?",
+        a: "camelCase is a naming convention common in programming, where the first word is lowercase and each following word starts with a capital letter, with no spaces or underscores, like \"myVariableName.\" It's used across many programming languages for naming variables and functions.",
+      },
+      {
+        q: "Can I convert text back to its original case after converting it?",
+        a: "The tool works on whatever text is currently in the input box, so if you still have your original text copied somewhere, you can paste it back in and choose the format you need. The tool itself doesn't keep a history of previous conversions.",
+      },
+      {
+        q: "Will this work on text with special characters or emojis?",
+        a: "Special characters and emojis pass through unchanged since case conversion only affects letters. Numbers and punctuation are also left exactly as they were, only the capitalization of alphabetic characters changes.",
+      },
+      {
+        q: "Is there a character limit for the case converter?",
+        a: "No, you can paste in anything from a short phrase to a long document. Since the conversion happens in your browser rather than on a server, there's no practical size limit or waiting time, even for longer text.",
+      },
+    ],
+  },
+
+  "fancy-text-generator": {
+    seoTitle: "Fancy Text Generator: Stylish Unicode Fonts for Any Bio",
+    seoDescription:
+      "Turn plain text into fancy, stylish Unicode fonts you can copy and paste anywhere, Instagram, Discord, TikTok and more. Free, no sign-up needed.",
+    h1: "Fancy Text Generator",
+    shortDescription:
+      "Type your text below and this fancy text generator turns it into dozens of stylish Unicode fonts, ready to copy straight into your bio, caption or username.",
+    about: [
+      "A fancy text generator takes plain typed text and converts it into stylized versions using Unicode characters, the same text but rendered in bold, cursive, bubble letters, strikethrough and dozens of other styles. It works because Unicode includes thousands of special characters that look like styled letters, and this tool maps your normal text onto them.",
+      "This is different from an actual font change, since what you get back isn't formatted text in the usual sense, it's a string of special characters that happen to look stylized. That's exactly why it works everywhere, Instagram bios, Discord usernames, TikTok captions, anywhere that doesn't support custom fonts but does support standard Unicode text, which is almost everywhere.",
+      "Not every style renders identically on every device or platform, since it depends on which Unicode characters a given font or app chooses to support. Most of the common styles, bold, italic, cursive and bubble text, display reliably across major platforms, though a few of the more unusual ones can show up as blank boxes on older devices.",
+      "Type your text once, and the tool generates a whole list of styled versions side by side, so you can scroll through and pick whichever one fits your profile or post best. Each one has its own copy button, so there's no manually selecting text out of a long list.",
+      "People use a stylish text generator for standing out in a feed full of plain text, giving a username a bit of personality, or making a bio or pinned comment easier to notice. It's especially popular for social profiles, gaming usernames and Discord servers where plain text otherwise all looks the same.",
+    ],
+    faq: [
+      {
+        q: "Why does fancy text show up as boxes on some devices?",
+        a: "That happens when a device or app's font doesn't include the specific Unicode characters a style uses, so it shows a placeholder box instead. This is more common with older phones or less common styles, while the more popular styles like bold and cursive display correctly almost everywhere.",
+      },
+      {
+        q: "Can I use fancy text in my Instagram or TikTok bio?",
+        a: "Yes, since both platforms accept standard Unicode text in bios and captions, and fancy text is just a different set of Unicode characters. Copy the style you like and paste it directly into your bio field the same way you'd paste any other text.",
+      },
+      {
+        q: "Is fancy text actually a different font?",
+        a: "Not technically. It looks styled because each character is mapped to a special Unicode symbol that resembles a bold, cursive, or decorated letter, rather than your device applying an actual font change. That's what makes it portable across apps that don't let you change fonts.",
+      },
+      {
+        q: "Will search engines read fancy text the same as normal text?",
+        a: "Not reliably. Search engines are built to read standard characters, so using fancy text for something like a page title or important content can hurt how that text gets indexed. It's best kept to bios, captions and places where readability for people matters more than how search engines parse it.",
+      },
+      {
+        q: "Does this tool work for languages other than English?",
+        a: "It works best with the Latin alphabet, since most of the stylized Unicode characters are built specifically to map onto English letters. Text in other scripts might not convert cleanly, since equivalent styled Unicode characters don't exist for every language.",
+      },
+      {
+        q: "Can I copy multiple styles at once?",
+        a: "Each style has its own copy button, so you'll copy one at a time, but you can quickly go through several styles and paste each one somewhere to compare before deciding which one you want to keep.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
