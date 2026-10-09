@@ -3520,6 +3520,848 @@ export const TOOL_SEO = {
       },
     ],
   },
+
+  // --- Batch 4 ---
+
+  "work-days-calculator": {
+    seoTitle: "Work Days Calculator: Count Business Days Between Dates",
+    seoDescription:
+      "Calculate business days between two dates, weekends excluded automatically. Free work days calculator for accurate project and shipping timelines.",
+    h1: "Work Days Calculator",
+    shortDescription:
+      "Enter your start and end date below, and this business days calculator excludes weekends to give you the real working-day count.",
+    about: [
+      "Counting total calendar days between two dates overstates how much actual working time you have, since weekends don't count toward project progress or shipping transit. A work days calculator strips weekends out automatically, and this business days calculator gives you the realistic number that actually matters for a deadline.",
+      "A standard business day runs Monday through Friday, which sounds obvious until you're manually counting across several months and miscounting a weekend somewhere in the middle, an easy mistake that compounds the longer the date range gets.",
+      "Worth knowing specifically: this calculates standard weekday exclusion, not local public holidays, since holiday calendars vary enormously by country and even by region within a country. For a shipping estimate or an SLA deadline that needs holiday accuracy too, you'd manually adjust the result for any known holidays falling in that window.",
+      "Enter your start and end date, and the tool outputs both total calendar days and the actual working business day count, weekends automatically excluded from the second figure.",
+      "This matters most for anything with a real deadline attached, a shipping delivery window, a contractual milestone, a client project timeline, where the gap between calendar days and working days can be the difference between hitting a deadline and quietly missing one. Your project dates stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What officially counts as a business day?",
+        a: "Typically any weekday, Monday through Friday, excluding weekends and, depending on context, recognized public holidays.",
+      },
+      {
+        q: "Does the calculator automatically exclude weekends?",
+        a: "Yes, every Saturday and Sunday within your selected date range is automatically subtracted from the total working day count.",
+      },
+      {
+        q: "Can I customize which days count as working days?",
+        a: "The tool is built around the standard Monday through Friday workweek. Industries running alternate schedules would need to manually adjust the result to fit their specific pattern.",
+      },
+      {
+        q: "Does this account for public holidays?",
+        a: "Not automatically, since holiday calendars vary significantly by country and region. It calculates standard weekday exclusion, and you'd adjust manually for any known local holidays in your range.",
+      },
+      {
+        q: "Why use a calculator instead of just counting manually?",
+        a: "Manually counting weekends across multiple months is tedious and genuinely easy to miscount. An automated calculation removes that risk entirely.",
+      },
+      {
+        q: "Are my project dates saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Timelines you calculate are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "time-duration-calculator": {
+    seoTitle: "Time Duration Calculator: Find Hours Between Times",
+    seoDescription:
+      "Calculate the exact hours and minutes between two times instantly. Free time duration calculator, handles overnight shifts and decimal hours.",
+    h1: "Time Duration Calculator",
+    shortDescription:
+      "Enter your start and end time below, and this time duration calculator outputs the exact elapsed hours and minutes.",
+    about: [
+      "Subtracting clock times by hand runs into trouble because time operates on a base-60 system, 60 minutes to an hour, not the base-10 math people do everything else in, so a straightforward subtraction like 2:15 minus 45 minutes requires \"borrowing\" across the hour boundary. A time duration calculator handles that conversion instantly, which matters for anything from tracking a work shift to timing an interval workout.",
+      "This gets genuinely error-prone the moment a shift crosses midnight, starting at 10 PM and ending at 6 AM the next day, since a naive subtraction assumes both times fall on the same calendar day. A calculator built to handle this correctly recognizes the day rollover automatically rather than returning a negative or nonsensical result.",
+      "For billing or payroll purposes, the result usually needs to be in decimal hours rather than hours and minutes separately, 7 hours and 30 minutes needs to become 7.5 for a standard hourly rate calculation to work cleanly, a conversion this tool handles as part of the output rather than something you'd calculate separately afterward.",
+      "Enter a start time and an end time, with AM or PM specified where it matters, and the elapsed duration calculates instantly, shown in both hours-and-minutes format and decimal hours.",
+      "It correctly handles a shift that crosses midnight into the next calendar day without any extra input needed, and you can toggle between standard 12-hour and 24-hour time formats depending on what you're more comfortable working in. Your schedule details stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "Does this handle a time span that crosses midnight correctly?",
+        a: "Yes, it automatically recognizes when an end time falls on the following day and calculates the correct overnight duration, no manual date adjustment needed.",
+      },
+      {
+        q: "Can I get the result in decimal hours for billing?",
+        a: "Yes, the output includes a decimal hours format, like 7.5 hours instead of 7 hours 30 minutes, which is what most hourly billing or payroll calculations actually need.",
+      },
+      {
+        q: "Does it support 24-hour time format?",
+        a: "Yes, you can toggle between standard 12-hour AM/PM format and 24-hour military time, whichever fits how you're used to reading time.",
+      },
+      {
+        q: "Why is manual time math so easy to get wrong?",
+        a: "Because time runs on base-60 rather than base-10, so subtracting minutes often requires \"borrowing\" an hour, a step that's simple in concept but easy to fumble doing quickly by hand.",
+      },
+      {
+        q: "Is this usable for tracking employee shift hours?",
+        a: "Yes, it's fully free for that use case, with no account or sign-up required for personal or workplace use.",
+      },
+      {
+        q: "Are my time logs saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Schedule details you enter are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "bill-splitter-calculator": {
+    seoTitle: "Bill Splitter Calculator: Share Expenses Easily",
+    seoDescription:
+      "Split a restaurant bill or group expense evenly in seconds. Free bill splitter calculator, factors in tax and tip automatically.",
+    h1: "Bill Splitter Calculator",
+    shortDescription:
+      "Enter your total bill and group size below, and this split the bill calculator outputs exactly what each person owes, tax and tip included.",
+    about: [
+      "A bill splitter calculator divides a shared total, restaurant tab, trip expenses, a group purchase, evenly across everyone involved, working the tax and tip into the math rather than leaving that as a separate calculation someone has to do at the table. This split the bill calculator removes the entire awkward end-of-meal math session.",
+      "Splitting a receipt that includes tax and a variable tip percentage on top of the base total isn't actually as simple as dividing the subtotal by the headcount, since tax and tip both need to be layered on before the division happens, not after, to come out accurate per person.",
+      "A disagreement over who owes what is a genuinely common way to put a damper on an otherwise good group outing, which is really the whole point of running the actual numbers rather than everyone eyeballing their share and hoping it adds up correctly.",
+      "Enter the total bill, add your tip percentage and any tax amount, and set the number of people splitting it. The calculator outputs the full grand total and the exact per-person share immediately.",
+      "It's not limited to restaurant tabs either, shared utility bills, group travel costs, or split groceries among roommates all work the same way through the same calculator. Fully usable on a phone at the table, and your bill details stay entirely private.",
+    ],
+    faq: [
+      {
+        q: "How does the calculator handle a split that doesn't divide evenly?",
+        a: "It rounds each person's share to the nearest cent, and in practice groups often round up slightly per person just to make sure the total bill ends up fully covered.",
+      },
+      {
+        q: "Can I add a tip percentage before the split happens?",
+        a: "Yes, enter your desired tip percentage and it gets added to the subtotal before the total divides across the group, so everyone's share already includes their portion of the tip.",
+      },
+      {
+        q: "Does it account for sales tax too?",
+        a: "Yes, include the tax amount in your total bill figure and it distributes evenly across every person's share along with the rest of the cost.",
+      },
+      {
+        q: "Is this only useful for restaurant bills?",
+        a: "No, it works just as well for shared household bills, group travel costs, or split groceries among roommates, anything with a shared total and a group of people covering it.",
+      },
+      {
+        q: "Does it work well on a phone at an actual restaurant table?",
+        a: "Yes, it's built to be fully usable on mobile for exactly that situation.",
+      },
+      {
+        q: "Are the bill amounts I calculate saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Bill totals and splits are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "simple-interest-calculator": {
+    seoTitle: "Simple Interest Calculator: Compute Basic Returns",
+    seoDescription:
+      "Calculate simple interest on a loan or short-term investment instantly. Free simple interest calculator, uses the standard I = P × r × t formula.",
+    h1: "Simple Interest Calculator",
+    shortDescription:
+      "Enter your principal, rate, and time below, and this simple interest calculator outputs your total interest earned or owed.",
+    about: [
+      "Simple interest calculates strictly against your original principal for the entire duration, no compounding, no interest earning interest on itself, which makes it a far more predictable and transparent calculation than most modern lending actually uses. A simple interest calculator runs the standard formula, principal times rate times time, for anyone working with a short-term loan or a basic finance problem.",
+      "Most long-term lending today, mortgages, credit cards, standard investment accounts, uses compound interest instead, which is exactly why simple interest can feel almost unfamiliar if you haven't run into it. It still shows up specifically in short-term personal loans, certain auto financing structures, and promissory notes between individuals, contexts where the simplicity and predictability of flat-rate interest actually works in everyone's favor.",
+      "The formula itself, I = P × r × t, is refreshingly direct compared to a compound interest calculation, which is also exactly why it's a staple of introductory finance coursework, there's no iterative math involved, just a straightforward multiplication.",
+      "Enter your principal, the annual interest rate, and the duration in years. The calculator outputs total interest earned or owed, along with your final payout or repayment balance.",
+      "For a loan or deposit lasting less than a full year, convert the timeframe into a decimal, six months becomes 0.5 years, for instance, which plugs directly into the same formula without needing a separate calculation method. Your figures stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What's the actual formula for simple interest?",
+        a: "Interest equals Principal multiplied by Rate multiplied by Time, commonly written as I = P × r × t, a flat, non-compounding calculation.",
+      },
+      {
+        q: "Where does simple interest actually show up in real life?",
+        a: "Mostly in short-term loans under a year, certain auto financing arrangements, and informal promissory notes between individuals, contexts where flat predictability matters more than compounding growth.",
+      },
+      {
+        q: "What's the real difference between simple and compound interest?",
+        a: "Simple interest calculates only against the original principal for the full duration. Compound interest calculates against the principal plus all previously accumulated interest, which produces meaningfully faster growth over time.",
+      },
+      {
+        q: "Can I calculate interest for a period shorter than a full year?",
+        a: "Yes, convert the timeframe into a decimal fraction of a year, six months as 0.5, for example, and the same formula applies directly without any separate method needed.",
+      },
+      {
+        q: "Is this suitable for academic or classroom use?",
+        a: "Yes, it's fully free and works well for both real financial scenarios and standard finance coursework problems.",
+      },
+      {
+        q: "Is my financial data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Figures you enter are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "debt-payoff-calculator": {
+    seoTitle: "Debt Payoff Calculator: Plan Your Snowball Strategy",
+    seoDescription:
+      "Calculate your debt-free date with the snowball or avalanche method. Free debt payoff calculator, see exactly how extra payments help.",
+    h1: "Debt Payoff Calculator",
+    shortDescription:
+      "Enter your balances and rates below, and this debt snowball calculator shows your exact payoff timeline and total interest cost.",
+    about: [
+      "Juggling several debts at once, credit cards, a personal loan, each with its own balance and rate, makes it genuinely hard to see when you'll actually be debt-free without running real numbers. A debt payoff calculator maps that timeline out precisely, and this debt snowball calculator lets you compare two well-known payoff strategies side by side rather than guessing which one fits your situation better.",
+      "The snowball method targets your smallest balance first regardless of interest rate, which isn't mathematically optimal but builds momentum through quick, visible wins, a real psychological advantage for a lot of people trying to stay motivated through a long payoff process. The avalanche method instead targets the highest interest rate first, which minimizes total interest paid mathematically but can feel slower early on if that highest-rate debt also happens to be your largest balance.",
+      "Either strategy works meaningfully better than only making minimum payments, since minimum payments on a high-interest balance can leave you paying mostly interest for years with barely any dent in the actual principal, a trap this calculator makes visible rather than abstract.",
+      "Enter each debt's balance, minimum payment, and interest rate. The calculator projects your full payoff timeline and total interest cost, and shows exactly how much faster an extra monthly payment amount gets you to zero.",
+      "Seeing the snowball and avalanche trajectories calculated side by side makes the tradeoff concrete, faster emotional progress versus less total interest paid, rather than an abstract debate about which method is \"better\" in general. Your balances and payoff strategy stay entirely private.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between the debt snowball and debt avalanche methods?",
+        a: "Snowball targets the smallest balance first for quick psychological wins. Avalanche targets the highest interest rate first, which mathematically minimizes total interest paid over the full payoff period.",
+      },
+      {
+        q: "How much does paying extra each month actually help?",
+        a: "Even a modest extra amount goes entirely toward principal on your targeted debt, which can meaningfully shorten your payoff timeline and save a substantial amount in total interest.",
+      },
+      {
+        q: "Should I stop saving entirely to pay off debt faster?",
+        a: "Most financial guidance suggests keeping a small emergency fund in place even while aggressively paying down debt, so an unexpected expense doesn't force you right back into new high-interest debt.",
+      },
+      {
+        q: "Why does debt compound against me the way investments compound for me?",
+        a: "Interest accrues on your remaining balance, daily or monthly depending on the lender, so making only minimum payments means a large share of each payment covers interest rather than actually reducing principal.",
+      },
+      {
+        q: "Is this tool free for personal financial planning?",
+        a: "Yes, fully free with no account or sign-up required.",
+      },
+      {
+        q: "Is my debt information saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your balances and payoff details are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "overtime-pay-calculator": {
+    seoTitle: "Overtime Pay Calculator: Compute Time and a Half",
+    seoDescription:
+      "Calculate your overtime earnings at time and a half instantly. Free overtime calculator, gross pay breakdown for any hourly rate.",
+    h1: "Overtime Pay Calculator",
+    shortDescription:
+      "Enter your hourly rate and overtime hours below, and this overtime calculator outputs your exact gross pay, regular plus premium combined.",
+    about: [
+      "Under the Fair Labor Standards Act in the US, non-exempt employees working beyond 40 hours in a single workweek are legally entitled to premium pay for those extra hours, standard time-and-a-half unless a specific state or employer policy sets a higher rate. An overtime pay calculator applies that multiplier correctly, and this overtime calculator combines regular and premium pay into one clear gross total.",
+      "A workweek for overtime purposes is legally defined as any fixed, recurring 168-hour period, seven consecutive 24-hour days, which doesn't actually have to align with a calendar Monday-to-Sunday week. That technical detail matters more than it seems for anyone on a rotating or non-standard schedule trying to figure out exactly which hours count toward the 40-hour threshold.",
+      "Not every employee qualifies for overtime either. Salaried professional, administrative, and executive roles that meet specific salary and job-duty thresholds are typically classified as exempt and don't legally require overtime compensation, a distinction worth knowing since \"salaried\" alone doesn't automatically mean exempt.",
+      "Enter your hourly rate, regular hours worked, and logged overtime hours. The calculator applies the standard 1.5 multiplier to overtime hours, or a custom rate if your situation uses one, and combines it with base pay for your total gross earnings.",
+      "Some employers or states pay double-time for holidays or hours beyond a certain daily threshold, and the multiplier here adjusts for that if it applies to your situation. This calculates gross pay specifically, before any tax withholding, since actual take-home will be lower once deductions apply. Your wage figures stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What's the standard overtime pay rate?",
+        a: "Under US federal law, at minimum, time-and-a-half, 1.5 times your regular hourly rate, for hours worked beyond 40 in a single workweek, though some states or employers pay more.",
+      },
+      {
+        q: "How exactly is a workweek defined for overtime purposes?",
+        a: "A fixed, recurring 168-hour period, seven consecutive 24-hour days, which doesn't have to match the traditional calendar week, an important detail for rotating or unusual schedules.",
+      },
+      {
+        q: "Does every employee qualify for overtime pay?",
+        a: "No, salaried employees in professional, administrative, or executive roles meeting specific salary and duty requirements are typically classified as exempt and aren't legally entitled to overtime.",
+      },
+      {
+        q: "Can this calculator handle double-time instead of time-and-a-half?",
+        a: "Yes, you can adjust the multiplier from the standard 1.5 to 2.0 if your employer or state pays double-time for holidays or hours beyond a certain threshold.",
+      },
+      {
+        q: "Does this show my net take-home pay, or just gross earnings?",
+        a: "Gross earnings only, before any tax withholding. Your actual take-home pay will come in lower once federal, state, and other deductions are applied.",
+      },
+      {
+        q: "Is my wage information saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Hours and pay rates you enter are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "401k-contribution-calculator": {
+    seoTitle: "401(k) Calculator: Project Retirement Savings Growth",
+    seoDescription:
+      "Project your 401(k) balance with employer match and compound growth. Free 401k contribution calculator, instant long-term projection.",
+    h1: "401(k) Contribution Calculator",
+    shortDescription:
+      "Enter your salary and contribution rate below, and this 401k calculator projects your retirement balance, employer match included.",
+    about: [
+      "A 401(k) lets you save pre-tax, which lowers your taxable income today while the balance compounds tax-deferred over your career, and many employers add a matching contribution on top, often described as the closest thing to free money in personal finance. A 401(k) contribution calculator projects how all three pieces, your contributions, the match, and compound growth, add up over decades.",
+      "Leaving an employer match unclaimed by contributing less than the match threshold is effectively walking away from guaranteed compensation, a common example is a company matching 100% of contributions up to the first 5% of salary, meaning not contributing that 5% means forfeiting money your employer was ready to give you.",
+      "The IRS sets annual contribution limits on how much you can put into a 401(k) each year, and those limits get adjusted periodically for inflation, meaning the specific dollar cap you'd plug into long-term planning does shift gradually over time rather than staying fixed.",
+      "Enter your salary, your personal contribution percentage, your employer's match details, your current balance, and an expected annual return rate. The calculator projects your balance at retirement, showing the separate contributions from you, your employer, and accumulated growth.",
+      "This same compound growth math applies whether you're contributing to a traditional 401(k) with pre-tax dollars or a Roth 401(k) with after-tax dollars, the tax treatment differs but the underlying growth projection works identically either way. Pulling money out early, before retirement age, typically triggers both income tax and an additional penalty, a cost worth factoring into any decision to withdraw ahead of schedule. Your salary and savings details stay entirely private.",
+    ],
+    faq: [
+      {
+        q: "What exactly is an employer match?",
+        a: "A benefit where your company contributes to your 401(k) based on your own contributions, commonly matching 100% of what you put in up to a set percentage of your salary, effectively free additional compensation tied to your own savings rate.",
+      },
+      {
+        q: "Is there a limit to how much I can contribute each year?",
+        a: "Yes, the IRS sets an annual contribution cap that's periodically adjusted for inflation, so the specific limit shifts gradually over time rather than staying fixed indefinitely.",
+      },
+      {
+        q: "How do pre-tax contributions actually lower my taxes?",
+        a: "Traditional 401(k) contributions come out of your paycheck before income tax is calculated, which reduces your taxable income for the year and lowers your current tax bill.",
+      },
+      {
+        q: "Does this work for a Roth 401(k) too, not just a traditional one?",
+        a: "Yes, the compound growth math is identical either way. The difference between the two is purely in tax treatment, pre-tax versus after-tax, not in how the balance grows.",
+      },
+      {
+        q: "What happens if I withdraw from my 401(k) early?",
+        a: "Typically both regular income tax and an additional early withdrawal penalty apply, which can meaningfully reduce your long-term savings, worth factoring in before pulling funds out ahead of retirement age.",
+      },
+      {
+        q: "Is my salary and savings data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your figures are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "car-depreciation-calculator": {
+    seoTitle: "Car Depreciation Calculator: Estimate Vehicle Value Loss",
+    seoDescription:
+      "See how much your car's value drops year by year instantly. Free car depreciation calculator, based on real-world depreciation curves.",
+    h1: "Car Depreciation Calculator",
+    shortDescription:
+      "Enter your vehicle's purchase price and age below, and this car depreciation calculator projects its value decline year by year.",
+    about: [
+      "A new car typically loses a meaningful chunk of its value the moment it's driven off the lot, then continues declining at a steadily slowing rate over the following years. A car depreciation calculator projects that curve forward from your vehicle's purchase price and age, useful whether you're budgeting for a future trade-in or just trying to understand true total cost of ownership rather than sticker price alone.",
+      "The steepest drop happens in year one specifically, often 20 to 30% of the original purchase price gone within the first twelve months, before the annual percentage decline starts leveling off in subsequent years. That first-year cliff is exactly why buying a car one or two years old, letting someone else absorb that initial drop, is a common strategy for getting meaningfully more value per dollar.",
+      "Mileage accelerates the curve beyond the standard age-based drop too. A vehicle driven well above the typical annual average shows more wear and depreciates faster in resale value than a comparable low-mileage vehicle of the identical model year, which matters if you're estimating future resale value based on your actual driving habits.",
+      "Enter your vehicle's purchase price or current value, its age, and your expected mileage or depreciation rate. The calculator projects its value across future years, showing the cumulative decline clearly.",
+      "You can't stop depreciation, but you can slow it somewhat, careful maintenance records, keeping the car clean inside and out, prompt minor repairs, and lower-than-average mileage all help preserve resale value relative to a comparable neglected vehicle. Luxury and sports cars tend to depreciate faster than economy models too, since their specialized parts and higher upkeep costs shrink the pool of buyers for a used one. Your vehicle values stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "When does a car lose value fastest?",
+        a: "The first year of ownership is by far the steepest, often 20 to 30% of the purchase price, after which the annual depreciation rate gradually levels off.",
+      },
+      {
+        q: "Does driving more miles than average speed up depreciation?",
+        a: "Yes, higher-than-average mileage accumulates more wear, which lowers resale value compared to a similar vehicle of the same model year with lower mileage.",
+      },
+      {
+        q: "Can I slow down my car's depreciation at all?",
+        a: "You can't stop it, but maintaining detailed service records, keeping the vehicle clean, fixing minor damage promptly, and driving fewer miles than average all help preserve resale value relative to a neglected comparable car.",
+      },
+      {
+        q: "Do luxury cars depreciate faster than economy cars?",
+        a: "Generally yes, their higher maintenance costs and more specialized parts shrink the used-buyer market, which tends to push depreciation faster than a comparable economy vehicle experiences.",
+      },
+      {
+        q: "Is this free for personal financial planning?",
+        a: "Yes, fully free with no account or sign-up required.",
+      },
+      {
+        q: "Are my vehicle value estimates saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Values you enter are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "lease-vs-buy-car-calculator": {
+    seoTitle: "Lease vs Buy Car Calculator: Compare Auto Costs",
+    seoDescription:
+      "Compare the true total cost of leasing versus buying a car side by side. Free lease vs buy car calculator, instant comparison.",
+    h1: "Lease vs Buy Car Calculator",
+    shortDescription:
+      "Enter your vehicle terms below, and this lease vs buy car calculator compares the total cost of leasing against financing a purchase.",
+    about: [
+      "Leasing a car is, in practical terms, paying for the vehicle's depreciation during the years you drive it, rather than paying off its full value the way a purchase loan does, which is exactly why lease payments run lower but leave you with nothing to show for it at the end. A lease vs buy car calculator lays both paths out side by side, and this car lease calculator accounts for the fees and mileage limits that a simple monthly payment comparison tends to leave out.",
+      "Looking only at the monthly payment misses a meaningful chunk of the real comparison. Total cost of ownership needs to include down payment, acquisition fees, projected maintenance responsibility, and, for a purchase, expected resale value at the end, all of which shift the actual math in ways the sticker-price monthly figure alone doesn't reveal.",
+      "Lease agreements also come with mileage caps that catch people off guard, typically somewhere between 10,000 and 15,000 miles a year, with real financial penalties per mile over that limit when the vehicle is returned, a cost that's easy to underestimate if your actual driving habits exceed what you budgeted for when signing the lease.",
+      "Enter the vehicle price, lease versus purchase down payment, monthly lease rate versus loan payment, lease term, and expected resale value if buying. The calculator contrasts the full financial outlay of both paths over the comparison period.",
+      "If you like driving a new car with current technology every few years and stay within standard mileage limits, leasing tends to come out ahead financially for that specific lifestyle, where buying and reselling frequently usually doesn't. Your budget figures stay entirely private, calculated locally.",
+    ],
+    faq: [
+      {
+        q: "What's the core financial difference between leasing and buying?",
+        a: "Leasing pays for the vehicle's depreciation over the lease term, lower monthly payments but zero equity at the end. Buying pays off the full asset value, higher payments but full ownership once the loan is paid off.",
+      },
+      {
+        q: "Are there mileage limits when leasing?",
+        a: "Yes, typically between 10,000 and 15,000 miles a year, with real per-mile penalty fees charged if you exceed that cap by the time the lease ends.",
+      },
+      {
+        q: "Who handles maintenance on a leased vehicle?",
+        a: "Since the car remains the leasing company's property, lessees are generally required to follow the manufacturer's service schedule, though major mechanical repairs are often covered under factory warranty during the lease term.",
+      },
+      {
+        q: "Is leasing the better option if I want a new car every few years?",
+        a: "Often yes, if you stay within standard mileage limits and prioritize driving current models over building equity, leasing tends to be more cost-effective for that specific preference.",
+      },
+      {
+        q: "Is this tool free for automotive financial planning?",
+        a: "Yes, fully free with no account or sign-up required.",
+      },
+      {
+        q: "Are my budget figures saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Figures you enter are never stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "property-tax-estimator": {
+    seoTitle: "Property Tax Estimator: Calculate Real Estate Levies",
+    seoDescription:
+      "Calculate your annual property taxes easily. Use this free property tax calculator to estimate real estate assessments and local housing levies securely.",
+    h1: "Property Tax Estimator",
+    shortDescription:
+      "Enter your home's assessed value and local mill rate, and this calculator breaks your annual property tax bill down into a monthly escrow figure.",
+    about: [
+      "Property tax bills confuse almost everyone who's never owned a home before, mostly because the math hides behind a term nobody explains: the mill rate. One mill equals one dollar of tax for every thousand dollars of assessed value, and your local taxing authority sets that number every year based on budget needs for schools, roads, and emergency services. This estimator takes your home's assessed value and your jurisdiction's mill rate and turns them into a number you can actually plan around.",
+      "Assessed value and market value are not the same thing, and the gap between them trips up a lot of first-time buyers. County assessors typically value homes at some fraction of what they'd sell for, often reassessing every one to three years depending on the state, so your tax bill can lag behind a hot housing market by a year or more. States like California cap annual assessment increases under Proposition 13 at 2%, while others reassess at full market value every cycle, which means two identical houses in different counties can carry wildly different tax burdens.",
+      "Lenders usually fold your estimated annual tax into a monthly escrow payment alongside your mortgage principal and interest, collecting one-twelfth of the yearly bill each month so there's no surprise lump sum due at tax time. Running the numbers here before you make an offer on a house keeps that escrow estimate from blindsiding you at closing, especially in areas where millage rates shift after a school bond passes or a municipal budget vote.",
+      "Drop in your home's assessed value and the combined mill rate for your county, city, and school district, since most places stack several levies on top of each other rather than charging one flat rate. The calculator multiplies assessed value by the total rate, then divides by twelve so you can see both the annual total and what it adds to your monthly housing cost.",
+      "Nothing you type here leaves your device. The math runs in your browser's own JavaScript engine, so your home value and tax estimates never touch a server, a database, or an analytics pipeline, which matters given how specific real estate figures can be.",
+    ],
+    faq: [
+      {
+        q: "How is property tax calculated?",
+        a: "Multiply your home's assessed value by the combined mill rate for your county, city, school district, and any special taxing districts that apply, then divide by one thousand since mill rates are expressed per thousand dollars of value.",
+      },
+      {
+        q: "What's the difference between assessed value and market value?",
+        a: "Market value is what a willing buyer would pay today; assessed value is the number your local assessor's office assigns for tax purposes, which is frequently 80 to 100 percent of market value depending on state law and how recently a reassessment occurred.",
+      },
+      {
+        q: "Do property taxes change every year?",
+        a: "They can. Reassessments happen on a cycle set by your state, anywhere from annually to every five years, and voters can approve new millage for bonds or operating levies that raise your rate even if your assessed value stays flat.",
+      },
+      {
+        q: "What exactly is a mill rate?",
+        a: "It's a tax rate expressed in dollars per thousand dollars of assessed value. A rate of 25 mills means you owe $25 for every $1,000 of assessed value, or 2.5% of assessed value overall.",
+      },
+      {
+        q: "Will my mortgage lender handle the actual tax payment?",
+        a: "Most conventional loans require an escrow account, where the lender collects a twelfth of your estimated annual bill each month and pays the county directly when the bill comes due, so you rarely write a separate check.",
+      },
+      {
+        q: "Is anything I enter stored anywhere?",
+        a: "No. The calculation happens locally in your browser, and we don't log, transmit, or retain the property values or tax rates you test.",
+      },
+    ],
+  },
+
+  "college-savings-calculator": {
+    seoTitle: "529 College Savings Calculator: Plan Education Funds",
+    seoDescription:
+      "Calculate your college savings growth easily. Use this free 529 plan calculator to project tax-advantaged education funds and tuition goals securely.",
+    h1: "529 College Savings Calculator",
+    shortDescription:
+      "Enter your child's age, current balance, and monthly contribution, and this calculator projects how your 529 account grows by enrollment.",
+    about: [
+      "A 529 plan is named after Section 529 of the Internal Revenue Code, and its main appeal is simple: money grows tax-deferred, and withdrawals come out completely tax-free when used for qualified education costs. This calculator projects how a starting balance plus steady monthly contributions compounds over the years between now and college enrollment, so you can see whether your current savings pace actually closes the tuition gap.",
+      "College costs have outpaced general inflation for most of the last two decades, and families who wait until high school to start saving often find themselves leaning hard on loans. Starting a 529 when a child is young gives compound growth more years to work, which matters more than most people assume. Contributing the same monthly amount starting at birth versus starting at age ten can produce a dramatically larger balance by enrollment, purely because of the extra decade of compounding.",
+      "Thanks to the SECURE 2.0 Act, families who end up with leftover 529 funds now have an additional option: rolling up to $35,000 of unused funds into the beneficiary's Roth IRA over their lifetime, provided the account has been open at least fifteen years. That change removed a lot of the hesitation parents used to feel about overfunding an account in case a child chose a cheaper school or skipped college entirely.",
+      "Enter your child's current age, the age you expect them to start college, your current 529 balance, your planned monthly contribution, and an assumed annual return. The projection compounds monthly and shows your estimated balance at enrollment, which you can compare against your target tuition number.",
+      "Family savings details stay private by design. Every calculation runs client-side in your browser, so your contribution amounts and balances never get sent to a server or stored anywhere we could see them.",
+    ],
+    faq: [
+      {
+        q: "What exactly is a 529 plan?",
+        a: "It's a state-sponsored, tax-advantaged investment account under Section 529 of the IRS code, built specifically to fund qualified education costs with tax-free growth and tax-free withdrawals when used correctly.",
+      },
+      {
+        q: "What counts as a qualified education expense?",
+        a: "Tuition, mandatory fees, books, required supplies and equipment, and room and board for students enrolled at least half-time, plus up to $10,000 per year toward K-12 tuition at public, private, or religious schools.",
+      },
+      {
+        q: "Why does starting early matter so much?",
+        a: "Compound growth needs time more than it needs a large starting balance. A decade of extra compounding on modest monthly contributions often outperforms a much larger lump sum started later, simply because returns are earning returns on themselves for longer.",
+      },
+      {
+        q: "Can 529 funds cover K-12 tuition?",
+        a: "Yes, federal law allows up to $10,000 per year per beneficiary to go toward K-12 tuition tax-free, though some states limit this benefit for state tax purposes, so it's worth checking your state's specific rules.",
+      },
+      {
+        q: "What happens to the money if my child skips college?",
+        a: "You can transfer the account to another family member penalty-free, or under SECURE 2.0, roll up to $35,000 into the beneficiary's Roth IRA over their lifetime if the account's been open fifteen years or more. Non-qualified withdrawals otherwise owe income tax plus a 10% penalty on earnings.",
+      },
+      {
+        q: "Does the calculator save my financial numbers?",
+        a: "No. Everything computes locally through client-side JavaScript, and we don't store, track, or transmit the savings figures you enter.",
+      },
+    ],
+  },
+
+  "social-security-fra-calculator": {
+    seoTitle: "Social Security FRA Calculator: Estimate Benefits",
+    seoDescription:
+      "Calculate your Social Security full retirement age benefits easily. Use this free social security calculator to estimate retirement payouts securely.",
+    h1: "Social Security FRA Calculator",
+    shortDescription:
+      "Enter your birth year and estimated earnings, and this calculator shows your Full Retirement Age along with payouts for claiming early, on time, or late.",
+    about: [
+      "Your Full Retirement Age isn't the same for everyone. For anyone born in 1960 or later, FRA sits at 67, but it's younger for earlier birth years on a sliding scale the Social Security Administration set decades ago. Claiming before FRA locks in a permanently reduced benefit, while waiting past it adds delayed retirement credits worth roughly 8% a year until age 70. This calculator maps those trade-offs against your birth year and earnings estimate.",
+      "The penalty for claiming early is steeper than most people expect. File at 62 instead of an FRA of 67, and your monthly check can be reduced by around 30%, permanently, for the rest of your life. That reduction is calculated in actuarial terms, designed so that, on average, total lifetime payouts come out similar whether you claim early and collect smaller checks for longer, or wait and collect larger checks for less time.",
+      "On the other side, delaying past FRA earns delayed retirement credits of about 8% per year, up until age 70, after which there's no further benefit to waiting. For someone in good health with other income sources to bridge the gap, that 8% annual increase is a guaranteed return that's hard to match anywhere else, which is why financial planners frequently recommend delaying when it's financially feasible.",
+      "Input your birth year and an estimate of your lifetime average earnings. The tool determines your exact Full Retirement Age based on SSA's birth-year schedule, then projects your estimated monthly benefit at three claiming points: age 62, your FRA, and age 70.",
+      "Earnings history is sensitive information, so nothing you enter gets logged or transmitted. The projection runs entirely in your browser using client-side calculations, with no server storing your income estimates or retirement timeline.",
+    ],
+    faq: [
+      {
+        q: "What is Full Retirement Age?",
+        a: "It's the age at which the Social Security Administration pays your full, unreduced primary insurance amount, set by federal law on a sliding scale based on birth year, landing at 67 for anyone born in 1960 or after.",
+      },
+      {
+        q: "What happens if I claim before FRA?",
+        a: "Your benefit gets permanently reduced, roughly 5/9 of 1% for each month claimed within 36 months of FRA, and a slightly steeper rate for months beyond that, which can total close to a 30% cut if you claim at 62 with an FRA of 67.",
+      },
+      {
+        q: "How much does delaying past FRA actually help?",
+        a: "You earn delayed retirement credits worth about 8% per year, compounding up to age 70. There's no additional credit for waiting past 70, so claiming later than that provides no further benefit.",
+      },
+      {
+        q: "Is Social Security meant to be my only retirement income?",
+        a: "No. SSA itself estimates benefits replace roughly 40% of pre-retirement earnings for an average worker, which is why most financial advisors treat it as one leg of a three-legged stool alongside personal savings and employer retirement plans.",
+      },
+      {
+        q: "Can I keep working after I start collecting?",
+        a: "Yes, but if you claim before FRA and earn above the annual earnings limit, SSA temporarily withholds a portion of your benefit, roughly $1 for every $2 over the limit, though that withheld amount gets credited back into your benefit calculation once you reach FRA.",
+      },
+      {
+        q: "Is my earnings data kept private?",
+        a: "Completely. The calculator runs client-side in your browser, and we don't store, track, or record the income figures or birth year you test.",
+      },
+    ],
+  },
+
+  "shoe-size-converter": {
+    seoTitle: "Shoe Size Converter: US, UK & EU Sizes",
+    seoDescription:
+      "Convert shoe sizes across international standards easily. Use this free shoe size chart converter to match US, UK, and EU measurements securely.",
+    h1: "Shoe Size Converter",
+    shortDescription:
+      "Pick your known size or foot length, and this converter instantly maps it across US, UK, EU, and Mondo point scales.",
+    about: [
+      "Shoe sizing never got standardized globally, which is why a US 9 isn't a UK 9 or an EU 9. The US and UK scales both trace back to the barleycorn, an old English unit equal to a third of an inch, while the EU scale (called Paris point) uses two-thirds of a centimeter per size step. Those different base units are the entire reason international conversions feel arbitrary, and this converter exists to skip the mental math.",
+      "Buying shoes from an overseas retailer without a reliable size chart is a common way to end up mailing a pair back. The underlying measurement units genuinely differ between regions, not just the labels, so there's no simple offset you can apply in your head. A size that fits perfectly in a US store can run noticeably different in a European or UK equivalent, especially since brands also apply their own lasts on top of the standard scale.",
+      "Podiatrists and footwear fitters generally recommend measuring actual foot length rather than trusting your last known size, since feet change gradually with age and even time of day affects measurements slightly due to natural swelling. Converting from a precise foot length in millimeters, rather than a remembered size, produces a much more reliable match.",
+      "Choose your starting region and size, or enter your foot length directly in inches or centimeters if you've measured it. The converter cross-references US, UK, EU, and Mondo point scales simultaneously so you see every equivalent size at once.",
+      "Sizing data is nobody's business but yours. The conversion logic runs entirely client-side in your browser, so the numbers you type never get sent anywhere or logged on our end.",
+    ],
+    faq: [
+      {
+        q: "Why don't shoe sizes match across countries?",
+        a: "The US and UK systems are both built on the barleycorn, a third of an inch, while the EU system (Paris point) uses two-thirds of a centimeter, so the scales simply don't align numerically even before accounting for different zero points.",
+      },
+      {
+        q: "How do I measure my foot length accurately?",
+        a: "Stand on a sheet of paper against a wall, heel touching the wall, mark the tip of your longest toe, then measure that distance in centimeters or inches. Measure both feet, since most people have one slightly larger, and size to the bigger one.",
+      },
+      {
+        q: "Are men's and women's US sizes actually different scales?",
+        a: "Yes, they're offset by about 1.5 sizes. A women's US 8 corresponds to roughly a men's US 6.5 in the same physical length, which is why unisex sizing charts always list both.",
+      },
+      {
+        q: "What is Mondo point sizing?",
+        a: "It's a length-based system using the foot's measured length directly in millimeters, used heavily in ski boots, climbing shoes, and some athletic footwear because it removes the ambiguity of regional size labels entirely.",
+      },
+      {
+        q: "Do all brands follow the standard charts exactly?",
+        a: "Not precisely. Lasts (the physical mold a shoe is built around) vary by manufacturer, so a converted size is a strong starting point, but checking a specific brand's own size guide is worth it for a tighter fit.",
+      },
+      {
+        q: "Do you save the sizes I look up?",
+        a: "No. The conversion runs locally in your browser via client-side JavaScript, and we don't store, track, or record anything you enter.",
+      },
+    ],
+  },
+
+  "clothing-size-converter": {
+    seoTitle: "Clothing Size Converter: International Apparel Charts",
+    seoDescription:
+      "Convert clothing sizes across international standards easily. Use this free clothing size converter to match US, UK, and EU apparel measurements securely.",
+    h1: "Clothing Size Converter",
+    shortDescription:
+      "Enter your size or body measurements, and this converter maps your fit across US, UK, EU, and Asian apparel scales.",
+    about: [
+      "A US size 4 isn't a UK size 4, and neither is particularly close to how Asian retailers number the same garment. Apparel sizing was never standardized internationally the way, say, screw threads were, so every region built its own numbering convention around local body measurement averages. This converter lines those systems up so you can shop a foreign retailer without guessing.",
+      "Retail sizing labels like small, medium, and large are even less reliable than numeric sizes, since there's no governing body enforcing consistency between brands, let alone between countries. One label's medium can run a full size larger or smaller than another brand's, which is why sizing charts built around actual body measurements, bust, waist, and hip, tend to produce better results than matching labels alone.",
+      "Some brands lean on what the industry calls vanity sizing, deliberately labeling garments smaller than their true dimensions to appeal to customers. That practice is more common in US mass-market retail than in European sizing, which tends to track closer to the ASTM body measurement standards actual tailors use, so a converted size is a starting point rather than a guarantee.",
+      "Pick the garment category and your home sizing system, then enter either your known size or your bust, waist, and hip measurements in inches or centimeters. The converter cross-references international charts and returns equivalent sizes across US, UK, EU, and relevant Asian markets.",
+      "Body measurements are personal, so none of what you enter leaves your browser. The conversion math runs client-side, with nothing transmitted to a server or stored in a database.",
+    ],
+    faq: [
+      {
+        q: "Why are international clothing sizes so inconsistent?",
+        a: "Each region built its sizing scale independently around different historical measurement standards and population averages, and there's no single international body enforcing uniform garment sizing the way there is for, say, screw threads or paper sizes.",
+      },
+      {
+        q: "How should I measure bust, waist, and hips at home?",
+        a: "Use a soft fabric tape, keep it snug without pulling tight, and measure around the fullest part of your bust, the narrowest part of your waist (usually just above the belly button), and the fullest part of your hips.",
+      },
+      {
+        q: "Is UK sizing close to US sizing?",
+        a: "Not really. A UK size is typically about four numbers higher than the equivalent US size for women's clothing, so a US 8 is roughly a UK 12, which trips up a lot of first-time international shoppers.",
+      },
+      {
+        q: "What is vanity sizing?",
+        a: "It's when a retailer labels a garment with a smaller size number than its actual measurements would suggest, a practice more common in US mass-market brands than in European or Japanese sizing, which tends to track closer to true body measurements.",
+      },
+      {
+        q: "Does this tool cost anything to use?",
+        a: "No, it's free with no account or sign-up required, built for quick one-off conversions before an international purchase.",
+      },
+      {
+        q: "Are my measurements stored anywhere?",
+        a: "No. Everything runs locally through client-side JavaScript in your browser, and we don't log, track, or retain the numbers you enter.",
+      },
+    ],
+  },
+
+  "ring-size-converter": {
+    seoTitle: "Ring Size Converter: International Ring Measurements",
+    seoDescription:
+      "Convert ring sizes across international standards easily. Use this free ring size converter to match US, UK, and EU jewelry measurements securely.",
+    h1: "Ring Size Converter",
+    shortDescription:
+      "Enter a known ring size or inner diameter in millimeters, and this converter maps it across US, UK, and EU jewelry scales.",
+    about: [
+      "Ring sizing comes down to one physical measurement everyone agrees on, the inner circumference or diameter of the band in millimeters, but every region labels that same measurement differently. The US uses a numeric scale, the UK uses letters, and continental Europe uses the circumference in millimeters directly. This converter takes whichever number you have and maps it to the others.",
+      "Ordering a ring from an international jeweler without converting correctly is an expensive mistake, since resizing a finished ring, especially one with inlays, eternity bands, or certain metals, can cost more than the sizing error was worth, and isn't always possible at all. Because US, UK, and EU scales use entirely different notation (numbers, letters, and millimeters respectively), there's no quick mental shortcut between them.",
+      "Finger size also fluctuates more than people expect, shifting slightly with temperature, time of day, and even sodium intake, which is why jewelers typically recommend measuring at the end of the day when fingers are at their largest. Getting an accurate baseline measurement matters more for ring sizing than it does for most other apparel conversions, since the tolerance for comfort is much tighter.",
+      "Select the sizing system you already know, enter your size or your ring's inner diameter in millimeters, and pick the target region. The converter returns matching sizes across US, UK, EU, and circumference-based scales at once.",
+      "Jewelry purchases are often personal or meant as surprises, so privacy matters here. The conversion runs entirely in your browser via client-side code, with nothing transmitted or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "Why do ring sizes use different notation in different countries?",
+        a: "The US adopted a numeric scale, the UK uses letters (A through Z plus half sizes), and most of continental Europe just states the circumference in millimeters directly, three completely different conventions built around the same underlying measurement.",
+      },
+      {
+        q: "How do I measure my ring size at home?",
+        a: "Wrap a strip of paper or string around the base of your finger, mark where it overlaps, measure that length in millimeters, and compare it against a standard circumference chart, ideally measuring at the end of the day.",
+      },
+      {
+        q: "Do men's and women's rings use different size ranges?",
+        a: "The measurement scale itself is universal, but typical ranges differ: women's rings commonly run US size 3 to 9, while men's commonly run US size 8 to 14, reflecting average finger size differences.",
+      },
+      {
+        q: "Does a wider band change what size I need?",
+        a: "Yes. Wider bands contact more of your finger's surface and tend to fit tighter than a thin band at the same labeled size, so jewelers often suggest sizing up a quarter to half size for bands wider than about 6mm.",
+      },
+      {
+        q: "Is this tool free to use?",
+        a: "Yes, no account or payment needed, it's built for a quick conversion before placing an international jewelry order.",
+      },
+      {
+        q: "Are my measurements saved anywhere?",
+        a: "No. The calculator runs locally through client-side JavaScript, and we don't store, track, or record the sizes you convert.",
+      },
+    ],
+  },
+
+  "oven-temperature-converter": {
+    seoTitle: "Oven Temperature Converter: Fahrenheit to Celsius",
+    seoDescription:
+      "Convert oven temperatures easily. Use this free oven temperature converter to translate Fahrenheit, Celsius, and gas marks for baking securely.",
+    h1: "Oven Temperature Converter",
+    shortDescription:
+      "Enter your recipe's temperature in any scale, and this converter returns the exact equivalent in Fahrenheit, Celsius, and gas mark.",
+    about: [
+      "Fahrenheit, Celsius, and gas mark are three completely different ways of describing oven heat, and converting between them by hand means remembering a formula most people haven't used since school: Celsius equals Fahrenheit minus 32, times five-ninths. Gas mark adds another wrinkle entirely, since it's a stepped British scale rather than a continuous temperature reading. This tool handles all three conversions instantly.",
+      "Following a British or Australian recipe that lists \"gas mark 4\" means nothing if your oven only displays Fahrenheit or Celsius, and guessing wrong on oven temperature is one of the fastest ways to ruin a bake. Pastry, in particular, is unforgiving: a 25-degree Fahrenheit miscalculation can mean the difference between a properly risen soufflé and a flat, dense disappointment.",
+      "Gas mark notation dates back to older British gas ovens that used numbered dial settings instead of precise temperature readouts, and the scale still shows up in UK, Irish, and Commonwealth cookbooks today. Each gas mark number corresponds to a specific Celsius and Fahrenheit range, but the relationship isn't linear in a way you can easily estimate, which is exactly why a dedicated converter beats guesswork.",
+      "Enter your known temperature and select its starting unit, Fahrenheit, Celsius, or gas mark. The converter instantly displays the equivalent reading across all three scales so you can match whatever your oven's dial or display actually shows.",
+      "Recipe notes and kitchen habits are nobody's business but yours. The conversion runs entirely in your browser's local memory, with nothing sent to a server or tracked anywhere.",
+    ],
+    faq: [
+      {
+        q: "How do I convert Fahrenheit to Celsius by hand?",
+        a: "Subtract 32 from the Fahrenheit number, multiply by 5, then divide by 9. For Celsius to Fahrenheit, multiply by 9, divide by 5, then add 32.",
+      },
+      {
+        q: "What is gas mark, exactly?",
+        a: "It's a stepped temperature scale used on older British and Commonwealth gas ovens, where each numbered mark corresponds to a specific temperature range rather than an exact continuous value, commonly running from gas mark 1 (around 275°F/140°C) up to gas mark 9 (around 475°F/245°C).",
+      },
+      {
+        q: "Why does oven temperature matter so much for baking specifically?",
+        a: "Baking relies on precise chemical reactions, gluten development, leavening gas expansion, and sugar caramelization all happen within fairly narrow temperature windows, so a miscalculated setting can prevent proper rising or burn a crust before the center finishes cooking.",
+      },
+      {
+        q: "Can I use this converter without an internet connection once it's loaded?",
+        a: "Once the page has loaded, the conversion script runs locally in your browser's memory, so it continues working even with an unstable connection mid-recipe.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no sign-up or payment required, built for quick reference while you're actively cooking.",
+      },
+      {
+        q: "Do you track what temperatures I convert?",
+        a: "No. Everything calculates locally via client-side JavaScript, and we don't store, log, or record the values you enter.",
+      },
+    ],
+  },
+
+  "password-generator": {
+    seoTitle: "Password Generator: Create Secure Credentials",
+    seoDescription:
+      "Generate secure, uncrackable passwords instantly. Use this free secure password generator to build strong cryptographic keys directly in your browser.",
+    h1: "Password Generator",
+    shortDescription:
+      "Set your length and character rules, and this generator produces a cryptographically random password instantly, right in your browser.",
+    about: [
+      "A strong password's security comes down to entropy, the number of possible combinations an attacker would need to guess through. A random 16-character password drawing from uppercase, lowercase, numbers, and symbols has roughly 95 possible characters per position, which works out to over 10^31 possible combinations, a search space current hardware can't brute-force in any practical timeframe. This generator builds that randomness using your browser's cryptographic API rather than a predictable pseudo-random function.",
+      "Human-chosen passwords are predictable in ways people don't realize. \"Password123\" and substituting a zero for the letter O both show up constantly in leaked password databases, which means cracking tools built from real breach data check those patterns first, not last. A generator skips human bias entirely, pulling characters through the Web Crypto API's getRandomValues method, which is designed to be unpredictable even to someone who knows the algorithm.",
+      "Memorizing a unique, maximally random string for every account you own isn't realistic, which is why security professionals near-universally recommend pairing a generator like this with a password manager. The generator creates the strong, unique credential; the manager stores it so you never have to remember it yourself, and you only ever need to remember one master password.",
+      "Set your desired length and toggle which character sets to include, uppercase letters, lowercase letters, numbers, and symbols. The generator instantly produces a random string you can copy to your clipboard and drop straight into an account signup or your password manager.",
+      "Credentials are about as sensitive as data gets. Generation happens entirely client-side using your browser's built-in cryptographic functions, so the password you create is never transmitted to a server or logged anywhere.",
+    ],
+    faq: [
+      {
+        q: "What actually makes a password hard to crack?",
+        a: "Entropy, essentially the size of the search space an attacker has to try. Length matters more than complexity tricks: each additional character multiplies the number of possible combinations, which is why a longer password with moderate complexity usually beats a short one stuffed with symbols.",
+      },
+      {
+        q: "Why shouldn't I reuse the same password everywhere?",
+        a: "Because credential stuffing attacks take passwords leaked from one breached site and try them automatically across thousands of other sites. Reusing a password means one breach anywhere can compromise every account using that same credential.",
+      },
+      {
+        q: "How long should a password be in 2026?",
+        a: "Security guidance has shifted toward longer minimums as hardware gets faster; 16 characters is a reasonable baseline for most accounts, with sensitive accounts like email and banking benefiting from 20 or more.",
+      },
+      {
+        q: "Is the randomness here actually cryptographically secure?",
+        a: "Yes. The generator uses your browser's Web Crypto API (getRandomValues), the same cryptographically secure random number source used for generating encryption keys, rather than a simpler pseudo-random function that could theoretically be predicted.",
+      },
+      {
+        q: "Can I use this for things other than account passwords?",
+        a: "Yes, the same randomized output works well for temporary API tokens, Wi-Fi passphrases, or any string where you need genuine unpredictability.",
+      },
+      {
+        q: "Do you store the passwords this tool generates?",
+        a: "No, never. Generation happens entirely in your browser via client-side JavaScript, and nothing you create here is transmitted, logged, or stored.",
+      },
+    ],
+  },
+
+  "password-strength-checker": {
+    seoTitle: "Password Strength Checker: Test Your Security",
+    seoDescription:
+      "Test how secure your password is against hackers. Use this free password strength test to analyze vulnerability and crack times directly in your browser.",
+    h1: "Password Strength Checker",
+    shortDescription:
+      "Type any password, and this strength test estimates its entropy, crack time, and weak points instantly in your browser.",
+    about: [
+      "Real cracking tools don't guess randomly, they work through dictionaries, known breach data, and common substitution patterns first, which is why \"P@ssw0rd!\" feels clever but cracks in seconds. A proper strength checker models that same attacker logic, scoring length, character variety, and predictable patterns together rather than just counting how many symbol types you used.",
+      "Swapping a letter for a lookalike symbol, 3 for E, 0 for O, @ for A, feels like it adds security, but these substitutions are so common that cracking dictionaries built from real breach data check them automatically. A password that looks complex to a human can still be weak against software that's seen millions of real passwords and knows exactly which \"clever\" tricks people reach for.",
+      "Seeing an actual estimated crack time next to your password, rather than just a vague \"weak\" or \"strong\" label, makes the risk concrete in a way that changes behavior. A password that would fall in under a minute against modern hardware looks very different once you see that number, compared to one estimated to hold for centuries.",
+      "Type or paste a password into the input field. The checker analyzes its length, character variety, and common patterns, then returns a strength rating alongside an estimated crack time and specific suggestions for strengthening it.",
+      "Testing a real, in-use password requires real privacy guarantees. This analysis runs entirely client-side in your browser; what you type is never transmitted over a network connection, intercepted, or stored anywhere.",
+    ],
+    faq: [
+      {
+        q: "How does a strength checker estimate crack time?",
+        a: "It calculates the total possible combinations based on the password's length and character variety, then divides by an assumed guessing speed for modern cracking hardware (often expressed in billions of guesses per second) to produce an estimated time-to-crack.",
+      },
+      {
+        q: "Is it actually safe to type my real password into a tool like this?",
+        a: "Yes, provided it runs client-side. This checker analyzes everything locally in your browser using JavaScript, so your password is never sent anywhere, which you can verify by checking that the tool works with your network disconnected.",
+      },
+      {
+        q: "Why does length outweigh symbol complexity in most scoring models?",
+        a: "Each added character multiplies the total possible combinations exponentially, while adding symbol variety only multiplies by a smaller factor. A 20-character passphrase of ordinary words often outscores a short, symbol-dense password.",
+      },
+      {
+        q: "What patterns get flagged as weak even if they look complex?",
+        a: "Sequential keyboard patterns (qwerty, 12345), dictionary words with minor substitutions, birthdates, and names all get flagged, since these are the first patterns cracking dictionaries check.",
+      },
+      {
+        q: "How often should I actually change my passwords?",
+        a: "Immediately after any breach notification involving an account you use. Outside of that, a long, unique, generator-created password doesn't need routine rotation, frequent forced changes often just push people toward weaker, more memorable passwords.",
+      },
+      {
+        q: "Does this tool log the passwords I test?",
+        a: "No. Analysis happens entirely in your browser via client-side JavaScript, and we don't store, track, or record anything you type.",
+      },
+    ],
+  },
+
+  "wheel-of-names": {
+    seoTitle: "Wheel of Names: Free Online Picker Wheel",
+    seoDescription:
+      "Pick random names or items easily with this free name picker wheel. Use this interactive wheel of names for giveaways, classrooms, and games.",
+    h1: "Wheel of Names",
+    shortDescription:
+      "Type in your list of names or options, spin the wheel, and get a genuinely random winner instantly.",
+    about: [
+      "A spinning wheel solves a problem simple random-number generators don't: trust. Reading out \"the computer picked entry 7\" feels arbitrary and invites suspicion, but watching a wheel physically slow down and land on a name feels fair, even though both methods rely on the same underlying randomization. This tool uses your browser's cryptographic random functions to pick the stopping point, then animates the spin for exactly that reason.",
+      "Picking a winner, a volunteer, or a presentation order by hand invites accusations of favoritism almost every time, especially in classrooms or team settings where the same names seem to get picked suspiciously often. A visual spinner removes that doubt because everyone watches the same randomization happen in real time, with no way to argue the result was rigged after the fact.",
+      "Teachers use wheels like this constantly for things like picking which student answers next or assigning presentation order, while event hosts rely on them for raffle drawings and social media giveaways where transparency matters for legal compliance. The entertainment value is a real bonus too. A spinning wheel builds a few seconds of suspense that a flat list never does.",
+      "Type your list of names or options into the text box, one per line, and the wheel automatically builds itself with proportional slices. Click or tap the center to spin, and the wheel decelerates naturally before landing on a single randomly selected result.",
+      "Giveaway entries and classroom rosters are often tied to real people, so privacy matters here too. The entire spin, including the randomization, runs locally in your browser; your list and results are never transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "How random is the wheel's result, really?",
+        a: "The stopping point is determined using your browser's cryptographically secure random number source, giving every slice on the wheel a mathematically equal chance regardless of its position or size.",
+      },
+      {
+        q: "Can I edit my list after building the wheel?",
+        a: "Yes, you can add, remove, or rename entries at any point, and the wheel automatically redraws itself with resized slices to match your updated list.",
+      },
+      {
+        q: "Can I remove winners automatically after each spin?",
+        a: "Many implementations include a toggle that removes a winning entry after it's selected, which is useful for running a series of unique drawings from one list rather than allowing repeat winners.",
+      },
+      {
+        q: "Is this appropriate for commercial giveaways?",
+        a: "Yes, it's free to use for classroom, personal, and commercial purposes alike, including social media giveaways, with no account or sign-up required.",
+      },
+      {
+        q: "Does it work well on phones and tablets?",
+        a: "Yes, the interface is fully responsive, and spinning the wheel works with a simple tap on touchscreen devices just as it does with a click on desktop.",
+      },
+      {
+        q: "Do you store the names people enter?",
+        a: "No. Every spin and every name list stays local to your browser via client-side JavaScript; nothing gets logged, tracked, or saved on our end.",
+      },
+    ],
+  },
+
+  "coin-flip-dice-roller": {
+    seoTitle: "Coin Flip & Dice Roller: Random Decision Maker Online",
+    seoDescription:
+      "Flip virtual coins and roll dice instantly. Use this free coin toss and dice roller tool to make random decisions and play board games securely.",
+    h1: "Coin Flip & Dice Roller",
+    shortDescription:
+      "Tap once to flip a coin or roll dice, and get a clean, unbiased result in under a second.",
+    about: [
+      "There's a reason \"flip a coin\" became shorthand for a fifty-fifty decision: physical randomness feels trustworthy in a way a typed-out choice never does. This tool recreates that same feeling digitally, pulling results from your browser's random number functions instead of an actual coin or a six-sided die, so you get the same unbiased outcome without digging through a junk drawer.",
+      "Tie-breakers come up more often than you'd think, who goes first in a board game, which restaurant to pick, whether to take the highway or the back roads, and not everyone keeps a coin or a die within reach. A browser-based flipper solves that instantly, and it's genuinely useful mid-game too, since tabletop RPG sessions often call for a quick d6 roll without pausing to find the physical dice buried in someone's bag.",
+      "Dungeons & Dragons and other tabletop systems rely on specific dice conventions, most commonly the six-sided die for basic checks, and having a digital backup means a dropped or lost die never stalls a session. This tool keeps things simple: one tap for a coin flip, one tap for a dice roll, no setup required.",
+      "Tap the coin icon for an instant heads-or-tails result, or switch to dice mode to roll a standard six-sided die. Each result appears immediately with a short animation, and you can tap again as many times as you need for a new independent outcome.",
+      "Quick decisions shouldn't come with a privacy cost. Every flip and roll computes locally in your browser, so there's no server logging your outcomes or tracking how you use the tool.",
+    ],
+    faq: [
+      {
+        q: "Are the flips and rolls actually random?",
+        a: "Yes. The tool draws from your browser's built-in random number generation, giving heads, tails, and each die face an equal, unbiased chance on every single flip or roll.",
+      },
+      {
+        q: "Can I roll more than one die at once?",
+        a: "Yes, most configurations let you select multiple dice and roll them together, which is handy for board games that call for adding up two or more dice totals.",
+      },
+      {
+        q: "Is this free for casual and tabletop use?",
+        a: "Yes, completely free, no account needed, built for quick use during games or everyday decisions.",
+      },
+      {
+        q: "Can I weight the coin to favor one side?",
+        a: "No. The tool is built to simulate a fair, unweighted coin, so heads and tails each sit at exactly 50% on every flip.",
+      },
+      {
+        q: "Does it work well on a phone during a game night?",
+        a: "Yes, it's fully responsive, so a quick tap on a touchscreen gives you the same instant result as clicking on desktop.",
+      },
+      {
+        q: "Do you log my flip or roll history?",
+        a: "No. Everything runs locally via client-side JavaScript, and we don't store, track, or record your results.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
