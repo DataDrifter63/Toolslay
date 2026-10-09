@@ -6046,6 +6046,848 @@ export const TOOL_SEO = {
       },
     ],
   },
+
+  // --- Batch 7 ---
+
+  "open-graph-preview-generator": {
+    seoTitle: "Open Graph Preview Generator: Check Your Link Card",
+    seoDescription:
+      "Preview your Open Graph tags before you post. See exactly how your link's title, description and og:image will look on Facebook, X and LinkedIn.",
+    h1: "Open Graph Preview Generator",
+    shortDescription:
+      "Paste in a URL and see the og:image preview, title and description your link will show when it's shared on Facebook, X or LinkedIn, before you actually post it.",
+    about: [
+      "An open graph preview shows you what a link looks like the moment someone shares it, the image, headline and short blurb that show up in the post instead of a bare URL. This tool reads your page's Open Graph tags and renders that card right here, so you can catch a missing image or an awkward title before it goes out to your actual audience.",
+      "Open Graph tags are a small set of meta tags, og:title, og:description and og:image mainly, that you add to a page's head section. Facebook, LinkedIn and most other platforms read these tags to build the preview card, and if a page doesn't have them, the platform just guesses, usually pulling the first image and heading it finds, which is rarely the result you want.",
+      "X (formerly Twitter) uses a slightly different but related set of tags, called Twitter Cards, though it falls back to Open Graph tags when those aren't present. That's why a link can look great on Facebook but show the wrong image on X, the two platforms aren't always reading the exact same source.",
+      "Drop in any URL and the tool fetches the page's meta tags and lays them out the way they'd actually appear in a social feed, including the og image preview at the right aspect ratio. If something's missing, blank or the wrong size, you'll see it immediately instead of finding out after a post is already live.",
+      "This is especially useful right before a launch, a blog post goes out, or you've just redesigned a page and aren't sure the share card updated. Check it here first, fix the tags if something's off, and you'll avoid the broken-looking grey box or stretched image that undermines an otherwise good post.",
+    ],
+    faq: [
+      {
+        q: "Why does my link show no image when I share it?",
+        a: "Usually because the page is missing an og:image tag, or the image it points to is broken, too small, or blocked from being crawled. Some platforms also cache an old preview from the first time a link was shared, so a fix on your end might not show up until you force a re-scrape through that platform's own debugging tool.",
+      },
+      {
+        q: "What size should my og:image be?",
+        a: "The common recommendation is 1200 by 630 pixels, which gives a roughly 1.91:1 ratio that displays cleanly on Facebook, LinkedIn and X without cropping awkwardly. Keep the file under about 5MB and use a readable image, since it often gets shown fairly small in a feed.",
+      },
+      {
+        q: "Does this tool change anything on my website?",
+        a: "No, it only reads the meta tags already present on the page you enter and shows you what they produce. If you want to change the actual preview, you'll need to edit the og:title, og:description or og:image tags in your site's code or CMS.",
+      },
+      {
+        q: "Why does Facebook show an old image even after I updated it?",
+        a: "Facebook caches link previews, so if a link's already been shared once, it may keep showing the old card until the cache clears. You can force a refresh using Facebook's own Sharing Debugger tool, which re-scrapes the page and updates the cached preview.",
+      },
+      {
+        q: "Is an Open Graph preview the same as a Twitter Card?",
+        a: "They're related but not identical. Twitter Cards are X's own meta tag format, but X reads Open Graph tags as a fallback when Twitter Card tags aren't present. Having solid og:title, og:description and og:image tags covers you on most platforms, including X, even without separate Twitter Card tags.",
+      },
+      {
+        q: "Do I need Open Graph tags on every page of my site?",
+        a: "It's worth having them at least on pages people are likely to share, blog posts, product pages, landing pages. A homepage benefits too, since it's often the first link someone pastes into a group chat or a social post.",
+      },
+    ],
+  },
+
+  "keyword-density-checker": {
+    seoTitle: "Keyword Density Checker: Free Content Analysis Tool",
+    seoDescription:
+      "Check how often a keyword appears in your content with this free keyword density checker. Spot keyword stuffing before you publish or submit for SEO.",
+    h1: "Keyword Density Checker",
+    shortDescription:
+      "Paste in your content and this keyword density checker counts how often each word and phrase appears, so you can see if a keyword is underused or stuffed before you publish.",
+    about: [
+      "Keyword density is simply how often a word or phrase shows up in a piece of content, shown as a percentage of the total word count. This keyword density checker counts every instance for you and ranks the results, which is a faster way to catch an overused phrase than rereading the whole page yourself.",
+      "There's no official \"correct\" density that guarantees a better ranking, and search engines haven't used a fixed density target in years. What actually matters is whether a keyword reads naturally in context. A keyword density calculator is more useful as a sanity check than a target to hit exactly, it tells you when something looks off rather than telling you the one right number.",
+      "The classic problem this catches is keyword stuffing, repeating a phrase so often that the writing starts to sound robotic and reads worse for an actual visitor. Modern search engines are good at detecting this and it can hurt rankings rather than help them, so a tool that flags an unusually high repeat count is doing you a favor before you hit publish.",
+      "Paste in a draft, a product description or an existing page's text, and the tool breaks down single words as well as two and three word phrases, each with a count and a percentage of the total. That makes it easy to see not just that you used \"running shoes\" a lot, but exactly how many times, and whether a related phrase barely shows up at all.",
+      "It's useful both ways: catching a phrase you've leaned on too heavily, and spotting a secondary or related keyword you meant to include but forgot. Run a quick check before you publish a blog post, submit a product page, or hand a draft off to a client, it takes a few seconds and the whole thing happens in your browser.",
+    ],
+    faq: [
+      {
+        q: "What's a good keyword density percentage?",
+        a: "There's no single correct number, and search engines don't rank pages based on hitting a specific percentage. As a rough guide, most well-written content naturally lands somewhere between 1 and 2 percent for a primary keyword. Anything noticeably higher is worth a second read to check it still sounds natural.",
+      },
+      {
+        q: "Can keyword stuffing get my page penalized?",
+        a: "It can hurt rather than help. Search engines are built to recognize unnaturally repetitive text, and content that reads like it was written for an algorithm instead of a person tends to rank worse, not better. Writing naturally and checking density afterward is a safer approach than writing toward a target percentage.",
+      },
+      {
+        q: "Does this tool check density for phrases, not just single words?",
+        a: "Yes, it analyzes single words along with two and three word phrases, so a phrase like \"best running shoes\" gets counted as its own entry, separate from how often \"running\" or \"shoes\" appear individually.",
+      },
+      {
+        q: "Should I count common words like \"the\" or \"and\" in my density check?",
+        a: "Those words will always show up with high counts since they're a normal part of sentence structure, so they're not useful signals on their own. Focus on the keywords and phrases that are actually relevant to the topic of your content rather than function words.",
+      },
+      {
+        q: "Is keyword density still relevant for SEO in 2026?",
+        a: "It matters less as a direct ranking factor than it used to, since modern search engines focus more on topic relevance and natural language than exact repeat counts. It's still a useful proofreading check though, mainly for catching accidental overuse or confirming you've actually mentioned your target topic enough.",
+      },
+      {
+        q: "Can I check a competitor's page with this tool?",
+        a: "You can paste in any text, including a competitor's published content, to see how they've used keywords on a page that's already ranking. Just keep in mind you're seeing their current content, not necessarily the exact version that helped them rank originally.",
+      },
+    ],
+  },
+
+  "meta-description-length-checker": {
+    seoTitle: "Meta Description Checker: Avoid Google Truncation",
+    seoDescription:
+      "Check your title and meta description length before Google cuts them off. This meta description checker shows a live SERP preview as you type.",
+    h1: "Meta Description Checker",
+    shortDescription:
+      "Type or paste your title and meta description below and this checker shows you a live Google search preview, so you can see exactly where Google is likely to cut it off.",
+    about: [
+      "Google doesn't go by a strict character count when it decides how much of your title and meta description to show, it measures pixel width, which means a title full of wide letters like \"w\" and \"m\" gets cut off sooner than one with narrow letters like \"i\" and \"l\". This meta description checker estimates that width for you and shows a live preview of your snippet, so you're not guessing based on character count alone.",
+      "As a rough guide, titles tend to display fully up to around 60 characters and meta descriptions up to around 155 to 160 characters, though both can run a little longer or shorter depending on the actual letters used and whether Google decides to rewrite your snippet entirely, which it sometimes does regardless of length.",
+      "A meta title checker matters because a truncated title often cuts off mid-word or mid-phrase, which looks unfinished and can cost you clicks even when the page itself ranks well. The same goes for a description that gets chopped off right before the sentence makes its point, the reader never sees the reason to click.",
+      "Paste in your draft title and description and watch the live preview update as you edit, with a clear marker showing roughly where Google is likely to truncate. That makes it easy to trim a sentence back by a few words rather than publishing blind and checking Google's actual search results days later.",
+      "This is worth running on every new page before it goes live, not just occasionally. A blog post, a product page, a landing page, anywhere you've written a title and description by hand is worth a quick check here first, since a snippet that gets cut off awkwardly is an easy, avoidable way to lose clicks.",
+    ],
+    faq: [
+      {
+        q: "What's the ideal meta description length?",
+        a: "Aim for roughly 150 to 160 characters as a safe target. Google measures by pixel width rather than a strict character count, so the exact cutoff shifts slightly depending on which letters you use, but staying under 160 characters keeps you safe in almost every case.",
+      },
+      {
+        q: "Why does Google sometimes ignore my meta description and show different text?",
+        a: "Google often rewrites the snippet using text pulled from the page itself when it decides your written description doesn't match the search query well, or when it's missing, too short, or too generic. Writing a specific, relevant description for each page's main topic reduces how often this happens, though it can't guarantee Google never rewrites it.",
+      },
+      {
+        q: "Is there an exact character limit, or does it vary?",
+        a: "It varies, because Google truncates based on pixel width, not character count. A title made up of wide letters gets cut off sooner than a shorter-looking title full of narrow letters. That's why this checker shows a visual preview instead of just a number, since the number alone doesn't tell the whole story.",
+      },
+      {
+        q: "Does title length affect SEO rankings directly?",
+        a: "Length itself isn't a ranking factor, but a truncated title can hurt your click-through rate, which is something search engines do pay attention to over time. A clear, complete title that displays fully tends to perform better than one that gets cut off mid-thought, even if both are technically the same length in characters.",
+      },
+      {
+        q: "Should my meta description include my target keyword?",
+        a: "It's a good idea where it fits naturally, since Google bolds matching terms in the snippet when they appear in the search query, which can make your result stand out. Don't force it in awkwardly though, a description that reads naturally and makes someone want to click matters more than keyword placement alone.",
+      },
+      {
+        q: "Can I check multiple pages at once?",
+        a: "This tool checks one title and description at a time so you can see a precise, focused preview for each page. For a larger site audit across many pages at once, you'd want a crawling tool instead, this one is built for getting a single page's snippet exactly right before you publish it.",
+      },
+    ],
+  },
+
+  "twitter-thread-splitter": {
+    seoTitle: "Twitter Thread Maker: Split Text Into Tweets",
+    seoDescription:
+      "Paste a long post and this thread maker splits it into numbered, tweet-sized sections ready to post on X, one click to copy each part.",
+    h1: "Twitter Thread Maker",
+    shortDescription:
+      "Paste in a long piece of writing and this thread maker breaks it into numbered, properly sized posts for X, each one ready to copy and paste in order.",
+    about: [
+      "X still caps a single post at 280 characters for most accounts, which means any longer piece of writing, a story, an explanation, a set of tips, has to be broken up manually into a thread. This thread maker does that splitting for you, breaking your text into clean, numbered sections sized to fit the limit instead of you counting characters by hand.",
+      "Splitting a long post by hand usually means counting characters, cutting a sentence awkwardly in half, or losing track of which numbered part comes next while you're copying each one over. It's a small task that still eats real time when you're trying to post something while an idea is fresh, or right after a launch when every minute matters.",
+      "A good thread needs more than just a character cutoff too, breaking mid-sentence looks sloppy and makes the thread harder to follow. This tool tries to break at natural points like the end of a sentence where it can, so each post in the thread reads as a complete thought rather than trailing off.",
+      "Paste your full text in, and the tool splits it into individual posts, each one numbered so your readers (and you) can keep track of where they are in the thread. Every section comes with its own copy button, so you can paste them into X one at a time without second-guessing the order.",
+      "This works for more than just X. The same split, numbered text works fine for a LinkedIn post broken into comments, a long caption split across an Instagram carousel, or any other platform with its own character limit. Use it any time you've written something longer than one post can hold and don't want to do the math yourself.",
+    ],
+    faq: [
+      {
+        q: "How many characters can one X post actually hold?",
+        a: "Standard accounts get 280 characters per post. Accounts with X Premium can post significantly longer single posts, but splitting into a thread is still common even for those accounts, since a numbered thread is often easier for people to read and engage with one point at a time.",
+      },
+      {
+        q: "Does this tool post directly to X for me?",
+        a: "No, it only splits your text into numbered sections. You copy each part and paste it into X yourself, which also gives you a chance to review each post before it goes out rather than auto-publishing something you haven't double-checked.",
+      },
+      {
+        q: "Will it cut off in the middle of a sentence?",
+        a: "It tries not to. The tool looks for natural breaking points like the end of a sentence or a paragraph rather than just chopping text at exactly 280 characters, so each post in the thread should read as a complete thought wherever your original writing allows for that.",
+      },
+      {
+        q: "Can I use this for platforms other than X?",
+        a: "Yes. The same numbered, character-limited output works for splitting a long LinkedIn post into comments, breaking up an Instagram caption, or any other place where you're working within a character limit and want clean, numbered sections.",
+      },
+      {
+        q: "Does the tool add the thread numbering automatically?",
+        a: "Yes, each section is numbered (1/, 2/, 3/ and so on) by default, which is the common convention for X threads and helps readers follow along, especially if they land on a post in the middle of the thread rather than the first one.",
+      },
+      {
+        q: "Is there a limit to how much text I can split at once?",
+        a: "No hard limit, you can paste in a long article or a full set of notes and it'll break the whole thing into as many numbered posts as needed. Everything runs in your browser, so there's no file size cap or server timeout to worry about either. Developer, Generators and Life Tools: Content Batch (10 tools) How to use this Tools in this file: JSON Formatter & Validator, Robots.txt Generator, Markdown Editor & Previewer, Cron Expression Generator, UUID/GUID Generator, Text to Binary Converter, JSON Diff Checker, Placeholder Image Generator, Baby Name Generator and Pet Name Generator. Same format as the SEO & Marketing pack: Page Title, Meta Description, H1 Heading, Short Description, primary and secondary keyword, an About section with a lead paragraph plus 4 supporting paragraphs (2 for the left column, 2 for the right) and 6 FAQs. Keywords come from keyword_decisions.csv (main_keyword and secondary_keyword). Every claim was checked against the tool's code in the repo. Copy is written in active voice, with no dashes and no filler phrases. The last section lists what to verify or fix before you publish.",
+      },
+    ],
+  },
+
+  "json-formatter-validator": {
+    seoTitle: "JSON Formatter & Validator: Fix and Clean JSON",
+    seoDescription:
+      "Format, validate and clean up JSON with this free JSON formatter. Pinpoint syntax errors by line and column, sort keys, then copy or download the result.",
+    h1: "JSON Formatter & Validator",
+    shortDescription:
+      "Paste your JSON into this JSON formatter and read it with clean indentation. The validator flags syntax errors by line and column, and nothing you paste leaves your browser.",
+    about: [
+      "A JSON formatter turns one long, minified line into indented text that you can actually read. This JSON formatter validator also checks the syntax as you work, so a missing comma or an unquoted key shows up with its exact line and column before it breaks your API call or config file.",
+      "Servers and build tools often send JSON with every space removed. That saves bandwidth and wrecks readability. Formatting adds line breaks and indentation so you can see how objects nest inside each other. Validation goes one step further: it parses the text against the JSON rules and rejects anything a parser would reject, such as single quotes, trailing commas and comments.",
+      "Most JSON errors come from the same few mistakes. People leave a comma after the last item, wrap keys in single quotes, paste a JavaScript object instead of JSON, or lose a closing bracket while editing by hand. Fix the line the validator points to, format again, and repeat until the message turns green. Large files usually need only two or three passes.",
+      "Paste your JSON into the input box and press Format JSON. Pick an indent of two, four or eight spaces, or switch to compact output when you need a minified string. You can sort keys alphabetically and strip null or empty values in the same step. Use Copy or Download to save the result as formatted.json.",
+      "The inspector under the output shows the root type, the number of keys, the deepest nesting level and the file size. Open the tree to expand or collapse nested objects, or type a path like project.owner.name to jump to one value. The page runs in your browser and remembers your last five inputs only until you close the tab.",
+    ],
+    faq: [
+      {
+        q: "What is the difference between formatting and validating JSON?",
+        a: "Formatting changes how the text looks by adding indentation and line breaks. Validating checks whether the text follows the JSON rules at all. This tool does both in one pass, so you see clean output when the JSON is valid and an error message with a line number when it is not.",
+      },
+      {
+        q: "Why does my JSON show an error?",
+        a: "JSON has strict rules. Keys need double quotes, strings cannot use single quotes, and the last item in an object or array cannot end with a comma. The validator reports the line, column and position of the first problem it finds. Fix that spot, format again, and check whether a new error appears further down.",
+      },
+      {
+        q: "Can I sort the keys or remove empty values?",
+        a: "Yes. Turn on Sort keys to arrange every object alphabetically, which makes two versions of the same file easier to compare. Turn on Remove null / empty to drop keys that hold null or empty values. Both switches change the output you copy or download, so check the result before you save it.",
+      },
+      {
+        q: "How do I minify JSON?",
+        a: "Switch the output to Compact. The tool strips every space and line break and gives you a single line that you can copy or download. Minified JSON weighs less over the network, so use it when you ship a payload. Switch back to an indent size when you need to read or edit the data.",
+      },
+      {
+        q: "Is my JSON uploaded anywhere?",
+        a: "No. The formatter and validator run in your browser, and the page sends no request with your data. That matters when your JSON holds customer records, tokens or internal settings. The tool keeps your last five inputs in memory while the page stays open, and it forgets them when you close or reload it.",
+      },
+      {
+        q: "How can I find one value inside a big JSON file?",
+        a: "Type the path in the Find Value box. Dot notation such as project.owner.name works, and so does a path that starts with a dollar sign, like $.settings.theme. The tool shows the value it finds, or tells you the path does not exist, so you can check a single field without scrolling.",
+      },
+    ],
+  },
+
+  "robots-txt-generator": {
+    seoTitle: "Robots.txt Generator: Create Search Bot Directives",
+    seoDescription:
+      "Generate custom robots.txt files for your website easily. Use this free robots.txt generator to control crawler access and protect SEO securely.",
+    h1: "Robots.txt Generator",
+    shortDescription:
+      "Set your crawl rules, and this generator builds a correctly formatted robots.txt file ready to upload.",
+    about: [
+      "Robots.txt follows the Robots Exclusion Standard, a protocol search engines have voluntarily honored since the mid-1990s, and it has to live at exactly one place, your domain's root (example.com/robots.txt), or crawlers won't find it at all. This generator builds that file correctly formatted from your disallow rules, allow exceptions, and sitemap reference, so there's no syntax guesswork before you upload it.",
+      "A single misplaced slash or wildcard in a hand-written robots.txt can accidentally block an entire site from search indexing, a mistake that's happened to real companies and tanked their organic traffic for weeks before anyone noticed. Generating the file through a structured tool rather than editing raw syntax by hand removes that risk.",
+      "Crawl budget, the number of pages a search engine bot will index on a given visit, is finite even for large sites, and directing crawlers away from low-value utility pages, admin folders, or duplicate parameter URLs lets that budget concentrate on the pages that actually matter for rankings.",
+      "Enter your disallowed folders, any allowed subpath exceptions, and your XML sitemap URL. The generator produces a clean, correctly formatted robots.txt file ready to download and upload to your server root.",
+      "Site architecture details are worth keeping private until launch. Everything generates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What exactly is a robots.txt file?",
+        a: "A text file placed at your domain's root that follows the Robots Exclusion Standard protocol, telling search engine crawlers which URLs they're permitted to access.",
+      },
+      {
+        q: "Does robots.txt actually hide pages from the public?",
+        a: "No, it only requests that crawlers skip indexing certain pages, anyone with the direct URL can still visit them. Genuinely private content needs real authentication, not a robots.txt rule.",
+      },
+      {
+        q: "Where does the generated file need to go?",
+        a: "Directly in your domain's root directory (example.com/robots.txt), the only location crawlers check for it.",
+      },
+      {
+        q: "Is this generator free?",
+        a: "Yes, no account needed, built for webmasters and SEO professionals.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for generating directives on the go.",
+      },
+      {
+        q: "Are my site rules saved anywhere?",
+        a: "No. File generation runs locally via client-side JavaScript, and we don't store, track, or record your configuration.",
+      },
+    ],
+  },
+
+  "markdown-editor-previewer": {
+    seoTitle: "Markdown Editor & Previewer: Live HTML Viewer",
+    seoDescription:
+      "Edit and preview Markdown text in real time easily. Use this free markdown editor to write formatted documentation and generate HTML securely.",
+    h1: "Markdown Editor & Previewer",
+    shortDescription:
+      "Write Markdown on one side and watch the rendered HTML build live on the other.",
+    about: [
+      "John Gruber created Markdown back in 2004 specifically so writers could format text using plain, readable punctuation, asterisks for bold, hyphens for lists, rather than clunky rich-text toolbars, and it's since become the default syntax for README files, technical docs, and most static site generators. This editor splits your workspace into a raw Markdown pane and a live-rendered preview, so you can confirm headers and code blocks actually look right before committing anything.",
+      "Markdown's entire appeal is staying readable as plain text even before it's rendered, which is exactly why it's the standard for GitHub repositories and developer documentation, a .md file opens cleanly whether you're viewing it rendered or raw. But catching formatting mistakes, a list that didn't nest right, a code fence that didn't close, is much faster with live visual feedback than by mentally parsing syntax.",
+      "Switching between a plain text editor and a separate rendering tool breaks concentration constantly. A single workspace where typing on one side instantly updates the preview on the other keeps writing and verification in the same flow.",
+      "Type or paste your Markdown into the left pane. The editor parses it instantly, rendering a live formatted preview on the right, with a one-click option to export clean HTML.",
+      "Drafts and internal documentation are often not ready for anyone else's eyes yet. Everything runs locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What is Markdown, and who created it?",
+        a: "A lightweight plain-text formatting syntax created by John Gruber in 2004, designed to convert cleanly into HTML while staying readable even unrendered.",
+      },
+      {
+        q: "Can I export my Markdown as HTML?",
+        a: "Yes, the editor includes a one-click export that converts your Markdown source directly into clean, production-ready HTML.",
+      },
+      {
+        q: "Why do developers prefer Markdown for documentation?",
+        a: "Files stay lightweight and readable as plain text in any editor, and they're natively supported by GitHub, GitLab, and most static site generators without extra tooling.",
+      },
+      {
+        q: "Is this editor free?",
+        a: "Yes, no account needed, built for writers and developers drafting documentation.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for quick edits from a phone or tablet.",
+      },
+      {
+        q: "Are my drafts saved anywhere?",
+        a: "No. Text parsing runs locally via client-side JavaScript, and we don't store, track, or record your notes.",
+      },
+    ],
+  },
+
+  "cron-expression-generator": {
+    seoTitle: "Cron Expression Generator: Test Your Schedule",
+    seoDescription:
+      "Write or pick a cron expression and read it in plain English. This cron expression generator also lists the next five run times so you can test a schedule.",
+    h1: "Cron Expression Generator",
+    shortDescription:
+      "Use this cron expression generator to type or pick a schedule, read it in plain English and see the next five times it will run.",
+    about: [
+      "A cron expression is five fields that tell a server when to run a job, and one wrong value sends a task off at the wrong hour or never. This cron expression generator translates your schedule into plain English and shows the next five run times, so you can check it before it goes into a crontab.",
+      "The five fields run in a fixed order: minute, hour, day of month, month and day of week. An asterisk matches every value, a comma separates a list, a hyphen sets a range and a slash sets a step. So */15 in the minute field means every 15 minutes, and 0 9 * * 1-5 means 9:00 on weekdays.",
+      "Most cron mistakes involve time zones and field order. Servers usually run cron in UTC while you think in local time, so a job set for 9:00 can fire at 14:00 for you. Swapping the day of month and day of week fields causes the other common error. Read the plain English line and the run times before you save the schedule.",
+      "Type an expression into the editor, or press a preset such as Every 5 Minutes, Every Day at 8 AM, Every Monday at 9 AM or Every Weekday. The tool marks the expression valid or shows a syntax error, then writes the schedule in plain English. A format guide next to the editor explains each special character.",
+      "Below the translation, the tool lists the next five scheduled runs. It calculates them in your browser's time zone, so compare them with your server's zone before you rely on them. Use Copy to take the finished expression into your crontab or scheduler. This crontab generator handles the standard five-field format, runs in your browser and sends your expressions nowhere.",
+    ],
+    faq: [
+      {
+        q: "What do the five fields in a cron expression mean?",
+        a: "From left to right they are minute (0 to 59), hour (0 to 23), day of month (1 to 31), month (1 to 12) and day of week (0 to 6, with Sunday as 0 on most systems). The expression 30 2 * * * runs every day at 2:30 in the morning.",
+      },
+      {
+        q: "How do I run a job every 5 minutes?",
+        a: "Use */5 * * * *. The slash sets a step in the minute field, so the job runs at minutes 0, 5, 10 and so on. Press the Every 5 Minutes preset to load it, then check the next five run times to confirm the rhythm before you save it.",
+      },
+      {
+        q: "Which time zone do the next run times use?",
+        a: "They use your browser's local time zone. Cron on a real server follows the server's own zone, which is often UTC. When the two differ, convert the times before you trust the preview, or set your server's time zone to match the schedule you have in mind.",
+      },
+      {
+        q: "What does a syntax error mean?",
+        a: "The tool cannot read your expression as a valid schedule. Common causes include a missing field, a value outside its range such as hour 25, or a stray character. Count your fields, check each range against the format guide, and clear the editor to start over if you need to.",
+      },
+      {
+        q: "How do I run a job on weekdays only?",
+        a: "Put 1-5 in the day of week field, for example 0 9 * * 1-5 to run at 9:00 from Monday through Friday. The Every Weekday preset loads a similar expression, and the plain English line confirms which days the schedule covers.",
+      },
+      {
+        q: "Does this tool send my cron expressions anywhere?",
+        a: "No. The tool parses the expression in your browser and sends nothing to a server, so you can paste schedules that name internal jobs. It does not store them either. Copy the finished expression before you leave the page, because a reload clears the editor.",
+      },
+    ],
+  },
+
+  "uuid-guid-generator": {
+    seoTitle: "UUID Generator: Create Version 4 UUIDs in Bulk",
+    seoDescription:
+      "This free UUID generator makes random version 4 UUIDs in bulk, up to 10,000 per click. Pick a format, then copy or download the list.",
+    h1: "UUID Generator",
+    shortDescription:
+      "Pick how many UUIDs you need and a format, then generate, copy or download them. This UUID generator makes version 4 identifiers, up to 10,000 at a time.",
+    about: [
+      "A UUID generator creates 128-bit identifiers that are unique enough to use as database keys, file names or request IDs without asking a central registry. This UUID GUID generator produces random version 4 values in bulk, so you can fill a test table or seed a config file in one click.",
+      "A version 4 UUID takes 122 of its 128 bits from random numbers, which makes a collision so unlikely that developers treat the values as unique. The format is 32 hexadecimal digits in five groups, such as 123e4567-e89b-42d3-a456-426614174000. GUID is Microsoft's name for the same kind of identifier, and .NET code often wraps it in curly braces.",
+      "UUIDs identify things, they do not protect them. Never use one as a password, an API secret or a reset token, because a UUID follows a fixed layout and often ends up in URLs and logs. Use a dedicated secret generator for those jobs. For primary keys, remember that random UUIDs scatter across an index, which can slow inserts on very large tables.",
+      "Enter a quantity from 1 to 10,000 and choose an output format. Standard gives lowercase digits with hyphens, Uppercase capitalizes them, and No Hyphens strips the dashes. Stripped Upper combines both, and the two Braces options wrap each value in curly braces for .NET and Windows work. Press Regenerate whenever you want a fresh batch of new values.",
+      "Copy puts the whole list on your clipboard, one UUID per line, and Download saves it as a text file. This tool creates version 4 only, so it will not produce version 1 or version 7 values. In current browsers it calls the built-in crypto.randomUUID function and runs locally, with nothing sent to a server.",
+    ],
+    faq: [
+      {
+        q: "What is the difference between a UUID and a GUID?",
+        a: "They are the same 128-bit identifier with two names. UUID comes from the open standard, and GUID is the term Microsoft uses in Windows and .NET. The braces format on this page matches how many .NET tools write a GUID, so choose it when your code expects curly braces.",
+      },
+      {
+        q: "Are version 4 UUIDs really unique?",
+        a: "Not guaranteed, but close enough for almost every project. A version 4 UUID has 122 random bits, so you would need to generate billions per second for decades before a repeat becomes likely. Treat a collision as a theoretical risk, and add a unique constraint in your database to catch the rare one.",
+      },
+      {
+        q: "How many UUIDs can I generate at once?",
+        a: "Up to 10,000 per click. Set the quantity, press Regenerate, and the list appears with one UUID per line. Need more than that? Run another batch and download each file. The speed depends on your device, because your browser does all the work.",
+      },
+      {
+        q: "Can I use a UUID as a password or secret key?",
+        a: "No. UUIDs work as identifiers, not secrets. They follow a fixed layout, and developers often expose them in URLs and logs. Use a password manager or a secret generator for passwords, API keys and tokens, and keep UUIDs for records, files and request IDs.",
+      },
+      {
+        q: "Which format should I choose?",
+        a: "Standard lowercase with hyphens suits most databases and APIs. Pick Uppercase when a legacy system expects capital letters, No Hyphens for compact IDs or file names, and Braces when .NET or a Windows registry entry expects curly braces around the value.",
+      },
+      {
+        q: "Does the tool support UUID version 1 or version 7?",
+        a: "No. This generator produces random version 4 UUIDs only. Version 1 mixes in a timestamp and hardware details, and version 7 sorts by creation time, so choose one of those in your own code when you need time-ordered keys.",
+      },
+    ],
+  },
+
+  "text-binary-converter": {
+    seoTitle: "Text to Binary Converter: Translate Code Online",
+    seoDescription:
+      "Convert text strings to binary code and vice versa easily. Use this free text to binary converter to translate characters securely in your browser.",
+    h1: "Text to Binary Converter",
+    shortDescription:
+      "Type text to see it instantly become binary, or paste binary to decode it back to readable characters.",
+    about: [
+      "Every character you type gets mapped to a standardized numeric value, ASCII historically assigned each letter an 8-bit number, with Unicode extending that system to cover virtually every script on earth, and that numeric value is what actually gets converted into the string of ones and zeros a computer processes at the hardware level. This converter runs that encoding both directions, text to binary and binary back to text, instantly.",
+      "Computers operate on binary at the most fundamental hardware level because transistors reliably hold exactly two states, on and off, which is why every piece of data, no matter how complex it looks on screen, ultimately reduces to a sequence of ones and zeros underneath.",
+      "Working through character encoding by hand is genuinely useful for understanding how computers represent text, but doing it manually for anything beyond a few characters is tedious and error-prone, exactly the kind of repetitive translation a dedicated tool handles instantly and correctly every time.",
+      "Type plain text into the input field to see it convert instantly into binary, or paste a binary string into the reverse field to decode it back into readable characters. Both directions process in real time.",
+      "Whatever you're encoding or decoding is private. Everything runs locally in your browser, with no text transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How does text actually convert to binary?",
+        a: "Each character gets mapped to a standardized ASCII or Unicode numeric value, which is then converted into an 8-bit binary number made of ones and zeros.",
+      },
+      {
+        q: "Can this decode binary back into text too?",
+        a: "Yes, it works both directions, paste a binary string and the converter translates it back into the original readable text.",
+      },
+      {
+        q: "Why do computers rely on binary specifically?",
+        a: "Because hardware transistors reliably hold exactly two stable states, on and off, making binary the most reliable foundation for digital electronics.",
+      },
+      {
+        q: "Is this converter free?",
+        a: "Yes, no account needed, built for students and developers exploring character encoding.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for quick conversions on the go.",
+      },
+      {
+        q: "Are my text inputs saved anywhere?",
+        a: "No. Conversion runs locally via client-side JavaScript, and we don't store, track, or record your messages.",
+      },
+    ],
+  },
+
+  "json-diff-checker": {
+    seoTitle: "JSON Diff Checker: Compare JSON Files Online",
+    seoDescription:
+      "Compare two JSON files and find differences easily. Use this free JSON diff checker to highlight additions, deletions, and changes securely.",
+    h1: "JSON Diff Checker",
+    shortDescription:
+      "Paste two JSON objects side by side, and this checker highlights every addition, deletion, and change.",
+    about: [
+      "A single changed boolean, dropped comma, or shifted array index buried in a deeply nested JSON payload is nearly invisible to the eye but can break an entire deployment, which is exactly the class of bug this checker is built to catch. It parses both JSON structures into trees and compares them recursively, node by node, surfacing exactly what changed instead of making you scan two walls of text for a single mismatched character.",
+      "API debugging and configuration auditing both come down to the same question constantly: what actually changed between these two payloads? Eyeballing it works for a five-line object but falls apart fast once you're dealing with deeply nested structures spanning hundreds of lines, which is routine in modern API responses and config files.",
+      "Catching a structural change before it ships, an added required field, a renamed key, a type that quietly switched from string to number, saves considerably more debugging time downstream than finding it after something breaks in production.",
+      "Paste your original JSON into the left editor and the updated version into the right. The checker compares both recursively and highlights insertions, deletions, and modified values with clear color coding.",
+      "API payloads and config data can carry sensitive information. Everything compares locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How does the comparison actually work?",
+        a: "Both JSON structures get parsed into trees and compared recursively, node by node, isolating exact additions, deletions, and value changes rather than just flagging that something differs.",
+      },
+      {
+        q: "Does it catch invalid JSON before comparing?",
+        a: "Yes, built-in validation flags malformed syntax immediately, before attempting the diff, so a parsing error doesn't get mistaken for a content change.",
+      },
+      {
+        q: "Why does comparing JSON matter in development?",
+        a: "It's how developers verify API response consistency, audit configuration changes before deployment, and debug unexpected state changes in applications.",
+      },
+      {
+        q: "Is this checker free?",
+        a: "Yes, no account needed, built for developers and QA engineers.",
+      },
+      {
+        q: "Does it work well on mobile?",
+        a: "Yes, fully responsive, though wide, deeply nested diffs are genuinely easier to review on a larger desktop screen.",
+      },
+      {
+        q: "Are my JSON snippets saved anywhere?",
+        a: "No. Parsing and comparison run locally via client-side JavaScript, and we don't store, track, or record your data.",
+      },
+    ],
+  },
+
+  "placeholder-image-generator": {
+    seoTitle: "Placeholder Image Generator: Custom Dummy Pics",
+    seoDescription:
+      "Generate custom placeholder images for web design easily. Use this free dummy image generator to create mockups and test layouts securely.",
+    h1: "Placeholder Image Generator",
+    shortDescription:
+      "Set your dimensions, colors, and label text, and this generator instantly renders a ready-to-use dummy image.",
+    about: [
+      "Building and testing a responsive layout before final photography or branding assets exist is a routine part of front-end development, and sourcing stock photos just to fill temporary space wastes time on something that'll be deleted anyway. This generator produces dummy images at exact pixel dimensions with custom background colors and overlay text, so layout testing, grid alignment, responsive scaling, never depends on having real assets in hand yet.",
+      "Early-stage wireframes and layout prototypes need visual placeholders that match the final image's actual dimensions, a mismatched placeholder size hides spacing and alignment bugs that only show up once real images replace it, by which point they're more annoying to fix.",
+      "Overlay text labeling, showing the exact pixel dimensions directly on the placeholder image itself, helps developers instantly verify a layout is pulling the correct image size without inspecting element properties separately.",
+      "Enter your desired width and height in pixels, choose background and text colors, and add optional overlay text. The generator renders the image instantly, ready to download or link directly into your project.",
+      "Design specs and project details are worth keeping to yourself during early development. Everything renders locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What's a placeholder image actually for?",
+        a: "It's a temporary graphic used in wireframes and templates to reserve exact visual space and proportions before final photography or branding assets are ready.",
+      },
+      {
+        q: "Can I customize dimensions and colors?",
+        a: "Yes, you can set exact pixel width and height, background and text colors, and custom overlay text to match your design's visual theme.",
+      },
+      {
+        q: "Why do developers rely on placeholder images specifically?",
+        a: "They let developers test responsive image scaling, grid alignment, and page load performance accurately during early front-end work, without waiting on final assets.",
+      },
+      {
+        q: "Is this generator free?",
+        a: "Yes, no account needed, built for web designers and developers.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for generating quick assets on the go.",
+      },
+      {
+        q: "Are my generated images or settings saved anywhere?",
+        a: "No. Rendering happens locally via client-side JavaScript, and we don't store, track, or record your files.",
+      },
+    ],
+  },
+
+  "baby-name-generator": {
+    seoTitle: "Baby Name Generator: Find Unique Boy & Girl Names",
+    seoDescription:
+      "Generate unique baby names and meanings easily. Use this free baby name generator to explore boy names, girl names, and family naming ideas securely.",
+    h1: "Baby Name Generator",
+    shortDescription:
+      "Set your filters, origin, starting letter, style, and this generator surfaces baby names complete with meanings.",
+    about: [
+      "Naming trends shift in recognizable waves, vintage revival names cycling back after decades out of fashion, nature-inspired and botanical names gaining ground, gender-neutral and short one-syllable names both trending upward in recent naming data, and this generator filters across thousands of names by origin, meaning, and style so you're exploring with structure rather than scrolling an endless undifferentiated baby book list.",
+      "Choosing a name is a surprisingly high-stakes creative decision for something that has to work for an entire lifetime, pronounceable, spellable, and not awkward alongside a surname, which is a lot to hold in your head while flipping through a physical baby name book with no filtering options at all.",
+      "Testing how a first name actually sounds against your family surname matters more than most people account for early on, syllable rhythm and consonant clashes are much easier to catch by testing combinations directly than by imagining them.",
+      "Select your preferred gender category, cultural origin, starting letter, and length preference. The generator returns a curated list of names complete with their meanings and origins.",
+      "Family naming decisions feel personal, often kept private until an announcement. Everything generates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How do I actually pick a good baby name?",
+        a: "Weigh personal or family significance, ease of pronunciation and spelling, how it pairs with your surname, and what nicknames might naturally emerge from it.",
+      },
+      {
+        q: "Can I filter by cultural origin?",
+        a: "Yes, the generator filters across cultural origins, historical meanings, and linguistic traditions to match your family's heritage or preferences.",
+      },
+      {
+        q: "What naming styles are trending right now?",
+        a: "Vintage revival names, nature-inspired botanical names, gender-neutral options, and short, punchy one-syllable names are all showing up frequently in current naming data.",
+      },
+      {
+        q: "Is this generator free?",
+        a: "Yes, no account needed, built for expectant parents and family members exploring ideas.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for browsing names from a phone.",
+      },
+      {
+        q: "Are my favorite names saved anywhere?",
+        a: "No. Generation runs locally via client-side JavaScript, and we don't store, track, or record your searches.",
+      },
+    ],
+  },
+
+  "pet-name-generator": {
+    seoTitle: "Pet Name Generator: Cute Dog & Cat Names",
+    seoDescription:
+      "Generate cute, unique pet names for dogs, cats, and animals easily. Use this free pet name generator to find catchy animal monikers securely.",
+    h1: "Pet Name Generator",
+    shortDescription:
+      "Pick your pet type and style, and this generator surfaces names that are easy for your new pet to learn.",
+    about: [
+      "Dog trainers consistently recommend short names, ideally one or two syllables, with a hard consonant sound, since sharp, distinct sounds cut through background noise and are easier for a dog to recognize and respond to quickly than a longer, softer name. This generator leans into that practical guidance while still surfacing genuinely fun options, tough, cute, food-inspired, pop-culture-referencing, so you land on something your new pet can actually learn fast.",
+      "Naming a new pet is one of the more joyful parts of bringing one home, but it's easy to get stuck between wanting something distinctive and needing something that actually works for daily training and recall. A name that sounds charming but blends into every other word you say to your dog all day makes training measurably harder.",
+      "Picking a name too close to a common household command, a dog named \"Kit\" can genuinely get confused with \"sit\", is a specific, avoidable mistake that's easy to catch before the name sticks rather than after weeks of training confusion.",
+      "Select your pet type, dog, cat, or another small pet, and choose a style category, tough, cute, funny, or classic. The generator returns a curated list of fresh name ideas matching your selection.",
+      "Brainstorming pet names is a small, personal moment. Everything generates locally in your browser, with nothing transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What actually makes a good pet name?",
+        a: "Short, ideally one or two syllables, with a hard consonant sound that's easy for the animal to recognize and distinct from common commands, which measurably speeds up training.",
+      },
+      {
+        q: "Can I generate names based on coat color or appearance?",
+        a: "Yes, specialized categories let you explore names inspired by specific physical traits, dark fur, golden coats, spotted markings, among others.",
+      },
+      {
+        q: "What pet names are trending right now?",
+        a: "Human-style names like Luna, Milo, and Bella remain popular, alongside playful food-inspired names like Mochi, Biscuit, and Peanut.",
+      },
+      {
+        q: "Is this generator free?",
+        a: "Yes, no account needed, built for pet owners and shelter volunteers.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for browsing names from a phone.",
+      },
+      {
+        q: "Are my search preferences saved anywhere?",
+        a: "No. Generation runs locally via client-side JavaScript, and we don't store, track, or record your searches.",
+      },
+    ],
+  },
+
+  "standing-vs-sitting-calculator": {
+    seoTitle: "Standing vs Sitting Calculator: Burn Calories at Work",
+    seoDescription:
+      "Calculate calorie differences between standing and sitting at work. Use this free ergonomic wellness calculator to track daily energy expenditure securely.",
+    h1: "Standing vs Sitting Calculator",
+    shortDescription:
+      "Enter your body weight and daily work hours, and this calculator shows the real calorie difference between sitting and standing.",
+    about: [
+      "Standing desks got hyped as a fitness fix, but the actual calorie gap is modest, standing typically burns somewhere around 0.15 extra calories per minute over sitting, which is part of what researchers call NEAT, non-exercise activity thermogenesis, the energy you burn through everyday posture and movement rather than deliberate exercise. This calculator runs that math against your actual work hours so you see the real number instead of a marketing claim.",
+      "The honest version of the standing desk story is less dramatic than most office wellness posters suggest. An extra 20 to 50 calories burned per hour of standing adds up over a full work week, but it's nowhere close to a substitute for actual cardiovascular exercise, it's a small, free addition to your daily energy balance, not a workout replacement.",
+      "Where standing genuinely helps is in breaking up prolonged sedentary stretches, which several studies have linked to worse metabolic markers independent of total exercise elsewhere in the day. The calorie burn is a side benefit; the bigger win is just not staying motionless for eight straight hours.",
+      "Enter your body weight and how many hours you spend sitting versus standing during a typical workday. The calculator applies the per-minute calorie differential to your actual schedule and projects the difference across a day, week, and month.",
+      "Your work habits and body stats are yours to keep private. Everything runs locally in your browser, with no data about your schedule or weight transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "Does standing really burn noticeably more calories than sitting?",
+        a: "A little, roughly 20 to 50 extra calories per hour depending on body weight, since your leg and core muscles have to actively engage to hold posture. It's measurable but modest.",
+      },
+      {
+        q: "Are there downsides to standing all day?",
+        a: "Yes, standing motionless for hours can cause lower back strain, foot fatigue, and swollen ankles. Ergonomic guidance generally recommends alternating between sitting and standing rather than standing continuously.",
+      },
+      {
+        q: "What's a better way to boost calorie burn at a desk job?",
+        a: "Pairing a standing desk with short walking breaks every hour, or light stretching between tasks, does more for your overall energy expenditure than standing alone.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for anyone curious about the real numbers behind standing desk claims.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, so you can check it from your phone during a work break.",
+      },
+      {
+        q: "Are my work stats stored anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your habits.",
+      },
+    ],
+  },
+
+  "stretching-routine-generator": {
+    seoTitle: "Stretching Routine Generator: Custom Flexibility Plans",
+    seoDescription:
+      "Generate custom stretching routines for flexibility and injury prevention. Use this free stretching routine generator for warm-ups securely.",
+    h1: "Stretching Routine Generator",
+    shortDescription:
+      "Pick your goal and tight areas, and this generator builds a structured stretching routine with proper hold times.",
+    about: [
+      "Dynamic and static stretching aren't interchangeable, and mixing up when to use each is one of the most common mistakes people make. Dynamic movements, active, full-range-of-motion stretches, belong before a workout to prime muscles without reducing power output, while static holds, lasting 30 to 60 seconds, belong afterward, when they actually help lengthen muscle tissue instead of temporarily reducing strength the way holding a static stretch pre-workout can. This generator sequences your routine correctly based on which one you're building.",
+      "Jumping straight into a deep static stretch on cold muscles is a common way to cause a strain rather than prevent one. Blood flow and muscle temperature need to rise first, which is why a short cardiovascular warm-up, even just brisk walking for a few minutes, should always come before serious stretching, dynamic or static.",
+      "Tight hip flexors, rounded shoulders, and a stiff lower back are almost universal consequences of a desk-bound day, and they compound over months without anyone noticing until something actually hurts. A routine built specifically around posture correction targets those exact problem areas rather than generic full-body stretches that skip the spots doing the most damage.",
+      "Select your goal, posture relief, pre-workout warm-up, or post-workout cool-down, and choose which muscle areas feel tight. The generator builds a sequenced routine with specific movements and recommended hold durations matched to your selected goal.",
+      "Fitness routines and health details are personal. Everything generates locally in your browser, with nothing about your inputs transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between dynamic and static stretching?",
+        a: "Dynamic stretches are active, moving through a full range of motion, and work best before exercise. Static stretches hold a single position, typically 30 to 60 seconds, and work best after exercise when muscles are already warm.",
+      },
+      {
+        q: "Why shouldn't I stretch cold muscles?",
+        a: "Cold muscle tissue is more prone to micro-tears under the sudden tension of a deep stretch. A brief cardio warm-up raises blood flow and temperature first, making the tissue more pliable and safer to stretch.",
+      },
+      {
+        q: "How long should I actually hold a static stretch?",
+        a: "Most fitness guidance points to 30 to 60 seconds per stretch, held without bouncing, with steady breathing to let the muscle gradually lengthen.",
+      },
+      {
+        q: "Can stretching really fix posture from sitting all day?",
+        a: "Consistent stretching targeting chest, hip flexors, and neck muscles, the areas that tighten most from prolonged sitting, measurably helps posture and reduces the chronic tension that builds up from desk work.",
+      },
+      {
+        q: "Is this generator free?",
+        a: "Yes, no account needed, built for anyone building a routine for warm-up, cool-down, or posture relief.",
+      },
+      {
+        q: "Are my routine choices saved anywhere?",
+        a: "No. Generation runs locally via client-side JavaScript, and we don't store, track, or record your preferences.",
+      },
+    ],
+  },
+
+  "study-time-calculator": {
+    seoTitle: "Study Time Calculator: Plan Exam Preparation",
+    seoDescription:
+      "Calculate your required study time and exam prep schedules easily. Use this free study planner and time calculator to organize academic goals securely.",
+    h1: "Study Time Calculator",
+    shortDescription:
+      "Enter your exam date and syllabus size, and this calculator breaks your prep into a realistic daily study schedule.",
+    about: [
+      "Hermann Ebbinghaus documented the \"forgetting curve\" back in the 1880s, showing how quickly newly learned information fades without reinforcement, and the practical fix researchers since have confirmed is spaced repetition: reviewing material at increasing intervals rather than cramming it all at once. This calculator takes your syllabus size and exam date and spreads the workload into a spaced schedule instead of a single desperate cram session.",
+      "Cramming the night before an exam feels productive in the moment because you're actively doing something, but it's one of the worst strategies for actual retention, information crammed under time pressure fades fast precisely because there was no spacing to reinforce it. A structured timeline across several weeks consistently produces better exam outcomes than the same total hours compressed into two days.",
+      "Breaking a syllabus into daily chunks also solves a motivation problem: an abstract goal like \"study for finals\" is vague enough to procrastinate against indefinitely, while \"cover these three chapters today\" is concrete enough to actually start on.",
+      "Enter your exam date, the total number of chapters or topics you need to cover, and your estimated study hours per topic. The calculator distributes that workload across the remaining days and returns a realistic daily and weekly study target.",
+      "Your academic schedule and prep timeline are private. Calculations run entirely in your browser, with nothing transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "What is spaced repetition, and why does it work?",
+        a: "It's reviewing material at increasing intervals over time rather than all at once, a technique grounded in Ebbinghaus's forgetting curve research, which shows retention drops fast without reinforcement, spacing counters that decay far better than cramming.",
+      },
+      {
+        q: "How many hours a day should I actually study?",
+        a: "It depends on material difficulty and your deadline, but breaking sessions into focused 45-minute blocks with short breaks tends to prevent the mental fatigue that makes longer unbroken sessions less effective per hour.",
+      },
+      {
+        q: "Does this work for professional certification exams too?",
+        a: "Yes, the underlying math, total material divided across available days, applies whether you're prepping for university finals or a licensing board exam.",
+      },
+      {
+        q: "What is active recall, and how does it fit in?",
+        a: "Active recall means testing yourself on material instead of passively rereading it, which forces your brain to retrieve information rather than just recognize it, building stronger retention than rereading alone.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for students and anyone prepping for a structured exam.",
+      },
+      {
+        q: "Are my study schedules saved anywhere?",
+        a: "No. Everything calculates locally via client-side JavaScript, and we don't store, track, or record your academic data.",
+      },
+    ],
+  },
+
+  "reading-time-calculator": {
+    seoTitle: "Reading Time Calculator: Estimate Article Length",
+    seoDescription:
+      "Calculate reading time for articles and books instantly. Use this free reading time estimator to check word counts and reading duration securely.",
+    h1: "Reading Time Calculator",
+    shortDescription:
+      "Paste your text, and this calculator estimates how long it'll take an average reader to get through it.",
+    about: [
+      "Silent reading speed for an average adult sits around 200 to 250 words per minute, though that number shifts with text complexity, dense technical writing reads noticeably slower than casual narrative prose. This calculator counts your actual word count and applies that baseline to give you a realistic estimate, the same kind of \"X minute read\" badge you see on most major publications.",
+      "Readers decide whether to commit to an article within seconds, and knowing upfront whether something is a quick two-minute read or a fifteen-minute deep dive measurably affects whether they click through. Publishers that display reading time estimates have found it reduces bounce rate, since it sets accurate expectations before someone invests their attention.",
+      "Reading time isn't just a web content metric either. Speakers pacing a presentation, authors estimating chapter length, and educators structuring assigned reading all benefit from knowing roughly how long a given text block will actually take to get through.",
+      "Paste your article, essay, or chapter directly into the text box. The calculator counts total words and applies the standard adult reading speed to output an estimated reading duration in minutes and seconds.",
+      "Unpublished drafts deserve privacy. The word count and calculation happen entirely in your browser, with no text content transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "What's the average adult reading speed?",
+        a: "Roughly 200 to 250 words per minute for silent reading, though this varies based on text complexity and how familiar the reader is with the subject matter.",
+      },
+      {
+        q: "Why is spoken reading time slower than silent reading?",
+        a: "Speaking requires clear articulation and pacing for audience comprehension, which runs considerably slower than silent reading, typically around 130 to 150 words per minute.",
+      },
+      {
+        q: "Does text complexity change the estimate?",
+        a: "Yes, dense academic or legal writing takes meaningfully longer per word than casual blog content, since readers process complex sentence structures more slowly.",
+      },
+      {
+        q: "Is this tool free to use?",
+        a: "Yes, no account needed, useful for writers, bloggers, and editors alike.",
+      },
+      {
+        q: "Does it work well on mobile?",
+        a: "Yes, fully responsive, so pasting and checking text works the same on a phone as on desktop.",
+      },
+      {
+        q: "Are my drafts saved anywhere?",
+        a: "No. Word counting and calculation run locally via client-side JavaScript, and we don't store, track, or record your text.",
+      },
+    ],
+  },
+
+  "grade-percentage-calculator": {
+    seoTitle: "Grade Percentage Calculator: Find Test Scores",
+    seoDescription:
+      "Calculate your test grades and percentage scores easily. Use this free grade percentage calculator to compute exam points and academic standing securely.",
+    h1: "Grade Percentage Calculator",
+    shortDescription:
+      "Enter correct answers and total questions, and this calculator instantly returns your exact percentage score.",
+    about: [
+      "Converting a raw test score into a percentage is simple math, correct answers divided by total questions, multiplied by 100, but it gets error-prone fast with odd question counts or partial-credit scoring, which is exactly where a quick calculator beats doing it in your head during a stressful moment right after an exam.",
+      "A test with an unusual total, say 37 questions instead of a clean 50 or 100, makes mental percentage math genuinely harder than it should be, and small arithmetic slips matter when you're trying to figure out whether you cleared a passing threshold. Automating that calculation removes the risk of a careless mistake right when accuracy matters most.",
+      "Beyond single tests, tracking your percentage across every quiz and assignment throughout a term gives you an early, honest signal about where you're strong and where you need to course-correct before final grades lock in, rather than finding out too late.",
+      "Enter the total number of questions on the test and how many you answered correctly. The calculator instantly returns your exact percentage score, including any partial or extra-credit points you add in.",
+      "Grades are personal academic records. The calculation runs entirely in your browser, with no score data transmitted to or stored on a server.",
+    ],
+    faq: [
+      {
+        q: "How exactly is a percentage grade calculated?",
+        a: "Divide the number of correct answers by the total number of questions, then multiply by 100 to get the percentage score.",
+      },
+      {
+        q: "Can I factor in extra credit points?",
+        a: "Yes, enter a correct-answer count that includes any bonus points earned to see how they shift your final percentage above the baseline total.",
+      },
+      {
+        q: "How do percentages map to letter grades?",
+        a: "Grading scales vary by school, but a common US standard runs 90 to 100% as an A, 80 to 89% as a B, 70 to 79% as a C, and below 60% as failing.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for students and teachers checking scores quickly.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, so checking a score works the same from a phone as from a computer.",
+      },
+      {
+        q: "Are my scores saved anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your grades.",
+      },
+    ],
+  },
+
+  "gpa-to-percentage-converter": {
+    seoTitle: "GPA to Percentage Converter: Translate Grades",
+    seoDescription:
+      "Convert GPA scores to percentage grades easily. Use this free cgpa to percentage converter to translate academic standing securely in your browser.",
+    h1: "GPA to Percentage Converter",
+    shortDescription:
+      "Enter your GPA and scale, and this converter translates it into the equivalent academic percentage.",
+    about: [
+      "International university applications and many scholarship boards still ask for percentage grades, a format left over from grading systems that predate the US-style 4.0 GPA scale, even when your actual transcript records everything in grade points. The common conversion multiplies a 4.0-scale GPA by 25, though some institutions use sliding-scale formulas that differ slightly. This converter applies the formula instantly so you're not hunting for the right multiplier manually on an application deadline.",
+      "A transcript built entirely around a 4.0 GPA scale doesn't translate cleanly to admissions committees or scholarship boards operating on a 100-point percentage system, and getting the conversion wrong on an application form can create confusion or even look like misrepresentation. Having a reliable, consistent conversion method matters more than it might seem for something that looks like a minor formatting detail.",
+      "Weighted GPAs, the kind that give extra credit for honors or AP coursework, complicate the math further, since a straight multiplication can overstate the equivalent percentage if the weighting isn't accounted for separately. Knowing which version of your GPA you're converting, weighted or unweighted, changes which formula actually applies.",
+      "Enter your GPA and select your institution's scale, commonly 4.0 or 5.0. The converter applies the appropriate formula and returns your equivalent percentage grade.",
+      "Academic records are sensitive, especially during application season. The conversion runs entirely in your browser, with no GPA data transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How is GPA converted to a percentage?",
+        a: "A common method multiplies a 4.0-scale GPA by 25, though some institutions apply sliding-scale formulas for a more precise equivalent, especially near the top and bottom of the scale.",
+      },
+      {
+        q: "Why do scholarship applications ask for percentage instead of GPA?",
+        a: "International scholarship boards and universities standardize evaluations across applicants from different educational systems, many of which never used a 4.0 GPA scale in the first place.",
+      },
+      {
+        q: "Does a weighted GPA convert differently?",
+        a: "Yes, weighted GPAs that factor in AP or honors coursework need adjusted conversion formulas, since a straight multiplication can overstate the real percentage equivalent.",
+      },
+      {
+        q: "Is this tool free?",
+        a: "Yes, no account needed, built for students handling applications that require percentage equivalents.",
+      },
+      {
+        q: "Does it work on mobile?",
+        a: "Yes, fully responsive, convenient for checking conversions while filling out an application form on the go.",
+      },
+      {
+        q: "Are my GPA figures saved anywhere?",
+        a: "No. Conversion runs locally via client-side JavaScript, and we don't store, track, or record your academic data.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
