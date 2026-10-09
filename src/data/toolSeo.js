@@ -5204,6 +5204,848 @@ export const TOOL_SEO = {
       },
     ],
   },
+
+  // --- Batch 6 ---
+
+  "text-to-handwriting": {
+    seoTitle: "Text to Handwriting Converter: Turn Typed Text Into Notes",
+    seoDescription:
+      "Convert typed text into realistic handwriting with this free text to handwriting tool. Choose a style, adjust the paper, and download or print the result.",
+    h1: "Text to Handwriting Converter",
+    shortDescription:
+      "Type or paste your text below and this text to handwriting tool turns it into a handwritten-style note you can download or print.",
+    about: [
+      "A text to handwriting tool takes whatever you type and renders it in a handwriting-style font over a paper background, so the result looks like something written by hand rather than printed. It's a quick way to get a handwritten look without actually picking up a pen.",
+      "The most common use is for assignments or notes that are meant to look handwritten, study notes, a practice worksheet, or a personal journal entry someone wants to keep in a consistent style. A handwriting generator also helps people who want a handwritten look but don't want to deal with their own inconsistent handwriting.",
+      "Several handwriting styles are usually available, from neat cursive to a more casual scrawl, along with paper options like ruled lines or plain white, so the output can match whatever context it's meant for, a school notebook look versus a loose sheet of paper.",
+      "Type your text in, pick a handwriting style and paper background, and the tool renders it instantly as an image you can preview before downloading. Adjustments like ink color or paper type update the preview right away, so you can tweak it until it looks right.",
+      "Once you're happy with the result, download it as an image or print it directly. This works well for printable worksheets, personalized notes, or any situation where a handwritten feel matters more than typed, formal-looking text.",
+    ],
+    faq: [
+      {
+        q: "Does the handwriting actually look realistic, or obviously computer generated?",
+        a: "The quality depends on the specific font used, but most handwriting-style fonts built for this purpose look convincingly natural, especially at a normal reading distance or when printed. Close inspection can sometimes reveal the repeating letter shapes a real human hand wouldn't produce exactly the same way twice.",
+      },
+      {
+        q: "Can I download the result as an image or PDF?",
+        a: "Yes, the output is generated as an image you can download directly, and from there you can print it or insert it into a document if you need it in a different format.",
+      },
+      {
+        q: "Can I change the ink color or paper style?",
+        a: "Most versions of this tool let you adjust ink color and choose between paper backgrounds like ruled lines, grid paper or plain white, so you can match the look to whatever the handwriting is meant to represent.",
+      },
+      {
+        q: "Is this tool meant to help with academic dishonesty?",
+        a: "No, it's intended for legitimate uses like personalized notes, printable worksheets, journaling templates, or design projects that need a handwritten look. Submitting generated handwriting as your own original handwritten work where that's explicitly required would misrepresent what it is.",
+      },
+      {
+        q: "Does it support cursive and print handwriting styles?",
+        a: "Yes, most versions include both cursive and print-style handwriting fonts, so you can pick whichever style fits the context, a cursive signature-style look versus a simpler printed note.",
+      },
+      {
+        q: "Can I convert a long paragraph, or just short text?",
+        a: "You can convert text of any length, from a single line to a full page, though very long text may render across multiple lines or pages depending on how the output is formatted.",
+      },
+    ],
+  },
+
+  "hashtag-generator": {
+    seoTitle: "Hashtag Generator: Relevant Tags for Instagram & TikTok",
+    seoDescription:
+      "Generate relevant hashtags for your post in seconds. This free hashtag generator suggests tags based on your topic to help your content get found.",
+    h1: "Hashtag Generator",
+    shortDescription:
+      "Type in your topic or a short description of your post, and this hashtag generator suggests a set of relevant tags you can copy straight into your caption.",
+    about: [
+      "A hashtag generator takes a topic, keyword or description you give it and suggests a set of relevant hashtags, saving you from brainstorming tags one at a time or guessing which ones are actually relevant to what you posted. It's built to speed up the part of posting that usually takes longer than it should.",
+      "Hashtags work by grouping content around a shared topic, so when someone searches or browses a tag, your post has a chance of showing up alongside others using the same one. Using tags that are too generic, like #love or #instagood, means your post gets buried in a massive, fast-moving feed, while overly specific tags might get seen by almost nobody at all.",
+      "An instagram hashtag generator is useful here because the platform rewards a mix, a couple of broad tags for reach alongside more specific ones related directly to your content, your niche, or your location. Getting that balance right by hand means researching tag volume and competition, which a generator shortcuts by suggesting a reasonable starting mix.",
+      "Enter a word or short phrase describing your post, a product, a location, a mood, and the tool returns a list of related hashtags you can scan through and pick from. Copy the ones that fit, skip the ones that don't, and paste the result straight into your caption or first comment.",
+      "This works across platforms that use hashtags for discovery, Instagram, TikTok, X and others, though what counts as a good mix can vary slightly by platform. Use it before every post rather than reusing the same handful of tags repeatedly, since a fresh, relevant set tends to perform better than a copy-pasted block used on everything.",
+    ],
+    faq: [
+      {
+        q: "How many hashtags should I actually use on a post?",
+        a: "It depends on the platform. Instagram allows up to 30 but a smaller, more relevant set of around 5 to 15 tends to perform just as well without looking spammy. TikTok and X generally work better with just a handful of highly relevant tags rather than a long list.",
+      },
+      {
+        q: "Do hashtags still matter for reach in 2026?",
+        a: "They still help with discoverability, especially for niche or specific topics, though algorithms now weigh many other signals too, like watch time and engagement. Hashtags are one part of getting found, not the whole strategy on their own.",
+      },
+      {
+        q: "Should I use the same hashtags on every post?",
+        a: "It's better to vary them based on what each specific post is actually about. Reusing the exact same block of tags on every post can also look spammy to the platform's algorithm and to the people seeing it, and it misses more specific tags that might fit an individual post better.",
+      },
+      {
+        q: "Can I use this hashtag generator for TikTok, not just Instagram?",
+        a: "Yes, the suggested tags work as a starting point for any platform that uses hashtags for discovery. Just keep in mind each platform has its own norms, so you might trim the list differently for TikTok versus Instagram.",
+      },
+      {
+        q: "Does using banned or flagged hashtags hurt my post?",
+        a: "It can. Some hashtags get flagged or restricted by platforms due to past misuse, which can limit how far a post using them gets shown. It's worth occasionally checking that tags you use often haven't been flagged, since platforms update these restrictions periodically.",
+      },
+      {
+        q: "Will more hashtags always mean more reach?",
+        a: "No, piling on tags that aren't genuinely relevant to your content tends to hurt more than help, since it can look spammy and doesn't match what people searching that tag are actually looking for. A smaller, relevant set usually outperforms a long, generic one.",
+      },
+    ],
+  },
+
+  "lorem-ipsum-generator": {
+    seoTitle: "Lorem Ipsum Generator: Free Placeholder Text for Design",
+    seoDescription:
+      "Generate lorem ipsum placeholder text in any length, paragraphs, words or sentences. Free lorem ipsum generator for mockups, wireframes and templates.",
+    h1: "Lorem Ipsum Generator",
+    shortDescription:
+      "Pick how much placeholder text you need, paragraphs, words or sentences, and this lorem ipsum generator fills it in instantly, ready to drop into your layout.",
+    about: [
+      "Lorem ipsum is the placeholder text designers and developers have used for decades to fill a layout before real content is ready, scrambled Latin that looks like real paragraphs without actually meaning anything. This lorem ipsum generator produces however much of it you need, in whatever format works best for your mockup.",
+      "The reason lorem ipsum works so well as filler is that it reads like genuine text at a glance, with normal word lengths and sentence structure, but it doesn't carry any actual meaning that would distract a client or teammate reviewing a layout. A client looking at a mockup full of lorem ipsum focuses on the design itself instead of getting pulled into critiquing placeholder sentences.",
+      "It traces back to a scrambled passage from a first century BC text by Cicero, and it's been the standard filler text in publishing and design since the 1500s, long before it became the default in design software and web templates. That history is part of why it's still the go-to choice over genuinely random text or repeated words.",
+      "Choose how much text you need, a set number of paragraphs, words or sentences, and the generator builds it instantly. There's no need to copy a fixed block and manually trim it down or paste it twice to get more, you set the amount and get exactly that much back.",
+      "This gets used constantly in web design, print layouts, app wireframes and CMS templates, anywhere a designer needs to see how a layout handles real amounts of text before actual copy is written. Generate a fresh batch every time rather than reusing one static block, especially when testing a layout at different text lengths.",
+    ],
+    faq: [
+      {
+        q: "What does lorem ipsum text actually mean?",
+        a: "It doesn't mean anything coherent. It's derived from a scrambled, modified passage of Latin text, originally from a work by Cicero, altered specifically so it wouldn't read as actual meaningful content, just something that looks and flows like real text.",
+      },
+      {
+        q: "Why is lorem ipsum used instead of random English words?",
+        a: "Because it resembles normal sentence structure and word length distribution, it looks like real paragraphs at a glance, which helps a layout look realistic. Random English words would read as obviously fake and sometimes accidentally form distracting or odd phrases.",
+      },
+      {
+        q: "Can I generate lorem ipsum in a specific word or character count?",
+        a: "Yes, you can usually choose to generate text by paragraph count, word count or sentence count, depending on exactly how much filler your layout needs.",
+      },
+      {
+        q: "Is it okay to ship lorem ipsum text in a final, live website?",
+        a: "It's generally not recommended, since visitors and search engines will see placeholder text instead of real content, which looks unfinished and won't help the page's SEO. It's meant strictly for mockups, wireframes and early design stages before actual copy is written.",
+      },
+      {
+        q: "Are there alternatives to classic lorem ipsum text?",
+        a: "Yes, some designers use themed filler text instead, like \"bacon ipsum\" or \"hipster ipsum,\" which follow the same idea but with different word banks for a bit more personality. The classic Latin version remains the most widely recognized and expected default though.",
+      },
+      {
+        q: "Does lorem ipsum work for right-to-left languages or non-Latin scripts?",
+        a: "Classic lorem ipsum is Latin-based and reads left to right, so it's not a natural fit for testing right-to-left layouts like Arabic or Hebrew. For those, a script-appropriate placeholder text generator is a better choice to properly test layout and text direction.",
+      },
+    ],
+  },
+
+  "text-diff-checker": {
+    seoTitle: "Diff Checker: Compare Two Texts and Highlight Differences",
+    seoDescription:
+      "Compare two blocks of text side by side with this free diff checker. See every added, removed or changed word highlighted instantly, no sign-up needed.",
+    h1: "Diff Checker",
+    shortDescription:
+      "Paste your original and edited text into the two boxes below, and this diff checker highlights exactly what changed between them, added, removed or edited.",
+    about: [
+      "A diff checker compares two pieces of text and highlights exactly where they differ, word by word or line by line, instead of you having to scan both versions and spot the changes yourself. It's faster and far more reliable than reading through two documents side by side looking for what moved.",
+      "This comes up constantly when you're reviewing an edited draft, checking what a collaborator changed in a shared document, or comparing two versions of code, a contract, or any text that's gone through more than one round of edits. Reading both versions start to finish to catch every small change is slow and easy to get wrong, especially on longer documents.",
+      "A text diff checker works by aligning both pieces of text and marking anything added, removed or changed, usually with color coding, so additions and deletions are visually distinct at a glance rather than something you have to infer from reading closely.",
+      "Paste your original text into one box and the edited version into the other, and the comparison runs immediately, with differences highlighted directly in the output. There's no need to manually mark anything or scroll back and forth between two separate windows.",
+      "This is useful well beyond writing, developers use it to compare code snippets or config files, editors use it to review what changed in a manuscript, and anyone collaborating on a shared document can use it to quickly see what a teammate actually edited rather than re-reading the whole thing from scratch.",
+    ],
+    faq: [
+      {
+        q: "Does a diff checker compare word by word or character by character?",
+        a: "Most diff checkers, including this one, compare at the word level by default, which tends to be more readable for prose and general text. Some tools also offer a character-level or line-level comparison mode, useful for things like code where a single character change matters.",
+      },
+      {
+        q: "Can I use this to compare two versions of code?",
+        a: "Yes, comparing code works the same way as comparing regular text, pasting one version into each box shows exactly which lines were added, removed or changed. For very large files though, a dedicated code diff tool built specifically for that language might give more detailed context.",
+      },
+      {
+        q: "What do the different highlight colors mean?",
+        a: "Typically, added text is highlighted in one color (often green) and removed text in another (often red), so you can tell at a glance whether something was inserted or deleted, rather than just that something changed.",
+      },
+      {
+        q: "Is there a limit to how much text I can compare at once?",
+        a: "You can compare anything from a sentence to a full document, since the comparison runs in your browser rather than on a server. Very long documents may take a moment longer to render the comparison, but there's no hard size cap.",
+      },
+      {
+        q: "Can this tool detect if two documents are identical?",
+        a: "Yes, if there are no differences between the two texts, the tool will show no highlighted changes, which is itself a quick way to confirm two documents match exactly.",
+      },
+      {
+        q: "Does this tool store or save the text I compare?",
+        a: "No, everything is compared directly in your browser, so neither the original nor the edited text you paste in is uploaded or saved anywhere. That matters if you're comparing something sensitive, like a draft contract or private document.",
+      },
+    ],
+  },
+
+  "text-to-speech": {
+    seoTitle: "Text to Speech: Convert Text to Natural Voice Audio",
+    seoDescription:
+      "Turn written text into spoken audio with this free text to speech tool. Choose a voice, adjust the speed, and listen or download the result instantly.",
+    h1: "Text to Speech",
+    shortDescription:
+      "Paste in your text, pick a voice, and this text to speech tool reads it out loud right in your browser, with options to adjust speed and download the audio.",
+    about: [
+      "A text to speech tool reads written text out loud using a synthesized voice, turning an article, a script or a paragraph of notes into audio you can listen to instead of read. It's useful any time listening fits better than reading, during a commute, while multitasking, or for proofreading your own writing by ear.",
+      "Hearing your own writing read aloud is one of the most effective ways to catch awkward phrasing, repeated words or sentences that run too long, mistakes that are easy to miss when your eyes skim familiar text but become obvious the moment you hear them spoken. Writers, students and anyone proofreading a draft use text to speech for exactly this reason.",
+      "It's also genuinely useful for accessibility, letting someone with low vision or a reading difficulty access written content by ear instead, and for simply multitasking, listening to an article while doing something else rather than needing to sit and read it.",
+      "Paste your text in, choose from the available voices, and adjust playback speed to whatever's comfortable. The audio plays right in the browser, so you can listen immediately without downloading anything first, though a download option is usually there if you want to save it.",
+      "This works for scripts, articles, study notes, emails you want to proofread by ear, or any other text where hearing it adds something reading alone doesn't. It's free to use as often as you need, with no account required.",
+    ],
+    faq: [
+      {
+        q: "Do the voices sound robotic, or close to natural speech?",
+        a: "Voice quality varies depending on which voice you choose and what your browser or device supports, but most modern text to speech voices sound reasonably natural, especially at a normal speaking pace. Very fast playback speeds can make any voice sound choppier.",
+      },
+      {
+        q: "Can I download the audio file after generating it?",
+        a: "Most text to speech tools, including this one, let you download the generated audio once it's been created, so you can save it, share it, or listen to it later without needing to regenerate it.",
+      },
+      {
+        q: "Does text to speech work in languages other than English?",
+        a: "It depends on which voices are available, since voice options are usually tied to what your browser or operating system supports. Many tools offer a selection of common languages beyond English, though availability varies by device.",
+      },
+      {
+        q: "Is there a limit to how much text I can convert at once?",
+        a: "You can typically convert anything from a short sentence to a long article, though very long text may take a bit longer to process or may need to be split into sections depending on the tool's limits.",
+      },
+      {
+        q: "Can I adjust how fast the voice reads?",
+        a: "Yes, playback speed is usually adjustable, so you can slow it down for better comprehension or speed it up if you're just scanning for key points and want to get through the text faster.",
+      },
+      {
+        q: "Is my text uploaded to a server when I use this tool?",
+        a: "That depends on which voice engine is used, browser-based voices typically process text locally on your device, while higher-quality cloud voices may send text to a speech service to generate the audio. Check the specific tool's privacy details if that matters for sensitive text.",
+      },
+    ],
+  },
+
+  "speech-to-text": {
+    seoTitle: "Speech to Text: Free Voice Dictation Tool",
+    seoDescription:
+      "Turn your voice into typed text instantly with this free speech to text tool. Speak into your microphone and watch your words appear as you talk.",
+    h1: "Speech to Text",
+    shortDescription:
+      "Click the microphone, start talking, and this speech to text tool types out what you say in real time, right in your browser.",
+    about: [
+      "A speech to text tool listens through your microphone and converts what you say into typed text in real time, letting you dictate a note, an email or a draft out loud instead of typing it by hand. It's faster than typing for most people once you get used to speaking at a normal pace.",
+      "Dictation tends to work best for a first draft rather than a final, polished version, since speech naturally includes pauses, filler words and restructured sentences that read differently than carefully typed prose. Most people who dictate regularly get in the habit of a quick cleanup pass afterward rather than expecting a perfect transcript the first time.",
+      "This is especially useful for anyone who types slowly, deals with hand or wrist strain, or just finds it easier to think out loud than to type while forming a sentence. It's also a quick way to capture an idea the moment it occurs to you, without stopping to type it all out manually.",
+      "Click to start, speak naturally, and your words appear as typed text while you talk. Punctuation can often be added by voice too, saying \"period\" or \"comma\" at the right moment, depending on what the tool supports. Click again to stop whenever you're done.",
+      "Dictation online works well for notes, first drafts of emails, journal entries, or capturing a quick thought while your hands are busy with something else. It's free to use, with no account needed and no limit on how often you use it.",
+    ],
+    faq: [
+      {
+        q: "How accurate is speech to text for normal speech?",
+        a: "Accuracy is generally quite good for clear speech at a normal pace in a quiet environment, though it can drop with background noise, strong accents, or fast, mumbled speaking. A quick proofread after dictating catches anything the tool misheard.",
+      },
+      {
+        q: "Does speech to text add punctuation automatically?",
+        a: "Many speech to text tools support spoken punctuation commands, saying \"period,\" \"comma\" or \"new paragraph\" at the right point in your sentence, though automatic punctuation without saying it explicitly is less reliable and varies by tool.",
+      },
+      {
+        q: "Can I use speech to text in a noisy environment?",
+        a: "It's possible but accuracy drops noticeably with background noise, since the tool has to distinguish your voice from everything else it picks up. A quiet room and a decent microphone give noticeably better results than a noisy café or outdoor space.",
+      },
+      {
+        q: "Does this tool work with any microphone?",
+        a: "It works with whatever microphone your device is already using, built-in laptop mics, headset mics, or external ones, though a closer, higher-quality microphone generally gives more accurate results than a far-away built-in mic.",
+      },
+      {
+        q: "Is my voice recording saved or sent anywhere?",
+        a: "Most browser-based speech to text tools process audio in real time without saving a permanent recording, with the audio used only to generate the text output, not stored afterward. Check the specific tool's details if you're dictating anything sensitive.",
+      },
+      {
+        q: "Can I dictate in languages other than English?",
+        a: "It depends on your browser and device's supported languages, since speech recognition relies on language models built into your system or browser. Many major languages are supported, though availability varies.",
+      },
+    ],
+  },
+
+  "duplicate-line-remover": {
+    seoTitle: "Duplicate Line Remover: Clean Up Lists in One Click",
+    seoDescription:
+      "Remove duplicate lines from any list or block of text instantly. Free duplicate line remover, paste your text and get a clean, unique list back.",
+    h1: "Duplicate Line Remover",
+    shortDescription:
+      "Paste in your list or block of text and this duplicate line remover strips out every repeated line, leaving you with a clean, unique list.",
+    about: [
+      "A duplicate line remover scans a block of text line by line and strips out anything that repeats, leaving only the unique entries behind. It's a small utility, but it saves real time any time cleaning up a messy list by hand would otherwise mean scrolling through and manually deleting repeats.",
+      "This comes up constantly with lists pulled from somewhere else, a spreadsheet export, a combined email list from two sources, or notes copied from multiple places where the same item ended up listed more than once. Spotting every duplicate by eye in a long list is slow and it's easy to miss one buried in the middle.",
+      "The tool compares lines exactly as they appear, so two lines that look the same but differ by a trailing space or different capitalization might be treated as different unless the tool specifically normalizes for that, which is worth checking if your list has that kind of inconsistency.",
+      "Paste your list in, and every duplicate line disappears immediately, leaving the original order of the first occurrence of each unique line intact. Copy the cleaned result straight out, no manual scrolling or deleting required.",
+      "This gets used for email lists, keyword lists, inventory data, or any other line-separated list that's been combined from more than one source. It's a two-second fix for a problem that would otherwise mean carefully checking a long list by hand.",
+    ],
+    faq: [
+      {
+        q: "Does this tool remove duplicates that differ only in capitalization?",
+        a: "By default, most duplicate line removers treat differently capitalized lines as distinct unless there's a specific case-insensitive option enabled. Check whether the tool offers that setting if your list has inconsistent capitalization you want treated as the same.",
+      },
+      {
+        q: "Will it keep the original order of my list?",
+        a: "Yes, typically the first occurrence of each unique line stays in its original position, and only the later repeats get removed, so your list's overall order is preserved rather than reshuffled.",
+      },
+      {
+        q: "Does it remove lines that are duplicates except for extra spaces?",
+        a: "This depends on whether the tool trims whitespace before comparing. A line with a trailing space might be treated as different from an otherwise identical line without one, so it's worth checking your list for stray spaces if duplicates aren't being caught as expected.",
+      },
+      {
+        q: "Can I use this for a list of emails or usernames?",
+        a: "Yes, as long as each entry is on its own line, the tool works the same way regardless of what the list contains, emails, usernames, keywords or anything else organized one item per line.",
+      },
+      {
+        q: "Is there a limit to how many lines I can paste in?",
+        a: "No practical limit, you can paste in anything from a short list to thousands of lines, since the deduplication runs directly in your browser rather than on a server.",
+      },
+      {
+        q: "Does this tool sort my list alphabetically too?",
+        a: "No, it only removes duplicates and keeps the remaining lines in their original order. If you need the list sorted as well, you'd want a separate text sorting tool for that step.",
+      },
+    ],
+  },
+
+  "text-sorter": {
+    seoTitle: "Alphabetize List: Sort Text A to Z Instantly",
+    seoDescription:
+      "Alphabetize any list in seconds with this free text sorter. Sort lines A to Z, Z to A, or by number, then copy the result straight into your document.",
+    h1: "Text Sorter",
+    shortDescription:
+      "Paste in your list and this text sorter alphabetizes it instantly, A to Z, Z to A, or numerically, with the result ready to copy right away.",
+    about: [
+      "This tool takes a list of lines and puts them in order, alphabetically from A to Z, reversed from Z to A, or numerically if your list is made of numbers rather than words. It's the kind of task that's simple in theory but tedious to do by hand once a list gets past a dozen or so items.",
+      "Sorting a list manually means comparing items against each other repeatedly, moving things around, and double-checking you haven't missed one, which gets slower and more error-prone the longer the list gets. A tool built to alphabetize a list handles all of that instantly regardless of length.",
+      "This matters for things like a reference list, a glossary, a list of names for a program or event, or any other list where readers expect items in a predictable order rather than whatever order they happened to be entered in originally.",
+      "Paste your list in, with one item per line, choose A to Z or Z to A, and the sorted result appears immediately. From there it's one click to copy the cleaned-up list straight into whatever document or spreadsheet it needs to go into.",
+      "This is useful for bibliographies, contact lists, inventory names, keyword lists, or any other situation where a list needs to be in a predictable, scannable order. It handles both short lists and long ones the same way, instantly and without manual rearranging.",
+    ],
+    faq: [
+      {
+        q: "Does this tool sort numbers correctly, or treat them as text?",
+        a: "Most text sorters offer both options, alphabetical sorting that treats everything as text, and a numeric sort that orders actual numbers correctly, which matters since text sorting alone would put \"10\" before \"9.\"",
+      },
+      {
+        q: "Can I sort a list in reverse alphabetical order?",
+        a: "Yes, alongside standard A to Z sorting, a Z to A option is typically available, which just reverses the order so the list reads from the end of the alphabet to the beginning instead.",
+      },
+      {
+        q: "Does capitalization affect how the list gets sorted?",
+        a: "It depends on the specific sorting method used, some sorts are case-sensitive by default, which can place capitalized words before lowercase ones. A case-insensitive sort treats \"Apple\" and \"apple\" as equivalent for ordering purposes, which is usually what people expect.",
+      },
+      {
+        q: "Can I alphabetize a list with blank lines or extra spacing?",
+        a: "Blank lines are typically ignored or moved to one end of the sorted list rather than causing an error, though it's worth double-checking the result if your original list had a lot of inconsistent spacing.",
+      },
+      {
+        q: "Will sorting remove any duplicate entries in my list?",
+        a: "No, sorting only changes the order of your list, it doesn't remove repeated items. If you also need duplicates removed, you'd want to run your list through a duplicate line remover as a separate step.",
+      },
+      {
+        q: "Is there a limit to how long my list can be?",
+        a: "No practical limit, this works the same whether your list has ten items or several thousand, since sorting happens directly in your browser rather than being processed on a server.",
+      },
+    ],
+  },
+
+  "slug-generator": {
+    seoTitle: "Slug Generator: Turn Any Title Into a Clean URL Slug",
+    seoDescription:
+      "Convert any title or phrase into a clean, SEO-friendly URL slug instantly. Free slug generator, lowercase, hyphenated, ready to paste into your CMS.",
+    h1: "Slug Generator",
+    shortDescription:
+      "Type in a title or phrase and this slug generator converts it into a clean, lowercase, hyphenated URL slug, ready to paste straight into your CMS.",
+    about: [
+      "A slug generator takes a title, like a blog post headline or product name, and converts it into the clean, lowercase, hyphenated format search engines and most content systems expect in a URL. Doing this by hand means manually removing punctuation, swapping spaces for hyphens and lowercasing everything, small steps that are easy to get slightly wrong.",
+      "A good URL slug is short, readable and made up of lowercase words separated by hyphens, with no special characters, underscores or extra punctuation that can cause issues in a browser address bar or confuse a content management system. Search engines also read slugs as part of understanding what a page is about, so a clean, relevant slug is a small but real SEO detail.",
+      "Running a title through slugify also strips out characters that technically work in a URL but look messy or can cause problems, apostrophes, ampersands, question marks, anything that isn't a plain letter, number or hyphen. The result is a slug that works reliably across every browser and platform without edge-case formatting issues.",
+      "Type or paste in your title, and the clean slug version appears immediately, lowercase, hyphenated, special characters stripped. Copy it straight into your CMS, your static site generator, or wherever your URL structure needs it.",
+      "This gets used constantly by anyone publishing content regularly, bloggers, developers building a site's URL structure, marketers setting up landing pages, anywhere a readable, consistent URL format matters more than manually typing it out correctly every time.",
+    ],
+    faq: [
+      {
+        q: "What makes a good URL slug for SEO?",
+        a: "A good slug is short, descriptive, lowercase and separated by hyphens rather than underscores or spaces, ideally including the page's main keyword without unnecessary filler words. Search engines and readers can both quickly understand what a page is about from a clean slug.",
+      },
+      {
+        q: "Why hyphens instead of underscores in a URL slug?",
+        a: "Search engines generally treat a hyphen as a word separator but can read an underscore as joining two words into one, which can affect how a page's keywords are interpreted. Hyphens are the more widely recommended and supported convention across platforms.",
+      },
+      {
+        q: "Does slugify remove stop words like \"the\" or \"and\"?",
+        a: "It depends on the specific tool, some slug generators keep every word from the original title, while others offer an option to strip common stop words for a shorter, cleaner slug. Check the specific output if you want a more condensed result.",
+      },
+      {
+        q: "Will this tool handle special characters and accented letters correctly?",
+        a: "Yes, a proper slug generator converts accented characters to their closest plain-letter equivalent and strips out punctuation and symbols entirely, leaving only lowercase letters, numbers and hyphens in the result.",
+      },
+      {
+        q: "Can I use this for things other than blog post titles?",
+        a: "Yes, it works the same way for product names, category names, event titles or any other text you need converted into a clean URL-safe format, not just blog titles specifically.",
+      },
+      {
+        q: "Does a shorter slug rank better than a longer one?",
+        a: "There's no strict length rule, but shorter, more focused slugs tend to be easier for both readers and search engines to parse at a glance. Trimming an overly long title down to its essential keywords is generally better than including every word of the original title.",
+      },
+    ],
+  },
+
+  "text-reverser": {
+    seoTitle: "Backwards Text Generator: Reverse Any Text Instantly",
+    seoDescription:
+      "Flip any text backwards instantly with this free backwards text generator. Reverse letters, words or whole sentences, then copy the result right away.",
+    h1: "Text Reverser",
+    shortDescription:
+      "Type or paste your text below and this text reverser flips it backwards instantly, letter by letter or word by word, ready to copy and share.",
+    about: [
+      "A backwards text generator takes whatever you type and reverses it, flipping the order of the letters so your text reads back to front. It sounds like a small trick, but it's surprisingly handy for puzzles, novelty messages, and a few practical cases like checking if a word or phrase happens to be a palindrome.",
+      "The classic use case is just for fun, reversed text for a riddle, a hidden message in a caption, or a novelty post that only makes sense once someone reads it backwards or holds it up to a mirror. It's a simple effect that still gets attention because most people don't expect to see backwards text.",
+      "There's a more practical side too. Reversing text is a quick way to check whether a word or phrase is a palindrome, something that reads the same forwards and backwards, and it's occasionally useful in puzzle design, escape room clues, or testing how text rendering handles unusual input.",
+      "Type your text in, and the reversed version appears immediately, updating as you type. There's no separate button to press or settings to configure for the basic reversal, the output just mirrors whatever's in the input box.",
+      "Use it for social posts, riddles, puzzle clues, or just testing whether a word happens to be a palindrome. It works the same whether you're reversing a single word or a full paragraph, and the result is ready to copy the moment it appears.",
+    ],
+    faq: [
+      {
+        q: "Does this reverse individual letters or the order of whole words?",
+        a: "This depends on the mode selected, a full reversal flips every letter in the entire string, so a sentence comes out completely backwards including word order, while a word-order reversal only flips the sequence of words while keeping each word spelled normally.",
+      },
+      {
+        q: "What is a palindrome, and how does this tool help check for one?",
+        a: "A palindrome is a word or phrase that reads the same forwards and backwards, like \"level\" or \"racecar.\" Reversing text with this tool and comparing it to the original is a quick way to confirm whether something qualifies.",
+      },
+      {
+        q: "Can I reverse a full sentence with punctuation and spaces?",
+        a: "Yes, punctuation and spaces get reversed along with the letters, so a full sentence reverses as one continuous string rather than just the words individually, which is what gives reversed text its distinctive scrambled look.",
+      },
+      {
+        q: "Does reversed text work the same in every language?",
+        a: "It works on the character level regardless of language, though languages that read right to left, like Arabic or Hebrew, or ones using complex character combinations, may produce results that look different than expected since reversal doesn't account for a language's natural reading direction.",
+      },
+      {
+        q: "Is there a use for backwards text beyond novelty posts?",
+        a: "Beyond social posts and puzzles, it's occasionally used in simple text-based games, testing how software handles unusual input, or checking palindromes, though the most common use by far is just for fun, novelty messages.",
+      },
+      {
+        q: "Can I copy the reversed text directly to use elsewhere?",
+        a: "Yes, there's a copy button next to the output, so you can grab the reversed text immediately and paste it into a caption, message or wherever else you want to use it.",
+      },
+    ],
+  },
+
+  "readability-score-checker": {
+    seoTitle: "Readability Checker: Test Your Writing's Reading Level",
+    seoDescription:
+      "Check how easy your writing is to read with this free readability checker. Get a Flesch reading ease score and grade level estimate instantly.",
+    h1: "Readability Checker",
+    shortDescription:
+      "Paste in your text and this readability checker scores how easy it is to read, with a grade level estimate so you know if it needs simplifying.",
+    about: [
+      "A readability checker analyzes your writing and scores how easy it is to read, based on factors like sentence length and word complexity, then translates that into a grade level estimate, roughly what education level a reader would need to follow it comfortably. It's a quick way to check whether your writing matches the audience it's meant for.",
+      "The most widely used measure here is the Flesch reading ease score, which runs from 0 to 100, with a higher number meaning easier to read. Most general audience writing, news articles and blog posts, aims for a score in the plain-English range, while academic or technical writing often scores lower simply because of its longer sentences and more specialized vocabulary.",
+      "Readability isn't about dumbing content down, it's about matching your writing to who's actually going to read it. A legal document and a children's picture book are both well-written for their intended readers, even though one would score far higher on a readability checker than the other.",
+      "Paste your text in, and the tool returns a readability score along with an estimated grade level, so you can see at a glance whether your writing leans simple or complex. Some versions also flag specific sentences that are unusually long or dense, so you know exactly where to simplify.",
+      "This gets used by content writers checking a blog post is approachable for a general audience, students making sure an essay isn't overly convoluted, and marketers simplifying copy so it reads clearly to as wide an audience as possible. A quick check before publishing catches writing that's accidentally harder to follow than intended.",
+    ],
+    faq: [
+      {
+        q: "What's a good Flesch reading ease score for a general audience?",
+        a: "Scores in the 60 to 70 range are generally considered easily understood by most adult readers, similar to typical magazine or news writing. Lower scores indicate more complex, academic-style writing, while higher scores mean simpler, more conversational text.",
+      },
+      {
+        q: "Does a lower readability score mean the writing is bad?",
+        a: "Not necessarily, it depends entirely on your audience. Technical, legal or academic writing naturally scores lower due to necessary complexity and specialized terms, and that's appropriate for readers who expect and need that level of detail.",
+      },
+      {
+        q: "What factors go into a readability score?",
+        a: "Most readability formulas, including the Flesch reading ease score, are based primarily on average sentence length and average syllables per word, since both are strong indicators of how much effort a sentence takes to parse and understand.",
+      },
+      {
+        q: "How can I actually improve my readability score?",
+        a: "Shortening long sentences, breaking up dense paragraphs, and swapping complex or technical words for simpler alternatives where appropriate are the most effective ways to raise a readability score without stripping out the actual substance of your writing.",
+      },
+      {
+        q: "Does this tool check grammar or just readability?",
+        a: "It's focused specifically on readability, sentence length and word complexity, not grammar or spelling errors. For catching grammar mistakes, you'd want a dedicated grammar checker alongside this tool rather than instead of it.",
+      },
+      {
+        q: "Is readability score the same thing as grade level?",
+        a: "They're related but not identical. The readability score is a numeric measure of ease, while the grade level estimate translates that score into roughly what US school grade a reader would need to comfortably understand the text, both come from the same underlying analysis.",
+      },
+    ],
+  },
+
+  "instagram-bio-generator": {
+    seoTitle: "Instagram Bio Generator: Catchy Bio Ideas in Seconds",
+    seoDescription:
+      "Generate a catchy, unique Instagram bio in seconds. Free instagram bio generator with emoji options, ready to copy straight into your profile.",
+    h1: "Instagram Bio Generator",
+    shortDescription:
+      "Pick a style or vibe below and this instagram bio generator suggests ready-to-use bio ideas, complete with emojis, ready to copy into your profile.",
+    about: [
+      "An instagram bio generator gives you ready-made bio ideas to work from instead of staring at a blank profile field trying to sum yourself up in a couple of lines. Writing a short bio that actually sounds like you, and not like everyone else's, is harder than it looks given how little space Instagram gives you to work with.",
+      "A bio has to do a lot in very little space, Instagram's limit is just 150 characters, so every word needs to earn its place. A bio generator helps by giving you a starting structure, who you are, what you do, a bit of personality, that you can then tweak rather than building entirely from scratch.",
+      "Different bios suit different goals too, a personal account might lean playful and emoji-heavy, while a business or creator account usually needs to communicate what they offer more directly. Having a few different style options to pick from makes it easier to land on a tone that actually fits the account.",
+      "Choose a vibe or category, select whether you want emojis included, and the tool generates a handful of bio options you can scroll through. Copy whichever one is closest to what you want, then tweak the specific details, your name, your niche, a personal touch, to make it genuinely yours.",
+      "This saves the awkward blank-page moment of setting up a new account or finally getting around to updating an old bio you've had for years. Use it as a starting point rather than a final answer, the best bios usually take the generated idea and personalize it a bit further.",
+    ],
+    faq: [
+      {
+        q: "Should I copy the generated bio exactly, or edit it?",
+        a: "It's best used as a starting point you personalize rather than copying word for word, since a bio that sounds exactly like a template won't stand out and won't be specific to you. Swap in your own details, niche or personality to make it genuinely yours.",
+      },
+      {
+        q: "How many characters does Instagram allow in a bio?",
+        a: "Instagram's bio field has a 150 character limit, which includes spaces and emojis. That's part of why bio writing is harder than it seems, every word has to justify the space it takes up.",
+      },
+      {
+        q: "Can I generate a bio for a business account instead of a personal one?",
+        a: "Yes, most bio generators let you choose a category or style, so you can get suggestions geared toward a business or creator account that need to communicate what you offer, rather than a purely personal, playful bio.",
+      },
+      {
+        q: "Do emojis in a bio actually help engagement?",
+        a: "Emojis can make a bio more visually scannable and add personality, which some audiences respond well to, though it depends heavily on your niche and audience. A professional or business-focused account might do better with a cleaner, emoji-light bio.",
+      },
+      {
+        q: "Can I use this generator for platforms other than Instagram?",
+        a: "The short, punchy style it generates works reasonably well for other bio fields too, TikTok, Twitter/X, or any other profile with a similarly tight character limit, even though it's built with Instagram's format in mind.",
+      },
+      {
+        q: "Will using a generated bio make my profile look generic?",
+        a: "It can if you copy it exactly as given, since other people may generate similar results. Editing it to include your specific niche, a personal detail or your own voice is what keeps it from sounding like a template everyone else is also using.",
+      },
+    ],
+  },
+
+  "character-counter": {
+    seoTitle: "Character Counter – Count Characters, Words & Limits Free",
+    seoDescription:
+      "Count characters instantly with our free character counter. Track word count, spaces, and Twitter/X limits as you type. No sign-up needed.",
+    h1: "Character Counter",
+    shortDescription:
+      "Count characters, words, and spaces in real time, with built-in limits for Twitter/X posts, Instagram captions, and meta descriptions.",
+    about: [
+      "A character counter gives you an exact count of every letter, number, space, and punctuation mark in your text, updating the moment you type or paste something in. It's built for anyone who has to fit a message into a strict limit, whether that's a tweet, a product title, or a meta description that Google won't truncate.",
+      "Typing into a text box and guessing how close you are to a limit wastes time, and guessing wrong means your post gets cut off or your title gets flagged in your SEO tool. This counter removes the guesswork. Paste your text in and you'll see the character count, word count, and sentence count update live, with no refresh and no delay.",
+      "It also works as a twitter character counter, since X still caps posts at 280 characters and going even one over means you can't publish. The counter flags exactly where you stand so you can trim a sentence or swap a word before you hit send, instead of finding out from an error message.",
+      "Beyond social posts, it's useful for SEO titles, meta descriptions, Instagram captions, and even text messages with character-based pricing. Paste, check the count, adjust, and you're done.",
+      "There's nothing to install and nothing to configure.",
+    ],
+    faq: [
+      {
+        q: "Is this character counter free to use?",
+        a: "Yes. It's completely free, with no limit on how many times you can use it and no account needed.",
+      },
+      {
+        q: "Does the character counter include spaces?",
+        a: "Yes, the total character count includes spaces by default, and you can see the count without spaces too, so you know exactly what counts toward a platform's limit.",
+      },
+      {
+        q: "Can I use this as a twitter character counter?",
+        a: "Yes. It tracks the 280-character limit for X/Twitter posts specifically, so you know the moment your draft goes over before you try to post it.",
+      },
+      {
+        q: "Does it count words as well as characters?",
+        a: "Yes, it shows word count and sentence count alongside the character count, so you get a full picture of your text's length in one place.",
+      },
+      {
+        q: "Is my text uploaded anywhere when I use the character counter?",
+        a: "No. Everything is counted locally in your browser, and your text is never sent to a server or stored anywhere.",
+      },
+      {
+        q: "Can I check character limits for Instagram captions and meta descriptions too?",
+        a: "Yes, the counter works for any platform with a character cap, including Instagram captions, meta descriptions, and SMS messages.",
+      },
+    ],
+  },
+
+  "morse-code-translator": {
+    seoTitle: "Morse Code Translator – Convert Text to Morse Code Free",
+    seoDescription:
+      "Translate text to morse code and back instantly with our free morse code translator. Supports audio playback and works entirely in your browser.",
+    h1: "Morse Code Translator",
+    shortDescription:
+      "Convert any text into morse code, or decode morse code back into plain text, with audio playback so you can hear exactly how it sounds.",
+    about: [
+      "A morse code translator turns plain text into dots and dashes, and turns morse code back into readable text, so you don't need to memorize the alphabet to use it. Type a word or paste in a string of morse and the conversion happens instantly on the page.",
+      "Morse code still shows up in amateur radio, maritime signaling, puzzles, and plenty of hobby projects, and looking up each letter by hand in a chart gets slow fast. This tool works as a full morse code converter in both directions, so whether you're encoding a message or decoding one someone sent you, you get the result in one pass instead of letter by letter.",
+      "It also plays the morse code as audio, with adjustable speed, so you can practice listening and recognizing the pattern of dots and dashes the way operators actually hear it, not just read it on a screen.",
+      "It's useful for ham radio students prepping for a license test, puzzle solvers working through an escape room clue, or anyone curious about how their name looks in morse.",
+      "Type your text, get the code, and play it back, all without installing anything.",
+    ],
+    faq: [
+      {
+        q: "Is this morse code translator free to use?",
+        a: "Yes. It's completely free, with no limit on conversions and no account needed.",
+      },
+      {
+        q: "Can this morse code converter translate in both directions?",
+        a: "Yes, it converts text to morse code and morse code back to text, so you can use it either way depending on what you're starting with.",
+      },
+      {
+        q: "Can I hear the morse code as audio?",
+        a: "Yes, the translator plays back the dots and dashes as sound, with adjustable speed, which is useful if you're practicing for ham radio or just want to hear how a message sounds.",
+      },
+      {
+        q: "Does the morse code translator support numbers and punctuation?",
+        a: "Yes, it handles the full standard morse code alphabet, including numbers and common punctuation marks, not just letters.",
+      },
+      {
+        q: "Is my text sent to a server when I use this tool?",
+        a: "No. Everything is translated locally in your browser, and nothing you type is uploaded or stored anywhere.",
+      },
+      {
+        q: "Can I use this morse code translator on my phone?",
+        a: "Yes, it works in any modern mobile or desktop browser, so you can translate or play back morse code from your phone without downloading an app.",
+      },
+    ],
+  },
+
+  "nato-phonetic-alphabet-converter": {
+    seoTitle: "NATO Phonetic Alphabet Converter – Text to Alpha Bravo Free",
+    seoDescription:
+      "Convert any word into the NATO phonetic alphabet instantly. Free NATO phonetic alphabet converter for pilots, radio operators, and spelling over the phone.",
+    h1: "NATO Phonetic Alphabet Converter",
+    shortDescription:
+      "Convert any word or name into the NATO phonetic alphabet, so you can spell it clearly over a radio, phone call, or video chat.",
+    about: [
+      "The NATO phonetic alphabet assigns a clear, unmistakable word to every letter, Alpha for A, Bravo for B, Charlie for C, and so on, so that names, codes, and addresses can be spelled out correctly even over a noisy line. This converter turns any word you type into its full phonetic spelling in a split second.",
+      "Spelling a last name or a confirmation code over the phone gets messy fast when letters like M and N or B and D sound alike. Pilots, air traffic controllers, and radio operators solved this decades ago with the NATO phonetic alphabet, and this nato phonetic alphabet converter gives you that same standard without having to memorize all 26 words.",
+      "Type a name, a license plate, or a product code, and the tool instantly returns the matching sequence, Alpha, Bravo, Charlie, and onward. It's handy for call center agents confirming spellings, customer support reps reading out order numbers, and anyone studying for a pilot's license or amateur radio exam.",
+      "There's no setup and no limit on how many words you can convert.",
+      "Paste in a sentence, a name, or a string of letters and numbers, and get the phonetic version back immediately, ready to read aloud.",
+    ],
+    faq: [
+      {
+        q: "Is this NATO phonetic alphabet converter free to use?",
+        a: "Yes. It's completely free, with no sign-up and no limit on how many words you can convert.",
+      },
+      {
+        q: "What is the NATO phonetic alphabet used for?",
+        a: "It's used to spell out letters clearly over radio, phone, or any connection where similar-sounding letters could be confused, common in aviation, military communication, and customer service.",
+      },
+      {
+        q: "Can I convert a full sentence, not just single letters?",
+        a: "Yes, the converter handles full words, names, and sentences, turning each letter into its matching NATO phonetic word automatically.",
+      },
+      {
+        q: "Does the tool include numbers in the phonetic alphabet?",
+        a: "Yes, numbers are converted using their standard spoken forms alongside the letter words, so codes with digits convert correctly too.",
+      },
+      {
+        q: "Is my input sent to a server when I use this NATO phonetic alphabet converter?",
+        a: "No. Everything is converted locally in your browser, and nothing you type is uploaded or logged.",
+      },
+      {
+        q: "Is this useful for studying for a pilot or ham radio exam?",
+        a: "Yes, many students use it to memorize the NATO phonetic alphabet and practice spelling words the way they'd be expected to on a real exam or radio call.",
+      },
+    ],
+  },
+
+  "pig-latin-translator": {
+    seoTitle: "Pig Latin Translator – Convert English to Pig Latin Free",
+    seoDescription:
+      "Translate any sentence into pig latin instantly with our free pig latin translator. Fun for kids, classrooms, and word games, no sign-up needed.",
+    h1: "Pig Latin Translator",
+    shortDescription:
+      "Convert any word or sentence into pig latin instantly, following the classic rules kids and word-game fans already know.",
+    about: [
+      "A pig latin translator takes a normal English sentence and converts it into pig latin, moving the first consonant sound to the end of the word and adding \"ay,\" so \"hello\" becomes \"ellohay\" and \"pig\" becomes \"igpay.\" Type in a sentence and the translation happens instantly.",
+      "Pig latin is a playful way kids and classrooms use to practice phonics and word structure, and it's also a staple of word games and inside jokes among friends. Working out the rules by hand for a long sentence gets tedious, especially with words that start with vowels or consonant clusters like \"str\" or \"ch.\"",
+      "This translator handles those edge cases automatically, so you get a consistent, correctly formatted result every time, whether you're converting one word or a full paragraph. Teachers use it to build quick classroom examples, and parents use it to turn pig latin into a fun reading exercise at home.",
+      "It also works in reverse for anyone trying to decode a pig latin message, since seeing the translated version side by side with the original makes the pattern easy to spot.",
+      "There's nothing to install and no limit on how much text you can convert.",
+    ],
+    faq: [
+      {
+        q: "Is this pig latin translator free to use?",
+        a: "Yes. It's completely free, with no sign-up and no limit on how many words or sentences you can translate.",
+      },
+      {
+        q: "What are the rules this pig latin translator follows?",
+        a: "It follows the standard pig latin rule set: consonant clusters move to the end of the word followed by \"ay,\" and words starting with a vowel usually just add \"way\" or \"ay\" at the end.",
+      },
+      {
+        q: "Can I translate a full sentence, not just one word?",
+        a: "Yes, you can paste in full sentences or paragraphs, and the translator converts every word while keeping spacing and punctuation intact.",
+      },
+      {
+        q: "Is this pig latin translator good for teaching kids?",
+        a: "Yes, many parents and teachers use it to create quick, accurate examples for phonics lessons or as a fun reading game.",
+      },
+      {
+        q: "Is my text sent anywhere when I use this tool?",
+        a: "No. Everything is translated locally in your browser, and nothing you type is uploaded or stored.",
+      },
+      {
+        q: "Does the translator handle words that start with a vowel?",
+        a: "Yes, vowel-starting words are handled with their own rule, usually appending \"way\" or \"ay,\" so the output stays consistent with standard pig latin conventions.",
+      },
+    ],
+  },
+
+  "anagram-solver": {
+    seoTitle: "Anagram Solver – Find All Anagrams & Word Combos Free",
+    seoDescription:
+      "Solve any anagram instantly with our free anagram solver. Find every valid word from your letters, perfect for Scrabble, Words With Friends, and puzzles.",
+    h1: "Anagram Solver",
+    shortDescription:
+      "Enter any set of letters and find every real word hidden inside them, sorted by length, for games, puzzles, and crosswords.",
+    about: [
+      "An anagram solver takes any jumbled set of letters and finds every real word that can be formed from them, instantly, without you having to rearrange letters by hand. Type in your letters and the results come back sorted by word length, so the highest-scoring options show up first.",
+      "Stuck on a Scrabble rack or a Words With Friends turn with seven awkward letters, working out every possible word on your own takes forever and you'll still miss some. This tool checks your letters against a full dictionary and returns every valid combination, giving you options you'd never have spotted by scanning the rack yourself.",
+      "It also works as an anagram generator for crossword constructors, puzzle writers, and word-game enthusiasts who want to build a clue or a hidden message around a specific set of letters. Just type the letters in, and every matching word appears in seconds.",
+      "Beyond games, it's handy for brainstorming usernames, testing whether a name or phrase hides a clever anagram, or just satisfying curiosity about what words are buried in a string of letters.",
+      "There's no limit on how many times you can search.",
+    ],
+    faq: [
+      {
+        q: "Is this anagram solver free to use?",
+        a: "Yes. It's completely free, with no account needed and no limit on how many searches you can run.",
+      },
+      {
+        q: "Can this anagram solver help with Scrabble or Words With Friends?",
+        a: "Yes, it's built with exactly that in mind, showing every valid word from your letters sorted by length, so you can quickly spot your highest-scoring play.",
+      },
+      {
+        q: "Does the anagram generator check against a real dictionary?",
+        a: "Yes, every result is checked against a full word list, so you only see words that are actually valid, not random letter combinations.",
+      },
+      {
+        q: "Can I search for anagrams of a specific word or name?",
+        a: "Yes, type in any word or name and the solver finds every other word that can be made from the same letters.",
+      },
+      {
+        q: "Is my input sent to a server when I use this tool?",
+        a: "No. Everything is processed locally in your browser, and your letters are never uploaded or stored.",
+      },
+      {
+        q: "Does the anagram solver work for long words and phrases?",
+        a: "Yes, it handles single words as well as longer strings of letters, returning every valid word hidden inside, regardless of length.",
+      },
+    ],
+  },
+
+  "text-repeater": {
+    seoTitle: "Text Repeater – Repeat Any Word or Text Instantly, Free",
+    seoDescription:
+      "Repeat any word, phrase, or line as many times as you need with our free text repeater. Set the count and copy the result instantly.",
+    h1: "Text Repeater",
+    shortDescription:
+      "Type a word or phrase, set how many times you want it repeated, and get the full repeated text ready to copy in seconds.",
+    about: [
+      "A text repeater takes any word, phrase, or line of text and repeats it as many times as you set, instantly, instead of you copying and pasting it over and over by hand. Type your text, choose a count, and the full repeated result appears ready to copy.",
+      "Copying and pasting the same word fifty or a hundred times by hand is slow and easy to mess up, especially if you're building test data, a social post with repeated emphasis, or a block of placeholder text. This tool does it in one step, with an exact count every time.",
+      "It also works as a word repeater for anyone generating filler content, stress-testing a form field's character limit, or putting together a joke post where repetition is the whole point. You control the separator too, whether that's a space, a comma, or a line break between each repeat.",
+      "Developers use it to quickly generate sample data, students use it for repetitive-writing exercises, and social media users use it for the kind of exaggerated repeated text that shows up in captions and comments.",
+      "Set your count, hit generate, and copy the result.",
+    ],
+    faq: [
+      {
+        q: "Is this text repeater free to use?",
+        a: "Yes. It's completely free, with no limit on how many times you can generate repeated text and no account needed.",
+      },
+      {
+        q: "Can I choose the separator between each repeat with this word repeater?",
+        a: "Yes, you can set the text to repeat with a space, comma, line break, or custom separator between each instance.",
+      },
+      {
+        q: "Is there a limit on how many times I can repeat my text?",
+        a: "The tool supports very high repeat counts, so you can generate anything from a handful of repeats to thousands in one go.",
+      },
+      {
+        q: "Can I repeat a full sentence, not just one word?",
+        a: "Yes, the text repeater works with single words, phrases, or full sentences, repeating exactly what you type.",
+      },
+      {
+        q: "Is my text uploaded to a server when I use this tool?",
+        a: "No. Everything is generated locally in your browser, and nothing you type is sent anywhere.",
+      },
+      {
+        q: "What is a text repeater used for?",
+        a: "It's commonly used for generating test data, filler text, repeated social media captions, and stress-testing input fields that need long strings of text.",
+      },
+    ],
+  },
+
+  "whitespace-remover": {
+    seoTitle: "Whitespace Remover – Remove Extra Spaces & Line Breaks Free",
+    seoDescription:
+      "Clean up messy text instantly with our free whitespace remover. Remove extra spaces, tabs, and line breaks in one click, no sign-up needed.",
+    h1: "Whitespace Remover",
+    shortDescription:
+      "Strip extra spaces, tabs, and blank lines from any text in one click, leaving clean, consistently spaced content ready to paste anywhere.",
+    about: [
+      "A whitespace remover cleans up text that's been pasted from a PDF, a spreadsheet, or another document and picked up extra spaces, tabs, or blank lines along the way. Paste your text in and the tool strips the mess out, leaving clean, evenly spaced content.",
+      "Text copied from other sources often carries invisible formatting you don't notice until you paste it somewhere else and the spacing looks broken, with double spaces between words or random blank lines scattered through a paragraph. This tool fixes that automatically, so you're not hunting through the text manually to remove extra spaces one at a time.",
+      "It handles several kinds of whitespace at once: collapsing multiple spaces into one, trimming leading and trailing spaces from each line, and removing extra blank lines between paragraphs. You choose which of these to apply, depending on how clean you need the result.",
+      "Writers use it before pasting into a CMS, developers use it to clean up pasted code snippets or config values, and anyone prepping text for a form field uses it to avoid validation errors caused by stray spaces.",
+      "Paste, clean, and copy the result.",
+    ],
+    faq: [
+      {
+        q: "Is this whitespace remover free to use?",
+        a: "Yes. It's completely free, with no limit on how much text you can clean and no account needed.",
+      },
+      {
+        q: "Can this tool remove extra spaces between words?",
+        a: "Yes, it collapses multiple spaces into a single space automatically, fixing the kind of double-spacing that often sneaks in from pasted text.",
+      },
+      {
+        q: "Does the whitespace remover also remove blank lines?",
+        a: "Yes, you can choose to remove extra blank lines between paragraphs along with extra spaces, so the whole block of text comes out clean.",
+      },
+      {
+        q: "Does it remove tabs as well as spaces?",
+        a: "Yes, tabs are treated the same as spaces and can be collapsed or removed along with other whitespace.",
+      },
+      {
+        q: "Is my text uploaded to a server when I use this whitespace remover?",
+        a: "No. Everything is processed locally in your browser, and your text is never sent anywhere or stored.",
+      },
+      {
+        q: "Will this tool change the actual words in my text?",
+        a: "No, it only touches spacing, tabs, and line breaks. Your words and punctuation stay exactly as you typed them.",
+      },
+    ],
+  },
+
+  "letter-frequency-counter": {
+    seoTitle: "Letter Frequency Counter – Analyze Letter Usage Free",
+    seoDescription:
+      "Count how often each letter appears in your text with our free letter frequency counter. Great for cryptography, linguistics, and word games.",
+    h1: "Letter Frequency Counter",
+    shortDescription:
+      "Paste in any text and instantly see how often each letter appears, sorted from most to least common, with percentages included.",
+    about: [
+      "A letter frequency counter scans any block of text and tells you exactly how many times each letter appears, along with what percentage of the total that letter makes up. Paste in a sentence, a paragraph, or an entire document, and the breakdown appears instantly.",
+      "Counting letter occurrences by hand is realistic for a short sentence, but becomes impossible once you're working with a full paragraph or more, and that's exactly where this tool earns its keep. It's built for anyone who needs an exact count rather than a rough guess, whether that's for a cryptography exercise, a linguistics project, or a word-game strategy.",
+      "Cryptography students use it to spot patterns in a cipher, since letter frequency is one of the first tools used to crack a substitution cipher. Linguists and writers use it to study how closely a piece of writing matches typical English letter distribution, where E, T, and A usually dominate.",
+      "It's also handy for Scrabble and Words With Friends players checking which letters are overrepresented in their rack, or anyone curious about the letter patterns in a favorite quote or passage.",
+      "Paste your text in and get the full breakdown immediately.",
+    ],
+    faq: [
+      {
+        q: "Is this letter frequency counter free to use?",
+        a: "Yes. It's completely free, with no limit on how much text you can analyze and no account needed.",
+      },
+      {
+        q: "What does a letter frequency counter actually show me?",
+        a: "It shows how many times each letter appears in your text, plus the percentage of the total that letter represents, sorted from most to least frequent.",
+      },
+      {
+        q: "Is this tool useful for cryptography?",
+        a: "Yes, letter frequency analysis is a classic first step in cracking substitution ciphers, and this counter gives you that breakdown instantly.",
+      },
+      {
+        q: "Does the letter frequency counter distinguish between uppercase and lowercase?",
+        a: "By default it treats uppercase and lowercase versions of the same letter as one, since that matches how frequency analysis is normally done.",
+      },
+      {
+        q: "Is my text sent to a server when I use this tool?",
+        a: "No. Everything is analyzed locally in your browser, and nothing you paste in is uploaded or stored.",
+      },
+      {
+        q: "Can I use this for a linguistics or writing project?",
+        a: "Yes, it's commonly used to compare a text's letter distribution against standard English frequency patterns, which is useful for linguistics research and writing analysis. SEO & Marketing Tools — Content Pack How to use this This covers the 5 SEO & Marketing Tools pages: UTM Link Builder, Open Graph Preview Generator, Keyword Density Checker, Meta Description Length Checker, and X/Twitter Thread Splitter. Each tool section below has: Page Title (meta title), Meta Description, H1 Heading, Short Description (the on-page line under the icon, next to the H1), the primary and secondary keyword with their real volume and KD, an About section split into a lead paragraph plus 4 supporting paragraphs (2 for the left column, 2 for the right, so the layout comes out even instead of the old 2-and-1 split), and 6 FAQs. Primary and secondary keywords come from the real DataForSEO numbers in the keyword research sheet. Copy is written to read naturally, not stuffed with keywords, no em dashes, no AI-sounding filler phrases.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
