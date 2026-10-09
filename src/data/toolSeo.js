@@ -1836,6 +1836,848 @@ export const TOOL_SEO = {
       },
     ],
   },
+
+  // --- Batch 2 ---
+
+  "sql-formatter-minifier": {
+    seoTitle: "SQL Formatter & Minifier: Clean Your Database Queries",
+    seoDescription:
+      "Format messy SQL with proper indentation, or minify it for inline use. Free sql formatter runs entirely in your browser, nothing logged.",
+    h1: "SQL Formatter / Minifier",
+    shortDescription:
+      "Paste a messy query below and this sql formatter minifier either indents it for readability or compresses it into one line, whichever you need.",
+    about: [
+      "A query with several JOINs, a nested subquery, and a long WHERE clause turns into a wall of text fast, and an sql formatter exists specifically to break that apart into something scannable. This sql formatter minifier also goes the other direction, stripping a readable query back down to a single line for the moments when formatting actually gets in the way, like embedding SQL inside application code.",
+      "Formatting a query changes nothing about how it executes, SQL doesn't care about whitespace or line breaks, that distinction belongs entirely to the person reading the code. What formatting does change is how fast a reviewer can spot a missing JOIN condition or a misplaced parenthesis, since standard formatting conventions, capitalized keywords like SELECT and WHERE, consistently indented nested clauses, give your eye a predictable pattern to scan against.",
+      "Embedding a heavily formatted query directly into a string inside a PHP or Python file is where minification actually becomes necessary rather than just convenient. A query with tabs and line breaks baked into a string literal can trip up string parsing in some languages, and a compact single-line version avoids that entirely.",
+      "Paste your raw query in and pick format or minify. Formatting applies standard capitalization to SQL keywords and indents nested logic so JOINs, subqueries, and conditions are each visually distinct from the table and column names around them.",
+      "SQL's core syntax, SELECT, FROM, WHERE, JOIN, is shared across MySQL, PostgreSQL, SQL Server, and Oracle, even though each has its own quirks around things like identifier quoting, backticks in MySQL versus double quotes in PostgreSQL. This formatter works with the common structural syntax across all of them. And since table names and business logic can reveal a lot about how a company's data is structured, everything runs locally, nothing gets uploaded just to get reformatted.",
+    ],
+    faq: [
+      {
+        q: "Does formatting change how my query actually runs against the database?",
+        a: "No, formatting is purely cosmetic, it adjusts spacing and line breaks in the text itself. It doesn't connect to any database or touch your actual data in any way.",
+      },
+      {
+        q: "Why does the formatter capitalize my keywords automatically?",
+        a: "It's a long-standing SQL convention: capitalizing commands like SELECT, INSERT, and INNER JOIN makes them visually distinct from table and column names, which are typically left lowercase, making the whole query faster to scan.",
+      },
+      {
+        q: "Will this work for PostgreSQL or SQL Server specifically, not just MySQL?",
+        a: "Yes, the core structural syntax of SQL is shared across major relational databases. There are dialect-specific differences in certain functions and identifier quoting rules, but standard formatting applies cleanly across MySQL, PostgreSQL, SQL Server, and Oracle alike.",
+      },
+      {
+        q: "When would I actually want to minify a query instead of formatting it?",
+        a: "Mainly when embedding SQL directly into application code as a string, a Python or JavaScript variable, say, where line breaks and extra whitespace can occasionally cause parsing issues depending on how the string is constructed.",
+      },
+      {
+        q: "Is it safe to paste real table and column names into this tool?",
+        a: "Yes, the entire formatting and minification process runs client-side in your browser. Nothing you paste, table names, business logic, actual query structure, gets transmitted to or logged on a server.",
+      },
+      {
+        q: "Can this tool detect actual logic errors in my query?",
+        a: "No, it only restructures the text visually, it doesn't parse your query for logical correctness or validate it against an actual database schema. A missing JOIN condition becomes easier to spot once formatted, but the tool itself won't flag it directly.",
+      },
+    ],
+  },
+
+  "passphrase-generator": {
+    seoTitle: "Passphrase Generator: Create Secure & Memorable Passwords",
+    seoDescription:
+      "Generate a genuinely secure, memorable passphrase using random dictionary words. Free xkcd-style passphrase generator, calculated locally.",
+    h1: "Passphrase Generator",
+    shortDescription:
+      "Pick your word count below, and this passphrase generator outputs a string of random, unrelated dictionary words, long enough to be secure and simple enough to remember.",
+    about: [
+      "A passphrase generator builds a password out of several random, unconnected words instead of a short string of mixed characters, trading complexity for length, which turns out to be the better trade mathematically. This is often called the xkcd password generator approach after the webcomic that made the idea popular, and the security logic behind it holds up: length matters more to crackability than complexity does.",
+      "A password like \"Tr0ub4dor&3\" feels secure because it mixes cases, numbers, and symbols, but at eleven characters it has a relatively small set of possible combinations for a computer to search through, and it's genuinely hard for a person to type correctly or remember without writing down. A passphrase like four or five random words gets you dramatically more entropy, the actual measure of unpredictability, while staying easier to recall because your brain naturally chunks words rather than random characters.",
+      "The entropy math is straightforward: each word pulled from a large word list adds roughly log base 2 of the list size in bits. Pull from a list of about 7,776 words, the classic Diceware word list, and even four random words gets you somewhere around 51 bits of entropy, with five words pushing past 64, numbers that make brute-forcing genuinely impractical.",
+      "Choose how many words you want and pick a separator, a hyphen, a space, whatever fits the system you're registering for. Generate as many versions as you like until you land on a combination that happens to stick in your memory, since some random word sequences are just easier to picture than others.",
+      "A word is randomly selected from the dictionary using your browser's own randomization, so the sequence it lands on is never transmitted or logged anywhere, which matters more than usual here given that you're specifically generating something meant to stay secret.",
+    ],
+    faq: [
+      {
+        q: "Why is a passphrase considered more secure than a typical complex password?",
+        a: "It comes down to length and entropy rather than character variety. A passphrase built from several random words is usually far longer than a typical eight to twelve character password, and that extra length makes the total number of possible combinations exponentially larger, even though the individual words are common.",
+      },
+      {
+        q: "Where does the term xkcd password generator actually come from?",
+        a: "It references a well-known webcomic, XKCD, that illustrated how a string of random common words is both harder for a computer to brute-force and easier for a person to remember than something like a single capitalized word with a number and symbol tacked on. The term stuck as shorthand for this whole approach.",
+      },
+      {
+        q: "Should I add numbers or symbols to a generated passphrase?",
+        a: "Usually not necessary, four or five truly random words already provide strong security on their own. Some older websites still require at least one number or symbol in their password rules though, so you may occasionally need to tack one on just to satisfy that specific form.",
+      },
+      {
+        q: "How random are the words this tool actually picks?",
+        a: "Each word is selected from a large dictionary using your browser's randomization functions, with no grammatical logic or pattern connecting the chosen words, which is exactly what keeps the sequence unpredictable.",
+      },
+      {
+        q: "Is it safe to generate a master password here, like one for a password manager?",
+        a: "Yes, generation happens entirely in your browser's local memory through client-side JavaScript. Nothing about the passphrase you generate gets transmitted anywhere or logged on a server.",
+      },
+      {
+        q: "What's the best way to separate the words in my passphrase?",
+        a: "Spaces or hyphens both work well and are the most common choices. Either one also adds an extra character to the overall string length, which incrementally increases the passphrase's total entropy.",
+      },
+    ],
+  },
+
+  "barcode-generator": {
+    seoTitle: "Barcode Generator: Create Custom Retail Codes",
+    seoDescription:
+      "Generate a scannable barcode from any numeric or alphanumeric data. Free barcode generator supports standard retail formats, download as PNG.",
+    h1: "Barcode Generator",
+    shortDescription:
+      "Enter your product or inventory number below, and this free barcode generator outputs a high-resolution, scannable barcode ready to print.",
+    about: [
+      "A barcode generator converts numeric or alphanumeric data into a pattern of lines a scanner can read instantly, far faster and more reliably than a cashier or warehouse worker typing a long SKU by hand. This free barcode generator handles the formatting rules behind common barcode standards, so whether you're labeling retail products or tracking internal inventory, the output scans correctly on standard hardware.",
+      "Different formats serve different purposes. UPC-A, the familiar 12-digit code on most North American retail products, includes a check digit calculated using a modulo-10 algorithm, which lets a scanner detect a misread instantly rather than accepting corrupted data. Code 128, by contrast, handles full alphanumeric strings and is common in internal warehouse and logistics systems where flexibility matters more than adhering to a strict retail standard.",
+      "A scanner also needs a clear \"quiet zone,\" blank space with no printing, on either side of the barcode to read it reliably. Printing a barcode too close to a label's edge or over a busy background pattern is one of the more common, and easily avoidable, reasons a technically correct barcode still fails to scan.",
+      "Enter your SKU or inventory number and adjust settings like bar height and width to fit your label size. The preview updates immediately, and once it looks right, download a high-resolution image file suited for printing directly onto product labels.",
+      "For actual public retail sale, the number encoded needs to be an officially registered GS1 number, this tool generates the scannable graphic from whatever number you provide, but it can't manufacture a legally valid retail registration for you. For internal tracking, you can invent your own numbering system freely. Everything renders locally, so your SKU structure and inventory numbers never leave your browser.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between a barcode and a QR code?",
+        a: "A barcode is a one-dimensional pattern of vertical lines, typically storing a short numeric string like a SKU. A QR code is two-dimensional and can hold considerably more data, including full URLs or contact details, in a much smaller visual footprint.",
+      },
+      {
+        q: "Will a barcode made here actually scan at a store checkout?",
+        a: "Yes, provided the number you're encoding is a legitimate, registered GS1 barcode number for your product. This tool renders the scannable graphic correctly from whatever number you give it, but it can't generate a legally valid retail number on your behalf.",
+      },
+      {
+        q: "Can I use this for internal warehouse tracking instead of retail?",
+        a: "Absolutely, for internal use you can create your own numbering system entirely and generate matching barcodes to track stock within your own facility, no official registration needed.",
+      },
+      {
+        q: "Why is my printed barcode failing to scan?",
+        a: "The most common causes are printing too small, compressing the image too heavily, or not leaving enough blank \"quiet zone\" space around the barcode. Download the highest resolution available and print with solid dark lines on a plain white background for best results.",
+      },
+      {
+        q: "Does the tool store the SKU numbers I generate?",
+        a: "No, generation happens entirely client-side in your browser. Your inventory numbers and product codes aren't saved or transmitted to a server.",
+      },
+      {
+        q: "What file format does the barcode download as?",
+        a: "Typically a PNG or JPG image file, both of which are broadly compatible with label printing software, Word, and standard design applications.",
+      },
+    ],
+  },
+
+  "qr-code-generator": {
+    seoTitle: "QR Code Generator: Create Custom Scannable Codes",
+    seoDescription:
+      "Generate a QR code for a link, text, or vCard contact details in seconds. Free QR code generator, high-resolution download, no sign-up.",
+    h1: "QR Code Generator",
+    shortDescription:
+      "Paste your link, text, or contact details below, and this qr code generator for business card use or marketing outputs a crisp, scannable code instantly.",
+    about: [
+      "A QR code generator packs a URL, a block of text, or a full contact profile into a two-dimensional pattern any smartphone camera can scan instantly. Using a qr code generator for business card details specifically means encoding a vCard, name, phone, email, all at once, so a scan prompts the recipient's phone to save the whole contact directly rather than typing it in by hand.",
+      "QR codes use Reed-Solomon error correction, which means part of the code can be damaged, smudged, or partially obscured by a logo and still scan correctly, up to a configurable percentage depending on the error correction level chosen. Higher error correction makes the code denser and more visually complex, but more resilient, which is the tradeoff designers are making whenever they print a logo in the center of a code.",
+      "A long website URL printed on a flyer rarely gets typed out by a potential customer standing in front of it, that friction kills the conversion. A QR code removes the typing step entirely. The same logic applies at a networking event, handing someone a scannable vCard code gets your contact details into their phone before the conversation ends, instead of relying on them manually saving a photo of your business card later.",
+      "Choose what you're encoding, a plain URL, text, or a full vCard with name, phone, and email, and the preview updates as you type. Once it's complete, download a high-resolution PNG that holds up cleanly even at a larger print size.",
+      "Contrast matters more than most people expect: a scanner needs clearly distinguishable dark modules against a light background, so while recoloring a code is fine, keep enough contrast between the foreground and background or scanners will struggle. All of the encoding happens locally in your browser, so the phone number or email you're putting into a vCard never gets uploaded anywhere first.",
+    ],
+    faq: [
+      {
+        q: "What does QR actually stand for?",
+        a: "Quick Response. The format was originally developed for tracking automotive parts on a factory line, and its combination of large data capacity and fast scan speed is exactly what made it popular well beyond manufacturing.",
+      },
+      {
+        q: "Do QR codes expire after a certain amount of time?",
+        a: "No, a standard static QR code doesn't expire on its own. It's just a fixed visual encoding of whatever text or link you put into it, so it keeps working indefinitely as long as the destination URL itself stays active.",
+      },
+      {
+        q: "Why use a QR code generator for business card details specifically?",
+        a: "Because scanning a vCard-encoded code lets the recipient save your full contact profile directly to their phone in one tap, removing the manual data entry that's usually why a physical business card ends up forgotten in a drawer.",
+      },
+      {
+        q: "Can I include a tracking link with UTM parameters in the QR code?",
+        a: "Yes, a QR code can hold a long string of text without issue, so pasting in a full URL with UTM tracking tags attached works the same as any other link, letting you measure scans through your analytics tool.",
+      },
+      {
+        q: "Will changing the code's color stop it from scanning?",
+        a: "Only if you reduce the contrast too much. QR scanners rely on clearly distinguishing dark modules from a light background, so custom colors are fine as long as that contrast stays strong, light pastels on a light background are where scans typically start failing.",
+      },
+      {
+        q: "Is my contact information stored anywhere when I generate a code?",
+        a: "No, the encoding from text into a visual graphic happens entirely client-side in your browser. Nothing you enter, phone numbers or emails included, gets transmitted to or saved on a server.",
+      },
+    ],
+  },
+
+  "invoice-generator": {
+    seoTitle: "Invoice Generator: Create Professional Bills Instantly",
+    seoDescription:
+      "Build a professional invoice and download it as a PDF in minutes. Free invoice generator calculates totals and tax automatically.",
+    h1: "Invoice Generator",
+    shortDescription:
+      "Fill in your billing details below, and this invoice generator outputs a clean, properly formatted PDF ready to send to your client.",
+    about: [
+      "An invoice generator handles the formatting and math that a professional invoice needs, line items, subtotals, tax, a final total, so you're not rebuilding the same spreadsheet layout from scratch every time a job wraps up. This free invoice generator computes everything as you type and outputs a locked, polished PDF your client can't accidentally edit.",
+      "A proper invoice needs more than just a total figure. Standard practice includes your business name and contact details, the client's information, a unique invoice number, the issue date, an itemized breakdown of the work, the total due, and clear payment terms, a Net 15 or Net 30 due date, for instance. Sequential invoice numbering matters more than it seems, it's what makes your own bookkeeping and any future tax documentation actually auditable.",
+      "Doing this math by hand in a spreadsheet invites small errors, a subtotal that doesn't actually match its line items, a tax percentage applied to the wrong figure. The generator recalculates every total live as you add or edit a line item, so what you see in the preview is always accurate.",
+      "Enter your business details, your client's information, and itemize the work performed. Add your logo if you have one, set your payment terms, and once the live preview looks right, download it as a high-resolution PDF.",
+      "PDF specifically matters here because it locks the formatting, a client receiving a Word or Excel invoice could technically alter the listed price before sending it back, where a PDF effectively prevents that. Your billing data, client names, financial figures, stays local the entire time you're building it, nothing gets uploaded to generate the document.",
+    ],
+    faq: [
+      {
+        q: "What information does a professional invoice actually need?",
+        a: "At minimum: your business name and contact info, the client's details, a unique invoice number, the issue date, an itemized list of services, the total amount due, and clear payment terms or a due date.",
+      },
+      {
+        q: "Do I need an account to use this or save my invoices?",
+        a: "No, there's no account required. You fill in the fields and download the finished PDF directly. It's worth keeping copies of your downloaded invoices in your own records for tax purposes, since nothing is saved here on your behalf.",
+      },
+      {
+        q: "Will it calculate my sales tax for me automatically?",
+        a: "It calculates the math once you enter a tax rate, but you need to input the correct percentage yourself, since tax rates vary significantly by region and this tool has no way of knowing which jurisdiction applies to you.",
+      },
+      {
+        q: "Can I invoice in a currency other than US dollars?",
+        a: "Yes, there's a currency selector built in, so you can switch to euros, pounds, or another regional currency depending on where your client is based.",
+      },
+      {
+        q: "Is my client and billing data stored anywhere?",
+        a: "No, everything you type is processed locally in your browser as you build the invoice. None of it gets uploaded to or retained on a server.",
+      },
+      {
+        q: "Why should I send a PDF instead of a Word document or spreadsheet?",
+        a: "A PDF locks your formatting and numbers in place, where a Word or Excel file can be edited by the recipient, intentionally or not, before it's sent back or forwarded elsewhere.",
+      },
+    ],
+  },
+
+  "hourly-to-salary-converter": {
+    seoTitle: "Hourly to Salary Converter: Calculate Your Annual Pay",
+    seoDescription:
+      "Convert an hourly wage into weekly, monthly, and annual salary instantly. Free hourly to salary calculator, adjustable for your actual hours.",
+    h1: "Hourly to Salary Converter",
+    shortDescription:
+      "Enter your hourly rate and actual working hours below, and this hourly to salary calculator breaks down your projected weekly, monthly, and annual pay.",
+    about: [
+      "An hourly to salary converter does the multiplication most people avoid doing manually, turning an hourly wage into a realistic annual figure based on how many hours you actually work, not just a rough estimate. This hourly to salary calculator factors in your specific weekly hours and working weeks, which matters since the standard assumption, a flat 40-hour week for 52 weeks, doesn't hold for everyone.",
+      "That standard assumption works out to 2,080 hours a year, and it's the baseline most online calculators quietly build in. It's useful for comparing a salaried job offer against an hourly contract role at a glance, but anyone with unpaid time off, a part-time schedule, or seasonal work needs the actual numbers adjusted, not the default, to get a figure that reflects reality.",
+      "This distinction matters most when you're actually comparing two offers, a salaried position against an hourly contract. Without adjusting for your real schedule, you can end up comparing numbers that look close on paper but represent meaningfully different actual take-home totals.",
+      "Enter your hourly rate, then adjust your weekly hours and total working weeks to match your actual schedule rather than the default assumption. The tool immediately outputs a breakdown showing daily, weekly, monthly, and annual earnings based on those specific numbers.",
+      "One subtlety worth knowing: multiplying a weekly figure by exactly four doesn't produce an accurate monthly number, since months vary in length. The calculator instead divides your annual total by twelve for a true monthly average, which is a small but meaningful difference if you're budgeting against it.",
+    ],
+    faq: [
+      {
+        q: "How is the annual salary actually calculated from an hourly rate?",
+        a: "It multiplies your hourly wage by your weekly hours, then multiplies that weekly total by the number of weeks you work per year. The common default assumes a 40-hour week across 52 weeks, totaling 2,080 hours, though you can adjust both numbers to match your actual schedule.",
+      },
+      {
+        q: "Does this figure include taxes or other deductions?",
+        a: "No, the result is your gross income, meaning the total before income tax, retirement contributions, or health insurance premiums are deducted.",
+      },
+      {
+        q: "How do I factor in unpaid time off?",
+        a: "Lower the number of working weeks in the calculator. If you take two weeks of unpaid vacation, for example, base your calculation on 50 working weeks instead of the default 52.",
+      },
+      {
+        q: "Can this calculate overtime pay for me?",
+        a: "Not directly, it calculates a flat rate across your standard hours. If you regularly work overtime at a premium rate like time-and-a-half, calculate your base salary here and add the overtime estimate separately.",
+      },
+      {
+        q: "Why doesn't my monthly figure match simply multiplying my weekly pay by four?",
+        a: "Because months aren't a consistent four weeks long. The calculator divides your total annual salary by twelve instead, which gives a more accurate monthly average than a flat weekly multiplication would.",
+      },
+      {
+        q: "Is my income data stored anywhere when I use this?",
+        a: "No, every calculation runs locally through client-side JavaScript in your browser. Nothing you enter gets transmitted to or saved on a server.",
+      },
+    ],
+  },
+
+  "freelance-hourly-rate-calculator": {
+    seoTitle: "Freelance Hourly Rate Calculator: Price Your Services",
+    seoDescription:
+      "Calculate the hourly rate you actually need to charge to hit your income goals. Free freelance rate calculator factors in expenses and unbillable time.",
+    h1: "Freelance Hourly Rate Calculator",
+    shortDescription:
+      "Enter your income goal and business expenses below, and this freelance rate calculator works out exactly what you need to charge per hour.",
+    about: [
+      "A freelance hourly rate calculator works backward from your actual income target to the rate you need to charge, factoring in business expenses and the hours you can't actually bill anyone for. This freelance rate calculator exists specifically because new freelancers tend to anchor their rate to their old salary, without accounting for everything a salary used to quietly cover.",
+      "An employer typically covers half of certain payroll taxes, provides paid time off, and often supplies equipment and software. A freelancer covers all of that out of a single hourly rate, including the full self-employment tax burden in places like the US, roughly 15.3% on net earnings for Social Security and Medicare, on top of regular income tax. That gap alone is why a freelance rate that matches an old salary number almost never actually matches the old take-home pay.",
+      "The other factor people consistently underestimate is unbillable time, hours spent on proposals, invoicing, marketing, bookkeeping, none of which a client pays for directly. Most full-time freelancers can only realistically bill somewhere between 20 and 25 hours in a 40-hour week, which means your rate has to cover the other 15 to 20 hours indirectly.",
+      "Enter your target annual take-home income, your estimated yearly business expenses, and the number of hours you realistically expect to bill each week. The calculator outputs the minimum hourly rate that actually covers all three.",
+      "If the resulting number looks uncomfortably high compared to what your current clients pay, that's useful information rather than a problem with the math, it usually means either your expenses need trimming, your billable efficiency needs improving, or it's time to start moving toward clients willing to pay professional rates. Everything calculates locally, so your income targets and expense figures stay private the whole time.",
+    ],
+    faq: [
+      {
+        q: "Why is a sustainable freelance rate usually so much higher than a comparable salaried wage?",
+        a: "Because a freelancer has to self-fund everything an employer typically covers, half of payroll taxes, benefits, equipment, paid time off, on top of carrying the full self-employment tax burden. All of that has to come out of the hourly rate itself.",
+      },
+      {
+        q: "What exactly counts as unbillable hours?",
+        a: "Any time spent running the business that a client doesn't pay for directly, writing proposals, sending invoices, marketing, bookkeeping, updating a portfolio. It adds up to a meaningful chunk of a working week.",
+      },
+      {
+        q: "How many hours a week can a freelancer realistically bill?",
+        a: "Most full-time freelancers land somewhere around 20 to 25 billable hours out of a standard 40-hour week, with the rest absorbed by the unbillable administrative and business-development work that running a freelance business requires.",
+      },
+      {
+        q: "Does this calculator factor in income tax?",
+        a: "You can build tax into the result by adding your estimated tax liability to the business expenses field, or by treating your target income as a gross figure rather than a net take-home number.",
+      },
+      {
+        q: "What should I do if the calculated rate feels too high for my current clients?",
+        a: "Treat it as a signal rather than a problem with the formula. It usually means you need to cut business expenses, raise your billable efficiency, or gradually shift toward clients who can support a professional rate.",
+      },
+      {
+        q: "Is my financial information saved anywhere?",
+        a: "No, every calculation happens locally in your browser through client-side scripts. Your income targets, expenses, and resulting rate are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "random-number-generator": {
+    seoTitle: "Random Number Generator: Pick Digits Instantly",
+    seoDescription:
+      "Generate a random number in any range instantly, including a random 4 digit number generator for PINs. Free, unbiased, runs in your browser.",
+    h1: "Random Number Generator",
+    shortDescription:
+      "Set your minimum and maximum below, and this random number generator outputs unbiased digits instantly, for a giveaway, a PIN, or test data.",
+    about: [
+      "A random number generator produces digits within a range you set, using your browser's randomization functions rather than any pattern a human might unconsciously favor. Set it up as a random 4 digit number generator for a quick PIN, or widen the range for picking a contest winner or generating test data, same tool either way.",
+      "People are measurably bad at picking random numbers themselves, research on this consistently shows a bias toward certain digits, certain patterns, numbers that \"feel\" more random even though they statistically aren't. For anything that needs to actually be fair, a social media giveaway winner, an unbiased group assignment, a computer-generated number removes that unconscious human bias entirely.",
+      "What a browser actually generates technically is a pseudo-random number, calculated from a seed value (commonly derived from something unpredictable like the system clock's exact millisecond) run through a deterministic algorithm that produces output statistically indistinguishable from true randomness for everyday purposes.",
+      "Set your minimum and maximum, choose how many numbers to generate at once, and the tool outputs a clean list you can copy straight into a document or a script.",
+      "Worth being clear about: this is fine for a giveaway, a PIN reminder, or test data, but it isn't built for generating actual security credentials like encryption keys, which need cryptographically secure randomness from a dedicated source rather than a general-purpose browser-based generator. Nothing you generate here gets logged or tracked, the whole process runs on your device.",
+    ],
+    faq: [
+      {
+        q: "How does a computer actually generate a \"random\" number?",
+        a: "It runs a mathematical algorithm starting from an unpredictable seed value, often derived from the system clock's exact millisecond, and processes that seed through a formula that produces output with no detectable pattern, what's technically called a pseudo-random number.",
+      },
+      {
+        q: "Can I safely use this to generate a bank PIN or an encryption key?",
+        a: "Not recommended for high-security use cases like that. While the output is unpredictable for everyday purposes, generating actual security credentials calls for cryptographically secure randomness from a dedicated, purpose-built source instead.",
+      },
+      {
+        q: "How do I use this as a random 4 digit number generator?",
+        a: "Set your minimum to 1000 and your maximum to 9999, and every generation will land somewhere in that four-digit range.",
+      },
+      {
+        q: "Can the generator output negative numbers?",
+        a: "Yes, just set a negative minimum value. A range from -50 to 50, for example, will produce both negative and positive numbers randomly.",
+      },
+      {
+        q: "Can the same number come up twice in a row?",
+        a: "Yes, and that's expected with true randomness, not a bug. Ask for a number between 1 and 10 enough times and a repeat is statistically inevitable sooner or later.",
+      },
+      {
+        q: "Does the tool keep a record of the numbers I generate?",
+        a: "No, generation happens entirely client-side in your browser. No server sees or logs your range settings or the specific numbers produced.",
+      },
+    ],
+  },
+
+  "business-name-generator": {
+    seoTitle: "Business Name Generator: Find Your Perfect Brand",
+    seoDescription:
+      "Brainstorm dozens of brandable business names from a single keyword. Free business name generator, instant results, no sign-up required.",
+    h1: "Business Name Generator",
+    shortDescription:
+      "Type a keyword describing your business below, and this business name generator produces dozens of creative, brandable naming ideas instantly.",
+    about: [
+      "A business name generator combines a seed keyword you provide with relevant prefixes, suffixes, and brandable syllables to produce a wide spread of naming options in seconds. This company name generator is meant to break a creative block, not hand you a finished decision, most obvious, literal names in any industry are already trademarked or in active use somewhere.",
+      "That's actually the real naming problem most founders run into: the straightforward, descriptive option is gone before you even start, since trademark registries are crowded and most common word combinations are already claimed. Combining a real keyword with modern, invented syllables sidesteps that, producing names that are unique while still hinting at what the business actually does.",
+      "Tone matters as much as originality. A tech startup, a neighborhood bakery, and a consulting firm all want fundamentally different naming energy, and this tool varies its output style accordingly, mixing literal, descriptive combinations with more abstract, invented brand words so you get real range to choose from rather than one narrow pattern repeated.",
+      "Type one core keyword describing your business and generate. The tool compiles a mixed list, some literal and descriptive, some abstract and invented, and you can click any option to copy it instantly.",
+      "Keep in mind this handles the creative brainstorming step only, nothing here checks trademark databases or domain availability, those are separate steps you'll need to run once you've narrowed your list down. And since plenty of founders are naming something before it's publicly announced, everything generates locally, with nothing sent to a server.",
+    ],
+    faq: [
+      {
+        q: "What actually makes a business name good?",
+        a: "Generally short, easy to say out loud, and memorable, while hinting at your value without locking you into such a literal description that it limits future expansion into other products or services.",
+      },
+      {
+        q: "Are the names this tool generates legally available to use?",
+        a: "Not automatically, no. It generates creative combinations algorithmically but doesn't check against any trademark database. Once you've found a name you like, a proper trademark search in your country is a necessary next step before registering it.",
+      },
+      {
+        q: "Does the generator check if a matching domain name is free?",
+        a: "No, this tool is purely for creative brainstorming. Checking domain availability is a separate step you'd take afterward through an actual domain registrar.",
+      },
+      {
+        q: "How many keywords should I enter for the best results?",
+        a: "One or two short, specific keywords work best. A longer phrase or full sentence tends to confuse the algorithm and produce awkward, unusable combinations.",
+      },
+      {
+        q: "Why do some of the generated names look like made-up words rather than real ones?",
+        a: "Invented, abstract words are often easier to trademark and secure a matching domain for than literal dictionary words, so the generator deliberately mixes in brandable invented syllables alongside more straightforward combinations.",
+      },
+      {
+        q: "Is it safe to brainstorm a stealth startup name here?",
+        a: "Yes, the entire generation process runs locally in your browser through client-side scripts. The keywords you enter and the names you choose to copy are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "regex-tester": {
+    seoTitle: "Regex Tester: Validate Regular Expressions Instantly",
+    seoDescription:
+      "Test a regex pattern against real text and see every match highlighted live. Free regex tester, JavaScript engine, runs in your browser.",
+    h1: "Regex Tester",
+    shortDescription:
+      "Paste your pattern and test string below, and this regular expression tester highlights every match live as you refine your syntax.",
+    about: [
+      "A regex tester gives you a live feedback loop while writing a pattern, instead of running your code repeatedly against sample data just to see if a match actually works. This tool highlights exactly what matched, what didn't, and what's inside each capture group, which turns debugging a pattern from guesswork into something you can actually watch happen.",
+      "Certain characters mean something structural in regex rather than representing themselves literally, a period matches any character, a question mark makes the preceding token optional, parentheses create a capture group. Forgetting to escape one of these when you actually want it to match literally, a period in an email address, for instance, is one of the most common reasons a pattern matches more or less than intended.",
+      "Form validation is where a sloppy regex becomes an actual security concern, not just a bug. A pattern that's too permissive can let malformed or malicious input through a field meant to catch it. Testing a wide range of valid and deliberately invalid sample strings against your pattern here, before it ships, catches that gap while it's still cheap to fix.",
+      "Enter your pattern, add flags like g for global or i for case-insensitive matching, then paste your test string. Every match highlights immediately, and if your pattern includes parentheses to capture specific parts of the match, like the area code inside a phone number, those groups break out separately so you can see exactly what each one captured.",
+      "This runs on the same regex engine JavaScript uses natively, which closely mirrors what Python and PHP support too, though lookbehind assertions in particular can behave slightly differently across languages, worth double-checking if your pattern is headed for a different backend. Everything matches locally, so a log file or data sample with real user information in it never leaves your browser.",
+    ],
+    faq: [
+      {
+        q: "What exactly is a regular expression?",
+        a: "It's a sequence of characters that defines a search pattern, used in code to find, extract, or replace specific pieces of text within a larger string or document, far more flexible than a plain text search.",
+      },
+      {
+        q: "Why isn't my pattern matching anything at all?",
+        a: "Usually a syntax issue or a missing flag. A common mistake is forgetting to escape a special character, like a literal period or question mark, that regex otherwise interprets as a structural symbol. Build your pattern piece by piece in the tester and add complexity gradually until the match breaks.",
+      },
+      {
+        q: "Does this tool support capture groups?",
+        a: "Yes, any parentheses in your pattern create a capture group, and the tester highlights and lists each one separately, which makes parsing something structured, like a phone number or a URL, much easier to verify.",
+      },
+      {
+        q: "Which regex flavor does this tester actually use?",
+        a: "It uses the JavaScript regex engine, the standard across modern browsers. It's very close to what Python or PHP use, with the main differences showing up in more advanced features like lookbehind assertions, worth a quick check if your final pattern is going into a different language.",
+      },
+      {
+        q: "What does the global flag actually change?",
+        a: "Without it, a regex stops the moment it finds its first match. The global flag tells the engine to keep scanning and return every match in the string instead of stopping at the first one.",
+      },
+      {
+        q: "Is my test data or pattern saved anywhere?",
+        a: "No, matching happens entirely through client-side JavaScript in your browser. Nothing you paste, including sample data that might contain real user information, gets stored or transmitted to a server.",
+      },
+    ],
+  },
+
+  "timestamp-converter": {
+    seoTitle: "Timestamp Converter: Translate Unix Epoch Time",
+    seoDescription:
+      "Convert a Unix epoch timestamp into a readable date, or the reverse. Free timestamp converter handles seconds and milliseconds, in your browser.",
+    h1: "Timestamp Converter",
+    shortDescription:
+      "Paste a numeric timestamp below, and this epoch converter outputs the exact date and time in UTC and your local timezone.",
+    about: [
+      "Unix epoch time counts seconds elapsed since midnight UTC on January 1, 1970, which is efficient for a database or a server log to store but meaningless to glance at. An epoch converter translates that raw number back into a calendar date, and this timestamp converter also runs the math in reverse, turning a human-readable date into the exact numeric value a database query needs.",
+      "One detail that trips people up constantly: a standard Unix timestamp measured in seconds is ten digits for any modern date, but JavaScript and a lot of modern web APIs work in milliseconds instead, which shows up as thirteen digits. Pasting a thirteen-digit number into a field expecting seconds gives you a date somewhere in the far future, and pasting a ten-digit number where milliseconds are expected lands you back near 1970, both easy mistakes to make and easy to spot once you know what to look for.",
+      "Comparing timestamps across servers in different regions is exactly where epoch time earns its keep, since it's a single, unambiguous number with no timezone attached to it at all, the timezone conversion only happens when you choose to display it. That's also precisely why debugging a cross-region server issue by eyeballing local timestamps gets confusing fast, the underlying epoch value is the one consistent reference point.",
+      "Paste a numeric timestamp in, or enter a calendar date to convert the other direction. The result shows in both UTC and your browser's local time, and you can toggle between seconds and milliseconds depending on what format your database or API actually outputs.",
+      "The conversion correctly accounts for leap years and irregular month lengths automatically, so there's no manual calendar math involved regardless of how far back or forward the date falls. Everything calculates using your browser's own clock logic, so server logs and database values you're debugging never get sent anywhere external.",
+    ],
+    faq: [
+      {
+        q: "What is Unix epoch time, exactly?",
+        a: "It's the number of seconds elapsed since midnight UTC on January 1, 1970, used internally by nearly every modern operating system, database, and programming language as the standard way to represent a point in time.",
+      },
+      {
+        q: "Why does my converted date show up as 1970?",
+        a: "That usually means you've entered a very small number, which the converter correctly reads as only a few seconds or minutes past the epoch's starting point. A modern date needs the full ten-digit timestamp.",
+      },
+      {
+        q: "How do I tell if my timestamp is in seconds or milliseconds?",
+        a: "A standard Unix timestamp in seconds is ten digits long for any current date. Thirteen digits means milliseconds, which is the format JavaScript and many web APIs default to. This tool lets you toggle between the two.",
+      },
+      {
+        q: "Can I convert a regular date back into a timestamp?",
+        a: "Yes, enter a human-readable date and the tool calculates the exact epoch value, useful when you need to insert a specific date into a database query or an API call that expects a numeric timestamp.",
+      },
+      {
+        q: "Does the converter handle leap years correctly?",
+        a: "Yes, the underlying calendar math automatically accounts for every leap year and irregular month length, so the output date is always mathematically accurate regardless of how far back it goes.",
+      },
+      {
+        q: "Is my data logged anywhere when I use this?",
+        a: "No, the conversion runs locally through client-side JavaScript. Server logs, database timestamps, or anything else you paste in never get transmitted anywhere.",
+      },
+    ],
+  },
+
+  "color-contrast-checker": {
+    seoTitle: "Color Contrast Checker: Test Web Accessibility",
+    seoDescription:
+      "Check your text and background hex codes against WCAG AA and AAA contrast ratios instantly. Free wcag contrast checker, calculated in your browser.",
+    h1: "Color Contrast Checker",
+    shortDescription:
+      "Enter your text and background hex codes below, and this WCAG contrast checker calculates the exact ratio and whether it passes accessibility standards.",
+    about: [
+      "A color contrast checker runs the actual WCAG formula, based on each color's relative luminance, against your foreground and background hex codes to produce a precise contrast ratio rather than a subjective \"does this look readable\" guess. This wcag contrast checker tells you immediately whether that ratio clears the thresholds required for AA or AAA compliance.",
+      "The specific numbers matter here: WCAG AA requires a 4.5:1 contrast ratio for normal body text, dropping to 3:1 for large text, defined as 18 point or 14 point bold and larger. AAA, the stricter tier, pushes that up to 7:1 for normal text. A lot of trendy light-gray-on-white design choices fail AA by a wide margin without ever looking obviously wrong to a sighted designer without a visual impairment.",
+      "For government websites and many large organizations, meeting WCAG AA isn't optional, it's a legal requirement under accessibility laws in several countries. Testing your actual brand hex codes here, rather than assuming they're fine because they look fine on a bright monitor, is what catches a compliance issue before it becomes a legal one.",
+      "Enter your foreground and background hex codes and the tool calculates the exact contrast ratio immediately, with a clear pass or fail result shown separately for normal text, large text, and UI components, since the thresholds differ for each.",
+      "If a color combination fails, you can adjust either value with the built-in picker and watch the ratio update live until it clears the threshold you're targeting. Everything calculates locally, so unreleased brand colors or an agency client's new palette never get uploaded anywhere just to run this check.",
+    ],
+    faq: [
+      {
+        q: "What is WCAG?",
+        a: "The Web Content Accessibility Guidelines, an internationally recognized standard from the World Wide Web Consortium defining how to make digital content usable for people with visual, auditory, motor, or cognitive disabilities.",
+      },
+      {
+        q: "What contrast ratio is needed to pass WCAG AA?",
+        a: "Normal text needs at least a 4.5:1 ratio against its background. Large text, 18 point or larger, or 14 point bold, only needs 3:1, since bigger text remains legible at lower contrast.",
+      },
+      {
+        q: "What's the actual difference between AA and AAA?",
+        a: "AA is the baseline most commercial and public sites are expected to meet. AAA is considerably stricter, requiring a 7:1 ratio for normal text, and is typically reserved for specialized contexts like government or medical platforms where accessibility requirements go beyond standard compliance.",
+      },
+      {
+        q: "Can I test contrast for text sitting over a photo instead of a solid color?",
+        a: "This tool is built for solid hex codes. For text over an image, use an eyedropper to sample the lightest, or most contrast-conflicting, pixel directly behind the text, then test that specific hex value here instead.",
+      },
+      {
+        q: "Why do my brand colors keep failing the test?",
+        a: "Light pastels and soft grays, common in print branding, often fail badly on backlit digital screens even though they look fine in a logo file. Passing usually means darkening the text or lightening the background until the math clears the threshold.",
+      },
+      {
+        q: "Is my color palette or branding data stored anywhere?",
+        a: "No, the ratio calculation runs entirely locally in your browser. Hex codes you test, including unreleased brand colors, are never uploaded or stored externally.",
+      },
+    ],
+  },
+
+  "data-storage-converter": {
+    seoTitle: "Data Storage Converter: MB to GB and Terabytes",
+    seoDescription:
+      "Convert between bytes, MB, GB, and TB instantly. Free mb to gb converter handles the binary math correctly, right in your browser.",
+    h1: "Data Storage Converter",
+    shortDescription:
+      "Enter a file size below, and this mb to gb converter translates it across bytes, kilobytes, gigabytes, and terabytes instantly.",
+    about: [
+      "Digital storage scales in powers of two rather than clean multiples of ten, which is exactly why a gigabyte equals 1,024 megabytes rather than a flat 1,000. An mb to gb converter handles that binary math automatically, which matters whether you're sizing a server backup or just trying to figure out how many video clips fit on a memory card.",
+      "This binary-versus-decimal mismatch is also the reason a brand-new hard drive always shows less space than advertised the moment you plug it in. Manufacturers market capacity using the decimal system, where 1 TB means exactly 1,000,000,000,000 bytes, since it produces a cleaner, larger-looking number. Your operating system, meanwhile, reports that same drive using the binary system, where the same physical capacity works out to a smaller-looking number of \"true\" gigabytes. Nothing is actually missing, it's a difference in which math is being used to describe the same bytes.",
+      "This isn't just a technical curiosity either, it matters practically whenever you're estimating how much footage fits on a card, or whether a backup will actually fit on a drive with a given advertised capacity.",
+      "Pick your starting unit and enter a value, and the tool calculates the equivalent across every other standard unit simultaneously, kilobytes, megabytes, gigabytes, terabytes, even up to petabytes for larger enterprise or cloud contexts.",
+      "Worth knowing separately: storage and network speed use different base units entirely. Storage is measured in bytes, network bandwidth in bits, and there are eight bits in a byte, so a \"100 Mbps\" internet connection and a \"100 MB\" file are not measuring the same thing, a common point of confusion this tool doesn't try to collapse into one number.",
+    ],
+    faq: [
+      {
+        q: "Why is a gigabyte 1,024 megabytes instead of a flat 1,000?",
+        a: "Computers operate on binary, base-two math rather than the base-ten system people use day to day. 1,024 is two to the tenth power, the closest power of two to 1,000, which is why digital storage scales that way instead of in round decimal units.",
+      },
+      {
+        q: "Why does my new hard drive show less space than what was advertised?",
+        a: "Manufacturers typically market capacity using decimal math, 1 TB as exactly one trillion bytes, since it produces a larger number. Your operating system reports that same physical capacity using binary math instead, which naturally comes out to a smaller-looking figure, even though no actual storage is missing.",
+      },
+      {
+        q: "How many megabytes make up one gigabyte?",
+        a: "Under the standard binary computing convention, exactly 1,024 megabytes equal one gigabyte.",
+      },
+      {
+        q: "Can this tool also convert network bandwidth, like megabits?",
+        a: "No, storage and bandwidth use fundamentally different units, bytes for storage, bits for network speed, with eight bits per byte. This converter is specifically for storage units, not bandwidth.",
+      },
+      {
+        q: "Does it support really large units, like petabytes?",
+        a: "Yes, the converter scales from individual bytes all the way up through terabytes, petabytes, and exabytes, covering both everyday consumer use and large-scale enterprise storage contexts.",
+      },
+      {
+        q: "Is my data tracked when I run a conversion?",
+        a: "No, every calculation happens locally through client-side JavaScript. The file sizes or capacities you enter are never transmitted to or logged on a server.",
+      },
+    ],
+  },
+
+  "number-base-converter": {
+    seoTitle: "Number Base Converter: Hex, Decimal, and Binary",
+    seoDescription:
+      "Convert between hexadecimal, decimal, binary, and octal instantly. Free hex to decimal converter, runs locally, nothing logged.",
+    h1: "Number Base Converter",
+    shortDescription:
+      "Enter a value in any base below, and this hex to decimal converter instantly outputs the equivalent in binary, octal, and decimal.",
+    about: [
+      "Computers represent data using base-two binary at the hardware level, but reading long strings of ones and zeros is impractical for a human, which is why hexadecimal, base sixteen, became the standard shorthand developers actually work with. A hex to decimal converter bridges that gap, and this number base converter handles the full set of conversions between binary, octal, decimal, and hex instantly.",
+      "Hexadecimal needs sixteen distinct symbols to represent its digits, so it borrows 0 through 9 for the first ten values and then uses the letters A through F for ten through fifteen. A memory address or an error code showing up as something like 0x4F2A isn't arbitrary, it's a compact, direct representation of the underlying binary value, just far shorter and easier to type or read than the binary equivalent would be.",
+      "Web colors are the other place this comes up constantly outside of low-level debugging. A hex color code like #FF5733 is really three separate hexadecimal pairs, one each for red, green, and blue, each pair representing a decimal value from 0 to 255. Converting a pair back to decimal is exactly what you need when you're manipulating a color's RGB values directly in code rather than through a color picker.",
+      "Select your input's base and paste the value in, and the tool calculates the equivalent across binary, octal, and decimal simultaneously, ready to copy straight into whatever you're working on.",
+      "The tool comfortably handles standard large integers within normal browser memory limits. Numbers that exceed a standard 64-bit integer range are rare in everyday use but can require specialized tools to avoid rounding errors if you run into them. Conversion happens entirely locally, so a memory address or color value tied to proprietary code never gets sent anywhere.",
+    ],
+    faq: [
+      {
+        q: "What exactly is the hexadecimal system?",
+        a: "A base-sixteen number system that uses 0 through 9 for its first ten digits and A through F for the remaining six, widely used in computing as a compact, human-readable stand-in for binary values.",
+      },
+      {
+        q: "Why do computers rely on binary and hex instead of plain decimal?",
+        a: "Binary directly reflects the on/off electrical states that computer hardware actually operates on at the physical level. Hexadecimal exists mainly for human convenience, compressing long, unreadable binary strings into much shorter alphanumeric codes that are easier to read and type.",
+      },
+      {
+        q: "How does the converter handle the letters in a hex value?",
+        a: "Each letter maps to a fixed decimal value, A equals 10, B equals 11, continuing up through F, which equals 15. The converter applies those values automatically when calculating the equivalent decimal number.",
+      },
+      {
+        q: "Can I convert a web color's hex code with this tool?",
+        a: "Yes, a standard hex color is three pairs of hexadecimal digits representing red, green, and blue. Enter one pair and the tool outputs its decimal equivalent, the 0 to 255 value used in standard RGB notation.",
+      },
+      {
+        q: "Does the tool handle very large numbers accurately?",
+        a: "It comfortably handles standard large integers within the browser's own memory limits. Numbers exceeding a standard 64-bit integer range are uncommon but could require dedicated software to avoid rounding issues.",
+      },
+      {
+        q: "Is my input data saved or tracked anywhere?",
+        a: "No, all conversions happen locally via client-side JavaScript. Memory addresses, color codes, or any other values you enter are never logged or transmitted to a server.",
+      },
+    ],
+  },
+
+  "percentage-calculator": {
+    seoTitle: "Percentage Calculator: Solve Percent Problems Instantly",
+    seoDescription:
+      "Calculate a percentage, a percent increase or decrease, or a discount in seconds. Free percent calculator, precise results, no formulas needed.",
+    h1: "Percentage Calculator",
+    shortDescription:
+      "Pick the type of percentage problem you're solving below, and this percent calculator outputs the exact answer instantly.",
+    about: [
+      "Percentage literally means \"per hundred,\" so any percentage problem, finding what percent one number is of another, calculating a discount, measuring growth, ultimately comes down to the same core relationship between a part and a whole. A percentage calculator automates that math instantly, and this percent calculator covers the handful of different percentage problem types people actually run into.",
+      "The basic formula is simple, divide the part by the whole and multiply by 100, but the problem variations are where mental math starts breaking down, especially reverse percentages, like working out what the original price was before a discount was applied. A calculator built around the specific problem type you're solving removes that friction entirely.",
+      "It's also worth knowing the difference between a percentage decrease and a percentage point difference, since they get confused constantly in news and financial reporting. If an interest rate moves from 5% to 7%, that's a 2 percentage point increase, but it's actually a 40% relative increase in the rate itself, two genuinely different numbers describing the same change.",
+      "Pick the specific problem you're solving, finding a percentage of a number, calculating percentage change, or working out a discount, and enter your figures. The calculator outputs the precise result immediately, with enough decimal precision for financial or scientific use.",
+      "If you're calculating a retail discount, the tool shows both the amount saved and the final price together, so you're not running a second calculation just to see what you'd actually pay. All the math happens locally, so whatever numbers you're working with, financial figures, test scores, stay private.",
+    ],
+    faq: [
+      {
+        q: "What does \"percentage\" actually mean?",
+        a: "It comes from Latin for \"per hundred,\" expressing a number as a fraction out of 100. Fifty percent, for instance, is mathematically identical to fifty out of a hundred, or one half.",
+      },
+      {
+        q: "How do I calculate a percentage by hand?",
+        a: "Divide the part by the total, then multiply by 100. Scoring eight out of ten on a quiz, for example: eight divided by ten gives 0.8, multiplied by 100 gives 80 percent.",
+      },
+      {
+        q: "What's a percentage difference, specifically?",
+        a: "It's a way of comparing two values relative to their average, commonly used in science and statistics when comparing two measurements where neither one is clearly the \"original\" baseline value.",
+      },
+      {
+        q: "Can this calculate a percentage decrease, like a markdown?",
+        a: "Yes, there's a dedicated mode for percentage change. Enter an original value of 100 and a new value of 80, for instance, and it calculates the 20 percent decrease automatically.",
+      },
+      {
+        q: "Does the calculator round the result, or show full precision?",
+        a: "It calculates out to several decimal places for accuracy, particularly useful for financial or scientific contexts, and you can round the figure yourself afterward depending on what you actually need.",
+      },
+      {
+        q: "Are the numbers I calculate logged anywhere?",
+        a: "No, every calculation happens client-side in your browser. Financial figures, test scores, or anything else you enter stay entirely private.",
+      },
+    ],
+  },
+
+  "scientific-calculator": {
+    seoTitle: "Scientific Calculator: Solve Advanced Math Online",
+    seoDescription:
+      "Solve trigonometry, logarithms, and exponents instantly. Free scientific calculator online, supports radians and degrees, in your browser.",
+    h1: "Scientific Calculator",
+    shortDescription:
+      "Type your equation below, and this scientific calculator solves it instantly, trig functions, logarithms, exponents, and more.",
+    about: [
+      "A basic calculator handles addition and multiplication fine, but it has no way to compute a sine, a logarithm, or an exponent, which is where a dedicated scientific calculator becomes necessary rather than optional. This scientific calculator online puts the full function set, trigonometry, logarithms, factorials, scientific notation, in a browser tab with no hardware required.",
+      "It strictly follows standard order of operations, PEMDAS, parentheses first, then exponents, then multiplication and division, then addition and subtraction, which matters the moment an equation has more than one operator type in it, since getting that sequence wrong changes the answer entirely rather than just the formatting.",
+      "Switching between radians and degrees is one of the more common mistakes people make with trig functions specifically, since the sine of a given angle produces a completely different numeric result depending on which mode you're in. Physics and higher-level math typically default to radians, while basic geometry coursework usually sticks to degrees, so it's worth confirming which mode you're in before trusting a trig result.",
+      "Type your equation using the on-screen buttons or your keyboard, nesting parentheses as needed to control exactly which part calculates first. Hit equals and the result displays with full precision.",
+      "The constant e, Euler's number, roughly 2.718, shows up specifically in calculus, exponential growth and decay problems, and continuous compound interest formulas, and it's available as its own button rather than something you'd need to type out manually to several decimal places. Every calculation runs locally in your browser, so coursework or proprietary engineering formulas never leave your device.",
+    ],
+    faq: [
+      {
+        q: "What actually separates a basic calculator from a scientific one?",
+        a: "A basic calculator handles the four core operations, addition, subtraction, multiplication, division. A scientific calculator adds the functions higher math actually needs, trigonometry, logarithms, exponents, and scientific notation among them.",
+      },
+      {
+        q: "Does this calculator follow the correct order of operations?",
+        a: "Yes, it strictly applies PEMDAS, parentheses, exponents, multiplication and division, then addition and subtraction, so a multi-operator equation calculates in the mathematically correct sequence automatically.",
+      },
+      {
+        q: "Can I nest parentheses for a complex equation?",
+        a: "Yes, multiple levels of nested parentheses are fully supported, letting you explicitly control which part of a longer equation needs to resolve first.",
+      },
+      {
+        q: "How do I switch between degrees and radians?",
+        a: "There's a toggle in the interface for this. Make sure you're in the correct mode before running a trig calculation, since the sine of the same angle produces a different result depending on whether you're working in degrees or radians.",
+      },
+      {
+        q: "What does the \"e\" button actually represent?",
+        a: "Euler's number, approximately 2.718, the base of the natural logarithm. It shows up constantly in calculus and in formulas involving continuous growth or decay, like continuous compound interest.",
+      },
+      {
+        q: "Are my equations stored anywhere?",
+        a: "No, all calculation happens locally through client-side scripts. Nothing you enter, academic work or professional formulas alike, gets transmitted to or saved on a server.",
+      },
+    ],
+  },
+
+  "gpa-calculator": {
+    seoTitle: "GPA Calculator: Track Your College & High School Grades",
+    seoDescription:
+      "Calculate your semester and cumulative GPA in seconds. Free gpa calculator weights each class by credit hours automatically.",
+    h1: "GPA Calculator",
+    shortDescription:
+      "Add your classes, grades, and credit hours below, and this gpa calculator outputs your semester and cumulative GPA instantly.",
+    about: [
+      "A GPA calculator converts letter grades into their standard numeric point values and weights each one by its credit hours before averaging, since an A in a four-credit lab should pull your average more than an A in a one-credit seminar does. This cgpa calculator also layers in past semesters when you need your full Cumulative GPA rather than just one term's number.",
+      "The weighting is the part people most often get wrong doing this by hand. Credit hours work as a direct multiplier, a three-credit A contributes three times the \"quality points\" that a one-credit A would, so simply averaging your letter grades without accounting for credit weight produces a number that doesn't actually match what your transcript shows.",
+      "Your exact standing matters for more than just personal tracking, scholarship renewal requirements, graduate school applications, and some internship eligibility rules all hinge on a specific GPA threshold, which makes an accurate, up-to-date calculation worth more than a rough mental estimate.",
+      "Add a row per class, select the letter grade, and enter its credit hours. The running total updates immediately as you adjust any input, which also makes it easy to run a \"what grade do I need on the final\" scenario by testing different outcomes before they actually happen.",
+      "Most standard college calculations use an unweighted 4.0 scale, though many high schools add extra points, sometimes up to a 5.0 scale, for AP or Honors coursework, and you can adjust the point value for a specific class if your school weights it that way. Your grades and class details stay entirely local, nothing uploads to a server.",
+    ],
+    faq: [
+      {
+        q: "What does GPA actually stand for?",
+        a: "Grade Point Average, the standard numeric measure schools use to represent academic performance, typically calculated on a 4.0 scale by converting letter grades to points and averaging them.",
+      },
+      {
+        q: "What's the real difference between GPA and CGPA?",
+        a: "GPA usually refers to a single semester's average. CGPA, Cumulative GPA, is the running average across every semester you've completed so far in your entire academic program.",
+      },
+      {
+        q: "How exactly do credit hours affect the final number?",
+        a: "They act as a direct multiplier, so a three-credit class has three times the impact on your overall average compared to a one-credit class with the identical letter grade. Entering credit hours incorrectly will throw off your entire calculated average.",
+      },
+      {
+        q: "Does this calculator handle weighted high school GPAs?",
+        a: "Standard college-level calculations default to an unweighted 4.0 scale, but many high schools award bonus points for AP or Honors classes, sometimes up to a 5.0 scale. You can typically adjust the point value for a specific class to match that weighting.",
+      },
+      {
+        q: "Can I figure out what grade I need to hit a target GPA?",
+        a: "Yes, enter your current cumulative GPA and total past credits, then adjust your current semester's grades up or down in the calculator to see exactly what score gets you to your target average.",
+      },
+      {
+        q: "Is my academic data saved anywhere?",
+        a: "No, every calculation runs locally through client-side JavaScript. Your grades, class names, and GPA are never uploaded or stored on a server.",
+      },
+    ],
+  },
+
+  "emi-calculator": {
+    seoTitle: "EMI Calculator: Plan Your Loan Repayments",
+    seoDescription:
+      "Calculate your exact monthly loan payment and total interest cost in seconds. Free EMI calculator for home, auto, and personal loans.",
+    h1: "EMI Calculator",
+    shortDescription:
+      "Enter your loan amount, interest rate, and term below, and this loan emi calculator outputs your exact monthly payment and total interest cost.",
+    about: [
+      "An EMI calculator runs the standard loan amortization formula to work out your fixed monthly payment, the Equated Monthly Installment, across the life of a loan. This loan emi calculator also breaks down exactly how much of that fixed payment goes toward interest versus principal, which matters since that split shifts significantly over the life of the loan.",
+      "Early payments on a loan are weighted heavily toward interest, with the principal portion only growing substantially in later years, a structure called reducing balance amortization. This isn't intuitive and is genuinely hard to calculate by hand, which is exactly why a dedicated calculator exists rather than people doing this math with a basic formula sheet.",
+      "Extending a loan's term or shaving even half a percentage point off the interest rate can shift the total cost by thousands of dollars over the full repayment period, a difference that's often invisible when you're only looking at the monthly payment figure in isolation.",
+      "Enter your loan principal, the annual interest rate, and your repayment term in months or years. The tool calculates your fixed monthly payment immediately, along with a clear breakdown of how much goes to principal versus interest over the loan's life.",
+      "Worth knowing upfront: this calculates principal and interest only. An actual mortgage payment is often higher once property tax and home insurance get bundled into the monthly bill by the lender, figures this tool doesn't have access to. Everything calculates locally, so your loan amount and rate stay private.",
+    ],
+    faq: [
+      {
+        q: "What does EMI actually stand for?",
+        a: "Equated Monthly Installment, a fixed payment made on the same date each month that covers both principal and interest, structured to fully pay off the loan by the end of its agreed term.",
+      },
+      {
+        q: "How does the calculator arrive at the monthly payment figure?",
+        a: "It applies a standard amortization formula, factoring in the principal, the monthly interest rate derived from your annual rate, and the total number of payments, to produce one consistent monthly figure across the loan's term.",
+      },
+      {
+        q: "Will extending my loan's term lower my monthly payment?",
+        a: "Yes, spreading the same principal over more months reduces the monthly figure. But a longer term also means paying interest for a longer stretch of time, which usually increases the total cost of the loan substantially by the time it's paid off.",
+      },
+      {
+        q: "Does this include property tax or insurance in the result?",
+        a: "No, it calculates principal and interest strictly based on the rate you provide. Actual mortgage payments are frequently higher once a lender bundles in property tax and homeowner's insurance.",
+      },
+      {
+        q: "Does the same formula work for a car loan or personal loan too?",
+        a: "Yes, the underlying EMI math is identical regardless of loan type. Just plug in the specific interest rate and term for the loan you're evaluating.",
+      },
+      {
+        q: "Is my loan information saved anywhere?",
+        a: "No, all calculations run locally through client-side JavaScript. Your principal, rate, and resulting payment figures are never transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "age-calculator": {
+    seoTitle: "Cat Age Calculator: Convert Cat Years to Human Years",
+    seoDescription:
+      "Calculate your cat's age in human years easily. Use this free cat age calculator to track your feline's life stage and senior care needs securely.",
+    h1: "Cat Age Calculator",
+    shortDescription:
+      "Enter your cat's age, and this calculator converts it into human years using their real, non-linear maturation curve.",
+    about: [
+      "Cats pack an enormous amount of maturation into their first two years, reaching roughly the human equivalent of 15 by their first birthday and around 24 by their second, according to feline aging research veterinary associations use, then the curve flattens to roughly four human years for each calendar year after that. This calculator applies that actual curve rather than a flat multiplier, since treating a 3-year-old cat as \"21 in cat years\" badly understates how mature they already are.",
+      "A one-year-old cat isn't a kitten anymore in any meaningful biological sense, it's already reached something close to full physical and reproductive maturity, comparable to a human teenager. That rapid early development is easy to underestimate if you're mentally picturing a slow, linear aging process, which is why understanding the real curve matters for things like spay or neuter timing and early health screening.",
+      "After that initial sprint, the aging rate settles dramatically, which is part of why indoor cats can live well into their late teens or even twenties with good care. Recognizing when your cat shifts from mature adult into senior and geriatric stages helps you anticipate changes like reduced kidney function or joint stiffness before they become serious problems.",
+      "Enter your cat's current age in years and months. The calculator applies the feline-specific non-linear aging curve, fast in the first two years, slower after, and returns their equivalent human age along with their current life stage classification.",
+      "Your cat's details stay with you. The calculator runs entirely client-side in your browser, so nothing about your pet gets transmitted to a server.",
+    ],
+    faq: [
+      {
+        q: "How old is a one-year-old cat really, in human terms?",
+        a: "Roughly 15 years old, biologically comparable to a human teenager, reflecting how much maturation happens in a cat's first twelve months.",
+      },
+      {
+        q: "When does a cat become a senior?",
+        a: "Cats are typically considered mature adults around age seven, with senior and geriatric stages beginning around age eleven to fourteen and beyond.",
+      },
+      {
+        q: "Do indoor cats really live longer than outdoor cats?",
+        a: "Yes, substantially. Indoor cats commonly live twelve to twenty years, protected from traffic, predators, and infectious disease exposure that significantly shorten outdoor cats' average lifespans.",
+      },
+      {
+        q: "How do vets estimate a rescue cat's age without records?",
+        a: "They examine dental wear and tartar buildup, eye clarity, coat condition, and muscle tone, all of which shift predictably with age even without a known birthdate.",
+      },
+      {
+        q: "Is this calculator free?",
+        a: "Yes, no account needed, built for pet owners and rescue volunteers alike.",
+      },
+      {
+        q: "Are my cat's details stored anywhere?",
+        a: "No. Calculations run locally via client-side JavaScript, and we don't store, track, or record your pet's information.",
+      },
+    ],
+  },
+
+  "bmi-calculator": {
+    seoTitle: "BMI Calculator: Check Your Body Mass Index",
+    seoDescription:
+      "Calculate your BMI from height and weight in seconds. Free body mass index calculator, metric and imperial, runs in your browser.",
+    h1: "BMI Calculator",
+    shortDescription:
+      "Enter your height and weight below, and this body mass index calculator outputs your BMI score and weight category instantly.",
+    about: [
+      "BMI compares your weight against your height using a formula that's actually almost 200 years old, developed by a Belgian statistician named Adolphe Quetelet in the 1830s, long before it became a standard screening tool in medicine. A body mass index calculator applies that formula instantly, giving you a quick numeric score and the health category it falls into.",
+      "The metric formula divides weight in kilograms by height in meters squared. The imperial version looks different but produces the same result: multiply weight in pounds by 703, then divide by height in inches squared. Both versions exist purely to avoid forcing a unit conversion before you can even calculate your score.",
+      "It's genuinely useful to know what BMI doesn't measure, since that's where it gets misapplied. The formula has no way to distinguish muscle mass from fat mass or account for frame size, which is exactly why a muscular athlete with low body fat can register as \"overweight\" on a BMI scale despite being in excellent physical condition. It's a population-level screening tool, not an individual diagnosis.",
+      "Enter your height and weight in either metric or imperial units, and your BMI calculates immediately alongside the official category range it falls into, underweight, normal, overweight, or obese.",
+      "These category thresholds come from established public health guidelines rather than anything this tool invents on its own, 18.5 to 24.9 is considered the normal range, for reference. Everything calculates locally in your browser, so personal health data like height, weight, and the resulting score never gets uploaded anywhere.",
+    ],
+    faq: [
+      {
+        q: "What does BMI actually stand for?",
+        a: "Body Mass Index, a formula using weight and height to produce a general screening number for assessing whether someone falls into a typical healthy weight range for their height.",
+      },
+      {
+        q: "How exactly is BMI calculated?",
+        a: "Divide weight in kilograms by height in meters squared. In imperial units, multiply weight in pounds by 703, then divide by height in inches squared, both formulas land on the same resulting score.",
+      },
+      {
+        q: "Is BMI actually a reliable measure of someone's health?",
+        a: "It's a useful large-scale screening tool, but it has real limitations individually, since it can't distinguish muscle from fat or account for frame size. A heavily muscled athlete can register as overweight on a BMI scale despite carrying very little body fat.",
+      },
+      {
+        q: "What are the standard BMI weight categories?",
+        a: "Below 18.5 is classified as underweight, 18.5 to 24.9 as normal weight, 25.0 to 29.9 as overweight, and 30.0 or above falls into the obese category, per standard public health guidelines.",
+      },
+      {
+        q: "Does BMI get calculated differently for men versus women?",
+        a: "The mathematical formula itself is identical for adult men and women. Some clinical interpretation guidelines do account for typical physiological differences in body composition between the sexes, but the calculation itself doesn't change.",
+      },
+      {
+        q: "Is my height and weight data saved anywhere?",
+        a: "No, every calculation happens locally through client-side JavaScript. Your measurements are never stored or transmitted to a server.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
