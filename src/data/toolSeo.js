@@ -994,6 +994,848 @@ export const TOOL_SEO = {
       { icon: "Download", label: "High-resolution PNG export" },
     ],
   },
+
+  // ─── Batch 1 (developer/design tools) ─────────────────────────────
+
+  "url-encoder-decoder": {
+    seoTitle: "URL Encoder & Decoder: Format Web Links Safely",
+    seoDescription:
+      "Encode or decode a URL in seconds. This free url decoder turns percent-encoded characters back into plain text, right in your browser.",
+    h1: "URL Encoder/Decoder",
+    shortDescription:
+      "Paste a percent-encoded link below and this url decoder turns it back into readable text, or encode plain text so it's safe to drop into a URL.",
+    about: [
+      "A url decoder reverses percent-encoding, the %XX sequences that stand in for characters a URL isn't allowed to carry directly, like a space or an ampersand. This url encoder decoder works in the other direction too, turning a string of plain text into a format that survives being passed around as part of a web address without breaking anything downstream.",
+      "The URL spec, RFC 3986, only permits a specific set of ASCII characters inside a URL: letters, digits, and a handful of symbols like - . _ ~. Everything else gets converted into its UTF-8 byte sequence and each byte is written as a percent sign followed by two hex digits, which is why a single accented letter can turn into something like %C3%A9 once encoded.",
+      "There's a small but real inconsistency worth knowing about: a space in a URL path gets encoded as %20, but in a query string built with the older application/x-www-form-urlencoded convention, a space is often written as a plus sign instead. This tool handles both conventions correctly depending on where in the URL the text sits.",
+      "Paste a link or a string of text and pick a direction. Decoding unpacks every %XX sequence back into its original character, including multi-byte UTF-8 sequences for emoji and non-Latin scripts. Encoding does the reverse, safely wrapping anything outside the allowed character set.",
+      "This comes up constantly when you're staring at a tracking link, a session parameter, or an OAuth redirect URL that's been encoded so many times it's unreadable. Running it through here strips that back to plain text in one pass, and since the conversion happens in your browser, a sensitive token in that URL never gets logged anywhere outside your own tab.",
+    ],
+    faq: [
+      {
+        q: "Why do URLs need encoding in the first place?",
+        a: "Because a URL can only legally contain a narrow set of ASCII characters under RFC 3986. A space, an ampersand used outside its reserved role, or any non-ASCII letter has to be represented as a percent-encoded byte sequence so servers and browsers interpret the link consistently.",
+      },
+      {
+        q: "What's the actual difference between encodeURI and encodeURIComponent?",
+        a: "encodeURI leaves reserved characters like / and & alone because it assumes you're encoding a full URL. encodeURIComponent escapes those too, since it assumes you're encoding a single value, like a query parameter, that might itself contain those characters.",
+      },
+      {
+        q: "Why do I sometimes see a plus sign instead of %20 for a space?",
+        a: "That's a quirk of the application/x-www-form-urlencoded format used in form submissions and query strings, where a plus sign is the historical stand-in for a space. Percent-encoding with %20 is the more general-purpose rule used everywhere else in a URL.",
+      },
+      {
+        q: "Can this decode non-English characters and emoji?",
+        a: "Yes. Non-ASCII characters get encoded as their UTF-8 byte sequence, and this tool decodes the full multi-byte sequence back into the correct character, not just single bytes.",
+      },
+      {
+        q: "Is it safe to decode a link with a session token or password reset code in it?",
+        a: "Yes, decoding happens entirely in your browser's JavaScript, so nothing you paste gets sent to a server or logged anywhere.",
+      },
+      {
+        q: "Why does a URL sometimes look double-encoded, with %25 appearing in it?",
+        a: "%25 is the encoded form of the percent sign itself. If a URL gets encoded twice, every original percent sign turns into %25, which is a common bug when a link passes through more than one system that each try to encode it.",
+      },
+    ],
+  },
+
+  "base64-encoder-decoder": {
+    seoTitle: "Base64 Encoder & Decoder: Translate Data Safely",
+    seoDescription:
+      "Decode a Base64 string instantly or encode text into Base64. Free, client-side base64 encoder decoder for API tokens, JWTs, and data URIs.",
+    h1: "Base64 Encoder/Decoder",
+    shortDescription:
+      "Paste a Base64 string below and this base64 decode tool converts it back to readable text, or encode plain text into Base64 for an API call or a data URI.",
+    about: [
+      "Base64 takes binary data and represents it using only 64 safe ASCII characters, A through Z, a through z, 0 through 9, plus + and /, so it can travel through systems built for text without getting mangled. A base64 decode reverses that back into the original bytes, and this base64 encoder decoder handles the conversion both ways right in your browser.",
+      "The encoding works by grouping the original data into chunks of 3 bytes, 24 bits, and splitting those into four 6-bit groups, each mapped to one of the 64 characters. When the input doesn't divide evenly into 3-byte chunks, the output gets padded with one or two = signs at the end, which is why you'll often see Base64 strings ending in = or ==.",
+      "This 6-bit-to-character mapping is also why Base64 always makes data bigger, roughly 33% bigger than the original, since 3 bytes of real data become 4 bytes of encoded text. It's a fine tradeoff for small tokens and short strings, but it's not something you'd want to use to encode a large file.",
+      "Paste your text or Base64 string, pick encode or decode, and the result shows up instantly with a copy button next to it. Decoding automatically strips out any stray whitespace or line breaks that sometimes get introduced when a long Base64 string is copied from an email client or a terminal.",
+      "A JWT is actually three Base64url-encoded parts joined by dots, the header, payload, and signature, so this tool is handy for peeking at what's inside a token's payload without needing a dedicated JWT library. Everything stays local, which matters when the string you're decoding has an auth token or an API secret sitting inside it.",
+    ],
+    faq: [
+      {
+        q: "Is Base64 a form of encryption?",
+        a: "No, and this is probably the most common misconception about it. Base64 is purely a format conversion with zero security value, anyone can decode it back to the original in seconds, so it should never be relied on to hide a password or secret.",
+      },
+      {
+        q: "Why does a Base64 string sometimes end in one or two equals signs?",
+        a: "Those are padding characters, added when the original data's length isn't a multiple of 3 bytes. One = means the last group was short by one byte, two == means it was short by two.",
+      },
+      {
+        q: "What's the difference between standard Base64 and Base64url?",
+        a: "Standard Base64 uses + and / as two of its 64 characters, both of which have special meaning in a URL. Base64url swaps those for - and _ instead, so the encoded string can be used safely inside a URL or a filename without extra encoding.",
+      },
+      {
+        q: "Why does my decoded output look like garbled symbols?",
+        a: "You're probably decoding binary data, like an embedded image or a compiled file, and viewing it as if it were text. That's expected behavior, the bytes are correct, they just were never meant to be interpreted as readable characters in the first place.",
+      },
+      {
+        q: "Can I see what's inside a JWT using this tool?",
+        a: "Yes, informally. Paste the middle section of a JWT, the payload, between the two dots, and decoding it as Base64url will show you the claims inside, though this tool doesn't verify the token's signature.",
+      },
+      {
+        q: "Does encoding something in Base64 make it take up more storage space?",
+        a: "Yes, by roughly a third. That overhead is why Base64 is typically reserved for small payloads like tokens, keys, or small embedded images rather than large files.",
+      },
+    ],
+  },
+
+  "json-to-csv": {
+    seoTitle: "JSON to CSV Converter: Export Data Instantly",
+    seoDescription:
+      "Flatten nested JSON into a clean CSV file in one step. This free json to csv converter preps API or database exports for Excel in your browser.",
+    h1: "JSON to CSV",
+    shortDescription:
+      "Paste a JSON array below and this json to csv converter flattens nested objects into proper columns, ready to open in Excel or Google Sheets.",
+    about: [
+      "Converting json to csv means taking data built around nested objects and arrays, the native shape of most API responses, and reshaping it into the flat rows and columns a spreadsheet actually understands. This json to csv converter does that reshaping automatically, including the part most people get stuck on: deciding what to do with a nested object or an array sitting inside a single record.",
+      "A nested object gets handled by combining its parent and child keys into a single dotted column header, so {\"address\":{\"city\":\"Lahore\"}} becomes a column named address.city rather than losing the relationship between the two fields. An array of values inside a record, on the other hand, usually gets serialized into a single cell as a JSON string, since spreadsheets don't have a clean native way to represent a one-to-many relationship in a flat row.",
+      "Inconsistent records are the other common headache. If some objects in your array have a field that others don't, the converter needs a rule for what goes in that cell, and the sensible default is to leave it blank rather than throwing an error or dropping the whole row, which is what this tool does.",
+      "Paste your raw JSON array in and a table preview builds immediately, so you can check the columns line up the way you expect before downloading anything. You can also switch the delimiter from comma to semicolon, which matters if the file is headed for a European locale of Excel that expects semicolons by default.",
+      "The whole parsing and flattening process runs in your browser's memory, so a file with customer records, financial data, or anything you'd rather not route through a server stays local the entire time, and the download is a standard CSV that opens cleanly in Excel, Numbers, or Sheets.",
+    ],
+    faq: [
+      {
+        q: "What actually happens to nested objects during the conversion?",
+        a: "Each nested key gets combined with its parent key using a dot, so a field like user.address.city becomes its own column, keeping the relationship intact instead of losing it in the flattening process.",
+      },
+      {
+        q: "How does the tool handle an array field inside a JSON object?",
+        a: "Since a spreadsheet row can't natively hold a one-to-many relationship, an array value typically gets serialized into a single cell as a JSON string, which keeps the data intact even though it's no longer broken into separate columns.",
+      },
+      {
+        q: "Why are some cells blank in my output?",
+        a: "That usually means not every object in your JSON array has the same set of keys. Rather than erroring out or dropping the row, the converter leaves the cell blank for any missing field so the rest of the record still comes through.",
+      },
+      {
+        q: "Will a large JSON file slow down or crash the converter?",
+        a: "Standard data arrays, even fairly large ones, process quickly since everything runs in your browser's own memory. An extremely large file might make the preview render a little slower, but the underlying conversion itself stays fast.",
+      },
+      {
+        q: "Can I choose a different delimiter than a comma?",
+        a: "Yes, switching to a semicolon is useful if the file is going into a European-locale version of Excel, which expects semicolons as the default separator rather than commas.",
+      },
+      {
+        q: "Is it safe to convert a file with customer or financial data in it?",
+        a: "Yes, the parsing happens entirely client-side. Nothing you paste gets uploaded to a server or stored anywhere outside your own browser tab.",
+      },
+    ],
+  },
+
+  "meta-tags-generator": {
+    seoTitle: "Meta Tag Generator: Optimize Your HTML Headers",
+    seoDescription:
+      "Build correct title, description, and robots meta tags in seconds. Free meta tags generator outputs clean HTML ready for your page's head section.",
+    h1: "Meta Tags Generator",
+    shortDescription:
+      "Fill in your page's title, description, and indexing rules below, and this meta tags generator outputs properly formatted HTML for your site's head section.",
+    about: [
+      "A meta tag generator builds the handful of HTML tags inside a page's head section that search engines and social platforms read before they ever render the page itself, the title tag, meta description, and robots directives chief among them. Typing these by hand invites small mistakes, a missing quote or an extra space, that this tool removes by generating clean, validated markup from a simple form.",
+      "Google generally displays a title tag fully up to somewhere around 50 to 60 characters before truncating it, and a meta description up to roughly 150 to 160 characters, though the real cutoff is based on pixel width rather than a strict character count, so a title full of wide letters gets cut off sooner than one with narrow letters. This tool keeps a live character count so you can see where you stand before you publish.",
+      "The robots meta tag controls two separate things that are easy to confuse: whether a page should be indexed at all, and whether search engines should follow the links on that page. A page can be set to noindex but still follow, which is common for a thank-you page you don't want ranking but that still links onward to other parts of the site.",
+      "Enter your title, description, and canonical URL, then pick your indexing and follow settings from simple dropdowns instead of typing directive names from memory. The output is a clean block of HTML ready to paste directly between your page's opening and closing head tags.",
+      "This is worth running for every new page, not just the ones you remember to think about. A blog post, a product page, a filtered category page you'd rather keep out of search results, all of these benefit from deliberately set tags rather than whatever a CMS defaults to on its own.",
+    ],
+    faq: [
+      {
+        q: "What are meta tags and why do they matter?",
+        a: "They're lines of HTML inside a page's head section that never appear visually on the page itself, but tell search engines and social platforms what the page is about, how to index it, and what to show in a search result or share preview.",
+      },
+      {
+        q: "Does Google still use the meta keywords tag for ranking?",
+        a: "No, that stopped being used for ranking purposes years ago after it was widely abused through keyword stuffing. Title tags and meta descriptions still matter, mainly because they influence click-through rate from the search results page.",
+      },
+      {
+        q: "Where exactly do I paste the generated code?",
+        a: "Inside the head section of your page's HTML, between the opening <head> and closing </head> tags. On a CMS like WordPress, an SEO plugin usually manages this for you, but a hand-coded site needs it added directly to the template.",
+      },
+      {
+        q: "What's the difference between noindex and nofollow?",
+        a: "Noindex tells a search engine not to include that page in its results. Nofollow tells it not to pass ranking credit through the links on that page. A page can carry either directive independently, or both together.",
+      },
+      {
+        q: "Why would I ever want to generate a tag myself instead of letting my CMS handle it?",
+        a: "Most CMS platforms generate reasonable defaults, but they don't always know what you actually want for a specific page, like a seasonal landing page you want indexed only temporarily. Setting tags deliberately gives you control the defaults don't.",
+      },
+      {
+        q: "Will adding well-formed meta tags improve my search ranking?",
+        a: "Correct meta tags remove a basic technical barrier, but they aren't a ranking factor on their own. Actual rankings depend on content quality, backlinks, site speed, and how people behave once they land on the page.",
+      },
+    ],
+  },
+
+  "fake-data-generator": {
+    seoTitle: "Fake Data Generator: Create Mock Test Data Instantly",
+    seoDescription:
+      "Generate realistic mock data for testing in seconds. Free random data generator outputs fake names, emails, and addresses as JSON or CSV.",
+    h1: "Fake Data Generator",
+    shortDescription:
+      "Pick the fields you need below and this fake data generator builds as many rows of realistic, entirely made-up test records as you need.",
+    about: [
+      "A random data generator produces realistic-looking but completely fictional records, names, emails, addresses, phone numbers, for testing software without ever touching a real person's information. This fake data generator builds those records with internally consistent formatting, so a generated US address actually pairs a real-format zip code with a matching state rather than mismatched random fields.",
+      "Testing with production data carries real legal exposure, since using actual customer records outside their original purpose can run into GDPR, CCPA, or similar regulations depending on where your users are. A random data generator sidesteps that entirely, giving your test environment data that behaves exactly like the real thing without creating any privacy liability.",
+      "Good test data also needs to be internally consistent, not just individually plausible. A generated email that doesn't match the generated name, or a zip code that doesn't correspond to the generated city, can cause a test to pass when a real-world case involving related fields would have failed. This generator keeps related fields paired correctly.",
+      "Select the fields you need, names, emails, phone numbers, company names, or full addresses, and set how many rows to produce. A preview builds on screen immediately, and you can export the finished set as JSON for an API test or CSV for a quick database seed.",
+      "Everything runs through a randomization algorithm in your browser rather than a server, which means generating even a few thousand rows happens almost instantly, with no API rate limit or queue to wait on.",
+    ],
+    faq: [
+      {
+        q: "Why not just use real user data for testing?",
+        a: "Beyond the legal risk under laws like GDPR, there's also the practical risk of a test environment leaking real customer information through logs, screenshots, or a misconfigured staging server. Mock data removes that risk entirely while still exercising your code the same way.",
+      },
+      {
+        q: "What formats can I export the generated data in?",
+        a: "CSV, which is useful for seeding a database or opening in a spreadsheet, or JSON, which fits naturally into an API test or a frontend mock.",
+      },
+      {
+        q: "Is the generated data guaranteed to never repeat?",
+        a: "Not with absolute certainty on very large batches, a first or last name might repeat across thousands of rows just by chance. Combinations like a full name paired with its generated email are effectively always unique though.",
+      },
+      {
+        q: "Can I send a real email to one of the generated addresses?",
+        a: "You shouldn't try. The addresses follow valid formatting so they'll pass form validation in your own testing, but the domains they use aren't real, so any message sent to one will simply bounce.",
+      },
+      {
+        q: "Does this tool send anything to a server during generation?",
+        a: "No, the entire randomization process runs client-side in your browser, so there's nothing to log or rate-limit on a server.",
+      },
+      {
+        q: "Is there a practical limit on how many rows I can generate at once?",
+        a: "You can comfortably generate several thousand rows in one batch. Pushing well past that, tens of thousands of rows, can start to slow your browser down briefly while it compiles the export file.",
+      },
+    ],
+  },
+
+  "html-formatter-beautifier": {
+    seoTitle: "HTML Formatter: Beautify and Clean Your Code",
+    seoDescription:
+      "Turn minified HTML back into properly indented code. Free HTML formatter runs in your browser, nothing uploaded, nothing logged.",
+    h1: "HTML Formatter/Beautifier",
+    shortDescription:
+      "Paste minified or messy markup below and this HTML formatter restructures it with proper indentation so you can actually follow the document's structure.",
+    about: [
+      "An html formatter takes markup that's either minified for production or just inconsistently written, and restructures it with consistent indentation and line breaks. This html formatter beautifier pays attention to the handful of HTML elements, like pre and textarea, where whitespace is actually meaningful to the browser and has to be left alone rather than reformatted like everything else.",
+      "Most HTML elements ignore extra whitespace entirely, which is exactly why minification works without changing how a page renders. But a few elements, pre, textarea, and anything styled with white-space: pre, treat whitespace as significant content. A formatter that doesn't account for this can quietly break a code block's exact spacing while cleaning up everything around it.",
+      "Void elements like br, img, hr, and input don't have closing tags in HTML, unlike in XML or XHTML where every element is explicitly closed. A good formatter needs to know the difference, since adding a closing tag to a void element isn't just unnecessary, it's technically invalid HTML even though most browsers will silently tolerate it.",
+      "Paste your markup in and choose two-space, four-space, or tab indentation to match your project's style. The nesting hierarchy gets expanded automatically, with syntax highlighting making it easy to trace which closing tag belongs to which opening one in a deeply nested section.",
+      "This runs entirely in your browser's JavaScript engine, so a client's unreleased landing page or a proprietary component library never gets uploaded anywhere just to get cleaned up and made readable again.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between a formatter and a minifier?",
+        a: "A formatter adds spacing and line breaks so a human can read the code comfortably. A minifier strips all of that back out to shrink the file for faster delivery to the browser. They're functionally opposite operations on the same code.",
+      },
+      {
+        q: "Will formatting change how my page actually renders?",
+        a: "No. Browsers collapse and ignore extra whitespace in standard HTML, so reformatting the source changes only how it looks to you as a developer, the rendered output in the browser stays identical.",
+      },
+      {
+        q: "Does this tool fix broken or unclosed tags automatically?",
+        a: "It won't rewrite your markup's logic for you, but properly applied indentation makes a missing closing tag much easier to spot visually, since the nesting will visibly fail to line up where the error is.",
+      },
+      {
+        q: "Is it safe to paste client or proprietary code into this?",
+        a: "Yes, the entire formatting process runs through your browser's own JavaScript engine. Nothing you paste gets transmitted to a server or stored anywhere outside your current tab.",
+      },
+      {
+        q: "Does the formatter preserve whitespace inside a pre or textarea element?",
+        a: "Yes, it needs to, since whitespace inside those elements is meaningful content rather than just visual spacing, and reformatting it the same way as the rest of the document would actually change what the page displays.",
+      },
+      {
+        q: "What indentation size is considered standard for HTML?",
+        a: "There's no universal rule, but two spaces and four spaces are both common conventions. Two spaces tends to hold up better in deeply nested markup, where four-space indentation can push content uncomfortably far to the right.",
+      },
+    ],
+  },
+
+  "css-formatter-minifier": {
+    seoTitle: "CSS Formatter & Minifier: Optimize Your Stylesheets",
+    seoDescription:
+      "Format a messy stylesheet or minify it for production. Free css formatter runs entirely client-side, no server upload required.",
+    h1: "CSS Formatter/Minifier",
+    shortDescription:
+      "Paste your stylesheet below and this CSS formatter either cleans it up for readability or strips it down for production, whichever you need right now.",
+    about: [
+      "A css formatter takes a stylesheet with inconsistent spacing, often the result of several developers touching the same file, and reorganizes it with standard indentation and line breaks. The minifier side of this css formatter minifier does the opposite on purpose, stripping out every bit of whitespace, comments, and unnecessary characters to produce the smallest possible file for production.",
+      "Minification goes beyond just removing spaces. A thorough minifier also drops the units off zero values, since 0px and 0 render identically, removes the final semicolon in a rule block since it's not required before the closing brace, and can merge selectors that share identical rule sets. None of this changes specificity or how the browser applies the styles.",
+      "On the readability side, consistent formatting matters more on a shared codebase than people usually credit. A formatter standardizing every contributor's CSS to the same indentation and property ordering makes it genuinely faster to scan a stylesheet for the one rule that's causing a layout bug.",
+      "Paste your CSS and choose format to clean it up for debugging, or minify to compress it before deployment. The minified output strips comments and collapses whitespace while leaving your actual selectors, properties, and values completely untouched.",
+      "Processing happens locally in your browser, so your styling architecture, including anything proprietary about how a client's design system is built, never gets sent to an external server just to be reformatted or compressed.",
+    ],
+    faq: [
+      {
+        q: "Why bother minifying CSS before deploying a site?",
+        a: "Minifying strips characters the browser doesn't need to render your styles, spaces, comments, unnecessary line breaks, which shrinks the file size and lets the browser download and apply your styles faster.",
+      },
+      {
+        q: "Does minifying CSS ever change how a page looks?",
+        a: "No, a minifier only removes characters that have no visual effect, whitespace and comments mainly. Your selectors, property values, and specificity stay exactly as written, so the rendered page looks identical.",
+      },
+      {
+        q: "How do I make changes to a file that's already been minified?",
+        a: "Paste the minified CSS back into this tool and run it through format instead. That restores readable line breaks and indentation so you can actually locate and edit the rule you need.",
+      },
+      {
+        q: "Does this tool catch CSS syntax errors?",
+        a: "Not really, it's built for restructuring and compression rather than validation. A severely broken rule might produce odd spacing in the output, but a dedicated CSS linter is the right tool for catching actual syntax mistakes.",
+      },
+      {
+        q: "Is my stylesheet uploaded anywhere when I use this?",
+        a: "No, both formatting and minifying happen locally in your browser using JavaScript. Nothing you paste gets logged or stored.",
+      },
+      {
+        q: "What's the difference between minification and server-side compression?",
+        a: "Minification permanently removes characters from the file itself before it's saved. GZIP or Brotli compression happens at the server level when the file is actually sent over the network. For the best load time, you typically want both working together.",
+      },
+    ],
+  },
+
+  "js-formatter-minifier": {
+    seoTitle: "JavaScript Formatter & Minifier: Clean or Compress Code",
+    seoDescription:
+      "Format messy JavaScript or minify it for production. Free js minifier and formatter processes your script securely in your browser.",
+    h1: "JS Formatter/Minifier",
+    shortDescription:
+      "Paste your script below and this js minifier either formats it for readability or compresses it down for production, in one click either way.",
+    about: [
+      "A js minifier strips a JavaScript file down to the smallest version that still runs exactly the same, removing whitespace, comments, and unnecessary characters while leaving the actual logic untouched. The formatting side of this js formatter minifier does the reverse, restructuring compressed or inconsistently written code back into something readable enough to debug.",
+      "A real minifier doesn't just delete whitespace, it also shortens local variable and function names where it's safe to do so without changing behavior, since a function-scoped variable can be renamed freely as long as every reference inside that scope is renamed to match. This is different from obfuscation, which renames things specifically to make the code harder to understand, not just smaller.",
+      "JavaScript's automatic semicolon insertion, the rule that lets you omit semicolons in many cases, is exactly the kind of detail that makes writing a correct minifier harder than it looks. Removing a line break in the wrong place can silently change how two statements get parsed, which is why a dependable minifier works off the actual parsed syntax tree rather than just stripping characters with pattern matching.",
+      "Paste your script and choose format if you're trying to read through logic or hunt down a bug, or minify once you're ready to ship it. The minified output keeps your functions and variables working exactly as before, just represented with far fewer characters.",
+      "Nothing you paste here gets sent to a server at any point, since both the formatting and compression logic run inside your browser. That matters if the script contains API endpoints, internal business logic, or anything else you'd rather keep off a third-party server.",
+    ],
+    faq: [
+      {
+        q: "Why does minifying JavaScript matter for a live website?",
+        a: "It reduces the file size the browser has to download and parse before your page becomes interactive, which directly improves load time, especially on a slower mobile connection.",
+      },
+      {
+        q: "Will minifying ever change how my code actually behaves?",
+        a: "It shouldn't, a correct minifier only removes characters and safely renames scoped variables, never altering your program's logic. If behavior changes after minifying, that usually points to code that was relying on something fragile, like a specific line break position, beforehand.",
+      },
+      {
+        q: "Can I reverse a minified file back into something readable?",
+        a: "You can format it back into readable code with proper spacing and indentation, but the original variable and function names are gone for good unless you kept the original source or a source map.",
+      },
+      {
+        q: "Does this catch actual bugs or syntax errors in my JavaScript?",
+        a: "No, it's built for formatting and compression, not for linting. A dedicated linter like ESLint is the right tool if you need to catch logic errors or bad patterns in your code.",
+      },
+      {
+        q: "Is my source code uploaded anywhere during formatting or minification?",
+        a: "No, both processes run entirely in your browser. Your functions, API calls, and business logic never leave your device.",
+      },
+      {
+        q: "What's the actual difference between minification and obfuscation?",
+        a: "Minification shrinks file size while keeping the code's structure essentially the same. Obfuscation deliberately renames things and restructures logic to make the code difficult for a human to read and reverse-engineer, which is a different goal entirely from just reducing size.",
+      },
+    ],
+  },
+
+  "xml-formatter-validator": {
+    seoTitle: "XML Formatter & Validator: Beautify and Debug XML Code",
+    seoDescription:
+      "Format and validate XML instantly. This free XML formatter catches missing tags and broken syntax right in your browser.",
+    h1: "XML Formatter & Validator",
+    shortDescription:
+      "Paste cramped or broken XML below and this xml formatter indents it properly while flagging exactly where the structure breaks.",
+    about: [
+      "An xml formatter restructures a dense, single-line XML string into a readable tree that shows how every parent and child element actually relates. This xml formatter validator checks something a plain formatter won't: whether the document is well-formed at all, meaning every tag is properly closed, properly nested, and the whole thing sits inside exactly one root element.",
+      "Being well-formed is a lower bar than being valid, and the two get confused often. Well-formed just means the XML follows the basic syntax rules, matching tags, one root element, correctly escaped special characters. Valid means it additionally matches a specific schema, like a DTD or XSD, that defines which elements and attributes are actually allowed. This tool checks for well-formedness, which catches the vast majority of real-world XML errors.",
+      "XML requires five characters to be escaped wherever they appear as literal text rather than markup: & becomes &amp;, < becomes &lt;, > becomes &gt;, \" becomes &quot;, and ' becomes &apos;. An unescaped ampersand sitting in plain text, something that's easy to type by accident, is one of the single most common reasons an otherwise fine-looking XML file fails validation.",
+      "Paste your raw XML and get a properly indented tree back immediately, with tabs or spaces available depending on your team's conventions. If something's broken, the validator points to the exact line rather than leaving you to scan the whole document by eye.",
+      "This is especially useful for checking a generated sitemap or a configuration file before it goes live, since a single invalid character can get a sitemap rejected outright by a search engine's crawler. Everything runs locally, so a proprietary configuration file or a database export never leaves your browser.",
+    ],
+    faq: [
+      {
+        q: "What does it actually mean for XML to be formatted?",
+        a: "Formatting adds line breaks and indentation so a human can follow the document's structure. It doesn't touch the actual elements, attributes, or text content, only how the file is visually laid out.",
+      },
+      {
+        q: "Why does my XML fail validation even though it looks fine?",
+        a: "The most common causes are a missing closing tag, mismatched nesting, an unescaped ampersand in the text content, or having more than one root element wrapping the document. XML's rules are considerably stricter than HTML's on all of these points.",
+      },
+      {
+        q: "Can I use this to check a sitemap before submitting it to search engines?",
+        a: "Yes, sitemaps are XML documents, so this is a direct way to confirm a hand-edited or script-generated sitemap has no structural errors before a crawler ever sees it.",
+      },
+      {
+        q: "What's the real difference between well-formed and valid XML?",
+        a: "Well-formed means the document follows XML's basic syntax rules. Valid means it also conforms to a specific schema, like a DTD or XSD, that defines exactly which elements, attributes, and structures are allowed for that particular document type.",
+      },
+      {
+        q: "Is it safe to paste a confidential configuration file into this tool?",
+        a: "Yes, both formatting and validation run locally using your browser's own processing. Nothing you paste gets uploaded or logged on an external server.",
+      },
+      {
+        q: "Why do I need to escape characters like & and < in my XML content?",
+        a: "Because those characters have special meaning in XML markup itself, an unescaped & looks like the start of an entity reference, and an unescaped < looks like the start of a new tag. Escaping them tells the parser to treat them as literal text instead.",
+      },
+    ],
+  },
+
+  "yaml-to-json-converter": {
+    seoTitle: "YAML to JSON Converter: Translate Data Formats Instantly",
+    seoDescription:
+      "Convert YAML configuration files into JSON format in one step. Free yaml to json converter processes your config securely in your browser.",
+    h1: "YAML to JSON Converter",
+    shortDescription:
+      "Paste your YAML configuration below and this yaml to json converter outputs clean, properly bracketed JSON, ready for your application.",
+    about: [
+      "YAML and JSON describe the same kinds of data, objects, arrays, strings, numbers, booleans, but YAML relies on indentation to show structure while JSON uses brackets and braces explicitly. This yaml to json converter translates between the two automatically, which matters constantly since tools like Docker and Kubernetes are written in YAML while most web APIs and JavaScript applications expect strict JSON.",
+      "YAML is genuinely more fragile than it looks, because its entire structure depends on consistent indentation rather than explicit delimiters. Mixing tabs and spaces, or indenting a nested item by just one space too few, changes what the parser thinks belongs to what, sometimes without throwing an obvious error. JSON's brackets make the same mistake far more visible and far less likely to happen silently.",
+      "YAML also supports a few things JSON has no equivalent for, comments starting with #, and anchors and aliases that let one part of a file reference and reuse another part. None of that survives conversion to JSON, since JSON has no concept of comments and no built-in way to express a reference, so anchors get expanded into their full repeated values and comments are simply dropped.",
+      "Paste your YAML and the converter outputs valid JSON immediately, correctly quoting string keys, adding the necessary commas and brackets, and converting YAML-specific scalars like unquoted true or null values into their JSON equivalents. It also works in reverse, turning a JSON file back into more human-readable YAML for a config file you're about to hand-edit.",
+      "This runs entirely in your browser, which is worth knowing if the file in question is a Kubernetes manifest or a deployment config with environment-specific values in it. None of that gets sent anywhere, it's parsed and converted locally and that's the end of it.",
+    ],
+    faq: [
+      {
+        q: "Why do so many config files use YAML instead of JSON?",
+        a: "YAML was designed specifically to be easy for a human to read and write, using indentation instead of the braces and quotation marks JSON requires. That readability is exactly why tools like Docker Compose, Kubernetes, and GitHub Actions default to YAML for their configuration files.",
+      },
+      {
+        q: "What YAML features get lost when converting to JSON?",
+        a: "Comments are dropped entirely, since JSON has no syntax for them. Anchors and aliases, YAML's way of referencing and reusing a value elsewhere in the same file, also don't survive, they get expanded into their full value wherever they're used.",
+      },
+      {
+        q: "Why does my conversion fail with what looks like a formatting error?",
+        a: "YAML is extremely sensitive to indentation, and mixing tabs with spaces, or being inconsistent about how many spaces represent one indent level, is the most common cause of a parsing failure. Check that your file uses consistent, space-only indentation throughout.",
+      },
+      {
+        q: "Is it safe to convert a deployment or infrastructure config file here?",
+        a: "Yes, all parsing and translation happens locally in your browser's JavaScript engine. Your configuration values, including anything environment-specific, are never transmitted anywhere.",
+      },
+      {
+        q: "Does this tool also convert JSON back into YAML?",
+        a: "Yes, it works both directions. Paste in a strict JSON file and it outputs clean YAML with the brackets and quotation marks stripped away, which is often more pleasant to hand-edit afterward.",
+      },
+      {
+        q: "What happens to boolean and null values during the conversion?",
+        a: "YAML's unquoted true, false, and null values convert directly to JSON's own true, false, and null, since both formats share the same underlying data types even though they write them with slightly different syntax rules.",
+      },
+    ],
+  },
+
+  "hash-generator": {
+    seoTitle: "Hash Generator: Create MD5, SHA-1 and SHA-256 Hashes",
+    seoDescription:
+      "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes instantly. Free hash generator runs entirely in your browser, nothing sent to a server.",
+    h1: "Hash Generator",
+    shortDescription:
+      "Paste a string below and this sha256 generator outputs MD5, SHA-1, SHA-256, and SHA-512 hashes side by side, all calculated locally in your browser.",
+    about: [
+      "A hash generator runs text through a one-way mathematical function and produces a fixed-length string that's practically impossible to reverse back into the original input. This sha256 generator calculates several hashing algorithms at once, since different situations, file checksums, password storage, data integrity checks, each lean on a different algorithm for different reasons.",
+      "A good hash function has what's called the avalanche effect: changing even one character in the input, including something as small as a single space, produces a completely different output with no visible pattern connecting the two. That's intentional, it's what makes a hash useful for verifying that a file or a message hasn't been altered, even slightly, between when it was hashed and when it's checked again.",
+      "MD5 produces a 128-bit hash and SHA-1 produces 160 bits, and both are still fine for basic checksums, confirming a downloaded file wasn't corrupted, for example. But both have known collision vulnerabilities, meaning two different inputs can theoretically produce the same hash, which is why neither is considered acceptable anymore for anything security-sensitive like storing passwords.",
+      "Type or paste your text in and every algorithm calculates simultaneously, MD5, SHA-1, SHA-256, and SHA-512 all shown together so you can compare outputs or grab the specific one you need with a single click.",
+      "It's worth knowing that SHA-256 by itself still isn't the right tool for storing user passwords, even though it's far more secure than MD5 for general use. SHA-256 is deliberately fast, which is great for checksums but bad for passwords, since a fast hash is also fast to brute-force. Password storage calls for a slow, purpose-built algorithm like bcrypt or Argon2 instead. Everything here runs locally, so whatever you're hashing never leaves your browser.",
+    ],
+    faq: [
+      {
+        q: "What is a cryptographic hash, in plain terms?",
+        a: "It's a function that takes an input of any length and produces a fixed-size string of characters. The same input always produces the same output, but there's no practical way to work backward from the output to figure out what the original input was.",
+      },
+      {
+        q: "Can a hash be reversed back into the original text?",
+        a: "No, not directly. Hashing is one-way by design, unlike encryption, which uses a key that can lock and unlock data. Attackers instead try to guess the original input by hashing huge lists of common passwords or words and checking for a match, which is a different attack entirely from reversing the hash itself.",
+      },
+      {
+        q: "Why shouldn't I use MD5 for anything security-related anymore?",
+        a: "MD5 has well-documented collision vulnerabilities, meaning researchers have demonstrated two different inputs producing an identical hash. That breaks the core guarantee a hash is supposed to provide, so MD5 is fine for basic checksums but shouldn't be trusted for passwords, digital signatures, or anything where tampering matters.",
+      },
+      {
+        q: "Is SHA-256 strong enough to store user passwords safely?",
+        a: "Not on its own. SHA-256 is cryptographically strong but intentionally fast, which actually works against you for password storage, since a fast algorithm lets an attacker try billions of guesses per second on stolen hashes. Dedicated password hashing algorithms like bcrypt or Argon2 are deliberately slow for exactly this reason.",
+      },
+      {
+        q: "Can this tool hash an entire file instead of a text string?",
+        a: "No, this is built for text input specifically. Verifying a downloaded file's integrity against a published checksum usually calls for a command-line tool or a dedicated file-hashing utility that reads the file's raw bytes.",
+      },
+      {
+        q: "Will hashing the same input always produce the same result?",
+        a: "Yes, hashing is deterministic, the same input always produces the exact same output every time. That's exactly how a login system checks your password without storing it in plain text: it hashes what you typed and compares that result against the hash stored in its database.",
+      },
+    ],
+  },
+
+  "jwt-decoder": {
+    seoTitle: "JWT Decoder: Parse JSON Web Tokens Instantly",
+    seoDescription:
+      "Decode a JSON Web Token's header and payload instantly. Free JWT decoder runs client-side, your signature and claims never get logged.",
+    h1: "JWT Decoder",
+    shortDescription:
+      "Paste a token below and this JWT decoder splits it into its header, payload, and signature, showing the decoded claims in readable JSON.",
+    about: [
+      "A JSON Web Token is three Base64url-encoded segments joined by dots, a header, a payload, and a signature, and a jwt decoder splits those apart and decodes the first two into readable JSON. This tool lets you decode jwt strings instantly while debugging an authentication flow, without needing a library or writing a script just to peek at what's inside.",
+      "The header typically names the signing algorithm, something like HS256 or RS256, and the token type. The payload carries the actual claims, standard ones like exp for expiration, iat for issued-at time, and sub for the subject, usually a user ID, alongside whatever custom claims the issuing server decided to include, like a role or a permission list.",
+      "Decoding a JWT and verifying it are two completely different operations, and it's worth being clear-eyed about that distinction. Decoding just reads the Base64url-encoded header and payload back into readable JSON. Verifying confirms the signature is valid and the token hasn't been tampered with, which requires the secret or public key the token was originally signed with, something a general-purpose decoder like this one doesn't have access to.",
+      "Paste your full token in and it splits into three clearly separated sections, the decoded header, the decoded payload, and the raw signature, each formatted as readable JSON where applicable so you can scan the claims without squinting at a Base64 string.",
+      "This is most useful when an API call is failing with an authentication error and you need to check whether the token's exp claim has actually passed, or whether a role or permission claim looks different than expected. Everything decodes locally in your browser, which matters since a production token is, by definition, something you don't want sitting in a server log somewhere.",
+    ],
+    faq: [
+      {
+        q: "What exactly is a JSON Web Token?",
+        a: "It's an open standard, defined in RFC 7519, for securely passing claims between two parties as a compact, URL-safe string. It bundles a header, a payload of claims, and a cryptographic signature into one token, commonly used for session authentication in modern web APIs.",
+      },
+      {
+        q: "Does decoding a JWT also verify that it's legitimate?",
+        a: "No, and this trips people up constantly. Decoding just reads the data inside the token. Verifying the signature requires the actual secret or public key the server used to sign it originally, which a general decoder has no way of knowing.",
+      },
+      {
+        q: "If someone steals my token, can they read what's inside it?",
+        a: "Yes, easily. The header and payload of a standard JWT are only Base64url-encoded, not encrypted, so anyone holding the token string can decode and read the claims directly. That's exactly why sensitive data like raw passwords should never be placed inside a JWT payload.",
+      },
+      {
+        q: "Why does my app suddenly log me out with a token error?",
+        a: "Most JWTs carry an exp claim, a Unix timestamp marking when the token expires. Once the server's clock passes that timestamp, the token is rejected regardless of anything else being correct, and decoding the token lets you confirm whether that's actually what's happening.",
+      },
+      {
+        q: "Is it safe to decode a live production token here?",
+        a: "Yes, decoding happens entirely through client-side JavaScript in your browser. Nothing you paste gets transmitted anywhere or logged, which matters given that a token often represents an active user session.",
+      },
+      {
+        q: "What are the three parts of a JWT, exactly?",
+        a: "The header, which names the signing algorithm and token type; the payload, which holds the actual claims like user ID and expiration; and the signature, which is what a server uses to confirm the token hasn't been altered since it was issued.",
+      },
+    ],
+  },
+
+  "csv-to-json-converter": {
+    seoTitle: "CSV to JSON Converter: Transform Spreadsheets Instantly",
+    seoDescription:
+      "Convert a CSV export into a clean JSON array in seconds. Free csv to json converter handles quoted fields and commas correctly in your browser.",
+    h1: "CSV to JSON Converter",
+    shortDescription:
+      "Paste your spreadsheet data below, with a header row, and this csv to json converter outputs a properly structured JSON array ready for your app.",
+    about: [
+      "Converting csv to json means turning flat spreadsheet rows into an array of key-value objects, using the first row's column headers as the keys for every record. This csv to json converter handles the part that trips up a quick manual conversion: correctly parsing a field that itself contains a comma, since the CSV spec requires that kind of field to be wrapped in quotes.",
+      "The CSV format, as defined in RFC 4180, handles a comma inside a field by wrapping the whole field in double quotes, and it handles a literal double quote inside that field by doubling it, \"\" standing in for a single \". A naive converter that just splits on every comma will silently corrupt any row where a field like an address or a product description happens to contain one, so this matters more than it sounds.",
+      "CSV also has no native concept of data types, every value is just text until something decides otherwise. A column of numbers, a column of \"true\"/\"false\" strings, and a column of plain text all look identical in the raw file. This converter keeps values as strings by default, since guessing wrong about a field's intended type can introduce subtle bugs that are harder to catch than if the data had just stayed as text.",
+      "Paste your raw CSV in, with the first row as your column headers, and the tool parses it into a JSON array where each row becomes one object, keyed by those header names. A preview shows the structured output immediately so you can confirm it mapped correctly before copying or downloading it.",
+      "Processing happens in your browser's own memory, so a spreadsheet full of customer records or financial figures never gets routed through a server just to be reshaped into JSON.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between CSV and JSON?",
+        a: "CSV is a flat format, every row is a comma-separated line of values with no inherent structure beyond that. JSON is hierarchical, built around key-value pairs and nested objects or arrays, which is what most modern APIs and JavaScript applications expect to receive.",
+      },
+      {
+        q: "Does my CSV file need a header row to convert correctly?",
+        a: "Yes, the first row needs to contain the column names, since the converter uses those names as the keys for every JSON object it generates from the rows below.",
+      },
+      {
+        q: "How does the tool handle a comma that's part of the actual data, like in an address?",
+        a: "As long as that field is properly wrapped in double quotes in the original CSV, which is the standard way to handle this under RFC 4180, the parser recognizes the quoted comma as part of the field's content rather than a column separator.",
+      },
+      {
+        q: "What happens to a blank cell in my CSV?",
+        a: "It typically converts to an empty string or a null value in the resulting JSON object, depending on how you want missing data represented, keeping every object in the array structurally consistent even where data is missing.",
+      },
+      {
+        q: "Can this handle a large export with thousands of rows?",
+        a: "Yes, parsing runs in your browser's memory, so even a few thousand rows converts quickly. An extremely large file might cause a brief pause while the output renders, but the actual parsing stays fast.",
+      },
+      {
+        q: "Is my spreadsheet data uploaded anywhere during conversion?",
+        a: "No, the entire parsing and conversion process happens client-side. Nothing you paste into the tool gets transmitted to or stored on a server.",
+      },
+    ],
+  },
+
+  "markdown-to-html-converter": {
+    seoTitle: "Markdown to HTML Converter: Generate Web Code Instantly",
+    seoDescription:
+      "Convert Markdown into clean, semantic HTML in seconds. Free markdown to html converter handles headers, lists, tables, and code blocks.",
+    h1: "Markdown to HTML Converter",
+    shortDescription:
+      "Paste your Markdown below and this markdown to html converter outputs clean, valid HTML tags, ready to drop into a page or CMS.",
+    about: [
+      "Markdown lets you write formatted content using plain-text symbols, a hash for a header, asterisks for emphasis, instead of opening and closing HTML tags by hand. A markdown to html converter turns that shorthand into fully valid, semantic markup, which matters since most publishing platforms, documentation tools, and static site generators are built around Markdown but still need to output real HTML in the end.",
+      "There isn't one single Markdown spec, which catches people off guard. The original 2004 Markdown is fairly minimal, while CommonMark formalized a stricter, more consistent version of the syntax, and GitHub Flavored Markdown adds its own extensions on top, tables, strikethrough, task lists, and automatic linking of bare URLs among them. This converter supports the common extended syntax, including tables and fenced code blocks, not just the bare-bones original spec.",
+      "Headers can be written two different ways in Markdown: ATX style, using one to six hash symbols before the text, or Setext style, underlining the text with = or - characters, though Setext only supports two heading levels. Most modern writing defaults to ATX headers since they're clearer and support all six levels.",
+      "Paste your Markdown into the left panel and the HTML output builds on the right as you type. Headers, bold and italic text, ordered and unordered lists, blockquotes, fenced code blocks, and both inline and reference-style links all convert correctly to their semantic HTML equivalents.",
+      "The output is unstyled, semantic HTML, h1 through h6 tags, p tags, ul and ol, and so on, with no inline CSS baked in, which is intentional, since your own stylesheet should control how the content actually looks once it's published. Everything converts locally in your browser, so a draft article or internal documentation page never gets uploaded anywhere just to be converted.",
+    ],
+    faq: [
+      {
+        q: "What exactly is Markdown?",
+        a: "It's a lightweight markup language designed to be readable as plain text while still being easy to convert into HTML. Simple symbols, hash marks for headers, asterisks for bold or italic text, do the formatting work that would otherwise require typing out HTML tags directly.",
+      },
+      {
+        q: "Why write in Markdown instead of a visual editor?",
+        a: "A visual, what-you-see-is-what-you-get editor often generates bloated or inconsistent HTML behind the scenes. Markdown keeps the source clean and platform-independent, so the same file converts predictably no matter where it eventually gets published.",
+      },
+      {
+        q: "Does this converter handle tables and code blocks?",
+        a: "Yes, it supports the common GitHub Flavored Markdown extensions, including pipe-delimited tables and fenced code blocks marked with triple backticks, converting both into their correct HTML table and pre/code structures.",
+      },
+      {
+        q: "Does the generated HTML include any styling?",
+        a: "No, the output is semantic, unstyled HTML. How it actually looks on a page is entirely up to your own CSS, which keeps the generated markup lightweight and reusable across different designs.",
+      },
+      {
+        q: "Is my draft content stored or tracked anywhere?",
+        a: "No, the entire conversion happens through client-side JavaScript in your browser. Nothing you type or paste gets transmitted to or saved on a server.",
+      },
+      {
+        q: "Can this tool convert HTML back into Markdown?",
+        a: "No, this specific converter only goes one direction, Markdown into HTML. Going the other way requires a separate HTML to Markdown converter, since that conversion involves a different, somewhat lossier process.",
+      },
+    ],
+  },
+
+  "html-to-markdown-converter": {
+    seoTitle: "HTML to Markdown Converter: Simplify Web Code",
+    seoDescription:
+      "Strip HTML tags down to clean Markdown text in seconds. Free html to markdown converter preserves links, lists, and headers in your browser.",
+    h1: "HTML to Markdown Converter",
+    shortDescription:
+      "Paste raw HTML below and this html to markdown converter strips out the tags, leaving clean, readable Markdown with your links and formatting intact.",
+    about: [
+      "An html to markdown converter reads a page's semantic structure, headings, paragraphs, lists, links, and re-expresses it using Markdown's much simpler plain-text syntax. This matters most when migrating old content into a newer system, since platforms like GitHub Pages, Ghost, and Notion are built around Markdown rather than raw HTML.",
+      "This conversion is inherently lossy, and that's worth setting expectations on upfront. HTML can express things Markdown simply has no syntax for: nested div containers, inline CSS styling, complex table structures with merged cells, custom data attributes. The converter discards all of that and keeps only what maps cleanly to Markdown, which is usually exactly what you want when the goal is extracting clean content rather than preserving a page's original visual design.",
+      "The mapping that does carry over is fairly direct: h1 through h6 become the matching number of hash symbols, strong and b become bold asterisks, em and i become italics, a tags become Markdown's bracket-and-parenthesis link syntax, and ordered or unordered lists convert to their Markdown equivalents.",
+      "Paste your raw HTML source in and the parser walks through the document structure, mapping each recognized tag to its Markdown equivalent and discarding the layout and styling scaffolding around it. The result is clean, plain text ready to drop into a documentation file or a Markdown-based CMS.",
+      "Badly broken HTML, missing closing tags, severely malformed nesting, can produce inconsistent output, since the parser has to make judgment calls about structure it can't fully resolve. Running messy markup through an HTML formatter first, to catch and visually confirm where tags are broken, usually improves the final result. Everything here runs locally, so pulling content from an internal wiki or a client's old site doesn't mean sending that content anywhere external.",
+    ],
+    faq: [
+      {
+        q: "What actually happens when HTML converts to Markdown?",
+        a: "The structural tags, headings, paragraphs, lists, links, get replaced with Markdown's plain-text equivalents, while everything that has no Markdown equivalent, mainly visual styling and layout containers, gets stripped out entirely.",
+      },
+      {
+        q: "What happens to my CSS classes and inline styles?",
+        a: "They're intentionally discarded. Markdown is a content formatting language, not a styling language, so inline styles, class names, and layout divs serve no purpose in the output and are dropped during conversion.",
+      },
+      {
+        q: "Will my links and images survive the conversion?",
+        a: "Yes, anchor tags and image tags are specifically mapped to Markdown's link and image syntax, so references and media paths carry through rather than getting lost along with the rest of the markup.",
+      },
+      {
+        q: "Can this handle messy or broken HTML?",
+        a: "It does its best, but severely broken HTML, missing closing tags especially, can lead to inconsistent output since the parser has to guess at the intended structure. Cleaning the HTML up first with a formatter tends to produce a better final result.",
+      },
+      {
+        q: "Is my source code uploaded anywhere during this process?",
+        a: "No, the entire parsing and conversion runs client-side in your browser. Proprietary HTML from an internal site or wiki is never transmitted or stored externally.",
+      },
+      {
+        q: "Why does the output look simpler than the original page?",
+        a: "HTML supports deeply nested layouts and visual structures that Markdown was never designed to express. The conversion focuses on extracting the actual content hierarchy and basic formatting, so a complex grid layout or a custom-styled button reduces down to plain text, which is usually the point.",
+      },
+    ],
+  },
+
+  "css-gradient-generator": {
+    seoTitle: "CSS Gradient Generator: Build Custom Backgrounds Instantly",
+    seoDescription:
+      "Build a linear or radial CSS gradient visually. Free gradient generator outputs clean, cross-browser code, no hex math required.",
+    h1: "CSS Gradient Generator",
+    shortDescription:
+      "Pick your colors and angle below, and this css gradient generator builds the exact linear-gradient or radial-gradient CSS, ready to paste into your stylesheet.",
+    about: [
+      "A gradient generator gives you a visual canvas for blending colors instead of typing hex codes and angle values straight into a stylesheet and refreshing the browser to check them. This css gradient generator outputs standards-compliant linear-gradient() or radial-gradient() syntax the moment your design looks right, with no guesswork about angle direction or color stop positioning.",
+      "A linear-gradient needs an angle, which can be written in degrees or with directional keywords like \"to right\" or \"to bottom left,\" and a list of color stops, each of which can optionally include a percentage marking exactly where it sits along that line. Leave the percentages out and the browser spaces every color evenly, which is fine for a simple two-color fade but often not what you want with three or more colors.",
+      "A radial-gradient works differently, spreading colors outward from a center point instead of along a straight line, and it defaults to an ellipse shape that stretches to match the element's own proportions unless you explicitly tell it to render as a perfect circle instead.",
+      "Pick your starting and ending colors with the color picker, then adjust the angle to control the direction of the blend. Click anywhere along the gradient bar to add another color stop, and drag any stop to reposition exactly where it sits in the transition.",
+      "The generated CSS pairs the standard property with the vendor-prefixed versions still used by some older browser builds, so the gradient renders consistently across Chrome, Firefox, and Safari without you having to track prefix support yourself. All of this builds and updates in your browser as you adjust it, with no server round-trip slowing down the back-and-forth of actually designing the thing.",
+    ],
+    faq: [
+      {
+        q: "What's the real difference between a linear and a radial gradient?",
+        a: "A linear gradient transitions colors along a straight line in whatever direction you set, top to bottom, a diagonal angle, anywhere in between. A radial gradient transitions outward from a center point in a circular or elliptical pattern instead.",
+      },
+      {
+        q: "How do I add a third or fourth color to my gradient?",
+        a: "Click anywhere along the gradient slider to drop in a new color stop at that position, then assign it a color and drag it along the bar to fine-tune exactly where the transition happens.",
+      },
+      {
+        q: "Will the generated code work correctly on mobile browsers?",
+        a: "Yes, CSS3 gradients have solid support across modern mobile browsers on both iOS and Android, so the code renders the same way it previews here.",
+      },
+      {
+        q: "Why does the output include more than one line of code for a single gradient?",
+        a: "To cover slightly older browser versions, the tool can include vendor-prefixed fallback rules alongside the standard syntax, which guarantees a closer visual match even on a browser that doesn't fully support the unprefixed property.",
+      },
+      {
+        q: "Can I apply a gradient to text instead of a background?",
+        a: "Yes, using background-clip: text together with a transparent text color lets a background gradient show through the letterforms themselves. This tool generates the gradient syntax itself, and you can apply that output to typography using that technique in your own CSS.",
+      },
+      {
+        q: "Does a CSS gradient slow down page load compared to an image?",
+        a: "No, actually the opposite. A CSS gradient is rendered by the browser directly and requires no image file to download, which generally makes it faster than a background image doing the same visual job.",
+      },
+    ],
+  },
+
+  "css-box-shadow-generator": {
+    seoTitle: "CSS Box-Shadow Generator: Create Soft Drop Shadows",
+    seoDescription:
+      "Design a CSS box-shadow visually. Free box shadow generator lets you adjust blur, spread, and color, then copy the code instantly.",
+    h1: "CSS Box-Shadow Generator",
+    shortDescription:
+      "Adjust the offset, blur, and color below, and this box shadow generator builds the exact box-shadow CSS your button or card needs.",
+    about: [
+      "A box shadow generator lets you tune a drop shadow visually, offset, blur, spread, and color, instead of editing a box-shadow value blind and refreshing the page to see what changed. This css box shadow generator updates the preview live as you adjust each value, so the code it outputs matches exactly what you were looking at on screen.",
+      "The box-shadow property takes up to five values in sequence: horizontal offset, vertical offset, blur radius, spread radius, and color, with an optional inset keyword at the end to flip the shadow from sitting outside the element to sitting inside it instead. The spread radius is the one people usually skip, it expands or shrinks the shadow's shape before blurring is applied, and a small negative spread is a common trick for a tighter, more subtle shadow.",
+      "CSS also allows stacking multiple shadows on one element by separating them with commas, which is exactly how design systems like Material Design build their layered elevation effect, several soft, low-opacity shadows combined rather than one hard shadow doing all the work.",
+      "Use the sliders to set horizontal and vertical offset, blur radius, and spread, then pick a shadow color with adjustable opacity using the alpha-channel picker. Toggle between an outer drop shadow and an inset shadow with one click, and watch the preview update in real time as you adjust.",
+      "A natural-looking shadow is almost never solid black at full opacity, it's usually a low-opacity, fairly blurred shadow that reads as soft rather than harsh. Everything calculates and renders locally in your browser, so there's no delay between adjusting a slider and seeing the actual CSS output update.",
+    ],
+    faq: [
+      {
+        q: "What does the spread radius actually control?",
+        a: "It expands or contracts the shadow's shape before the blur is applied. A positive value makes the shadow larger than the element casting it, a negative value shrinks it inward, which is a common technique for a subtle, tight hover effect.",
+      },
+      {
+        q: "Can I stack more than one shadow on the same element?",
+        a: "Yes, CSS supports comma-separated shadow layers on a single box-shadow declaration. This tool is built to perfect one layer at a time, but you can generate several separately and combine them in your own stylesheet for a layered depth effect.",
+      },
+      {
+        q: "How do I make a shadow look more natural instead of harsh?",
+        a: "Lower the shadow's opacity and increase the blur radius rather than using a solid, fully opaque color. Soft, semi-transparent shadows read as far more realistic than dark, sharp-edged ones.",
+      },
+      {
+        q: "What's the actual difference between an outer and an inset shadow?",
+        a: "An outer shadow falls outside the element's edges, making it look like it's floating slightly above the page. An inset shadow falls inside the element instead, giving it a pressed-in or recessed appearance.",
+      },
+      {
+        q: "Is box-shadow supported in older browsers?",
+        a: "The standard box-shadow property has broad support across all modern browsers, Chrome, Firefox, Safari, and Edge included, so the generated CSS renders consistently without needing a JavaScript fallback.",
+      },
+      {
+        q: "Do CSS shadows hurt page performance?",
+        a: "Generally no, a single shadow has negligible performance impact. Where it can matter is stacking very large blur radii across many animated elements at once, which can cause visible lag on lower-end mobile devices specifically.",
+      },
+    ],
+  },
+
+  "css-clamp-calculator": {
+    seoTitle: "CSS clamp() Calculator: Generate Fluid Typography Code",
+    seoDescription:
+      "Generate a precise CSS clamp() formula for fluid typography. Free clamp calculator does the viewport math so you don't have to.",
+    h1: "CSS clamp() Calculator",
+    shortDescription:
+      "Enter your min size, max size, and breakpoints below, and this CSS clamp calculator outputs the exact clamp() formula for smooth, responsive scaling.",
+    about: [
+      "The CSS clamp() function takes a minimum value, a preferred value, and a maximum value, and lets an element scale smoothly between the min and max based on viewport width, instead of jumping between fixed sizes at specific breakpoints the way media queries do. A css clamp calculator works out the preferred value's formula for you, since that middle argument is a linear interpolation most people would otherwise have to calculate by hand.",
+      "Before clamp(), fluid sizing meant writing a separate media query for every breakpoint where you wanted the font size to change, which produces visibly stepped jumps as someone resizes their browser rather than a smooth transition. clamp() replaces that entire set of media queries with a single line that scales continuously.",
+      "The preferred value in the middle of a clamp() expression is a linear interpolation formula, typically something like 1rem + 1vw, calculated from your minimum size at your minimum viewport width and your maximum size at your maximum viewport width. Working that slope and intercept out by hand is where people make small arithmetic mistakes, which is exactly the part this calculator handles automatically.",
+      "Enter your minimum and maximum font sizes, along with the viewport widths where you want scaling to start and stop, and the tool calculates the preferred value expression and outputs a complete, ready-to-use clamp() rule.",
+      "This saves real time for anyone building a fluid type system across a site, since getting the growth rate right by hand usually means several rounds of resizing the browser and eyeballing it. The calculation runs entirely in your browser, so there's no delay between changing an input and seeing the updated formula.",
+    ],
+    faq: [
+      {
+        q: "What does the clamp() function actually do?",
+        a: "It takes three values, a minimum, a preferred (dynamic) value, and a maximum, and lets a property scale fluidly within those bounds based on the viewport, while guaranteeing it never shrinks below the minimum or grows past the maximum.",
+      },
+      {
+        q: "Why is clamp() better than relying on media queries alone?",
+        a: "Media queries change a value abruptly at a specific breakpoint, producing a visible jump. clamp() scales the value continuously as the viewport changes, which reads as noticeably smoother and more polished as someone resizes their browser or rotates their device.",
+      },
+      {
+        q: "What exactly is the preferred value in a clamp() expression?",
+        a: "It's the middle argument, usually a formula combining a fixed unit like rem with a viewport-relative unit like vw. That combination is what creates the actual scaling behavior between your defined minimum and maximum.",
+      },
+      {
+        q: "Can clamp() be used for anything besides font size?",
+        a: "Yes, it works with any CSS property that accepts a length value, padding, margin, width, gap, and more, not just typography, even though fluid type is where it shows up most often.",
+      },
+      {
+        q: "Does this calculator output rem units or pixels?",
+        a: "It accepts pixel inputs, since that's usually how designers think about sizing, but outputs the formula in rem units, which is the better practice for accessibility since it respects a user's browser font size settings.",
+      },
+      {
+        q: "Is clamp() safe to use in production today?",
+        a: "Yes, it has strong support across all current major browsers, Chrome, Firefox, Safari, and Edge, so it's safe to ship without a JavaScript fallback for modern browser support targets.",
+      },
+    ],
+  },
+
+  "htaccess-generator": {
+    seoTitle: ".htaccess Generator: Create Apache Server Rules",
+    seoDescription:
+      "Build Apache .htaccess rules for redirects, HTTPS, and caching without memorizing syntax. Free htaccess generator, safe, tested output.",
+    h1: ".htaccess Generator",
+    shortDescription:
+      "Select the server rules you need below, and this htaccess generator builds tested .htaccess code for redirects, HTTPS, and browser caching.",
+    about: [
+      "An .htaccess file controls directory-level behavior on an Apache web server, redirects, access rules, caching headers, without touching the server's main configuration file. An htaccess generator matters because this file is unusually unforgiving: a single malformed rule, a missing space or an unescaped character in a rewrite pattern, can take the entire site down with a 500 error, and this tool outputs tested, correctly formatted syntax instead.",
+      "Apache typically re-reads an active .htaccess file on every single request to the directory it's in, unlike the main server configuration, which loads once and stays cached. That's actually why .htaccess exists at all, to let changes take effect immediately without restarting the server, but it also means a broken rule breaks every request instantly rather than failing quietly.",
+      "Setting up a proper 301 redirect for a moved page or a domain change is one of the more common reasons people reach for this tool, since a sloppy rewrite rule can either fail to redirect at all or create a redirect loop. Enter your old and new URLs and the tool handles the mod_rewrite syntax correctly, without you needing to learn Apache's regex-based rewrite logic from scratch.",
+      "Toggle the specific rules you need, forcing HTTPS, blocking a specific IP range, disabling directory browsing, enabling browser caching for static assets, and the tool compiles your selections into a single block of server-ready code.",
+      "Caching rules in particular are worth enabling if your site serves a lot of static assets, since telling visitor browsers to store images and CSS files locally for a set period means the server doesn't have to resend them on every page load, which noticeably improves load times on repeat visits. Everything is generated locally in your browser, so your actual server paths and routing logic aren't sent anywhere to produce the code.",
+    ],
+    faq: [
+      {
+        q: "What is an .htaccess file used for?",
+        a: "It's a per-directory configuration file on Apache servers that controls things like URL redirects, custom error pages, access restrictions, and caching rules, without needing to edit the server's main configuration file directly.",
+      },
+      {
+        q: "Why did my site break right after I uploaded a new .htaccess file?",
+        a: "This file is extremely sensitive to exact formatting. A missing space, an unclosed quote, or a mistyped rewrite pattern will cause Apache to return a 500 Internal Server Error immediately. Always keep a backup of the working file before uploading a new one.",
+      },
+      {
+        q: "How do I force every visitor onto HTTPS?",
+        a: "Generate a rewrite rule that detects a plain HTTP request and permanently redirects it to the HTTPS version of the same URL. This is one of the toggles this generator handles directly, without you needing to write the regex condition by hand.",
+      },
+      {
+        q: "Can I block specific IP addresses with this tool?",
+        a: "Yes, there's a built-in option for denying access by IP address, which is commonly used to block known spam sources, abusive bots, or to lock down a staging environment to a specific office or home IP.",
+      },
+      {
+        q: "Does enabling caching rules actually improve load speed?",
+        a: "Yes, if you turn on the browser caching option. It tells visitor browsers to store static files like images and stylesheets locally for a set period, so the server isn't resending the same unchanged files on every single page view.",
+      },
+      {
+        q: "Where exactly does the generated file need to go?",
+        a: "Upload it to your website's root directory, typically called public_html. Keep the leading dot in the filename, since that's what makes it a hidden configuration file that Apache recognizes and applies automatically on Linux-based servers.",
+      },
+    ],
+  },
+
+  "xml-sitemap-generator": {
+    seoTitle: "XML Sitemap Generator: Map Your Website for SEO",
+    seoDescription:
+      "Build a search-engine-ready XML sitemap from your URL list in seconds. Free sitemap generator outputs a file ready for Search Console.",
+    h1: "XML Sitemap Generator",
+    shortDescription:
+      "Paste your list of page URLs below, and this sitemap generator outputs a properly formatted XML file, ready to submit to Google Search Console.",
+    about: [
+      "An XML sitemap is a structured file, following the schema defined at sitemaps.org, that lists a site's important URLs so search engine crawlers can find them efficiently rather than relying purely on following internal links. A sitemap generator wraps your URL list in the correct XML tags automatically, since hand-writing that schema for more than a handful of pages gets tedious and error-prone fast.",
+      "A sitemap doesn't directly improve where a page ranks, it just helps a search engine discover and index content faster, which matters most for large sites, newly launched pages with few internal links pointing to them, or sites with JavaScript-heavy navigation that crawlers might otherwise struggle to follow completely.",
+      "One limit worth knowing: a single sitemap file maxes out at 50,000 URLs or 50MB uncompressed, per the sitemap protocol spec. A site bigger than that needs a sitemap index file instead, a small XML document that simply lists and links to multiple individual sitemap files, which this tool can help structure for larger URL lists.",
+      "Paste in your list of page URLs and the tool wraps each one correctly in <url> and <loc> tags, with optional lastmod dates if you want to indicate when a page last changed. The compiled result downloads as a standard .xml file ready to drop into your site's root directory.",
+      "Worth knowing before you obsess over it: Google has stated directly that it largely ignores the priority tag in sitemaps, so while this tool supports adding it, treat it as optional rather than something that meaningfully affects how your pages get crawled or indexed.",
+    ],
+    faq: [
+      {
+        q: "What's the actual purpose of an XML sitemap?",
+        a: "It's a machine-readable directory of a site's important pages, meant for search engine crawlers rather than human visitors. Submitting one helps search engines discover and index your content more efficiently, especially on larger or newer sites.",
+      },
+      {
+        q: "Will having a sitemap make my pages rank higher?",
+        a: "No, a sitemap only affects discovery and indexing speed, not ranking itself. Once a page is found, its actual ranking still comes down to content quality, keywords, backlinks, and overall site authority.",
+      },
+      {
+        q: "How do I actually submit my sitemap to Google?",
+        a: "Upload the generated XML file to your site's root directory, then log into Google Search Console, go to the Sitemaps section, and submit the file's URL path. Google will periodically recrawl it after that.",
+      },
+      {
+        q: "Should every single page on my site be included in the sitemap?",
+        a: "No, only canonical, genuinely indexable pages belong there. Leave out admin pages, duplicate filtered or tagged category pages, password reset screens, and anything else you don't actually want search engines indexing.",
+      },
+      {
+        q: "Does the priority tag in a sitemap actually matter?",
+        a: "Not much in practice. Google has publicly stated its crawlers largely disregard the priority value, so while the sitemap protocol supports it, it's safe to treat as optional rather than something worth fine-tuning.",
+      },
+      {
+        q: "How often should I regenerate my sitemap?",
+        a: "Update it whenever you publish new pages, remove old ones, or restructure your URL paths significantly. If your site doesn't have an automated CMS plugin handling this, simply rerun your current URL list through the generator to produce a fresh file.",
+      },
+    ],
+  },
 };
 
 export function getToolSeo(slug) {
