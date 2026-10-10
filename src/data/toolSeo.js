@@ -4287,6 +4287,53 @@ export const TOOL_SEO = {
     ],
   },
 
+  "gamertag-generator": {
+    seoTitle: "Gamertag Generator: Cool Xbox, PSN & Steam Names",
+    seoDescription:
+      "Make cool gamertags with this free gamertag generator. Choose a style, add your own keyword, set the Xbox, PSN or Steam limit, and copy a name.",
+    h1: "Gamertag Generator for Xbox, PSN and Steam",
+    shortDescription:
+      "Pick a style, choose an Xbox, PSN or Steam limit, and this gamertag generator builds up to 16 name ideas you can copy with one click.",
+    about: [
+      "A gamertag generator saves you from staring at an empty username box while your squad waits in the lobby. Pick a style, add a word of your own if you like, and the tool builds up to 16 names sized for Xbox, PlayStation or Steam. Click any name to copy it, then check it on the platform.",
+      "Gamertag is Xbox's word for your public name, but every platform has an equivalent. PlayStation calls it an online ID, Steam uses a profile name, and most chat apps say username. Friends see it in lobbies, party chat and leaderboards, so the best ones are short, easy to say out loud, and hard to misspell when someone tries to add you.",
+      "Keep it readable. A name like ClutchViper is easy to remember and search for, while Clu7chV1p3r makes friends guess every letter. Skip real names, birthdays and hometowns, because every stranger in your lobby can read them. Steer clear of pro players and streamers too, since platforms can flag names that look like impersonation. If you want numbers, add one or two at the end.",
+      "Type an optional keyword of up to 10 characters, such as a nickname or a favorite character. Choose a length preset: Xbox at 15 characters, PlayStation at 16, or Steam at 32. Then pick a style: Competitive, Sci-Fi, OG, Funny or Aesthetic. Turn on Add Numbers, Leetspeak or Clan Tags if you want them. The list refreshes when you change a setting, and Generate New Batch rolls a fresh set.",
+      "Use it when you set up a new console, start a Steam account, or want a fresh name for a new game. The names come from built-in word lists, so the tool never checks whether a name is available. Test each favorite on the platform itself. Each style holds about 150 base combinations, so repeats show up after a few batches. A keyword or numbers add variety.",
+    ],
+    faq: [
+      {
+        q: "What makes a good gamertag?",
+        a: "A good gamertag is short, easy to say and tied to something you like. The cool gamertags players remember usually use one strong word or two short ones, under 12 characters. Skip long number strings, because friends can't type them from memory. Read the name out loud. If a teammate can't spell it after hearing it once, try another.",
+      },
+      {
+        q: "How long can a gamertag be on Xbox, PlayStation and Steam?",
+        a: "The presets here trim names to 15 characters for Xbox, 16 for PlayStation and 32 for Steam. Xbox has capped most new gamertags at 12 characters and has been testing 15 again, so keep names short if you play on Xbox. Rules change, so the sign-up screen on your platform has the final say.",
+      },
+      {
+        q: "Can a gamertag generator check if a name is taken?",
+        a: "No. This tool builds names from word lists and never contacts Xbox, PlayStation or Steam, so it can't see which names are taken. Type your favorites into the platform's sign-up or change-name screen to test them. Popular word pairs go fast, so add a keyword or a number if your first picks are gone.",
+      },
+      {
+        q: "Can I put my own name or word in the gamertag?",
+        a: "Yes. Type up to 10 characters in the keyword box and the generator uses it three ways: the plain word, the word plus an ending from your style, or a style opener plus the word. Spaces get removed. Pair it with Add Numbers if the plain version is already taken.",
+      },
+      {
+        q: "What is an OG gamertag?",
+        a: "An OG gamertag is a short, rare name that usually comes from an early account. The OG style builds names like that from short openers and one or two letter endings, so results run three to six characters before you add numbers or tags. Short names are usually taken, so expect to try several batches.",
+      },
+      {
+        q: "Does the generator save or send my keyword?",
+        a: "No. The names come from word lists inside the page, and the tool makes no network request when you type a keyword or change a setting. It keeps nothing between visits. The only thing it touches is your clipboard, and only when you click a name to copy it.",
+      },
+    ],
+    highlights: [
+      { icon: "Check", label: "Free, no sign-up" },
+      { icon: "Gamepad2", label: "Xbox, PSN and Steam length presets" },
+      { icon: "Copy", label: "Click any name to copy it" },
+    ],
+  },
+
   "coin-flip-dice-roller": {
     seoTitle: "Coin Flip & Dice Roller: Random Decision Maker Online",
     seoDescription:
