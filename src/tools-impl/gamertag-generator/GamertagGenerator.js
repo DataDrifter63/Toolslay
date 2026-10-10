@@ -9,7 +9,7 @@ import {
 // Extensive Word Banks for Unique Generation
 const wordBank = {
   tryhard: {
-    prefix: ['Clutch', 'Toxic', 'Vex', 'Rage', 'Blitz', 'Zex', 'Killa', 'Ghost', 'Void', 'Apex', 'Sweat', 'Optic', 'Faze'],
+    prefix: ['Clutch', 'Toxic', 'Vex', 'Rage', 'Blitz', 'Zex', 'Killa', 'Ghost', 'Void', 'Apex', 'Sweat', 'Razor', 'Hyper'],
     suffix: ['God', 'Aim', 'Shot', 'Flick', 'Tap', 'Slayer', 'King', 'Viper', 'Demon', 'Ninja', 'Pro', 'X']
   },
   funny: {
@@ -34,13 +34,22 @@ const extraTags = ['TTV', 'xX', 'YT', 'Pro', 'Real'];
 
 // Utility functions
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+// Keeps the first character as a letter, because some platforms (PlayStation, for example)
+// reject names that start with a number.
 const toLeetspeak = (str) => {
   const leetMap = { 'a': '4', 'e': '3', 'i': '1', 'o': '0', 's': '5', 't': '7' };
-  return str.split('').map(char => leetMap[char.toLowerCase()] || char).join('');
+  return str
+    .split('')
+    .map((char, i) => (i === 0 ? char : leetMap[char.toLowerCase()] || char))
+    .join('');
 };
 
+// Gamertags only allow plain letters and numbers across the three presets,
+// so anything else (spaces, symbols, emoji) is dropped from the keyword.
+const cleanKeywordInput = (value) => value.replace(/[^A-Za-z0-9]/g, '');
+
 export default function GamertagGenerator() {
-  const [platformLimit, setPlatformLimit] = useState("15");
+  const [platformLimit, setPlatformLimit] = useState("12");
   const [vibe, setVibe] = useState("tryhard");
   const [keyword, setKeyword] = useState("");
   const [addNumbers, setAddNumbers] = useState(false);
@@ -64,7 +73,7 @@ export default function GamertagGenerator() {
       let newTags = new Set();
       let safetyCounter = 0;
       
-      const cleanKeyword = keyword.trim().replace(/\s+/g, '');
+      const cleanKeyword = cleanKeywordInput(keyword);
 
       // Generate 16 unique tags
       while (newTags.size < 16 && safetyCounter < 300) {
@@ -98,6 +107,9 @@ export default function GamertagGenerator() {
           if (extra === 'xX') tag = `xX${tag}Xx`;
           else tag = (Math.random() > 0.5) ? `${extra}_${tag}` : `${tag}_${extra}`;
         }
+
+        // Names must start with a letter (a keyword like "007" would break that).
+        tag = tag.replace(/^[^A-Za-z]+/, '');
 
         if (tag.length > limit) {
           tag = tag.substring(0, limit);
@@ -139,7 +151,7 @@ export default function GamertagGenerator() {
           </div>
         </div>
         <div className="px-3 py-1.5 rounded-xl bg-surface border border-line text-brand text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1.5 shadow-sm">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Platform Safe
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> Fits Length Limits
         </div>
       </div>
 
@@ -224,7 +236,7 @@ export default function GamertagGenerator() {
                 <input
                   type="text"
                   value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
+                  onChange={(e) => setKeyword(cleanKeywordInput(e.target.value))}
                   maxLength={10}
                   placeholder="e.g. Ghost, Alex..."
                   className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none shadow-inner focus:border-brand"
@@ -241,7 +253,7 @@ export default function GamertagGenerator() {
                   onChange={(e) => setPlatformLimit(e.target.value)}
                   className="w-full h-10 px-3 border border-line rounded-xl bg-paper text-ink text-xs font-bold outline-none cursor-pointer"
                 >
-                  <option value="15">Xbox Live (Max 15 Chars)</option>
+                  <option value="12">Xbox (Max 12 Chars)</option>
                   <option value="16">PlayStation / PSN (Max 16 Chars)</option>
                   <option value="32">Steam / PC (Max 32 Chars)</option>
                 </select>

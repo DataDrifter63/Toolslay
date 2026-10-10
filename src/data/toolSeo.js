@@ -4298,7 +4298,7 @@ export const TOOL_SEO = {
       "A gamertag generator saves you from staring at an empty username box while your squad waits in the lobby. Pick a style, add a word of your own if you like, and the tool builds up to 16 names sized for Xbox, PlayStation or Steam. Click any name to copy it, then check it on the platform.",
       "Gamertag is Xbox's word for your public name, but every platform has an equivalent. PlayStation calls it an online ID, Steam uses a profile name, and most chat apps say username. Friends see it in lobbies, party chat and leaderboards, so the best ones are short, easy to say out loud, and hard to misspell when someone tries to add you.",
       "Keep it readable. A name like ClutchViper is easy to remember and search for, while Clu7chV1p3r makes friends guess every letter. Skip real names, birthdays and hometowns, because every stranger in your lobby can read them. Steer clear of pro players and streamers too, since platforms can flag names that look like impersonation. If you want numbers, add one or two at the end.",
-      "Type an optional keyword of up to 10 characters, such as a nickname or a favorite character. Choose a length preset: Xbox at 15 characters, PlayStation at 16, or Steam at 32. Then pick a style: Competitive, Sci-Fi, OG, Funny or Aesthetic. Turn on Add Numbers, Leetspeak or Clan Tags if you want them. The list refreshes when you change a setting, and Generate New Batch rolls a fresh set.",
+      "Type an optional keyword of up to 10 characters, such as a nickname or a favorite character. Choose a length preset: Xbox at 12 characters, PlayStation at 16, or Steam at 32. Then pick a style: Competitive, Sci-Fi, OG, Funny or Aesthetic. Turn on Add Numbers, Leetspeak or Clan Tags if you want them. The list refreshes when you change a setting, and Generate New Batch rolls a fresh set.",
       "Use it when you set up a new console, start a Steam account, or want a fresh name for a new game. The names come from built-in word lists, so the tool never checks whether a name is available. Test each favorite on the platform itself. Each style holds about 150 base combinations, so repeats show up after a few batches. A keyword or numbers add variety.",
     ],
     faq: [
@@ -4308,7 +4308,7 @@ export const TOOL_SEO = {
       },
       {
         q: "How long can a gamertag be on Xbox, PlayStation and Steam?",
-        a: "The presets here trim names to 15 characters for Xbox, 16 for PlayStation and 32 for Steam. Xbox has capped most new gamertags at 12 characters and has been testing 15 again, so keep names short if you play on Xbox. Rules change, so the sign-up screen on your platform has the final say.",
+        a: "The presets here trim names to 12 characters for Xbox, 16 for PlayStation and 32 for Steam. Xbox caps most new gamertags at 12 characters and has been testing 15 for unique names, so 12 is the safe choice. Rules change, so the sign-up screen on your platform has the final say.",
       },
       {
         q: "Can a gamertag generator check if a name is taken?",
@@ -4316,7 +4316,7 @@ export const TOOL_SEO = {
       },
       {
         q: "Can I put my own name or word in the gamertag?",
-        a: "Yes. Type up to 10 characters in the keyword box and the generator uses it three ways: the plain word, the word plus an ending from your style, or a style opener plus the word. Spaces get removed. Pair it with Add Numbers if the plain version is already taken.",
+        a: "Yes. Type up to 10 characters in the keyword box and the generator uses it three ways: the plain word, the word plus an ending from your style, or a style opener plus the word. The generator drops spaces and symbols and keeps letters and numbers. Pair it with Add Numbers if the plain version is already taken.",
       },
       {
         q: "What is an OG gamertag?",
