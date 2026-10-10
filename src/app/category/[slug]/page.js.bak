@@ -22,10 +22,9 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const category = getCategory(slug);
   if (!category) return buildMetadata({ title: "Category not found", path: `/category/${slug}` });
-  const seo = getCategorySeo(category.slug);
   return buildMetadata({
-    title: seo?.seoTitle || category.name,
-    description: seo?.description || category.description,
+    title: `${category.name} — Free Online Tools`,
+    description: category.description,
     path: `/category/${category.slug}`,
   });
 }

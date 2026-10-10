@@ -55,15 +55,10 @@ export default async function BlogPage() {
 
       <Container className="py-10">
         <BlogIndex posts={posts} />
+      </Container>
 
-        <AboutSection
-          title={BLOG_ABOUT.title}
-          lead={BLOG_ABOUT.intro[0]}
-          paragraphs={BLOG_ABOUT.intro.slice(1)}
-          highlights={BLOG_ABOUT.highlights}
-        />
-
-        <section className="mt-14">
+      <section className="border-t border-line bg-paper py-14">
+        <Container>
           <div className="mb-8 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
             <div>
               <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-brand">Free tools</p>
@@ -107,26 +102,34 @@ export default async function BlogPage() {
               );
             })}
           </div>
-        </section>
 
-        {popular.length > 0 && (
-          <section className="mt-14">
-            <h2 className="font-display text-xl font-bold text-ink sm:text-2xl">Popular tools</h2>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {popular.map((tool) => (
-                <Link
-                  key={tool.slug}
-                  href={`/tools/${tool.slug}`}
-                  className="rounded-full border border-line bg-surface px-4 py-2 text-sm text-ink transition hover:border-brand/50 hover:text-brand"
-                >
-                  {tool.name}
-                </Link>
-              ))}
+          {popular.length > 0 && (
+            <div className="mt-10">
+              <h3 className="font-display text-base font-semibold text-ink">Popular tools</h3>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {popular.map((tool) => (
+                  <Link
+                    key={tool.slug}
+                    href={`/tools/${tool.slug}`}
+                    className="rounded-full border border-line bg-surface px-4 py-2 text-sm text-ink transition hover:border-brand/50 hover:text-brand"
+                  >
+                    {tool.name}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </section>
-        )}
+          )}
+        </Container>
+      </section>
 
-        <section className="mt-14">
+      <Container className="pb-16">
+        <AboutSection
+          title={BLOG_ABOUT.title}
+          lead={BLOG_ABOUT.intro[0]}
+          paragraphs={BLOG_ABOUT.intro.slice(1)}
+          highlights={BLOG_ABOUT.highlights}
+        />
+        <section className="mt-8">
           <SectionHeading eyebrow="FAQ" title="Frequently asked questions" />
           <FaqAccordion items={BLOG_ABOUT.faq} columns />
         </section>

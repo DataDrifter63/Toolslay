@@ -1,5 +1,6 @@
-// Per-category SEO copy: seoTitle, meta description, 5 intro paragraphs, 8 FAQs.
-export const CATEGORY_SEO = {
+// Run from project root:  node apply-category-seo.mjs
+import fs from "node:fs";
+const DATA = {
   "image-pdf-tools": {
     "seoTitle": "Free Image & PDF Tools Online",
     "description": "Convert PDF to JPG, compress and resize images, remove backgrounds, add watermarks, and extract text from photos with 16 free image and PDF tools.",
@@ -407,6 +408,45 @@ export const CATEGORY_SEO = {
   }
 };
 
-export function getCategorySeo(slug) {
-  return CATEGORY_SEO[slug] || null;
+const bak = (f) => fs.writeFileSync(f + ".bak", fs.readFileSync(f));
+
+// 1) src/data/categorySeo.js (full rewrite, 8 FAQs per category)
+const SEO = "src/data/categorySeo.js";
+bak(SEO);
+fs.writeFileSync(
+  SEO,
+  "// Per-category SEO copy: seoTitle, meta description, 5 intro paragraphs, 8 FAQs.\n" +
+    "export const CATEGORY_SEO = " + JSON.stringify(DATA, null, 2) + ";\n\n" +
+    "export function getCategorySeo(slug) {\n  return CATEGORY_SEO[slug] || null;\n}\n"
+);
+console.log("categorySeo.js rewritten (" + Object.keys(DATA).length + " categories)");
+
+// 2) src/data/categories.js: description (homepage cards + category header)
+const CAT = "src/data/categories.js";
+let cat = fs.readFileSync(CAT, "utf8");
+bak(CAT);
+let n = 0;
+for (const [slug, v] of Object.entries(DATA)) {
+  const re = new RegExp('(slug:\\s*"' + slug + '"[\\s\\S]*?description:\\s*)"(?:[^"\\\\]|\\\\.)*"');
+  if (re.test(cat)) { cat = cat.replace(re, (_, p) => p + JSON.stringify(v.description)); n++; }
+  else console.log("categories.js: slug not found " + slug);
 }
+fs.writeFileSync(CAT, cat);
+console.log("categories.js descriptions updated: " + n);
+
+// 3) src/app/category/[slug]/page.js: use seoTitle + description from categorySeo
+const PAGE = "src/app/category/[slug]/page.js";
+let page = fs.readFileSync(PAGE, "utf8");
+bak(PAGE);
+const oldMeta = /return buildMetadata\(\{\s*title: `\$\{category\.name\}[^`]*`,\s*description: category\.description,/;
+if (oldMeta.test(page)) {
+  page = page.replace(
+    oldMeta,
+    "const seo = getCategorySeo(category.slug);\n  return buildMetadata({\n    title: seo?.seoTitle || category.name,\n    description: seo?.description || category.description,"
+  );
+  fs.writeFileSync(PAGE, page);
+  console.log("page.js metadata patched");
+} else {
+  console.log("page.js: metadata block not found (already patched?). Skipped.");
+}
+console.log("Backups saved as *.bak. Delete them after checking.");
