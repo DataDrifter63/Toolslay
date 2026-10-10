@@ -1,9 +1,7 @@
 import { notFound } from "next/navigation";
-import Container from "@/components/layout/Container";
-import { getPostBySlug, getAllPosts } from "@/lib/posts";
+import PostView from "@/components/blog/PostView";
+import { getPostBySlug, getAllPosts, getRelatedPosts } from "@/lib/posts";
 import { buildMetadata } from "@/lib/seo";
-import { SITE } from "@/lib/constants";
-import { markdownToHtml } from "@/lib/markdown";
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
@@ -14,57 +12,27 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return buildMetadata({ title: "Post not found", path: `/blog/${slug}` });
-  return buildMetadata({
+  const meta = buildMetadata({
     title: post.title,
     description: post.meta_description,
     path: `/blog/${post.slug}`,
     image: post.cover_image || undefined,
   });
+  return {
+    ...meta,
+    openGraph: {
+      ...meta.openGraph,
+      type: "article",
+      publishedTime: post.published_at || undefined,
+      modifiedTime: post.updated_at || post.published_at || undefined,
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) notFound();
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.meta_description,
-    datePublished: post.published_at,
-    url: `${SITE.url}/blog/${post.slug}`,
-  };
-
-  return (
-    <Container className="py-10">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <article>
-        <h1 className="font-display text-3xl font-bold text-ink">{post.title}</h1>
-        {post.published_at && (
-          <p className="mt-2 text-xs text-muted">
-            {new Date(post.published_at).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-        )}
-
-        {post.cover_image && (
-          <img
-            src={post.cover_image}
-            alt={post.title}
-            className="mt-6 aspect-[16/9] w-full rounded-card object-cover"
-          />
-        )}
-
-        {/* Content is authored as Markdown in the /admin editor — converted to HTML here. */}
-        <div
-          className="prose prose-sm mt-8 max-w-none text-ink"
-          dangerouslySetInnerHTML={{ __html: markdownToHtml(post.content) }}
-        />
-      </article>
-    </Container>
-  );
+  const related = await getRelatedPosts(post.slug, post.category, 3);
+  return <PostView post={post} related={related} />;
 }

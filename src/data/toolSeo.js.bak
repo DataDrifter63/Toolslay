@@ -3912,7 +3912,7 @@ export const TOOL_SEO = {
   "property-tax-estimator": {
     seoTitle: "Property Tax Estimator: Calculate Real Estate Levies",
     seoDescription:
-      "Estimate your yearly bill with this property tax calculator. Enter assessed value and your local mill rate to see annual tax and a monthly escrow amount.",
+      "Calculate your annual property taxes easily. Use this free property tax calculator to estimate real estate assessments and local housing levies securely.",
     h1: "Property Tax Estimator",
     shortDescription:
       "Enter your home's assessed value and local mill rate, and this calculator breaks your annual property tax bill down into a monthly escrow figure.",
@@ -3954,7 +3954,7 @@ export const TOOL_SEO = {
   "college-savings-calculator": {
     seoTitle: "College Savings Calculator: Is Your 529 on Track?",
     seoDescription:
-      "Project your 529 balance at enrollment with this 529 calculator. Enter your child's age, savings so far, and monthly deposit to see if you are on track.",
+      "Estimate what you'll have saved by enrollment, what four years of college may cost by then, and your shortfall. Set your own return and tuition inflation.",
     h1: "College Savings Calculator",
     shortDescription:
       "Enter your child's age, current savings, monthly deposit, expected return and tuition inflation to see projected savings, future college cost, percent funded and any shortfall.",
@@ -3996,7 +3996,7 @@ export const TOOL_SEO = {
   "social-security-fra-calculator": {
     seoTitle: "Social Security FRA Calculator: Estimate Benefits",
     seoDescription:
-      "Use this Social Security calculator to find your full retirement age by birth year, then compare benefits if you claim at 62, at full age, or at 70.",
+      "Calculate your Social Security full retirement age benefits easily. Use this free social security calculator to estimate retirement payouts securely.",
     h1: "Social Security FRA Calculator",
     shortDescription:
       "Enter your birth year and estimated earnings, and this calculator shows your Full Retirement Age along with payouts for claiming early, on time, or late.",
@@ -4038,7 +4038,7 @@ export const TOOL_SEO = {
   "shoe-size-converter": {
     seoTitle: "Shoe Size Converter: US, UK & EU Sizes",
     seoDescription:
-      "Use this shoe size chart converter for men, women, and kids. Switch between US, UK, EU, and cm, or enter foot length to find a fit when buying online.",
+      "Convert shoe sizes across international standards easily. Use this free shoe size chart converter to match US, UK, and EU measurements securely.",
     h1: "Shoe Size Converter",
     shortDescription:
       "Pick your known size or foot length, and this converter instantly maps it across US, UK, EU, and Mondo point scales.",
@@ -4080,7 +4080,7 @@ export const TOOL_SEO = {
   "clothing-size-converter": {
     seoTitle: "Clothing Size Converter: International Apparel Charts",
     seoDescription:
-      "Convert tops, dresses, and pants between US, UK, EU, and Asian sizes. This clothing size converter also reads your body measurements to suggest a fit.",
+      "Convert clothing sizes across international standards easily. Use this free clothing size converter to match US, UK, and EU apparel measurements securely.",
     h1: "Clothing Size Converter",
     shortDescription:
       "Enter your size or body measurements, and this converter maps your fit across US, UK, EU, and Asian apparel scales.",
@@ -4122,7 +4122,7 @@ export const TOOL_SEO = {
   "ring-size-converter": {
     seoTitle: "Ring Size Converter: International Ring Measurements",
     seoDescription:
-      "Use this ring size converter to match US, UK, EU, and Japanese sizes. Enter a size or the inner diameter in mm, and get your size for any jeweler's chart.",
+      "Convert ring sizes across international standards easily. Use this free ring size converter to match US, UK, and EU jewelry measurements securely.",
     h1: "Ring Size Converter",
     shortDescription:
       "Enter a known ring size or inner diameter in millimeters, and this converter maps it across US, UK, and EU jewelry scales.",
@@ -4164,7 +4164,7 @@ export const TOOL_SEO = {
   "oven-temperature-converter": {
     seoTitle: "Oven Temperature Converter: Fahrenheit to Celsius",
     seoDescription:
-      "Use this oven temperature converter to switch between Fahrenheit, Celsius, and gas mark. Match any recipe, fan oven setting included, to your oven dial.",
+      "Convert oven temperatures easily. Use this free oven temperature converter to translate Fahrenheit, Celsius, and gas marks for baking securely.",
     h1: "Oven Temperature Converter",
     shortDescription:
       "Enter your recipe's temperature in any scale, and this converter returns the exact equivalent in Fahrenheit, Celsius, and gas mark.",
@@ -4206,7 +4206,7 @@ export const TOOL_SEO = {
   "password-generator": {
     seoTitle: "Password Generator: Create Secure Credentials",
     seoDescription:
-      "Create a password generator result you can trust. Choose length, symbols, and numbers, and the tool builds a random password that runs in your browser.",
+      "Generate secure, uncrackable passwords instantly. Use this free secure password generator to build strong cryptographic keys directly in your browser.",
     h1: "Password Generator",
     shortDescription:
       "Set your length and character rules, and this generator produces a cryptographically random password instantly, right in your browser.",
@@ -4248,7 +4248,7 @@ export const TOOL_SEO = {
   "password-strength-checker": {
     seoTitle: "Password Strength Checker: Test Your Security",
     seoDescription:
-      "Run a password strength checker test to see entropy, estimated crack time, and weak patterns. Get clear tips to make your password harder to guess.",
+      "Test how secure your password is against hackers. Use this free password strength test to analyze vulnerability and crack times directly in your browser.",
     h1: "Password Strength Checker",
     shortDescription:
       "Type any password, and this strength test estimates its entropy, crack time, and weak points instantly in your browser.",
@@ -4332,7 +4332,7 @@ export const TOOL_SEO = {
   "coin-flip-dice-roller": {
     seoTitle: "Coin Flip & Dice Roller: Random Decision Maker Online",
     seoDescription:
-      "Settle any decision with heads or tails, or roll up to six dice at once. Every flip and roll is random, fair, and shows its result in one tap.",
+      "Flip virtual coins and roll dice instantly. Use this free coin toss and dice roller tool to make random decisions and play board games securely.",
     h1: "Coin Flip & Dice Roller",
     shortDescription:
       "Tap once to flip a coin or roll dice, and get a clean, unbiased result in under a second.",
@@ -4376,7 +4376,7 @@ export const TOOL_SEO = {
   "random-team-generator": {
     seoTitle: "Random Team Generator: Create Balanced Groups",
     seoDescription:
-      "Paste a list of names into this random group generator and split them into fair teams. Set the number of groups or people per team and reshuffle anytime.",
+      "Generate random teams and groups easily. Use this free random group generator to sort players and participants fairly for sports and projects.",
     h1: "Random Team Generator",
     shortDescription:
       "Paste your list of names, set your group count, and this generator shuffles everyone into fair teams instantly.",
@@ -4418,7 +4418,7 @@ export const TOOL_SEO = {
   "nickname-generator": {
     seoTitle: "Nickname Generator: Create Cool Usernames",
     seoDescription:
-      "Type any name into this nickname generator and get cool, funny, and gamer-style handles to copy for Discord, Instagram, Fortnite, or your next tag.",
+      "Generate cool, stylish nicknames for gaming and social media. Use this free nickname generator to find catchy online handles instantly.",
     h1: "Nickname Generator",
     shortDescription:
       "Type a base name, and this generator remixes it into dozens of stylized handles for gaming and social profiles.",
@@ -4460,7 +4460,7 @@ export const TOOL_SEO = {
   "countdown-timer-generator": {
     seoTitle: "Countdown Timer Generator: Build Custom Clocks",
     seoDescription:
-      "Create a countdown to date for a launch, wedding, or sale. Pick a time and style, then copy the embed code to put the live timer on your own website.",
+      "Create custom countdown timers easily. Use this free countdown timer generator to track events, product launches, and holidays securely in your browser.",
     h1: "Countdown Timer Generator",
     shortDescription:
       "Set a target date and time, and this generator builds a live, ticking countdown you can embed anywhere.",
@@ -4502,7 +4502,7 @@ export const TOOL_SEO = {
   "fantasy-name-generator": {
     seoTitle: "Fantasy Name Generator: Character Names for RPGs",
     seoDescription:
-      "Get a fantasy name generator that fits your world. Choose elf, dwarf, orc, or human and receive DnD character names with a lore-friendly sound.",
+      "Generate epic fantasy names for characters and worlds. Use this free fantasy name generator and D&D name generator for writing and roleplaying games securely.",
     h1: "Fantasy Name Generator",
     shortDescription:
       "Pick a race or culture, and this generator produces lore-friendly character names for your campaign or manuscript instantly.",
@@ -4544,7 +4544,7 @@ export const TOOL_SEO = {
   "typing-speed-test": {
     seoTitle: "Typing Speed Test: Measure Your WPM Online",
     seoDescription:
-      "Take this typing speed test to measure your words per minute and accuracy. Choose a 1, 3, or 5 minute round, then track your score and see how to improve.",
+      "Test your typing speed and accuracy instantly. Use this free typing test online to measure your words per minute and improve keyboard skills securely.",
     h1: "Typing Speed Test",
     shortDescription:
       "Type the on-screen passage as fast as you can, and this test scores your net words per minute and accuracy instantly.",
@@ -4586,7 +4586,7 @@ export const TOOL_SEO = {
   "reaction-time-test": {
     seoTitle: "Reaction Time Test: Measure Your Reflexes Online",
     seoDescription:
-      "Take the reaction time test and click as soon as the screen turns green. See your speed in milliseconds and compare it with the average human score.",
+      "Test your visual reflexes and reaction time instantly. Use this free reaction time test to measure your millisecond speed directly in your browser.",
     h1: "Reaction Time Test",
     shortDescription:
       "Click the instant the screen changes color, and this test measures your reflex speed down to the millisecond.",
@@ -4628,7 +4628,7 @@ export const TOOL_SEO = {
   "vin-decoder": {
     seoTitle: "VIN Decoder: Look Up Vehicle Specs by VIN",
     seoDescription:
-      "Run a Ford vin decoder lookup, or any make, on a 17-character code. See model, year, engine, and plant details with this VIN decoder before you buy.",
+      "Enter a 17-character VIN to see the year, make, model, engine, body style, plant and weight rating from the US NHTSA database. Free, no sign-up.",
     h1: "VIN Decoder",
     shortDescription:
       "Enter a 17-character VIN and this decoder returns the year, make, model, trim, engine, drivetrain, plant and weight rating, using the US government's NHTSA vehicle database.",
@@ -4678,7 +4678,7 @@ export const TOOL_SEO = {
   "snow-day-predictor": {
     seoTitle: "Snow Day Predictor: Will School Be Closed?",
     seoDescription:
-      "Check your odds with this snow day calculator. Enter snowfall, temperature, and region to get the chance of a school closing, for fun and planning ahead.",
+      "Predict school snow day closures easily. Use this free snow day calculator and predictor to analyze winter weather forecasts and closure odds securely.",
     h1: "Snow Day Predictor",
     shortDescription:
       "Enter your forecast snowfall, temperature, and region, and this predictor gives you a fun, data-driven snow day probability.",
@@ -4720,7 +4720,7 @@ export const TOOL_SEO = {
   "us-holiday-countdown": {
     seoTitle: "US Holiday Countdown: Days Until the Next Holiday",
     seoDescription:
-      "See how many days until Christmas, Thanksgiving, July 4, or any federal holiday. This live clock shows days, hours, minutes, and seconds left to go.",
+      "See the days, hours and minutes left until the next US federal holiday, check the working days remaining, and spot holidays that make a long weekend.",
     h1: "US Holiday Countdown",
     shortDescription:
       "A live countdown to the next US federal holiday, or any one you pick, with working days left and a flag when the holiday creates a long weekend.",
@@ -4762,7 +4762,7 @@ export const TOOL_SEO = {
   "fantasy-points-calculator": {
     seoTitle: "Fantasy Points Calculator: Score Fantasy Sports",
     seoDescription:
-      "Score any player with this fantasy points calculator. Enter the stat line, pick PPR or standard fantasy football rules, and get the exact league total.",
+      "Calculate fantasy sports points easily. Use this free fantasy football points calculator to score player stats and optimize your fantasy roster securely.",
     h1: "Fantasy Points Calculator",
     shortDescription:
       "Enter a player's stat line and your league's scoring rules, and this calculator outputs their exact fantasy point total.",
@@ -4804,7 +4804,7 @@ export const TOOL_SEO = {
   "gaming-session-time-calculator": {
     seoTitle: "Gaming Session Time Calculator: Track Playtime",
     seoDescription:
-      "Enter start and end times in this playtime calculator to see how long you played, including overnight sessions, and add up your total hours per week.",
+      "Calculate your gaming session hours and playtime schedules easily. Use this free playtime calculator to manage gaming habits securely in your browser.",
     h1: "Gaming Session Time Calculator",
     shortDescription:
       "Enter your start and end times, and this calculator tells you exactly how long you've been playing, overnight sessions included.",
@@ -4846,7 +4846,7 @@ export const TOOL_SEO = {
   "tournament-bracket-generator": {
     seoTitle: "Tournament Bracket Generator: Create Single Elimination Brackets",
     seoDescription:
-      "Build a chart with this tournament bracket generator for single or double elimination. Add teams, seed or shuffle them, and print the full match tree.",
+      "Generate tournament brackets and match schedules instantly. Use this free bracket generator to organize sports tournaments and gaming competitions securely.",
     h1: "Tournament Bracket Generator",
     shortDescription:
       "Enter your competitor list, pick a format, and this generator builds a complete, properly seeded match tree instantly.",
@@ -4888,7 +4888,7 @@ export const TOOL_SEO = {
   "dog-food-safety-checker": {
     seoTitle: "Can My Dog Eat This?: Safe Food Checker for Dogs",
     seoDescription:
-      "Wondering can my dog eat this? Search a food and see if it is safe, fine in small amounts, or toxic, with the reason and what to do if your dog ate it.",
+      "Check if human foods are safe for your dog to eat. Use this free dog food safety checker to prevent toxic poisoning and protect your pet's health.",
     h1: "Can My Dog Eat This?",
     shortDescription:
       "Search any food item, and this checker tells you instantly whether it's safe, risky in moderation, or outright toxic for dogs.",
@@ -4930,7 +4930,7 @@ export const TOOL_SEO = {
   "pet-calorie-calculator": {
     seoTitle: "Pet Calorie Calculator: Daily Food for Dogs & Cats",
     seoDescription:
-      "Use this dog food calculator for cats and dogs. Enter weight, age, and activity to get daily calories, then split the amount into meals for your pet.",
+      "Calculate your pet's daily calorie needs easily. Use this free dog food calculator to manage pet weight loss, feeding amounts, and nutrition securely.",
     h1: "Pet Calorie Calculator",
     shortDescription:
       "Enter your pet's weight and activity level, and this calculator outputs their exact daily calorie target.",
@@ -4972,7 +4972,7 @@ export const TOOL_SEO = {
   "dog-walking-time-calculator": {
     seoTitle: "Dog Walking Time Calculator: Exercise Needs",
     seoDescription:
-      "Not sure how long should I walk my dog? Enter size, age, and energy level to get a daily walking time, split into walks that suit your dog's breed.",
+      "Calculate how long you should walk your dog daily easily. Use this free dog walking time calculator to plan exercise schedules and pet fitness securely.",
     h1: "Dog Walking Time Calculator",
     shortDescription:
       "Enter your dog's size, age, and energy level, and this calculator recommends a realistic daily walking duration.",
@@ -5014,7 +5014,7 @@ export const TOOL_SEO = {
   "food-calorie-burn-calculator": {
     seoTitle: "Steps to Burn Food Calculator: Walk Off Calories",
     seoDescription:
-      "Pick any food and this steps to calories calculator shows how many steps or miles it takes to burn it off, based on your weight and walking pace.",
+      "Calculate how many steps you need to walk to burn off specific foods easily. Use this free food calorie burn calculator to track activity and diet.",
     h1: "Steps to Burn Food",
     shortDescription:
       "Pick a food or enter its calories, and this calculator shows exactly how many steps it takes to walk that energy off.",
@@ -5056,7 +5056,7 @@ export const TOOL_SEO = {
   "sleep-cycle-calculator": {
     seoTitle: "Sleep Cycle Calculator: Wake Up Refreshed",
     seoDescription:
-      "Try this sleep cycle calculator to pick a bedtime or wake time based on 90-minute cycles. It also works as a nap calculator, so you wake up less groggy.",
+      "Calculate your ideal sleep times and wake up without grogginess. Use this free sleep cycle calculator and nap calculator to optimize rest securely.",
     h1: "Sleep Cycle Calculator",
     shortDescription:
       "Enter your wake-up time or bedtime, and this calculator times your sleep in full 90-minute cycles to avoid grogginess.",
@@ -6294,7 +6294,7 @@ export const TOOL_SEO = {
   "robots-txt-generator": {
     seoTitle: "Robots.txt Generator: Build Crawl Rules Online",
     seoDescription:
-      "Use this robots.txt generator to build a file without syntax errors. Set allow and disallow rules, add your sitemap URL, and download it ready to upload.",
+      "Build a robots.txt file with a user-agent, allow and disallow paths, a sitemap, crawl delay and extra rules. Preview it live, then copy or download it.",
     h1: "Robots.txt Generator",
     shortDescription:
       "Pick a crawler, set allow and disallow paths, add a sitemap URL and extra rules, and the tool writes your robots.txt file live, ready to copy or download.",
@@ -6336,7 +6336,7 @@ export const TOOL_SEO = {
   "markdown-editor-previewer": {
     seoTitle: "Markdown Editor & Previewer: Live HTML Viewer",
     seoDescription:
-      "Write in this markdown editor and see the formatted preview update as you type. It supports headings, tables, code blocks, and lists, with HTML export.",
+      "Edit and preview Markdown text in real time easily. Use this free markdown editor to write formatted documentation and generate HTML securely.",
     h1: "Markdown Editor & Previewer",
     shortDescription:
       "Write Markdown on one side and watch the rendered HTML build live on the other.",
@@ -6462,7 +6462,7 @@ export const TOOL_SEO = {
   "text-binary-converter": {
     seoTitle: "Text to Binary Converter: Translate Code Online",
     seoDescription:
-      "Use this binary translator to turn text into 0s and 1s, or decode binary back to words. It handles letters, numbers, and symbols, with one-click copy.",
+      "Convert text strings to binary code and vice versa easily. Use this free text to binary converter to translate characters securely in your browser.",
     h1: "Text to Binary Converter",
     shortDescription:
       "Type text to see it instantly become binary, or paste binary to decode it back to readable characters.",
@@ -6504,7 +6504,7 @@ export const TOOL_SEO = {
   "json-diff-checker": {
     seoTitle: "JSON Diff Checker: Compare JSON Files Online",
     seoDescription:
-      "Run a JSON compare on two objects and see every added, removed, and changed key in color. Paste both versions to find the difference in nested data fast.",
+      "Compare two JSON files and find differences easily. Use this free JSON diff checker to highlight additions, deletions, and changes securely.",
     h1: "JSON Diff Checker",
     shortDescription:
       "Paste two JSON objects side by side, and this checker highlights every addition, deletion, and change.",
@@ -6546,7 +6546,7 @@ export const TOOL_SEO = {
   "placeholder-image-generator": {
     seoTitle: "Placeholder Image Generator: Custom Dummy Pics",
     seoDescription:
-      "Generate a placeholder image in any size. Set width, height, colors, and label text, then download a PNG or copy the URL for mockups and web layouts.",
+      "Generate custom placeholder images for web design easily. Use this free dummy image generator to create mockups and test layouts securely.",
     h1: "Placeholder Image Generator",
     shortDescription:
       "Set your dimensions, colors, and label text, and this generator instantly renders a ready-to-use dummy image.",
@@ -6588,7 +6588,7 @@ export const TOOL_SEO = {
   "baby-name-generator": {
     seoTitle: "Baby Name Generator: Find Unique Boy & Girl Names",
     seoDescription:
-      "Find a name with our baby name generator. Filter by origin, starting letter, and style, then read the meaning behind every boy, girl, or unisex pick.",
+      "Generate unique baby names and meanings easily. Use this free baby name generator to explore boy names, girl names, and family naming ideas securely.",
     h1: "Baby Name Generator",
     shortDescription:
       "Set your filters, origin, starting letter, style, and this generator surfaces baby names complete with meanings.",
@@ -6630,7 +6630,7 @@ export const TOOL_SEO = {
   "pet-name-generator": {
     seoTitle: "Pet Name Generator: Cute Dog & Cat Names",
     seoDescription:
-      "Our dog name generator also names cats, rabbits, and more. Pick a style, from cute to funny to classic, and find a short name your pet will answer to.",
+      "Generate cute, unique pet names for dogs, cats, and animals easily. Use this free pet name generator to find catchy animal monikers securely.",
     h1: "Pet Name Generator",
     shortDescription:
       "Pick your pet type and style, and this generator surfaces names that are easy for your new pet to learn.",
@@ -6672,7 +6672,7 @@ export const TOOL_SEO = {
   "standing-vs-sitting-calculator": {
     seoTitle: "Standing vs Sitting Calculator: Burn Calories at Work",
     seoDescription:
-      "Does standing burn calories? Enter your weight and workday hours to see the extra calories burned versus sitting, as a daily, weekly, and yearly total.",
+      "Calculate calorie differences between standing and sitting at work. Use this free ergonomic wellness calculator to track daily energy expenditure securely.",
     h1: "Standing vs Sitting Calculator",
     shortDescription:
       "Enter your body weight and daily work hours, and this calculator shows the real calorie difference between sitting and standing.",
@@ -6714,7 +6714,7 @@ export const TOOL_SEO = {
   "stretching-routine-generator": {
     seoTitle: "Stretching Routine Generator: Custom Flexibility Plans",
     seoDescription:
-      "Get a stretching routine for beginners built around your goal and tight areas. Each move comes with a hold time to follow at home or at your desk.",
+      "Generate custom stretching routines for flexibility and injury prevention. Use this free stretching routine generator for warm-ups securely.",
     h1: "Stretching Routine Generator",
     shortDescription:
       "Pick your goal and tight areas, and this generator builds a structured stretching routine with proper hold times.",
@@ -6756,7 +6756,7 @@ export const TOOL_SEO = {
   "study-time-calculator": {
     seoTitle: "Study Time Calculator: Plan Exam Preparation",
     seoDescription:
-      "Turn your exam date into a study planner. Enter topics and hours free per day, and get a day-by-day schedule that spreads revision evenly before test day.",
+      "Calculate your required study time and exam prep schedules easily. Use this free study planner and time calculator to organize academic goals securely.",
     h1: "Study Time Calculator",
     shortDescription:
       "Enter your exam date and syllabus size, and this calculator breaks your prep into a realistic daily study schedule.",
@@ -6798,7 +6798,7 @@ export const TOOL_SEO = {
   "reading-time-calculator": {
     seoTitle: "Reading Time Calculator: Estimate Article Length",
     seoDescription:
-      "Paste your article into this reading time calculator to see how long it takes to read aloud or silently. Use it to add a read time to blogs and posts.",
+      "Calculate reading time for articles and books instantly. Use this free reading time estimator to check word counts and reading duration securely.",
     h1: "Reading Time Calculator",
     shortDescription:
       "Paste your text, and this calculator estimates how long it'll take an average reader to get through it.",
@@ -6840,7 +6840,7 @@ export const TOOL_SEO = {
   "grade-percentage-calculator": {
     seoTitle: "Grade Percentage Calculator: Find Test Scores",
     seoDescription:
-      "Enter points earned and points possible in this grade percentage calculator to see your score and letter grade, and check what a test result means.",
+      "Calculate your test grades and percentage scores easily. Use this free grade percentage calculator to compute exam points and academic standing securely.",
     h1: "Grade Percentage Calculator",
     shortDescription:
       "Enter correct answers and total questions, and this calculator instantly returns your exact percentage score.",
@@ -6882,7 +6882,7 @@ export const TOOL_SEO = {
   "gpa-to-percentage-converter": {
     seoTitle: "GPA to Percentage Converter: Translate Grades",
     seoDescription:
-      "Use this GPA to percentage calculator to convert a 4.0, 5.0, or 10-point GPA into a percentage. See the letter grade too, for applications and resumes.",
+      "Convert GPA scores to percentage grades easily. Use this free cgpa to percentage converter to translate academic standing securely in your browser.",
     h1: "GPA to Percentage Converter",
     shortDescription:
       "Enter your GPA and scale, and this converter translates it into the equivalent academic percentage.",
@@ -6926,7 +6926,7 @@ export const TOOL_SEO = {
   "scholarship-eligibility-checker": {
     seoTitle: "Scholarship Eligibility Checker: Find Financial Aid",
     seoDescription:
-      "Use this scholarship calculator to check your odds. Enter GPA, test scores, and background to see which common award criteria you meet before you apply.",
+      "Check your scholarship eligibility criteria easily. Use this free scholarship calculator and eligibility checker to evaluate financial aid requirements securely.",
     h1: "Scholarship Eligibility Checker",
     shortDescription:
       "Enter your GPA, test scores, and background, and this checker shows which common scholarship criteria you meet.",
@@ -6968,7 +6968,7 @@ export const TOOL_SEO = {
   "recipe-scaler": {
     seoTitle: "Recipe Scaler: Multiply Ingredients Instantly",
     seoDescription:
-      "Double, halve, or resize any dish with this recipe scaler. Enter your ingredients and a new serving count, and each quantity updates in cups, grams, or oz.",
+      "Scale recipe ingredient quantities up or down easily. Use this free recipe multiplier to adjust cooking portions for baking and meals securely.",
     h1: "Recipe Scaler",
     shortDescription:
       "Enter your original recipe and target serving size, and this scaler recalculates every ingredient instantly.",
@@ -7010,7 +7010,7 @@ export const TOOL_SEO = {
   "baking-conversion-calculator": {
     seoTitle: "Baking Conversion Calculator: Grams to Cups",
     seoDescription:
-      "Convert grams to cups for flour, sugar, butter, and 30+ ingredients. This baking conversion calculator also gives ounces, so every recipe turns out right.",
+      "Convert baking measurements easily. Use this free baking conversion calculator to translate grams, ounces, cups, and fluid milliliters securely.",
     h1: "Baking Conversion Calculator",
     shortDescription:
       "Pick your ingredient and enter an amount, and this calculator converts between grams, cups, and ounces accurately.",
@@ -7052,7 +7052,7 @@ export const TOOL_SEO = {
   "coffee-water-ratio-calculator": {
     seoTitle: "Coffee Water Ratio Calculator: Brew Perfect Coffee",
     seoDescription:
-      "Dial in your coffee to water ratio for pour over, drip, French press, or espresso. Enter your water volume and get the exact grams of coffee to grind.",
+      "Calculate your coffee to water ratio easily. Use this free coffee ratio calculator to brew the perfect cup for pour-over, french press, and drip.",
     h1: "Coffee Water Ratio Calculator",
     shortDescription:
       "Enter your water amount and brew method, and this calculator returns the exact coffee weight for a balanced cup.",
@@ -7094,7 +7094,7 @@ export const TOOL_SEO = {
   "cooking-time-calculator": {
     seoTitle: "Cooking Time Calculator: Roast Turkey & Meat Times",
     seoDescription:
-      "Use this turkey cooking time calculator to get roasting time and oven temperature by weight. It also covers chicken, beef, pork, and lamb roasts.",
+      "Calculate cooking times for turkeys, roasts, and meats easily. Use this free cooking time calculator to estimate kitchen prep schedules securely.",
     h1: "Cooking Time Calculator",
     shortDescription:
       "Enter your meat type and weight, and this calculator estimates roasting time and the right oven temperature.",
@@ -7136,7 +7136,7 @@ export const TOOL_SEO = {
   "freezing-time-estimator": {
     seoTitle: "Freezing Time Estimator: Food Storage Calculator",
     seoDescription:
-      "Check how long does it take to freeze meat, bread, soup, or leftovers, and how long each stays good in the freezer. Get safe storage times by food type.",
+      "Estimate food freezing times and storage limits easily. Use this free freezing time estimator to plan meal prep and freezer organization securely.",
     h1: "Freezing Time Estimator",
     shortDescription:
       "Select a food category, and this estimator shows how long it stays at peak quality in the freezer.",
@@ -7178,7 +7178,7 @@ export const TOOL_SEO = {
   "flight-co2-calculator": {
     seoTitle: "Flight CO2 Calculator: Estimate Carbon Emissions",
     seoDescription:
-      "Find the carbon footprint of a flight from your route and cabin class. See CO2 per passenger in kg and compare it with driving or taking the train.",
+      "Calculate flight carbon footprint emissions easily. Use this free flight co2 calculator to measure air travel environmental impact securely.",
     h1: "Flight CO2 Calculator",
     shortDescription:
       "Enter your route and cabin class, and this calculator estimates the carbon emissions of your flight.",
@@ -7220,7 +7220,7 @@ export const TOOL_SEO = {
   "road-trip-cost-calculator": {
     seoTitle: "Road Trip Cost Calculator: Estimate Gas & Travel Expenses",
     seoDescription:
-      "Use this trip gas calculator to price your drive. Enter distance, miles per gallon, and fuel price to get the total gas cost, then split it between riders.",
+      "Calculate your road trip fuel costs and travel expenses easily. Use this free trip gas calculator to budget driving trips securely in your browser.",
     h1: "Road Trip Cost Calculator",
     shortDescription:
       "Enter your distance, fuel economy, and gas price, and this calculator returns your total trip fuel cost.",
@@ -7262,7 +7262,7 @@ export const TOOL_SEO = {
   "luggage-weight-checker": {
     seoTitle: "Luggage Weight Checker: Avoid Airline Baggage Fees",
     seoDescription:
-      "Add each item to see your total against the baggage weight limit of your airline. Check carry-on and checked bag weight in kg or lb before you leave home.",
+      "Check your luggage weight limits and avoid airline fees easily. Use this free baggage weight limit tool to plan packing restrictions securely.",
     h1: "Luggage Weight Checker",
     shortDescription:
       "Add up your packed items, and this checker tells you if you're under your airline's weight limit before you leave for the airport.",
@@ -7304,7 +7304,7 @@ export const TOOL_SEO = {
   "travel-budget-planner": {
     seoTitle: "Travel Budget Planner: Calculate Trip Expenses",
     seoDescription:
-      "Use this travel cost calculator to total flights, hotels, food, and activities. Set your trip length and get a full budget plus a daily spending limit.",
+      "Plan your travel budget and trip expenses easily. Use this free travel cost calculator to organize vacation spending and currency securely.",
     h1: "Travel Budget Planner",
     shortDescription:
       "Enter your trip length and daily costs, and this planner calculates your total vacation budget and a daily spending cap.",
@@ -7346,7 +7346,7 @@ export const TOOL_SEO = {
   "timezone-meeting-planner": {
     seoTitle: "Timezone Meeting Planner: Schedule Global Calls",
     seoDescription:
-      "Plan a call across cities with this timezone meeting planner. Add each location and see overlapping work hours to pick a time that suits the whole team.",
+      "Plan international meetings across global timezones easily. Use this free time zone meeting planner to coordinate remote calls securely.",
     h1: "Timezone Meeting Planner",
     shortDescription:
       "Select your participants' cities, and this planner shows the overlapping working hours across every timezone.",
@@ -7388,7 +7388,7 @@ export const TOOL_SEO = {
   "paint-quantity-calculator": {
     seoTitle: "Paint Quantity Calculator: How Much Paint Do I Need?",
     seoDescription:
-      "Wondering how much paint for a bedroom? Enter wall sizes, doors, windows, and coats to get the gallons needed, so you buy the right amount first time.",
+      "Calculate how much paint you need for a room easily. Use this free paint quantity calculator to estimate wall square footage and gallons securely.",
     h1: "Paint Quantity Calculator",
     shortDescription:
       "Enter your wall dimensions and coat count, and this calculator tells you exactly how many gallons to buy.",
@@ -7430,7 +7430,7 @@ export const TOOL_SEO = {
   "carpet-area-calculator": {
     seoTitle: "Carpet Area Calculator: Estimate Flooring Costs",
     seoDescription:
-      "Measure any room with this carpet calculator. Enter length and width to get square feet and square yards, with a waste margin added before you order.",
+      "Calculate your room carpet area and flooring material needs easily. Use this free carpet calculator to measure square footage and flooring supplies securely.",
     h1: "Carpet Area Calculator",
     shortDescription:
       "Enter your room dimensions, and this calculator returns the total square footage you need to order, waste margin included.",
@@ -7472,7 +7472,7 @@ export const TOOL_SEO = {
   "moving-box-calculator": {
     seoTitle: "Moving Box Calculator: How Many Boxes Do I Need?",
     seoDescription:
-      "Use this moving box calculator to pick a home size and how much you own. Get a box count by small, medium, large, and wardrobe sizes before you pack.",
+      "Calculate how many moving boxes you need for house relocation easily. Use this free moving box calculator to plan packing supplies securely.",
     h1: "Moving Box Calculator",
     shortDescription:
       "Select your home size and accumulation level, and this calculator outputs a realistic box count broken down by size.",
@@ -7514,7 +7514,7 @@ export const TOOL_SEO = {
   "electricity-bill-estimator": {
     seoTitle: "Electricity Bill Estimator: Calculate Power Costs",
     seoDescription:
-      "Add your appliances and daily hours to this electricity cost calculator. See what each device costs per day, month, and year at your own rate per kWh.",
+      "Calculate your household electricity consumption and bills easily. Use this free electricity cost calculator to track appliance power usage securely.",
     h1: "Electricity Bill Estimator",
     shortDescription:
       "Enter your appliance wattage and usage hours, and this estimator calculates your monthly energy cost.",
@@ -7556,7 +7556,7 @@ export const TOOL_SEO = {
   "garden-soil-calculator": {
     seoTitle: "Garden Soil Calculator: Estimate Cubic Yards & Bags",
     seoDescription:
-      "Size any raised bed with this topsoil calculator. Enter length, width, and depth to get cubic yards and the number of 1 or 2 cubic foot bags to buy.",
+      "Calculate your garden soil and topsoil needs easily. Use this free garden soil calculator to measure raised bed volume and purchase amounts securely.",
     h1: "Garden Soil Calculator",
     shortDescription:
       "Enter your bed dimensions, and this calculator returns the cubic yards and exact number of soil bags to buy.",
@@ -7598,7 +7598,7 @@ export const TOOL_SEO = {
   "wedding-budget-calculator": {
     seoTitle: "Wedding Budget Calculator: Plan Ceremony Expenses",
     seoDescription:
-      "Use this wedding budget calculator to split your total across venue, catering, photo, and more. Enter guest count to see what each category should cost.",
+      "Calculate your wedding budget and ceremony expenses easily. Use this free wedding budget planner to allocate reception costs and guest fees securely.",
     h1: "Wedding Budget Calculator",
     shortDescription:
       "Enter your total budget and guest count, and this calculator allocates recommended spending across every major category.",
@@ -7640,7 +7640,7 @@ export const TOOL_SEO = {
   "party-food-calculator": {
     seoTitle: "Party Food Calculator: How Much Food for a Party?",
     seoDescription:
-      "Use this party food calculator to plan how much pizza for 20 people, plus wings, sides, and drinks. Amounts scale to your guest count and event length.",
+      "Calculate party food quantities and catering portions easily. Use this free party food calculator to estimate pizza, snacks, and drinks securely.",
     h1: "Party Food Calculator",
     shortDescription:
       "Enter your guest count and event length, and this calculator returns exactly how much food and drink to buy.",
@@ -7682,7 +7682,7 @@ export const TOOL_SEO = {
   "event-seating-planner": {
     seoTitle: "Event Seating Planner: Create Table Arrangements",
     seoDescription:
-      "Make a seating chart generator layout for weddings and parties. Add guests and table sizes, keep groups together, and print a clear plan for the venue.",
+      "Plan event seating charts and table arrangements easily. Use this free seating chart generator to organize guests and venue layouts securely.",
     h1: "Event Seating Planner",
     shortDescription:
       "Enter your guest list and table capacities, and this planner organizes everyone into a clear seating chart.",
@@ -7724,7 +7724,7 @@ export const TOOL_SEO = {
   "running-pace-calculator": {
     seoTitle: "Running Pace Calculator: Compute Mile Splits & Speed",
     seoDescription:
-      "Find the pace you need with this running pace calculator. Enter distance and goal time to get per mile and per km splits for a 5K, 10K, or marathon.",
+      "Calculate your running pace, finish times, and mile splits easily. Use this free mile pace calculator to train for marathons and races securely.",
     h1: "Running Pace Calculator",
     shortDescription:
       "Enter your target distance and finish time, and this calculator returns your required per-mile or per-kilometer splits.",
@@ -7768,7 +7768,7 @@ export const TOOL_SEO = {
   "cycling-speed-calculator": {
     seoTitle: "Cycling Speed Calculator: Compute Bike Pace",
     seoDescription:
-      "Enter distance and ride time in this cycling speed calculator to get your average speed in mph or km/h, then compare rides and track your progress.",
+      "Calculate your cycling speed, time, and distance easily. Use this free cycling speed calculator to analyze bike rides and performance securely.",
     h1: "Cycling Speed Calculator",
     shortDescription:
       "Enter your ride distance and elapsed time, and this calculator returns your average speed instantly.",
@@ -7810,7 +7810,7 @@ export const TOOL_SEO = {
   "pregnancy-due-date-calculator": {
     seoTitle: "Pregnancy Due Date Calculator: Estimate Arrival",
     seoDescription:
-      "Use this IVF due date calculator with your transfer date and embryo age. It also works from your last period to estimate your due date and each trimester.",
+      "Calculate your pregnancy due date instantly. Use this free due date calculator and IVF calculator to track gestational milestones securely.",
     h1: "Pregnancy Due Date Calculator",
     shortDescription:
       "Enter the first day of your last period, and this calculator estimates your due date using Naegele's rule.",
@@ -7852,7 +7852,7 @@ export const TOOL_SEO = {
   "license-plate-generator": {
     seoTitle: "License Plate Generator: Custom Vanity Plates",
     seoDescription:
-      "Design a custom plate with this license plate generator. Type your vanity text, choose a state style, and download a realistic mockup to preview your idea.",
+      "Generate custom license plate designs and vanity text easily. Use this free license plate generator to create mockups and custom text art securely.",
     h1: "License Plate Generator",
     shortDescription:
       "Type your vanity text and pick a state style, and this generator renders a realistic plate mockup instantly.",
@@ -7894,7 +7894,7 @@ export const TOOL_SEO = {
   "invitation-word-counter": {
     seoTitle: "Invitation Word Counter: Count Words & Characters",
     seoDescription:
-      "Draft graduation invitation wording and count every word and character as you type. See if your text fits a card before you send it to the printer.",
+      "Count words in event invitations and greeting cards easily. Use this free invitation word counter to check length limits and printing space securely.",
     h1: "Invitation Word Counter",
     shortDescription:
       "Paste your invitation wording, and this counter checks word count, character count, and estimated print fit.",
@@ -7936,7 +7936,7 @@ export const TOOL_SEO = {
   "baby-feeding-schedule-generator": {
     seoTitle: "Baby Feeding Schedule: Track Milk & Solids",
     seoDescription:
-      "Build a newborn feeding schedule from your baby's age and feeding method. Get a daily routine with feed times and amounts to share with your pediatrician.",
+      "Track baby feeding schedules, milk volumes, and solid food milestones easily. Use this free infant feeding tracker to organize baby care securely.",
     h1: "Baby Feeding Schedule",
     shortDescription:
       "Enter your baby's age and feeding method, and this planner builds an age-appropriate feeding routine.",
@@ -7978,7 +7978,7 @@ export const TOOL_SEO = {
   "diaper-changes-estimator": {
     seoTitle: "Diaper Change Tracker: Log Baby Wet & Dirty Diapers",
     seoDescription:
-      "Log wet and dirty nappies with this diaper calculator to see daily totals and weekly patterns, plus the numbers a pediatrician asks about at checkups.",
+      "Track your baby diaper changes and wet counts easily. Use this free infant diaper tracking tool to monitor hydration and baby health securely.",
     h1: "Diaper Changes",
     shortDescription:
       "Log wet and dirty diaper counts, and this tracker summarizes daily patterns pediatricians actually ask about.",
@@ -8020,7 +8020,7 @@ export const TOOL_SEO = {
   "child-growth-percentile-checker": {
     seoTitle: "Child Growth Percentile Calculator: Track Height & Weight",
     seoDescription:
-      "Enter age, height, and weight in this height percentile calculator to see where your child falls on standard growth charts, from toddler to teen.",
+      "Calculate child growth percentiles for height, weight, and head size easily. Use this free growth chart calculator to track pediatric milestones securely.",
     h1: "Child Growth Percentile",
     shortDescription:
       "Enter your child's age and measurements, and this calculator returns their growth percentile against standard pediatric charts.",
@@ -8062,7 +8062,7 @@ export const TOOL_SEO = {
   "carbon-footprint-calculator": {
     seoTitle: "Carbon Footprint Calculator: Estimate Emissions",
     seoDescription:
-      "Use this carbon footprint calculator to estimate your yearly CO2 from home energy, driving, flights, and diet, then see which habit to change first.",
+      "Calculate your household carbon footprint and greenhouse gas emissions easily. Use this free carbon calculator to measure environmental impact securely.",
     h1: "Carbon Footprint",
     shortDescription:
       "Enter your energy, travel, and lifestyle habits, and this calculator estimates your annual carbon footprint in metric tons.",
@@ -8104,7 +8104,7 @@ export const TOOL_SEO = {
   "plastic-usage-estimator": {
     seoTitle: "Plastic Usage Calculator: Track Single-Use Plastic",
     seoDescription:
-      "Answer a few questions in this plastic footprint calculator to see how much single-use plastic you use per year, and which swaps cut the most waste.",
+      "Calculate your annual single-use plastic consumption easily. Use this free plastic waste calculator to measure environmental footprint and reduction securely.",
     h1: "Plastic Usage",
     shortDescription:
       "Answer a few quick habit questions, and this calculator estimates your annual single-use plastic consumption.",
@@ -8146,7 +8146,7 @@ export const TOOL_SEO = {
   "tree-planting-impact-calculator": {
     seoTitle: "Tree Planting Calculator: Carbon Offset Estimation",
     seoDescription:
-      "How much CO2 does a tree absorb? Enter your yearly emissions and see how many mature trees you would need to plant to offset them, with the math shown.",
+      "Calculate how many trees you need to plant to offset carbon emissions easily. Use this free tree planting calculator to measure carbon sequestration securely.",
     h1: "Tree Planting",
     shortDescription:
       "Enter your annual carbon footprint, and this calculator estimates how many mature trees it would take to offset it.",
@@ -8188,7 +8188,7 @@ export const TOOL_SEO = {
   "recycling-savings-calculator": {
     seoTitle: "Recycling Savings Calculator: Track Environmental Impact",
     seoDescription:
-      "Estimate what you save with this recycling calculator. Enter weekly paper, plastic, glass, and metal to see energy, water, and landfill space you keep.",
+      "Calculate your recycling savings, energy conservation, and landfill diversion easily. Use this free recycling impact calculator to measure green results securely.",
     h1: "Recycling Savings",
     shortDescription:
       "Enter what you recycle weekly, and this calculator shows the energy, water, and landfill space it actually saves.",
@@ -8230,7 +8230,7 @@ export const TOOL_SEO = {
   "ev-vs-petrol-calculator": {
     seoTitle: "EV vs Petrol Car Cost Calculator: Savings Compared",
     seoDescription:
-      "Compare an EV vs gas calculator side by side. Enter miles driven, fuel price, and electricity rate to see yearly running costs and the break-even point.",
+      "Compare electric vehicle versus petrol car ownership costs easily. Use this free EV vs gas savings calculator to evaluate fuel and maintenance expenses securely.",
     h1: "EV vs Petrol",
     shortDescription:
       "Enter your mileage, gas price, and electricity rate, and this calculator compares total ownership costs between EV and petrol.",
@@ -8272,7 +8272,7 @@ export const TOOL_SEO = {
   "video-compressor": {
     seoTitle: "Video Compressor: Reduce MP4 File Size Online",
     seoDescription:
-      "Use this video compressor to shrink MP4, MOV, AVI, and WebM files. Pick a quality level and compress video online for email, Discord, or social uploads.",
+      "Compress video files and reduce MP4 sizes easily. Use this free online video compressor to shrink video file dimensions securely in your browser.",
     h1: "Video Compressor",
     shortDescription:
       "Upload your video, pick a quality level, and this compressor shrinks the file size entirely in your browser.",
@@ -8314,7 +8314,7 @@ export const TOOL_SEO = {
   "gif-maker": {
     seoTitle: "GIF Maker: Convert Video to Animated GIF",
     seoDescription:
-      "Turn a video to GIF online with this gif maker. Upload a clip, trim the start and end, set frame rate and size, and download a looping animated GIF.",
+      "Convert videos to animated GIFs easily. Use this free video to GIF converter to create looping graphics and memes securely in your browser.",
     h1: "GIF Maker (Video to GIF)",
     shortDescription:
       "Upload a video clip, trim it, and this converter turns it into a smooth, looping animated GIF.",
@@ -8356,7 +8356,7 @@ export const TOOL_SEO = {
   "audio-trimmer": {
     seoTitle: "Audio Trimmer: Cut MP3 & Sound Files Online",
     seoDescription:
-      "Drag the waveform markers with this audio trimmer to cut any clip from MP3, WAV, AAC, or OGG files, then download only the part you need.",
+      "Trim audio files, MP3 songs, and ringtones easily. Use this free online audio cutter to edit sound clips and music tracks securely in your browser.",
     h1: "Audio Trimmer",
     shortDescription:
       "Upload your audio, drag the waveform markers, and this trimmer cuts the exact clip you need.",
@@ -8398,7 +8398,7 @@ export const TOOL_SEO = {
   "screen-recorder": {
     seoTitle: "Screen Recorder: Free Online Capture & Video Record",
     seoDescription:
-      "Capture your display with this screen recorder. Record a full screen, one window, or a tab, add microphone audio, and save the video without an app.",
+      "Record your computer screen, webcam, and audio easily. Use this free online screen recorder to capture browser windows and tutorials securely.",
     h1: "Screen Recorder",
     shortDescription:
       "Click start, choose your screen or window, and this recorder captures your footage directly in the browser.",
@@ -8440,7 +8440,7 @@ export const TOOL_SEO = {
   "daylight-saving-countdown": {
     seoTitle: "Daylight Saving Time Countdown: Clocks Change Dates",
     seoDescription:
-      "Find out when do clocks go back or forward. This live countdown shows the days, hours, and minutes left until the next daylight saving change in your area.",
+      "Track the exact time remaining until daylight saving time begins or ends. Use this free countdown clock to track clock changes securely in your browser.",
     h1: "Daylight Saving Countdown",
     shortDescription:
       "A live clock counting down to the next clock change, so you know exactly when to adjust.",
@@ -8484,7 +8484,7 @@ export const TOOL_SEO = {
   "dog-age-calculator": {
     seoTitle: "Dog Age Calculator: Convert Dog Years to Human Years",
     seoDescription:
-      "Our dog age calculator turns dog years to human years by size and breed. Small and giant dogs age at different rates, so the result fits your own pup.",
+      "Calculate your dog's age in human years easily. Use this free dog years to human years calculator to track your pet's life stage accurately.",
     h1: "Dog Age Calculator",
     shortDescription:
       "Enter your dog's breed size and age, and this calculator converts it into their true biological age in human years.",
@@ -8526,7 +8526,7 @@ export const TOOL_SEO = {
   "cat-age-calculator": {
     seoTitle: "Cat Age Calculator: Convert Cat Years to Human Years",
     seoDescription:
-      "Turn your cat's age into human years. This cat years to human years tool follows real life stages from kitten to senior, not a flat seven-year rule.",
+      "Calculate your cat's age in human years easily. Use this free cat age calculator to track your feline's life stage and senior care needs securely.",
     h1: "Cat Age Calculator",
     shortDescription:
       "Enter your cat's age, and this calculator converts it into human years using their real, non-linear maturation curve.",
