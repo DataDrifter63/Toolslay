@@ -13,7 +13,7 @@ export default function CategoryGrid() {
         <SectionHeading
           eyebrow="Browse"
           title="Find tools by category"
-          description={`${TOOLS.length}+ tools organized into ${CATEGORIES.length} categories so you can get to the right one fast.`}
+          description={`${TOOLS.length}+ free tools sorted into ${CATEGORIES.length} categories, so you spend less time searching and more time getting the job done.`}
         />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CATEGORIES.map((cat) => {

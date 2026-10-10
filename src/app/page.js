@@ -11,7 +11,7 @@ import { buildMetadata, faqJsonLd, websiteJsonLd, organizationJsonLd } from "@/l
 import { SITE } from "@/lib/constants";
 
 export const metadata = buildMetadata({
-  title: "Free Online Tools — PDF, Image, Text & Calculators",
+  title: "200+ Free Online Tools — PDF, Image, Text & Calculators",
   description: SITE.description,
   path: "/",
 });

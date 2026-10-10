@@ -1,8 +1,8 @@
 export const SITE = {
   name: "Toolslay",
-  tagline: "Every tool your day needs. Nothing to install.",
+  tagline: "200+ free online tools. Nothing to install, nothing uploaded.",
   description:
-    "200+ free online tools for PDF, image, video, text, calculators, developers and everyday life. 100% browser-based, no sign-up, no downloads.",
+    "200+ free online tools for PDFs, images, video, text, calculators and developers. Every tool runs 100% in your browser, no sign-up and nothing uploaded.",
   url: "https://toolslay.com",
   // Official profiles. One list feeds the footer icons AND the Organization
   // schema (sameAs), so a change here updates both. When the Facebook Page gets

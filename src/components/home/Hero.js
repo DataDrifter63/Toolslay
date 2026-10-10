@@ -9,14 +9,15 @@ export default function Hero() {
       <div className="mx-auto grid max-w-container grid-cols-1 items-center gap-10 px-5 py-14 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:py-20 lg:px-8">
         <div>
           <span className="inline-block rounded-md bg-brand-light px-3 py-1 text-xs font-semibold text-brand">
-            {TOOLS.length}+ browser tools · no sign-up
+            {TOOLS.length}+ free online tools · no sign-up, ever
           </span>
           <h1 className="mt-4 font-display text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-[2.75rem]">
-            Every tool your day needs. Nothing to install.
+            {TOOLS.length}+ free online tools. Nothing to install, nothing uploaded.
           </h1>
           <p className="mt-4 max-w-md text-base text-muted">
-            PDF, image, text, calculators and developer tools — all free, all running right in
-            your browser. Nothing uploads to a server.
+            PDF, image, text, developer and calculator tools across 9 categories, all running
+            right in your browser. Convert, compress, calculate and generate without creating an
+            account or sending a single file to a server.
           </p>
 
           <Link

@@ -6,22 +6,22 @@ const POINTS = [
   {
     icon: ShieldCheck,
     title: "Your files stay yours",
-    text: "Every tool runs in your browser. Files, text and images you work with are never uploaded to a server — they never leave your device.",
+    text: "Every tool runs as JavaScript in your own browser tab. A PDF, photo or line of code you work with is never uploaded, logged or stored on a server, so there's nothing for anyone else to see.",
   },
   {
     icon: Gauge,
     title: "No waiting on uploads",
-    text: "Because there's no round-trip to a server, tools respond instantly — no progress bar, no queue, no waiting for a large file to upload before it even starts processing.",
+    text: "Since there's no round-trip to a server, results show up as you type or drop a file in. No progress bar, no upload queue, no spinner before the real work even starts.",
   },
   {
     icon: Ban,
     title: "No sign-up, no paywall",
-    text: "Every tool on Toolslay is free with no usage cap, no watermark, and no account required. Open a tool and start using it immediately.",
+    text: "Every one of the 200+ tools is free with no usage cap and no watermark on your result. Open a tool and use it straight away. No account, no credit card, no catch.",
   },
   {
     icon: RefreshCw,
     title: "New tools added regularly",
-    text: "The tool library grows based on what people search for and ask about. If a tool you need isn't here yet, it's worth checking back.",
+    text: "The library grows based on what people actually search for and ask about. If a specific calculator or converter isn't here yet, it's worth checking back in a few weeks.",
   },
 ];
 
@@ -32,7 +32,7 @@ export default function WhyToolSlay() {
         <SectionHeading
           eyebrow="Why Toolslay"
           title="Built to be fast, private and free"
-          description="A quick look at what makes browser-based tools different from the average online converter."
+          description="What actually makes a browser-based tool different from the average online converter that makes you upload a file and wait."
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {POINTS.map(({ icon: PointIcon, title, text }) => (

@@ -12,6 +12,7 @@ import { CATEGORIES, getCategory } from "@/data/categories";
 import { getToolsByCategory } from "@/data/tools";
 import { buildMetadata, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
 import { getCategoryContent } from "@/lib/toolContent";
+import { getCategorySeo } from "@/data/categorySeo";
 
 export function generateStaticParams() {
   return CATEGORIES.map((cat) => ({ slug: cat.slug }));
@@ -34,7 +35,8 @@ export default async function CategoryPage({ params }) {
   if (!category) notFound();
 
   const tools = getToolsByCategory(category.slug);
-  const { intro, faq } = getCategoryContent(category, tools.length);
+  const seoContent = getCategorySeo(category.slug);
+  const { intro, faq } = seoContent || getCategoryContent(category, tools.length);
 
   const jsonLd = [
     breadcrumbJsonLd([
