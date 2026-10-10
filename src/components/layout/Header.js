@@ -27,15 +27,15 @@ export default function Header() {
             <button className="flex items-center gap-1 text-sm font-medium text-ink hover:text-brand">
               Categories <ChevronDown size={14} aria-hidden="true" />
             </button>
-            <div className="invisible absolute right-0 top-full w-64 rounded-xl border border-line bg-surface p-2 opacity-0 shadow-hover transition group-hover:visible group-hover:opacity-100">
+            <div className="invisible absolute right-0 top-full w-[22rem] rounded-xl border border-line bg-surface p-2 opacity-0 shadow-hover transition group-hover:visible group-hover:opacity-100">
               {CATEGORIES.map((cat) => (
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}
-                  className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-ink hover:bg-paper"
+                  className="flex items-center justify-between gap-4 rounded-lg px-3 py-2 text-sm text-ink hover:bg-paper"
                 >
-                  {cat.name}
-                  <span className="text-xs text-muted">{cat.shortName}</span>
+                  <span className="whitespace-nowrap">{cat.name}</span>
+                  <span className="shrink-0 whitespace-nowrap text-xs text-muted">{cat.shortName}</span>
                 </Link>
               ))}
             </div>
