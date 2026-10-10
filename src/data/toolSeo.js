@@ -4287,48 +4287,6 @@ export const TOOL_SEO = {
     ],
   },
 
-  "wheel-of-names": {
-    seoTitle: "Wheel of Names: Free Online Picker Wheel",
-    seoDescription:
-      "Pick random names or items easily with this free name picker wheel. Use this interactive wheel of names for giveaways, classrooms, and games.",
-    h1: "Wheel of Names",
-    shortDescription:
-      "Type in your list of names or options, spin the wheel, and get a genuinely random winner instantly.",
-    about: [
-      "A spinning wheel solves a problem simple random-number generators don't: trust. Reading out \"the computer picked entry 7\" feels arbitrary and invites suspicion, but watching a wheel physically slow down and land on a name feels fair, even though both methods rely on the same underlying randomization. This tool uses your browser's cryptographic random functions to pick the stopping point, then animates the spin for exactly that reason.",
-      "Picking a winner, a volunteer, or a presentation order by hand invites accusations of favoritism almost every time, especially in classrooms or team settings where the same names seem to get picked suspiciously often. A visual spinner removes that doubt because everyone watches the same randomization happen in real time, with no way to argue the result was rigged after the fact.",
-      "Teachers use wheels like this constantly for things like picking which student answers next or assigning presentation order, while event hosts rely on them for raffle drawings and social media giveaways where transparency matters for legal compliance. The entertainment value is a real bonus too. A spinning wheel builds a few seconds of suspense that a flat list never does.",
-      "Type your list of names or options into the text box, one per line, and the wheel automatically builds itself with proportional slices. Click or tap the center to spin, and the wheel decelerates naturally before landing on a single randomly selected result.",
-      "Giveaway entries and classroom rosters are often tied to real people, so privacy matters here too. The entire spin, including the randomization, runs locally in your browser; your list and results are never transmitted to or stored on a server.",
-    ],
-    faq: [
-      {
-        q: "How random is the wheel's result, really?",
-        a: "The stopping point is determined using your browser's cryptographically secure random number source, giving every slice on the wheel a mathematically equal chance regardless of its position or size.",
-      },
-      {
-        q: "Can I edit my list after building the wheel?",
-        a: "Yes, you can add, remove, or rename entries at any point, and the wheel automatically redraws itself with resized slices to match your updated list.",
-      },
-      {
-        q: "Can I remove winners automatically after each spin?",
-        a: "Many implementations include a toggle that removes a winning entry after it's selected, which is useful for running a series of unique drawings from one list rather than allowing repeat winners.",
-      },
-      {
-        q: "Is this appropriate for commercial giveaways?",
-        a: "Yes, it's free to use for classroom, personal, and commercial purposes alike, including social media giveaways, with no account or sign-up required.",
-      },
-      {
-        q: "Does it work well on phones and tablets?",
-        a: "Yes, the interface is fully responsive, and spinning the wheel works with a simple tap on touchscreen devices just as it does with a click on desktop.",
-      },
-      {
-        q: "Do you store the names people enter?",
-        a: "No. Every spin and every name list stays local to your browser via client-side JavaScript; nothing gets logged, tracked, or saved on our end.",
-      },
-    ],
-  },
-
   "coin-flip-dice-roller": {
     seoTitle: "Coin Flip & Dice Roller: Random Decision Maker Online",
     seoDescription:

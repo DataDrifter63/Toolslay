@@ -163,20 +163,16 @@ export const CATEGORY_SEO = {
     description:
       "Generate strong passwords, QR codes, barcodes and fair random picks for names, teams and raffles, all created locally in your browser.",
     intro: [
-      "Generators & Random Tools covers two related needs: creating something secure, like a password or passphrase, and creating something fairly random, like a name drawn from a list or a dice roll. Both rely on your browser's cryptographic random number source rather than a weaker pseudo-random fallback.",
+      "Generators & Random Tools covers two related needs: creating something secure, like a password or passphrase, and creating something fairly random, like a coin flip or a dice roll. Both rely on your browser's cryptographic random number source rather than a weaker pseudo-random fallback.",
       "Secure Password Generator, Passphrase Generator and Password Strength Checker cover account security, letting you generate a strong credential and then check how resistant it actually is to guessing.",
       "QR Code Generator and Barcode Generator produce scannable codes for links, Wi-Fi details or product codes, while VIN Decoder reads the structured data encoded in a vehicle identification number.",
-      "Wheel of Names / Random Picker, Coin Flip & Dice Roller and Random Team Generator handle fair, verifiable random selection for classrooms, raffles, games and splitting people into teams.",
+      "Coin Flip & Dice Roller and Random Team Generator handle fair random selection for classrooms, raffles, games and splitting people into teams.",
       "A set of naming tools, Business Name Generator, Fantasy Name Generator, Baby Name Generator and Pet Name Generator, help with the harder problem of finding a name you actually like rather than just a random one.",
     ],
     faq: [
       {
         q: "Are the generated passwords actually secure?",
         a: "Yes. Secure Password Generator uses your browser's cryptographically secure random number source, the same standard used by password managers, and nothing generated is logged or transmitted anywhere.",
-      },
-      {
-        q: "Is the random picker in Wheel of Names truly fair?",
-        a: "The stopping point is determined by a cryptographically secure random value, giving every entry on the wheel an equal, unbiased chance regardless of its position.",
       },
       {
         q: "Do you store any of the passwords or codes I generate?",

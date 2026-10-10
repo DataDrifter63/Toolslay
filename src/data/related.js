@@ -61,13 +61,13 @@ const GROUPS = [
   // school math
   ["scientific-calculator", "percentage-calculator", "gpa-calculator", "grade-percentage-calculator", "gpa-to-percentage-converter", "study-time-calculator", "roman-numeral-converter"],
   // fun
-  ["love-calculator", "nickname-generator", "wheel-of-names", "coin-flip-dice-roller"],
+  ["love-calculator", "nickname-generator", "gamertag-generator", "coin-flip-dice-roller"],
   // passwords
   ["password-generator", "passphrase-generator", "password-strength-checker", "hash-generator", "uuid-guid-generator", "jwt-decoder"],
   // codes
   ["qr-code-generator", "barcode-generator", "utm-link-builder", "favicon-generator"],
   // random picks
-  ["random-number-generator", "coin-flip-dice-roller", "wheel-of-names", "random-team-generator", "tournament-bracket-generator", "fantasy-points-calculator", "gaming-session-time-calculator"],
+  ["random-number-generator", "coin-flip-dice-roller", "gamertag-generator", "random-team-generator", "tournament-bracket-generator", "fantasy-points-calculator", "gaming-session-time-calculator"],
   // names
   ["business-name-generator", "nickname-generator", "fantasy-name-generator", "baby-name-generator", "pet-name-generator", "instagram-bio-generator"],
   // speed tests
