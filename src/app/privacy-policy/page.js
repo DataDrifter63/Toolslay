@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
     <Container className="py-14">
       <div>
         <h1 className="font-display text-3xl font-bold text-ink">Privacy Policy</h1>
-        <p className="mt-2 text-xs text-muted">Last updated: September 30, 2026</p>
+        <p className="mt-2 text-xs text-muted">Last updated: October 10, 2026</p>
 
         <div className="prose prose-sm mt-8 max-w-none space-y-6 text-sm leading-relaxed text-muted">
           <section>
@@ -60,8 +60,11 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="font-display text-lg font-semibold text-ink">5. Blog comments and contact form</h2>
             <p className="mt-2">
-              If you contact us via the contact form, we use the information you provide (name,
-              email, message) only to respond to your inquiry.
+              If you contact us through the contact form, we use the information you provide (name,
+              email, topic, message and the optional page address) only to respond to your inquiry.
+              The form passes your message to Web3Forms, a form delivery service, which delivers it to
+              our inbox. If you email us directly, your email provider handles the message. We do not
+              sell your information, and contacting us does not add you to any mailing list.
             </p>
           </section>
 

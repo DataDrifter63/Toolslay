@@ -107,6 +107,23 @@ export function organizationJsonLd() {
       height: 512,
     },
     sameAs: Object.values(SITE.social),
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: SITE.email,
+      availableLanguage: "English",
+    },
+  };
+}
+
+/** JSON-LD ContactPage schema for /contact. */
+export function contactPageJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: `Contact ${SITE.name}`,
+    url: `${SITE.url}/contact`,
+    mainEntity: { "@id": `${SITE.url}/#organization` },
   };
 }
 

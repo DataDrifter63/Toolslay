@@ -26,9 +26,10 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=
+NEXT_PUBLIC_WEB3FORMS_KEY=
 ```
 
-All are optional for local dev. Without Supabase the blog renders empty and `/admin` redirects to login. Without Cloudinary, blog image upload is unavailable.
+All are optional for local dev. `NEXT_PUBLIC_WEB3FORMS_KEY` is a free access key from web3forms.com for the contact inbox; without it the contact form falls back to opening the visitor's email app. Without Supabase the blog renders empty and `/admin` redirects to login. Without Cloudinary, blog image upload is unavailable.
 
 ### Scripts
 
