@@ -41,7 +41,7 @@ export default function AboutSection({
         <h2 className="mt-3 font-display text-lg font-bold text-ink sm:text-xl">{title}</h2>
 
         {lead && (
-          <p className="mt-4 max-w-3xl text-[15px] font-medium leading-relaxed text-ink">{lead}</p>
+          <p className="mt-4 w-full text-[15px] font-medium leading-relaxed text-ink">{lead}</p>
         )}
 
         {highlights?.length > 0 && (

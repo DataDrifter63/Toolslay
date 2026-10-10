@@ -7,7 +7,7 @@ import {
   AlertCircle, Briefcase, ChevronRight, XCircle
 } from "lucide-react";
 
-// Simulated Premium Database of Top-Tier Scholarships
+// Starter list of well-known scholarships. GPA and IELTS minimums are indicative, not official.
 const SCHOLARSHIPS_DB = [
   // UK
   { id: 1, name: "Chevening Scholarship", country: "UK", levels: ["Masters"], fields: ["All"], minGpa: 3.3, minIelts: 6.5, funding: "Fully Funded", desc: "UK government's global scholarship programme for outstanding scholars with leadership potential." },
@@ -16,7 +16,7 @@ const SCHOLARSHIPS_DB = [
   
   // USA
   { id: 4, name: "Fulbright Foreign Student", country: "USA", levels: ["Masters", "PhD"], fields: ["All"], minGpa: 3.5, minIelts: 7.0, funding: "Fully Funded", desc: "Enables graduate students, young professionals to study and conduct research in the US." },
-  { id: 5, name: "Stamps Scholarship", country: "USA", levels: ["Undergrad"], fields: ["All"], minGpa: 3.8, minIelts: 7.0, funding: "Fully Funded", desc: "Merit-based scholarship at partner universities in the USA for exceptional undergrads." },
+  { id: 5, name: "Stamps Scholarship", country: "USA", levels: ["Undergrad"], fields: ["All"], minGpa: 3.8, minIelts: 7.0, funding: "Fully Funded", desc: "Merit-based scholarship at partner US universities. Eligibility varies by university and is often limited to US students, so check the partner school." },
   { id: 6, name: "AAUW International Fellowships", country: "USA", levels: ["Masters", "PhD", "Postdoc"], fields: ["All"], minGpa: 3.0, minIelts: 6.5, funding: "Partial", desc: "For women pursuing full-time graduate or postdoctoral study in the U.S." },
 
   // Canada
@@ -230,13 +230,17 @@ export default function ScholarshipEligibilityChecker() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30 px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800/50">
-                  {matchedScholarships.eligible.length} Eligible
+                  {matchedScholarships.eligible.length} Meets minimums
                 </span>
                 <span className="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/30 px-3 py-1.5 rounded-lg border border-amber-200 dark:border-amber-800/50">
                   {matchedScholarships.locked.length} Locked
                 </span>
               </div>
             </div>
+
+            <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 leading-relaxed -mt-2 mb-6">
+              Indicative only. This tool checks your GPA and IELTS score against simplified minimums for 12 well-known scholarships. Real requirements also cover nationality, experience, essays and deadlines, so confirm everything on the official scholarship website.
+            </p>
 
             {/* Results Container */}
             <div className="space-y-8">

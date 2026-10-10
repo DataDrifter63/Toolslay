@@ -10,7 +10,7 @@ import {
 export default function TournamentBracketGenerator() {
   const [isMounted, setIsMounted] = useState(false);
   
-  const [tournamentName, setTournamentName] = useState("Muxair Championship");
+  const [tournamentName, setTournamentName] = useState("My Tournament");
   const [teamsInput, setTeamsInput] = useState("Team Alpha\nTeam Bravo\nTeam Charlie\nTeam Delta\nTeam Echo");
   const [error, setError] = useState("");
   

@@ -1,3 +1,4 @@
+import { TOOLS_PAGE_CATEGORY } from "@/data/toolsPageCategory";
 // Auto-generates "About this tool" copy and FAQ entries for every tool/category page,
 // so every page ships with real, indexable content from day one instead of a thin
 // one-line description. This is DEMO content — written to be reasonable placeholder
@@ -124,56 +125,74 @@ export function getToolContent(tool, category) {
 }
 
 export function getCategoryContent(category, toolCount) {
+  const custom = TOOLS_PAGE_CATEGORY[category?.slug];
+  if (custom) {
+    return { intro: [custom.lead(toolCount), ...custom.paragraphs], faq: custom.faq };
+  }
+
+  // Fallback for any category that has no hand-written copy yet.
   const copy = getCopy(category);
-  const name = category.name;
-
+  const name = category?.name || "These tools";
   const intro = [
-    `${name} on Toolslay is a collection of ${toolCount} free, browser-based tools to ${copy.verb} the everyday tasks that come up in this category. Every tool here is built for ${copy.audience}, and every one of them runs entirely in your browser — ${copy.privacyNote}.`,
-    `None of these tools require sign-up, and there's no daily limit on how many times you can use them. Pick a tool below to get started, or use the search bar at the top of the page if you know what you're looking for.`,
+    `${name} on Toolslay is a set of ${toolCount} free, browser-based tools to ${copy.verb} the everyday tasks in this category. They are built for ${copy.audience}, and ${copy.privacyNote}.`,
+    "There is no sign-up and no daily limit. Pick a tool below to get started, or use the search box if you know what you are looking for.",
   ];
-
   const faq = [
     {
       q: `Are the ${name.toLowerCase()} free to use?`,
-      a: "Yes, every tool in this category is completely free, with no hidden limits or premium tier.",
-    },
-    {
-      q: "Do these tools work without an internet connection?",
-      a: "Once the page has loaded, most tools in this category continue to work without a live connection, since processing happens on your device rather than a server.",
+      a: "Yes. Every tool in this category is free, with no hidden limits or premium tier.",
     },
     {
       q: "Which tool should I start with?",
-      a: "If you're not sure, check the tool descriptions below — each one lists exactly what it does. The most-used tools in this category are marked as popular on the homepage.",
+      a: "Each card has a one line summary of what the tool does, so read through them and open the one that matches your task.",
     },
   ];
-
   return { intro, faq };
 }
 
-// Generic version of getCategoryContent() for the "All tools" state on the
-// /tools page — i.e. when no single category is selected.
+// Content for the "All tools" state on the /tools page, i.e. when no single
+// category is selected. Also feeds the FAQ schema in src/app/tools/page.js.
 export function getAllToolsContent(toolCount) {
   const intro = [
-    `Toolslay is a growing collection of ${toolCount}+ free, browser-based tools spanning PDFs, images, text, calculators, developer utilities, generators and design — built so you can get a task done in a few seconds without installing anything or creating an account.`,
-    `Every tool runs entirely client-side: nothing you type, upload or generate here is sent to a server, which is what makes it fast, private, and just as usable on a phone as on a laptop. Use the category filters above to narrow things down, or search by name if you already know what you're after.`,
+    `Toolslay is a free online toolbox with ${toolCount}+ tools for everyday jobs. Compress an image, merge photos into a PDF, count words, format JSON, work out a loan payment or generate a strong password. Open the tool, do the task and get your result in seconds, with no account and nothing to install.`,
+    "The collection spans nine categories. Image and PDF tools handle conversion, resizing, compression and OCR. Video and audio tools trim, compress and record. Text tools count, convert and compare. Developer tools format and decode code, and calculators cover money, health, dates and units. Generators, design, SEO and everyday planning tools round it out.",
+    "Most tools do their work inside your browser tab. Your file or text is processed on your own device, so there is no upload queue and no copy left on a server. A few tools need the internet for one thing, such as the currency converter fetching live exchange rates. Check the page of a specific tool if privacy matters for a particular file.",
+    "There is no sign-up, no watermark and no daily limit on the tools here. They work on phones, tablets and laptops in any modern browser, so you can fix a PDF on your commute or test a regex at your desk. Because the heavy lifting happens on your device, big files depend on your own memory more than on any server plan.",
+    "Not sure where to start? Search by task, like compress image, EMI or word count, and the grid filters as you type. Popular picks include the PDF to Image converter, Image Compressor, Word Counter, JSON Formatter, BMI Calculator, Password Generator and QR Code Generator. New tools are added often, and each one has its own page with a short guide and FAQ.",
   ];
 
   const faq = [
     {
-      q: "Are all these tools really free?",
-      a: "Yes — every tool on Toolslay is free to use, with no hidden paywalls, watermarks, or daily usage limits.",
+      q: "Are Toolslay tools really free?",
+      a: "Yes. Every tool is free to use, with no paywall, no watermark and no daily limit. There is no premium tier, and you never need to enter a card or create an account to use any of them.",
     },
     {
-      q: "Do I need to create an account?",
-      a: "No. None of Toolslay's tools require sign-up — just open a tool and start using it right away.",
+      q: "Do I need an account or to install anything?",
+      a: "No. Each tool opens in your browser and works straight away. There is no sign-up and nothing to download, on desktop or on mobile.",
     },
     {
-      q: "Is my data safe?",
-      a: "Every tool processes your input directly in your browser. Files and text you work with are never uploaded to a server.",
+      q: "Are my files uploaded to a server?",
+      a: "For most tools, no. Files and text are processed in your browser, on your own device. A few tools need a connection for specific data, such as live exchange rates in the currency converter. Check the individual tool page if privacy matters for a certain file.",
+    },
+    {
+      q: "Which tools are the most popular?",
+      a: "The most used are the PDF to Image converter, Image Compressor, Image to Text (OCR), Word Counter, JSON Formatter and Validator, BMI Calculator, Secure Password Generator and QR Code Generator.",
+    },
+    {
+      q: "Do the tools work on my phone?",
+      a: "Yes. They run in any modern browser, including Chrome, Safari, Firefox and Edge, on Android, iPhone, tablet and desktop. Heavy tasks such as video compression or screen recording work best on a laptop or desktop because they use more memory.",
+    },
+    {
+      q: "How do I find the right tool quickly?",
+      a: "Type what you want to do into the search box, for example resize image, loan payment or JSON, or tap a category button to see only that group. Each card has a one line summary, so you can pick the right one without opening it.",
+    },
+    {
+      q: "Can I use these tools offline?",
+      a: "Many tools keep working after the page has loaded, because the processing happens on your device. Tools that need live data, like the currency converter, need an internet connection. Load the page first, then go offline.",
     },
     {
       q: "How often are new tools added?",
-      a: "New tools are added regularly within the existing categories — check the All Tools page or the blog for the latest additions.",
+      a: "New tools are added regularly across the existing categories. Check this page or the blog for the latest additions, and use the contact page if there is a tool you would like to see.",
     },
   ];
 
